@@ -2,8 +2,9 @@ var mongoose = require('mongoose');
 var changeItem = require('./changeItem');
 var project = require('./project');
 var moment = require('moment-business-days');
-
-mongoose.createConnection('localhost:27017/partyparrot');
+var globals = require('../globals');
+var dburl = globals.dburl.toString();
+mongoose.connect(dburl);
 
 var Schema = mongoose.Schema;
 var teamSchema = new Schema({

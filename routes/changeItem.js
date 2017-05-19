@@ -1,7 +1,8 @@
 var mongoose = require('mongoose');
 var project = require('./project');
-
-mongoose.createConnection('localhost:27017/partyparrot');
+var globals = require('../globals');
+var dburl = globals.dburl.toString();
+mongoose.createConnection(dburl);
 
 var Schema = mongoose.Schema;
 var changeItemSchema = new Schema({

@@ -1,7 +1,8 @@
 var mongoose = require('mongoose');
 var changeItem = require('./changeItem');
-
-mongoose.connect('localhost:27017/partyparrot');
+var globals = require('../globals');
+var dburl = globals.dburl.toString();
+mongoose.createConnection(dburl);
 
 var Schema = mongoose.Schema;
 var projectSchema = new Schema({
@@ -165,7 +166,7 @@ exports.delete = function (req, res) {
 };
 
 exports.getProjectsWithStatus = function (status, callback) {
-
+console.log(globals.dburl.toString());
     project.aggregate([
         {$unwind: "$changeItems"},
         {
