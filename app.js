@@ -14,13 +14,6 @@ var index = require('./routes/index');
 // var project = require('./routes/project/project');
 
 
-var dburl = 'mongodb://localhost:27017/partyparrot';
-MongoClient.connect(dburl, function(err, db) {
-    assert.equal(null, err);
-    console.log("Connected correctly to server.");
-    db.close();
-});
-
 var appName = "ImpactCast";
 var app = express();
 
