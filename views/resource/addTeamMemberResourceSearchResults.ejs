@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title><%= title %></title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/public/stylesheets/style.css">
+    <script src="/jquery/jquery.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+</head>
+<body>
+<% include ../templates/header.ejs %>
+<div class="container">
+    <div class="panel panel-default">
+        <div class="panel-heading text-cente"><h1><%= heading %></h1></div>
+        <div class="panel-body">
+            <div class="table-responsive">
+                <table class="table table-striped table-hover">
+                    <thead>
+                    <tr>
+                        <th>Add To Team</th>
+                        <th>Name</th>
+                        <th>Job Title</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <% resources.forEach(function(resource){ %>
+                    <tr>
+
+                        <td><a href="/team/<%= teamName %>/addToTeam/<%=resource._id%>" class="btn btn-success" role="button">Add To Team</a>
+                        </td>
+                        <td><%= resource.resourceName %></td>
+                        <td>
+                            <%= resource.role %>
+                        </td>
+                    </tr>
+                    <% }); %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

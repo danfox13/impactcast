@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title><%= title %></title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/public/stylesheets/style.css">
+    <script src="/jquery/jquery.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $("#deleteResourceButton").click(function () {
+                $("#deleteResourceModal").modal();
+            });
+        });
+    </script>
+</head>
+<body>
+<% include ../templates/header.ejs %>
+
+<div class="container">
+    <div class="panel panel-default">
+
+        <div class="panel-heading text-cente"><h1><%= heading %></h1></div>
+
+        <div class="panel-body">
+
+            <div class="row">
+                <div class="col-sm-6">
+                    <b>Employee ID: </b><%= resource.employeeId %><br/><br/>
+                    <b>Location: </b><%= resource.location %><br/><br/>
+                </div>
+
+                <div class="col-sm-6">
+                    <b>Email: </b><%= resource.email %><br/><br/>
+                    <b>Job Title: </b><%= resource.role %><br/><br/>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-sm-6">
+                    <a href="/resource/<%= resource._id %>/update" class="btn btn-success btn-block"
+                       role="button">Edit Details</a>
+                </div>
+                <div class="col-sm-6">
+                    <button class="btn btn-danger btn-block" id="deleteResourceButton">Delete</button>
+                    <div class="modal fade" id="deleteResourceModal" role="dialog">
+                        <div class="modal-dialog">
+                            <!-- Modal content-->
+                            <div class="modal-content">
+                                <div class="modal-header" style="padding:35px 50px;">
+                                    <button type="button" class="close" data-dismiss="modal">&times;
+                                    </button>
+                                    <h4><span class="glyphicon glyphicon-remove"></span> Remove Resource
+                                    </h4>
+                                </div>
+                                <div class="modal-body" style="padding:40px 50px;">
+                                    <h5>Are you sure you want to remove <%= resource.resourceName %>?</h5>
+                                </div>
+                                <div class="modal-footer">
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <a href="/resource/<%= resource._id %>/delete"
+                                               class="btn btn-success btn-block"
+                                               role="button"><span
+                                                        class="glyphicon glyphicon-ok"></span>
+                                                Yes</a>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <button type="submit" class="btn btn-danger btn-block "
+                                                    data-dismiss="modal"><span
+                                                        class="glyphicon glyphicon-remove"></span>
+                                                No
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12">
+        <div class="container">
+            <div class="panel panel-default">
+                <div class="panel-heading text-cente"><h3>Six Month Forecast</h3></div>
+                <div class="panel-body">
+
+                    <%
+                    var today = new Date();
+                    var month = new Array();
+                    month[0] = "January";
+                    month[1] = "February";
+                    month[2] = "March";
+                    month[3] = "April";
+                    month[4] = "May";
+                    month[5] = "June";
+                    month[6] = "July";
+                    month[7] = "August";
+                    month[8] = "September";
+                    month[9] = "October";
+                    month[10] = "November";
+                    month[11] = "December";
+                    %>
+
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a data-toggle="tab" href="#currentMonth"><%= month[today.getMonth()] %></a>
+                        </li>
+                        <li><a data-toggle="tab" href="#monthPlusOne"><%= month[(today.getMonth() + 1) % 12] %></a></li>
+                        <li><a data-toggle="tab" href="#monthPlusTwo"><%= month[(today.getMonth() + 2) % 12] %></a></li>
+                        <li><a data-toggle="tab" href="#monthPlusThree"><%= month[(today.getMonth() + 3) % 12] %></a>
+                        </li>
+                        <li><a data-toggle="tab" href="#monthPlusFour"><%= month[(today.getMonth() + 4) % 12] %></a>
+                        </li>
+                        <li><a data-toggle="tab" href="#monthPlusFive"><%= month[(today.getMonth() + 5) % 12] %></a>
+                        </li>
+                        <li><a data-toggle="tab" href="#monthPlusSix"><%= month[(today.getMonth() + 6) % 12] %></a></li>
+                    </ul>
+
+                    <div class="tab-content">
+                        <div id="currentMonth" class="tab-pane fade in active">
+                            <div class="table-responsive">
+                                <br/>
+                                <table class="table table-striped table-hover">
+                                    <thead>
+                                    <tr>
+                                        <th>Project</th>
+                                        <th>Change Item</th>
+                                        <th>Role</th>
+                                        <th>Days</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <% var totalDays = 0;
+                                    currentMonth.forEach(function(project){ %>
+
+                                    <% project.changeItems.forEach(function(changeItem){ %>
+                                    <tr>
+                                        <td><a href="/project/<%= project.projectCode %>">
+                                                <%= project.projectTitle %>
+                                            </a></td>
+                                        <td><a href="/project/<%= project.projectCode %>/<%= changeItem.changeTitle %>">
+                                                <%= changeItem.changeTitle %>
+                                            </a></td>
+                                        <td>
+                                            <a href="/project/<%= project.projectCode %>/<%= changeItem.changeTitle %>/<%= changeItem.resourcesRequired._id %>">
+                                                <%= changeItem.resourcesRequired.roleName %>
+                                            </a></td>
+                                        <td><%= changeItem.resourcesRequired.impact.days %></td>
+                                        <% totalDays += changeItem.resourcesRequired.impact.days %>
+                                    </tr>
+                                    <% })}) %>
+                                    </tbody>
+                                </table>
+
+                                <% if(totalDays < currentMonthWorkingDays){ %>
+                                <div class="alert alert-danger">
+                                    <strong>Under Forecasted by <%= currentMonthWorkingDays - totalDays; %> Days!</strong>
+                                </div>
+                                <% }else{ if(totalDays > currentMonthWorkingDays) { %>
+                                <div class="alert alert-danger">
+                                    <strong>Over Forecasted by <%= totalDays - currentMonthWorkingDays %> Days!</strong>
+                                </div>
+                                <% }else{ %>
+                                <div class="alert alert-success">
+                                    <strong>Fully Forecasted</strong>
+                                </div>
+                                <% }} %>
+                            </div>
+                        </div>
+                        <div id="monthPlusOne" class="tab-pane fade">
+                            <div class="table-responsive">
+                                <br/>
+                                <table class="table table-striped table-hover">
+                                    <thead>
+                                    <tr>
+                                        <th>Project</th>
+                                        <th>Change Item</th>
+                                        <th>Role</th>
+                                        <th>Days</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <% var totalDays = 0;
+                                    monthPlusOne.forEach(function(project){ %>
+
+                                    <% project.changeItems.forEach(function(changeItem){ %>
+                                    <tr>
+                                        <td><a href="/project/<%= project.projectCode %>">
+                                                <%= project.projectTitle %>
+                                            </a></td>
+                                        <td><a href="/project/<%= project.projectCode %>/<%= changeItem.changeTitle %>">
+                                                <%= changeItem.changeTitle %>
+                                            </a></td>
+                                        <td>
+                                            <a href="/project/<%= project.projectCode %>/<%= changeItem.changeTitle %>/<%= changeItem.resourcesRequired._id %>">
+                                                <%= changeItem.resourcesRequired.roleName %>
+                                            </a></td>
+                                        <td><%= changeItem.resourcesRequired.impact.days %></td>
+                                        <% totalDays += changeItem.resourcesRequired.impact.days %>
+                                    </tr>
+                                    <% })}) %>
+
+                                    </tbody>
+                                </table>
+
+                                <% if(totalDays < monthPlusOneWorkingDays){ %>
+                                <div class="alert alert-danger">
+                                    <strong>Under Forecasted by <%= monthPlusOneWorkingDays - totalDays; %> Days!</strong>
+                                </div>
+                                <% }else{ if(totalDays > monthPlusOneWorkingDays) { %>
+                                <div class="alert alert-danger">
+                                    <strong>Over Forecasted by <%= totalDays - monthPlusOneWorkingDays %> Days!</strong>
+                                </div>
+                                <% }else{ %>
+                                <div class="alert alert-success">
+                                    <strong>Fully Forecasted</strong>
+                                </div>
+                                <% }} %>
+                            </div>
+                        </div>
+                        <div id="monthPlusTwo" class="tab-pane fade">
+                            <div class="table-responsive">
+                                <br/>
+                                <table class="table table-striped table-hover">
+                                    <thead>
+                                    <tr>
+                                        <th>Project</th>
+                                        <th>Change Item</th>
+                                        <th>Role</th>
+                                        <th>Days</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <% var totalDays = 0;
+                                    monthPlusTwo.forEach(function(project){ %>
+
+                                    <% project.changeItems.forEach(function(changeItem){ %>
+                                    <tr>
+                                        <td><a href="/project/<%= project.projectCode %>">
+                                                <%= project.projectTitle %>
+                                            </a></td>
+                                        <td><a href="/project/<%= project.projectCode %>/<%= changeItem.changeTitle %>">
+                                                <%= changeItem.changeTitle %>
+                                            </a></td>
+                                        <td>
+                                            <a href="/project/<%= project.projectCode %>/<%= changeItem.changeTitle %>/<%= changeItem.resourcesRequired._id %>">
+                                                <%= changeItem.resourcesRequired.roleName %>
+                                            </a></td>
+                                        <td><%= changeItem.resourcesRequired.impact.days %></td>
+                                        <% totalDays += changeItem.resourcesRequired.impact.days %>
+                                    </tr>
+                                    <% })}) %>
+
+                                    </tbody>
+                                </table>
+
+                                <% if(totalDays < monthPlusTwoWorkingDays){ %>
+                                <div class="alert alert-danger">
+                                    <strong>Under Forecasted by <%= monthPlusTwoWorkingDays - totalDays; %> Days!</strong>
+                                </div>
+                                <% }else{ if(totalDays > monthPlusTwoWorkingDays) { %>
+                                <div class="alert alert-danger">
+                                    <strong>Over Forecasted by <%= totalDays - monthPlusTwoWorkingDays %> Days!</strong>
+                                </div>
+                                <% }else{ %>
+                                <div class="alert alert-success">
+                                    <strong>Fully Forecasted</strong>
+                                </div>
+                                <% }} %>
+                            </div>
+                        </div>
+                        <div id="monthPlusThree" class="tab-pane fade">
+                            <div class="table-responsive">
+                                <br/>
+                                <table class="table table-striped table-hover">
+                                    <thead>
+                                    <tr>
+                                        <th>Project</th>
+                                        <th>Change Item</th>
+                                        <th>Role</th>
+                                        <th>Days</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <% var totalDays = 0;
+                                    monthPlusThree.forEach(function(project){ %>
+
+                                    <% project.changeItems.forEach(function(changeItem){ %>
+                                    <tr>
+                                        <td><a href="/project/<%= project.projectCode %>">
+                                                <%= project.projectTitle %>
+                                            </a></td>
+                                        <td><a href="/project/<%= project.projectCode %>/<%= changeItem.changeTitle %>">
+                                                <%= changeItem.changeTitle %>
+                                            </a></td>
+                                        <td>
+                                            <a href="/project/<%= project.projectCode %>/<%= changeItem.changeTitle %>/<%= changeItem.resourcesRequired._id %>">
+                                                <%= changeItem.resourcesRequired.roleName %>
+                                            </a></td>
+                                        <td><%= changeItem.resourcesRequired.impact.days %></td>
+                                        <% totalDays += changeItem.resourcesRequired.impact.days %>
+                                    </tr>
+                                    <% })}) %>
+
+                                    </tbody>
+                                </table>
+
+                                <% if(totalDays < monthPlusThreeWorkingDays){ %>
+                                <div class="alert alert-danger">
+                                    <strong>Under Forecasted by <%= monthPlusThreeWorkingDays - totalDays; %> Days!</strong>
+                                </div>
+                                <% }else{ if(totalDays > monthPlusThreeWorkingDays) { %>
+                                <div class="alert alert-danger">
+                                    <strong>Over Forecasted by <%= totalDays - monthPlusThreeWorkingDays %> Days!</strong>
+                                </div>
+                                <% }else{ %>
+                                <div class="alert alert-success">
+                                    <strong>Fully Forecasted</strong>
+                                </div>
+                                <% }} %>
+                            </div>
+                        </div>
+                        <div id="monthPlusFour" class="tab-pane fade">
+                            <div class="table-responsive">
+                                <br/>
+                                <table class="table table-striped table-hover">
+                                    <thead>
+                                    <tr>
+                                        <th>Project</th>
+                                        <th>Change Item</th>
+                                        <th>Role</th>
+                                        <th>Days</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <% var totalDays = 0;
+                                    monthPlusFour.forEach(function(project){ %>
+
+                                    <% project.changeItems.forEach(function(changeItem){ %>
+                                    <tr>
+                                        <td><a href="/project/<%= project.projectCode %>">
+                                                <%= project.projectTitle %>
+                                            </a></td>
+                                        <td><a href="/project/<%= project.projectCode %>/<%= changeItem.changeTitle %>">
+                                                <%= changeItem.changeTitle %>
+                                            </a></td>
+                                        <td>
+                                            <a href="/project/<%= project.projectCode %>/<%= changeItem.changeTitle %>/<%= changeItem.resourcesRequired._id %>">
+                                                <%= changeItem.resourcesRequired.roleName %>
+                                            </a></td>
+                                        <td><%= changeItem.resourcesRequired.impact.days %></td>
+                                        <% totalDays += changeItem.resourcesRequired.impact.days %>
+                                    </tr>
+                                    <% })}) %>
+
+                                    </tbody>
+                                </table>
+                                <% if(totalDays < monthPlusFourWorkingDays){ %>
+                                <div class="alert alert-danger">
+                                    <strong>Under Forecasted by <%= monthPlusFourWorkingDays - totalDays; %> Days!</strong>
+                                </div>
+                                <% }else{ if(totalDays > monthPlusFourWorkingDays) { %>
+                                <div class="alert alert-danger">
+                                    <strong>Over Forecasted by <%= totalDays - monthPlusFourWorkingDays %> Days!</strong>
+                                </div>
+                                <% }else{ %>
+                                <div class="alert alert-success">
+                                    <strong>Fully Forecasted</strong>
+                                </div>
+                                <% }} %>
+                            </div>
+                        </div>
+                        <div id="monthPlusFive" class="tab-pane fade">
+                            <div class="table-responsive">
+                                <br/>
+                                <table class="table table-striped table-hover">
+                                    <thead>
+                                    <tr>
+                                        <th>Project</th>
+                                        <th>Change Item</th>
+                                        <th>Role</th>
+                                        <th>Days</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <% var totalDays = 0;
+                                    monthPlusFive.forEach(function(project){ %>
+
+                                    <% project.changeItems.forEach(function(changeItem){ %>
+                                    <tr>
+                                        <td><a href="/project/<%= project.projectCode %>">
+                                                <%= project.projectTitle %>
+                                            </a></td>
+                                        <td><a href="/project/<%= project.projectCode %>/<%= changeItem.changeTitle %>">
+                                                <%= changeItem.changeTitle %>
+                                            </a></td>
+                                        <td>
+                                            <a href="/project/<%= project.projectCode %>/<%= changeItem.changeTitle %>/<%= changeItem.resourcesRequired._id %>">
+                                                <%= changeItem.resourcesRequired.roleName %>
+                                            </a></td>
+                                        <td><%= changeItem.resourcesRequired.impact.days %></td>
+                                        <% totalDays += changeItem.resourcesRequired.impact.days %>
+                                    </tr>
+                                    <% })}) %>
+
+                                    </tbody>
+                                </table>
+                                <% if(totalDays < monthPlusFiveWorkingDays){ %>
+                                <div class="alert alert-danger">
+                                    <strong>Under Forecasted by <%= monthPlusFiveWorkingDays - totalDays; %> Days!</strong>
+                                </div>
+                                <% }else{ if(totalDays > monthPlusFiveWorkingDays) { %>
+                                <div class="alert alert-danger">
+                                    <strong>Over Forecasted by <%= totalDays - monthPlusFiveWorkingDays %> Days!</strong>
+                                </div>
+                                <% }else{ %>
+                                <div class="alert alert-success">
+                                    <strong>Fully Forecasted</strong>
+                                </div>
+                                <% }} %>
+                            </div>
+                        </div>
+                        <div id="monthPlusSix" class="tab-pane fade">
+                            <div class="table-responsive">
+                                <br/>
+                                <table class="table table-striped table-hover">
+                                    <thead>
+                                    <tr>
+                                        <th>Project</th>
+                                        <th>Change Item</th>
+                                        <th>Role</th>
+                                        <th>Days</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <% var totalDays = 0;
+                                    monthPlusSix.forEach(function(project){ %>
+
+                                    <% project.changeItems.forEach(function(changeItem){ %>
+                                    <tr>
+                                        <td><a href="/project/<%= project.projectCode %>">
+                                                <%= project.projectTitle %>
+                                            </a></td>
+                                        <td><a href="/project/<%= project.projectCode %>/<%= changeItem.changeTitle %>">
+                                                <%= changeItem.changeTitle %>
+                                            </a></td>
+                                        <td>
+                                            <a href="/project/<%= project.projectCode %>/<%= changeItem.changeTitle %>/<%= changeItem.resourcesRequired._id %>">
+                                                <%= changeItem.resourcesRequired.roleName %>
+                                            </a></td>
+                                        <td><%= changeItem.resourcesRequired.impact.days %></td>
+                                        <% totalDays += changeItem.resourcesRequired.impact.days %>
+                                    </tr>
+                                    <% })}) %>
+
+                                    </tbody>
+                                </table>
+                                <% if(totalDays < monthPlusSixWorkingDays){ %>
+                                <div class="alert alert-danger">
+                                    <strong>Under Forecasted by <%= monthPlusSixWorkingDays - totalDays; %> Days!</strong>
+                                </div>
+                                <% }else{ if(totalDays > monthPlusSixWorkingDays) { %>
+                                <div class="alert alert-danger">
+                                    <strong>Over Forecasted by <%= totalDays - monthPlusSixWorkingDays %> Days!</strong>
+                                </div>
+                                <% }else{ %>
+                                <div class="alert alert-success">
+                                    <strong>Fully Forecasted</strong>
+                                </div>
+                                <% }} %>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

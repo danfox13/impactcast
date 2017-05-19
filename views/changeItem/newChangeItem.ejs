@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title><%= title %></title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/public/stylesheets/style.css">
+    <script src="/jquery/jquery.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/jsvalidate/validator.min.js"></script>
+</head>
+<body>
+<% include ../templates/header.ejs %>
+<div class="container">
+    <div class="panel panel-default">
+        <div class="panel-heading text-cente"><h1><%= heading %></h1></div>
+        <div class="panel-body">
+
+            <form action="/project/<%= projectCode %>/newChangeItem" method="post" data-toggle="validator" role="form">
+
+
+                <div class="form-group has-feedback">
+                    <label for="changeTitle" class="control-label">Change Title:</label>
+                    <div class="input-group">
+                        <span class="input-group-addon">T</span>
+                        <input type="text" class="form-control" id="changeTitle" name="changeTitle" required>
+                    </div>
+                    <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                    <div class="help-block with-errors"></div>
+                </div>
+
+
+                <div class="form-group">
+                    <label for="status" required>Status:</label>
+                    <select class="form-control" id="status" name="status">
+                        <option value="New">New</option>
+                        <option value="Impacting">Impacting</option>
+                        <option value="Impacted">Impacted</option>
+                        <option value="Returned">Returned</option>
+                        <option value="Approved">Approved</option>
+                        <option value="Closed">Closed</option>
+                        <option value="Withdrawn">Withdrawn</option>
+                        <option value="Rejected">Rejected</option>
+                        <option value="Provisional">Provisional</option>
+                        <option value="On-Hold">On-Hold</option>
+                        <option value="Archived">Archived</option>
+                    </select>
+                </div>
+
+
+                <div class="form-group has-feedback">
+                    <label for="lid">Live Implementation Date (LID):</label>
+                    <div class="input-group">
+                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                        <input type="date" class="form-control" id="lid" name="lid" required>
+                    </div>
+                    <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                    <div class="help-block with-errors"></div>
+                </div>
+
+
+                <div class="form-group has-feedback">
+                    <label for="startDate">Start Date:</label>
+                    <div class="input-group">
+                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                        <input type="date" class="form-control" id="startDate" name="startDate" required>
+                    </div>
+                    <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                    <div class="help-block with-errors"></div>
+                </div>
+
+
+                <div class="form-group has-feedback">
+                    <label for="endDate">End Date:</label>
+                    <div class="input-group">
+                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                        <input type="date" class="form-control" id="endDate" name="endDate" required>
+                    </div>
+                    <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                    <div class="help-block with-errors"></div>
+                </div>
+
+
+                <div class="form-group">
+                    <label for="risks">Risks:</label>
+                    <textarea class="form-control" rows="3" id="risks" name="risks"></textarea>
+                </div>
+
+
+                <div class="form-group">
+                    <label for="assumptions">Assumptions:</label>
+                    <textarea class="form-control" rows="3" id="assumptions" name="assumptions"></textarea>
+                </div>
+
+                <input type="submit" value="Create Change Item" class="btn btn-success btn-lg btn-block"/>
+
+            </form>
+
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,29 @@
+a {
+  color: #00b7ff;
+}
+
+html body {
+  background-color: rgba(55, 120, 97, 0.85);
+
+}
+
+.vertical-center {
+  min-height: 100%;  /* Fallback for browsers do NOT support vh unit */
+  min-height: 100vh; /* These two lines are counted as one :-)       */
+
+  display: flex;
+  align-items: center;
+}
+
+.modal-header, h4, .close {
+  background-color: #5cb85c;
+  color: white !important;
+  text-align: center;
+  font-size: 30px;
+}
+
+.modal-footer {
+  background-color: #f9f9f9;
+}
+
+

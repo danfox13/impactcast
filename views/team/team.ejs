@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title><%= title %></title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/public/stylesheets/style.css">
+    <script src="/jquery/jquery.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $("#deleteButton").click(function () {
+                $("#deleteModal").modal();
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            $("#deleteTeamButton").click(function () {
+                $("#deleteTeamModal").modal();
+            });
+        });
+    </script>
+</head>
+<body>
+<% include ../templates/header.ejs %>
+
+<div class="container">
+    <div class="panel panel-default">
+
+        <div class="panel-heading text-cente"><h1><%= heading %></h1></div>
+
+
+        <div class="panel-body">
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <b>Team Name: </b><%= team.teamName %><br/><br/>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-sm-6">
+                    <a href="/team/<%= team.teamName %>/update" class="btn btn-success btn-block"
+                       role="button">Edit Team Details</a>
+                </div>
+                <div class="col-sm-6">
+                    <!--<a href="/team/<%= team.teamName %>/delete" class="btn btn-danger btn-block"-->
+                    <!--role="button">Delete Team</a>-->
+
+                    <button class="btn btn-danger btn-block" id="deleteTeamButton">Delete Team</button>
+
+                    <div class="modal fade" id="deleteTeamModal" role="dialog">
+                        <div class="modal-dialog">
+
+                            <!-- Modal content-->
+                            <div class="modal-content">
+                                <div class="modal-header" style="padding:35px 50px;">
+                                    <button type="button" class="close" data-dismiss="modal">&times;
+                                    </button>
+                                    <h4><span class="glyphicon glyphicon-remove"></span> Remove Item
+                                    </h4>
+                                </div>
+                                <div class="modal-body" style="padding:40px 50px;">
+                                    <h5>Are you sure you want to remove <%= team.teamName %>?</h5>
+                                </div>
+                                <div class="modal-footer">
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <a href="/team/<%= team.teamName %>/delete"
+                                               class="btn btn-success btn-block"
+                                               role="button"><span
+                                                        class="glyphicon glyphicon-ok"></span>
+                                                Yes</a>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <button type="submit" class="btn btn-danger btn-block "
+                                                    data-dismiss="modal"><span
+                                                        class="glyphicon glyphicon-remove"></span>
+                                                No
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12">
+        <div class="container">
+            <div class="panel panel-default">
+                <div class="panel-heading text-cente"><h3>Team Members</h3></div>
+                <div class="panel-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped table-hover">
+                            <thead>
+                            <tr>
+                                <th>View</th>
+                                <th>Name</th>
+                                <th>Role</th>
+                                <th>Remove</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <% team.teamMembers.forEach(function(resource){ %>
+                            <tr>
+                                <td>
+                                    <a href="/resource/<%= resource._id %>" class="btn btn-success btn-block"
+                                       role="button">View</a>
+                                </td>
+                                <td><%= resource.resourceName %></td>
+                                <td><%= resource.role %></td>
+                                <td>
+                                    <a href="/team/<%=team.teamName%>/remove/<%= resource._id %>" class="btn btn-danger btn-block"
+                                       role="button">Remove</a>
+                                </td>
+                            </tr>
+                            <% }); %>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>
+                                    <a href="/team/<%= team.teamName %>/addTeamMember" class="btn btn-success btn-block"
+                                       role="button">Add</a>
+                                </td>
+                            </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="container">
+            <div class="panel panel-default">
+                <div class="panel-heading text-cente"><h3>Six Month Forecast Delta</h3></div>
+                <div class="panel-body">
+
+                    <%
+                    var today = new Date();
+                    var month = new Array();
+                    month[0] = "January";
+                    month[1] = "February";
+                    month[2] = "March";
+                    month[3] = "April";
+                    month[4] = "May";
+                    month[5] = "June";
+                    month[6] = "July";
+                    month[7] = "August";
+                    month[8] = "September";
+                    month[9] = "October";
+                    month[10] = "November";
+                    month[11] = "December";
+                    %>
+
+                    <div class="table-responsive ">
+                        <br/>
+                        <table class="table table-striped table-hover table-bordered">
+                            <thead>
+
+                            <tr>
+                                <th colspan="1" class="text-center col-md-1">Name</th>
+                                <th colspan="1" class="text-center col-md-1"><%= month[(today.getMonth() + 1) % 12] %></th>
+                                <th colspan="1" class="text-center col-md-1"><%= month[(today.getMonth() + 2) % 12] %></th>
+                                <th colspan="1" class="text-center col-md-1"><%= month[(today.getMonth() + 3) % 12] %></th>
+                                <th colspan="1" class="text-center col-md-1"><%= month[(today.getMonth() + 4) % 12] %></th>
+                                <th colspan="1" class="text-center col-md-1"><%= month[(today.getMonth() + 5) % 12] %></th>
+                                <th colspan="1" class="text-center col-md-1"><%= month[(today.getMonth() + 6) % 12] %></th>
+                                <th colspan="1" class="text-center col-md-1"><%= month[(today.getMonth() + 7) % 12] %></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <% teamForecast.forEach(function(teamMember){ %>
+                            <tr>
+                                <td><a href="/resource/<%=teamMember.resourceId%>"><%= teamMember.name %></a></td>
+                                <td>
+
+                                    <% if(teamMember.currentMonth != 0){ %>
+                                    <p class="bg-danger text-center">
+                                        <% if(teamMember.currentMonth > 0){ %>
+                                        +
+                                        <% } %>
+                                        <%= teamMember.currentMonth %></p>
+                                    <% }else{ %>
+                                    <p class="bg-success text-center"><%= teamMember.currentMonth %></p>
+                                    <% } %>
+
+                                </td>
+
+                                <td>
+                                    <% if(teamMember.monthPlusOne != 0){ %>
+                                    <p class="bg-danger text-center">
+                                        <% if(teamMember.monthPlusOne > 0){ %>
+                                        +
+                                        <% } %>
+                                        <%= teamMember.monthPlusOne %></p>
+                                    <% }else{ %>
+                                    <p class="bg-success text-center"><%= teamMember.monthPlusOne %></p>
+                                    <% } %>
+                                </td>
+
+                                <td>
+                                    <% if(teamMember.monthPlusTwo != 0){ %>
+                                    <p class="bg-danger text-center">
+                                        <% if(teamMember.monthPlusTwo > 0){ %>
+                                        +
+                                        <% } %>
+                                        <%= teamMember.monthPlusTwo %></p>
+                                    <% }else{ %>
+                                    <p class="bg-success text-center"><%= teamMember.monthPlusTwo %></p>
+                                    <% } %>
+                                </td>
+
+                                <td>
+                                    <% if(teamMember.monthPlusThree != 0){ %>
+                                    <p class="bg-danger text-center">
+                                        <% if(teamMember.monthPlusThree > 0){ %>
+                                        +
+                                        <% } %>
+                                        <%= teamMember.monthPlusThree %></p>
+                                    <% }else{ %>
+                                    <p class="bg-success text-center"><%= teamMember.monthPlusThree %></p>
+                                    <% } %>
+                                </td>
+
+                                <td>
+                                    <% if(teamMember.monthPlusFour != 0){ %>
+                                    <p class="bg-danger text-center">
+                                        <% if(teamMember.monthPlusFour > 0){ %>
+                                        +
+                                        <% } %>
+                                        <%= teamMember.monthPlusFour %></p>
+                                    <% }else{ %>
+                                    <p class="bg-success text-center"><%= teamMember.monthPlusFour %></p>
+                                    <% } %>
+                                </td>
+
+                                <td>
+                                    <% if(teamMember.monthPlusFive != 0){ %>
+                                    <p class="bg-danger text-center">
+                                        <% if(teamMember.monthPlusFive > 0){ %>
+                                        +
+                                        <% } %>
+                                        <%= teamMember.monthPlusFive %></p>
+                                    <% }else{ %>
+                                    <p class="bg-success text-center"><%= teamMember.monthPlusFive %></p>
+                                    <% } %>
+                                </td>
+
+                                <td>
+                                    <% if(teamMember.monthPlusSix != 0){ %>
+                                    <p class="bg-danger text-center">
+                                        <% if(teamMember.monthPlusSix > 0){ %>
+                                        +
+                                        <% } %>
+                                        <%= teamMember.monthPlusSix %></p>
+                                    <% }else{ %>
+                                    <p class="bg-success text-center"><%= teamMember.monthPlusSix %></p>
+                                    <% } %>
+                                </td>
+
+
+                            </tr>
+                            <% }); %>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
