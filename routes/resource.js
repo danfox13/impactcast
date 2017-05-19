@@ -21,7 +21,7 @@ var resource = mongoose.model('resource', resourceSchema);
 
 //Load the new project form
 exports.viewNewResource = function (req, res) {
-    res.render('resource/newResource', {title: 'PartyParrot - New Resource', heading: 'Create a new resource'});
+    res.render('resource/newResource', {title: 'ImpactCast - New Resource', heading: 'Create a new resource'});
 };
 
 
@@ -99,7 +99,7 @@ exports.view = function (req, res) {
 
 
             res.render('resource/resource', {
-                title: 'PartyParrot - ' + resource.resourceName,
+                title: 'ImpactCast - ' + resource.resourceName,
                 heading: resource.resourceName,
                 resource: resource,
                 currentMonth: month,
@@ -129,7 +129,7 @@ exports.view = function (req, res) {
 
 //Load the search form
 exports.viewSearchResources = function (req, res) {
-    res.render('resource/searchResources', {title: 'PartyParrot - Search Resources', heading: 'Search Resources'});
+    res.render('resource/searchResources', {title: 'ImpactCast - Search Resources', heading: 'Search Resources'});
 };
 
 
@@ -147,7 +147,7 @@ exports.searchResources = function (req, res) {
     }).then(function (results) {
         console.log(results);
         res.render('resource/searchResourcesResults', {
-            title: 'PartyParrot - Search Results',
+            title: 'ImpactCast - Search Results',
             heading: 'Search Results',
             resources: results
         });
@@ -163,7 +163,7 @@ exports.viewUpdate = function (req, res) {
         _id: req.params.resourceId
     }).then(function (resource) {
         res.render('resource/editResource', {
-            title: 'PartyParrot - ' + resource.resourceName,
+            title: 'ImpactCast - ' + resource.resourceName,
             heading: "Update " + resource.resourceName,
             resource: resource
         });
@@ -212,7 +212,7 @@ exports.delete = function (req, res) {
 //Load the search form
 exports.viewFindResource = function (req, res) {
     res.render('resource/forecastResourceSearch', {
-        title: 'PartyParrot - Assign a resource',
+        title: 'ImpactCast - Assign a resource',
         heading: 'Find a resource for ' + req.params.changeItem,
         projectCode: req.params.projectCode,
         changeItem: req.params.changeItem,
@@ -232,7 +232,7 @@ exports.findResource = function (req, res) {
     }).then(function (results) {
         console.log(results);
         res.render('resource/forecastResourceSearchResults', {
-            title: 'PartyParrot - Assign a resource',
+            title: 'ImpactCast - Assign a resource',
             heading: 'Find a resource for ' + req.params.changeItem,
             projectCode: req.params.projectCode,
             changeItem: req.params.changeItem,
@@ -246,7 +246,7 @@ exports.findResource = function (req, res) {
 //Load the search form
 exports.viewFindTeamMember = function (req, res) {
     res.render('resource/addTeamMemberResourceSearch', {
-        title: 'PartyParrot - Add a Team Member',
+        title: 'ImpactCast - Add a Team Member',
         heading: 'Find a resource to add to ' + req.params.teamName,
         teamName: req.params.teamName
     });
@@ -265,7 +265,7 @@ exports.findTeamMember = function (req, res) {
     }).then(function (results) {
         console.log(results);
         res.render('resource/addTeamMemberResourceSearchResults', {
-            title: 'PartyParrot - Add a Team Member',
+            title: 'ImpactCast - Add a Team Member',
             heading: 'Find a resource to add to ' + req.params.teamName,
             teamName: req.params.teamName,
             resources: results

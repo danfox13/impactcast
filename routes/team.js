@@ -25,7 +25,7 @@ var team = mongoose.model('team', teamSchema);
 
 //Load the new project form
 exports.newTeam = function (req, res) {
-    res.render('team/newTeam', {title: 'PartyParrot - New Team', heading: 'Create a new team'});
+    res.render('team/newTeam', {title: 'ImpactCast - New Team', heading: 'Create a new team'});
 };
 
 
@@ -182,7 +182,7 @@ exports.view = function (req, res) {
         setTimeout(function () {
             console.log(teamForecast);
             res.render('team/team', {
-                title: 'PartyParrot - ' + team.teamName,
+                title: 'ImpactCast - ' + team.teamName,
                 heading: team.teamName,
                 team: team,
                 teamForecast: teamForecast
@@ -199,7 +199,7 @@ exports.viewUpdate = function (req, res) {
         teamName: req.params.teamName
     }).then(function (team) {
         res.render('team/editTeam', {
-            title: 'PartyParrot - ' + team.teamName,
+            title: 'ImpactCast - ' + team.teamName,
             heading: "Update " + team.teamName,
             team: team
         });
@@ -242,7 +242,7 @@ exports.delete = function (req, res) {
 
 //Load the search form
 exports.viewSearchTeams = function (req, res) {
-    res.render('team/searchTeams', {title: 'PartyParrot - Search Team', heading: 'Search Teams'});
+    res.render('team/searchTeams', {title: 'ImpactCast - Search Team', heading: 'Search Teams'});
 };
 
 //Load the search results page
@@ -275,7 +275,7 @@ exports.searchTeams = function (req, res) {
 
     ]).then(function (results) {
         res.render('team/searchTeamsResults', {
-            title: 'PartyParrot - Search Results',
+            title: 'ImpactCast - Search Results',
             heading: 'Search Results',
             teams: results
         });

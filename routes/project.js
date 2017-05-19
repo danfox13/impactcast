@@ -25,7 +25,7 @@ exports.addChangeItem = function (projectCode, changeItemID) {
 
 //Load the new project form
 exports.newProject = function (req, res) {
-    res.render('project/newProject', {title: 'PartyParrot - New Project', heading: 'Create a new project'});
+    res.render('project/newProject', {title: 'ImpactCast - New Project', heading: 'Create a new project'});
 };
 
 
@@ -52,7 +52,7 @@ exports.view = function (req, res) {
         projectCode: req.params.projectCode
     }).populate('changeItems').then(function (project) {
         res.render('project/project', {
-            title: 'PartyParrot - ' + project.projectTitle,
+            title: 'ImpactCast - ' + project.projectTitle,
             heading: project.projectTitle,
             project: project
         });
@@ -64,7 +64,7 @@ exports.view = function (req, res) {
 
 //Load the search form
 exports.searchProjects = function (req, res) {
-    res.render('project/searchProjects', {title: 'PartyParrot - Search Projects', heading: 'Search Projects'});
+    res.render('project/searchProjects', {title: 'ImpactCast - Search Projects', heading: 'Search Projects'});
 };
 
 
@@ -102,7 +102,7 @@ exports.runSearchProjects = function (req, res) {
     ]).then(function (results) {
         console.log(results);
         res.render('project/searchProjectsResults', {
-            title: 'PartyParrot - Search Results',
+            title: 'ImpactCast - Search Results',
             heading: 'Search Results',
             projects: results
         });
@@ -118,7 +118,7 @@ exports.viewUpdate = function (req, res) {
         projectCode: req.params.projectCode
     }).then(function (project) {
         res.render('project/updateProject', {
-            title: 'PartyParrot - ' + project.projectCode,
+            title: 'ImpactCast - ' + project.projectCode,
             heading: "Update " + project.projectCode,
             project: project
         });
@@ -143,7 +143,7 @@ exports.update = function (req, res) {
         } else {
 
             res.body = {
-                title: 'PartyParrot - ' + project.projectCode,
+                title: 'ImpactCast - ' + project.projectCode,
                 heading: "Update " + project.projectCode,
                 project: project
             };

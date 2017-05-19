@@ -33,7 +33,7 @@ exports.index = function(req, res){
         console.log("newItems " + newItems);
 
         res.render('index', {
-            title: 'PartyParrot - Home',
+            title: 'ImpactCast - Home',
             heading: 'Home',
             newItems: newItems,
             readyToImpact: readyToImpact,

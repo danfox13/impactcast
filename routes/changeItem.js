@@ -33,7 +33,7 @@ exports.addRequiredResource = function(changeTitle, requiredResourceID){
 //Load the new changeItem form
 exports.newChangeItem = function (req, res) {
     res.render('changeItem/newChangeItem', {
-        title: 'PartyParrot - New Change Item',
+        title: 'ImpactCast - New Change Item',
         heading: 'Add a new Change Item to ' + req.params.projectCode,
         projectCode: req.params.projectCode
     });
@@ -91,7 +91,7 @@ exports.view = function (req, res) {
         });
 
         res.render('changeItem/changeItem', {
-            title: 'PartyParrot - ' + changeItem.changeTitle,
+            title: 'ImpactCast - ' + changeItem.changeTitle,
             heading: changeItem.changeTitle,
             projectCode: req.params.projectCode,
             changeItem: changeItem
@@ -110,7 +110,7 @@ exports.viewUpdate = function (req, res) {
         changeTitle: req.params.changeItem
     }).populate('resourcesRequired').then(function (changeItem) {
         res.render('changeItem/updateChangeItem', {
-            title: 'PartyParrot - ' + changeItem.changeTitle,
+            title: 'ImpactCast - ' + changeItem.changeTitle,
             heading: "Update " + changeItem.changeTitle,
             projectCode: req.params.projectCode,
             changeItem: changeItem
@@ -142,7 +142,7 @@ exports.update = function (req, res) {
         } else {
 
             res.body = {
-                title: 'PartyParrot - ' + changeItem.changeTitle,
+                title: 'ImpactCast - ' + changeItem.changeTitle,
                 heading: changeItem.changeTitle,
                 projectCode: req.params.projectCode,
                 changeItem: changeItem

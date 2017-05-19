@@ -32,7 +32,7 @@ exports.view = function (req, res) {
         _id: req.params.resourceId
     }).populate('impact').then(function (requiredResource) {
         res.render('requiredResource/resource', {
-            title: 'PartyParrot - ' + req.params.changeItem,
+            title: 'ImpactCast - ' + req.params.changeItem,
             heading: requiredResource.roleName + ' for ' + req.params.changeItem,
             projectCode: req.params.projectCode,
             changeItem: req.params.changeItem,
@@ -44,7 +44,7 @@ exports.view = function (req, res) {
 
 exports.addResourceView = function (req, res) {
     res.render('changeItem/addResource', {
-        title: 'PartyParrot - ' + req.params.changeItem,
+        title: 'ImpactCast - ' + req.params.changeItem,
         heading: 'Add Required resource to ' + req.params.changeItem,
         projectCode: req.params.projectCode,
         changeItem: req.params.changeItem
@@ -56,7 +56,7 @@ exports.editResourceView = function (req, res) {
         _id: req.params.resourceId
     }).populate('impact').then(function (requiredResource) {
         res.render('requiredResource/editResource', {
-            title: 'PartyParrot - ' + req.params.changeItem,
+            title: 'ImpactCast - ' + req.params.changeItem,
             heading: 'Edit Required resource for ' + req.params.changeItem,
             projectCode: req.params.projectCode,
             changeItem: req.params.changeItem,
@@ -89,7 +89,7 @@ exports.editResource = function (req, res) {
             return res.send(500, {error: err});
         } else {
             res.body = {
-                title: 'PartyParrot - ' + requiredResource.changeTitle,
+                title: 'ImpactCast - ' + requiredResource.changeTitle,
                 heading: changeItem.changeTitle,
                 projectCode: req.params.projectCode,
                 changeItem: req.params.changeItem,
