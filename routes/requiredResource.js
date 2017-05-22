@@ -8,9 +8,9 @@ mongoose.createConnection(dburl);
 
 var Schema = mongoose.Schema;
 var requiredResourceSchema = new Schema({
-    roleName: String,
-    pLine: String,
-    company: String,
+    roleName: {type: String, required: true},
+    pLine: {type: String, required: true},
+    company: {type: String, required: true},
     resourceType: String,
     grade: String,
     stage: String,

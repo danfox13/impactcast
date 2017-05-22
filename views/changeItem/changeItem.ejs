@@ -126,7 +126,11 @@
                                 </td>
                                 <td><%= resource.roleName %></td>
                                 <td><%= resource.grade %></td>
-                                <td><%= resource.totalManDays%> Days
+                                <td><%if(resource.totalManDays==0){%>
+                                    No Impact
+                                    <%}else{%>
+                                    Impacted
+                                    <%}%>
                                 </td>
                                 <td>
                                     <% if(resource.forecastedResource == null){ %>

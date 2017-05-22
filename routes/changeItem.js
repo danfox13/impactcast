@@ -80,7 +80,7 @@ exports.view = function (req, res) {
         changeItem.resourcesRequired.forEach(function(resource){
             var dayCount = 0;
             resource.impact.forEach(function (monthlyImpact) {
-                dayCount = dayCount + monthlyImpact.days;
+                dayCount = parseInt(dayCount) + parseInt(monthlyImpact.days);
             });
             resource.totalManDays = dayCount;
         });
