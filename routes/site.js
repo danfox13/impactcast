@@ -7,7 +7,6 @@ exports.index = function(req, res){
     var readyToForecast = [];
     var rejectedImpacts = [];
 
-
     project.getProjectsWithStatus("New", function(results){
         newItems = results;
     });
@@ -24,13 +23,7 @@ exports.index = function(req, res){
         rejectedImpacts = results;
     });
 
-
-
-
-
     setTimeout(function() {
-
-        console.log("newItems " + newItems);
 
         res.render('index', {
             title: 'ImpactCast - Home',

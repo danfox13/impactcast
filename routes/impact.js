@@ -12,7 +12,7 @@ var impactSchema = new Schema({
 
 var impact = mongoose.model('impact', impactSchema);
 
-
+//add a new impact
 exports.add = function (req, res) {
     var month = req.body.month;
     var year = req.body.year;
@@ -30,9 +30,10 @@ exports.add = function (req, res) {
     }, 1000);
 };
 
+
+//delete an impact
 exports.delete = function (req, res) {
 
-    //TODO error handling
     impact.findOneAndRemove({
         _id: req.params.impactId
     }, function (err, doc) {

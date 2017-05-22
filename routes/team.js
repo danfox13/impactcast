@@ -14,14 +14,6 @@ var teamSchema = new Schema({
 
 var team = mongoose.model('team', teamSchema);
 
-// exports.addChangeItem = function(projectCode, changeItemID){
-//     project.findOne({
-//         projectCode: projectCode
-//     }).then(function (project) {
-//         project.changeItems.push(changeItemID);
-//         project.save();
-//     })
-// };
 
 //Load the new project form
 exports.newTeam = function (req, res) {
@@ -32,7 +24,6 @@ exports.newTeam = function (req, res) {
 //Submit the new team form
 exports.addNewTeam = function (req, res) {
 
-    //Add to database
     var data = new team({
         teamName: req.body.teamName
     });
@@ -180,7 +171,6 @@ exports.view = function (req, res) {
 
 
         setTimeout(function () {
-            console.log(teamForecast);
             res.render('team/team', {
                 title: 'ImpactCast - ' + team.teamName,
                 heading: team.teamName,
@@ -194,7 +184,6 @@ exports.view = function (req, res) {
 //Update project Info
 exports.viewUpdate = function (req, res) {
 
-    //TODO project.find().populate(changeItems).then(function(results) {
     team.findOne({
         teamName: req.params.teamName
     }).then(function (team) {
@@ -203,7 +192,6 @@ exports.viewUpdate = function (req, res) {
             heading: "Update " + team.teamName,
             team: team
         });
-        console.log(team);
     })
 };
 
@@ -230,7 +218,6 @@ exports.update = function (req, res) {
 //delete the project
 exports.delete = function (req, res) {
 
-    //TODO error handling
     team.findOneAndRemove({
         teamName: req.params.teamName
     }, function (err, doc) {
@@ -283,6 +270,7 @@ exports.searchTeams = function (req, res) {
 };
 
 
+//add a resource to the team
 exports.addTeamMember = function (req, res) {
     team.findOne({
         teamName: req.params.teamName
@@ -294,6 +282,7 @@ exports.addTeamMember = function (req, res) {
 };
 
 
+//remove a resource
 exports.removeTeamMember = function (req, res) {
     team.update({teamName: req.params.teamName}, {$pull: {'teamMembers': mongoose.mongo.ObjectID(req.params.resourceId)}}
     ).then(function (team) {
@@ -303,5 +292,4 @@ exports.removeTeamMember = function (req, res) {
             res.json(500, {message: "Could not remove user from team list"});
         }
     })
-
 };

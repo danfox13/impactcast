@@ -16,10 +16,9 @@ var changeItemSchema = new Schema({
     resourcesRequired: [{type: Schema.Types.ObjectId, ref: 'requiredResource'}]
 }, {collection: 'changeItem'});
 
-
 var changeItem = mongoose.model('changeItem', changeItemSchema);
 
-
+//Add a required resource
 exports.addRequiredResource = function(changeTitle, requiredResourceID){
     changeItem.findOne({
         changeTitle: changeTitle
@@ -42,7 +41,6 @@ exports.newChangeItem = function (req, res) {
 
 //Submit the new project form
 exports.addChangeItem = function (req, res) {
-    console.log('addNewProject');
 
     var data = new changeItem({
         changeTitle: req.body.changeTitle,
@@ -64,7 +62,6 @@ exports.addChangeItem = function (req, res) {
 //Load the changeitem info page
 exports.view = function (req, res) {
 
-    //TODO project.find().populate(changeItems).then(function(results) {
     changeItem.findOne({
         changeTitle: req.params.changeItem
     }).populate('resourcesRequired').populate({
@@ -83,9 +80,7 @@ exports.view = function (req, res) {
         changeItem.resourcesRequired.forEach(function(resource){
             var dayCount = 0;
             resource.impact.forEach(function (monthlyImpact) {
-                console.log(monthlyImpact.days);
                 dayCount = dayCount + monthlyImpact.days;
-                console.log(dayCount);
             });
             resource.totalManDays = dayCount;
         });
@@ -96,16 +91,13 @@ exports.view = function (req, res) {
             projectCode: req.params.projectCode,
             changeItem: changeItem
         });
-        console.log(changeItem);
     })
-    //TODO more changeItem crap
 };
 
 
 //Update project Info
 exports.viewUpdate = function (req, res) {
 
-    //TODO project.find().populate(changeItems).then(function(results) {
     changeItem.findOne({
         changeTitle: req.params.changeItem
     }).populate('resourcesRequired').then(function (changeItem) {
@@ -115,7 +107,6 @@ exports.viewUpdate = function (req, res) {
             projectCode: req.params.projectCode,
             changeItem: changeItem
         });
-        console.log(project);
     })
 };
 
@@ -140,7 +131,6 @@ exports.update = function (req, res) {
         if (err) {
             return res.send(500, {error: err});
         } else {
-
             res.body = {
                 title: 'ImpactCast - ' + changeItem.changeTitle,
                 heading: changeItem.changeTitle,
@@ -156,7 +146,6 @@ exports.update = function (req, res) {
 //delete the changeItem
 exports.delete = function (req, res) {
 
-    //TODO error handling
     changeItem.findOneAndRemove({
         changeTitle: req.params.changeItem
     }, function (err, doc) {

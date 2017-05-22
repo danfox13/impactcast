@@ -28,19 +28,16 @@
                     <tbody>
                     <% projects.forEach(function(project){ %>
                     <tr>
-
                         <td><a href="/project/<%= project.projectCode %>" class="btn btn-success" role="button">View</a>
                         </td>
                         <td><%= project.projectCode %></td>
                         <td><%= project.projectTitle %></td>
                         <td>
-
                             <% project.changeItems.forEach(function(changeItem){ %>
                             <a href="/project/<%= project.projectCode %>/<%= changeItem.changeTitle %>">
                                 <%= changeItem.changeTitle %>
                             </a><br/>
                             <% }); %>
-
                         </td>
                     </tr>
                     <% }); %>

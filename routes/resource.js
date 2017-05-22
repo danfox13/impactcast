@@ -122,7 +122,6 @@ exports.view = function (req, res) {
 
     });
 
-
 };
 
 
@@ -137,7 +136,7 @@ exports.viewSearchResources = function (req, res) {
 
 //Load the search results page
 exports.searchResources = function (req, res) {
-    //TODO project.find().populate(changeItems).then(function(results) {
+
     resource.find({
         resourceName: {$regex: "(?i).*" + req.body.resourceName + ".*"},
         employeeId: {$regex: "(?i).*" + req.body.employeeId + ".*"},
@@ -145,7 +144,6 @@ exports.searchResources = function (req, res) {
         email: {$regex: "(?i).*" + req.body.email + ".*"},
         role: {$regex: "(?i).*" + req.body.role + ".*"}
     }).then(function (results) {
-        console.log(results);
         res.render('resource/searchResourcesResults', {
             title: 'ImpactCast - Search Results',
             heading: 'Search Results',
@@ -158,7 +156,6 @@ exports.searchResources = function (req, res) {
 //Update project Info
 exports.viewUpdate = function (req, res) {
 
-    //TODO project.find().populate(changeItems).then(function(results) {
     resource.findOne({
         _id: req.params.resourceId
     }).then(function (resource) {
@@ -167,7 +164,6 @@ exports.viewUpdate = function (req, res) {
             heading: "Update " + resource.resourceName,
             resource: resource
         });
-        console.log(resource);
     })
 };
 
@@ -200,7 +196,6 @@ exports.update = function (req, res) {
 //delete the project
 exports.delete = function (req, res) {
 
-    //TODO error handling
     resource.findOneAndRemove({
         _id: req.params.resourceId
     }, function (err, doc) {
@@ -222,7 +217,7 @@ exports.viewFindResource = function (req, res) {
 
 //Load the search results page
 exports.findResource = function (req, res) {
-    //TODO project.find().populate(changeItems).then(function(results) {
+
     resource.find({
         resourceName: {$regex: "(?i).*" + req.body.resourceName + ".*"},
         employeeId: {$regex: "(?i).*" + req.body.employeeId + ".*"},
@@ -230,7 +225,6 @@ exports.findResource = function (req, res) {
         email: {$regex: "(?i).*" + req.body.email + ".*"},
         role: {$regex: "(?i).*" + req.body.role + ".*"}
     }).then(function (results) {
-        console.log(results);
         res.render('resource/forecastResourceSearchResults', {
             title: 'ImpactCast - Assign a resource',
             heading: 'Find a resource for ' + req.params.changeItem,
@@ -255,7 +249,7 @@ exports.viewFindTeamMember = function (req, res) {
 
 //Load the search results page
 exports.findTeamMember = function (req, res) {
-    //TODO project.find().populate(changeItems).then(function(results) {
+
     resource.find({
         resourceName: {$regex: "(?i).*" + req.body.resourceName + ".*"},
         employeeId: {$regex: "(?i).*" + req.body.employeeId + ".*"},
@@ -263,7 +257,6 @@ exports.findTeamMember = function (req, res) {
         email: {$regex: "(?i).*" + req.body.email + ".*"},
         role: {$regex: "(?i).*" + req.body.role + ".*"}
     }).then(function (results) {
-        console.log(results);
         res.render('resource/addTeamMemberResourceSearchResults', {
             title: 'ImpactCast - Add a Team Member',
             heading: 'Find a resource to add to ' + req.params.teamName,

@@ -27,6 +27,7 @@ var requiredResourceSchema = new Schema({
 
 var requiredResource = mongoose.model('requiredResource', requiredResourceSchema);
 
+//load the required resource page
 exports.view = function (req, res) {
     requiredResource.findOne({
         _id: req.params.resourceId
@@ -42,6 +43,7 @@ exports.view = function (req, res) {
 };
 
 
+//load the add required resource form
 exports.addResourceView = function (req, res) {
     res.render('changeItem/addResource', {
         title: 'ImpactCast - ' + req.params.changeItem,
@@ -51,6 +53,8 @@ exports.addResourceView = function (req, res) {
     });
 };
 
+
+//load the edit resource view
 exports.editResourceView = function (req, res) {
     requiredResource.findOne({
         _id: req.params.resourceId
@@ -65,6 +69,8 @@ exports.editResourceView = function (req, res) {
     });
 };
 
+
+//edit resource
 exports.editResource = function (req, res) {
 
     var newData = {
@@ -100,6 +106,7 @@ exports.editResource = function (req, res) {
     });
 };
 
+//add a resource requirement
 exports.addResource = function (req, res) {
 
     var data = new requiredResource({
@@ -122,6 +129,7 @@ exports.addResource = function (req, res) {
 };
 
 
+//add an impact
 exports.addImpact = function (resourceID, impactID) {
     requiredResource.findOne({
         _id: resourceID
@@ -132,6 +140,8 @@ exports.addImpact = function (resourceID, impactID) {
     });
 };
 
+
+//delete a resource requirement
 exports.delete = function (req, res) {
 
     requiredResource.findOneAndRemove({
@@ -142,13 +152,12 @@ exports.delete = function (req, res) {
 };
 
 
+//assign a resource to a resource requirement
 exports.assign = function (req, res) {
 
-    console.log('hit');
     requiredResource.update({_id: req.params.reqResourceId}, {
         forecastedResource: req.params.resourceId
     }, function(err, affected, resp) {
-        console.log(resp);
         res.redirect('/project/' + req.params.projectCode + '/' + req.params.changeItem);
     });
 };

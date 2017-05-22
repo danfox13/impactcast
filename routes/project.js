@@ -14,6 +14,7 @@ var projectSchema = new Schema({
 
 var project = mongoose.model('project', projectSchema);
 
+//Add a change Item
 exports.addChangeItem = function (projectCode, changeItemID) {
     project.findOne({
         projectCode: projectCode
@@ -31,7 +32,6 @@ exports.newProject = function (req, res) {
 
 //Submit the new project form
 exports.addNewProject = function (req, res) {
-    console.log('addNewProject');
 
     //Add to database
     var data = new project({
@@ -56,9 +56,7 @@ exports.view = function (req, res) {
             heading: project.projectTitle,
             project: project
         });
-        console.log(project);
     })
-    //TODO more project crap
 };
 
 
@@ -100,7 +98,6 @@ exports.runSearchProjects = function (req, res) {
         }
 
     ]).then(function (results) {
-        console.log(results);
         res.render('project/searchProjectsResults', {
             title: 'ImpactCast - Search Results',
             heading: 'Search Results',
@@ -110,10 +107,9 @@ exports.runSearchProjects = function (req, res) {
 };
 
 
-//Update project Info
+//load update project info form
 exports.viewUpdate = function (req, res) {
 
-    //TODO project.find().populate(changeItems).then(function(results) {
     project.findOne({
         projectCode: req.params.projectCode
     }).then(function (project) {
@@ -122,11 +118,10 @@ exports.viewUpdate = function (req, res) {
             heading: "Update " + project.projectCode,
             project: project
         });
-        console.log(project);
     })
 };
 
-//Run update query
+//update project info
 exports.update = function (req, res) {
 
     var newData = {
@@ -150,13 +145,12 @@ exports.update = function (req, res) {
             res.redirect('/project/' + req.body.projectCode);
         }
     });
-
 };
+
 
 //delete the project
 exports.delete = function (req, res) {
 
-    //TODO error handling
     project.findOneAndRemove({
         projectCode: req.params.projectCode
     }, function (err, doc) {
@@ -165,8 +159,9 @@ exports.delete = function (req, res) {
 
 };
 
+
+//find all projects containing a change item with status
 exports.getProjectsWithStatus = function (status, callback) {
-console.log(globals.dburl.toString());
     project.aggregate([
         {$unwind: "$changeItems"},
         {
@@ -193,11 +188,12 @@ console.log(globals.dburl.toString());
         }
 
     ]).then(function (results) {
-        console.log(results);
         callback(results);
     })
 };
 
+
+//get projects assigned to resource with impacts between two dates
 exports.getProjectsByResourceImpactMonth = function (resourceId, startDate, endDate, callback) {
 
     project.aggregate([
