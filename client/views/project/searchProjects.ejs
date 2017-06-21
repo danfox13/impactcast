@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title><%= title %></title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/client/public/style.css">
+    <script src="/jquery/jquery.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+</head>
+<body>
+<% include ../templates/header.ejs %>
+<div class="container">
+    <div class="panel panel-default">
+        <div class="panel-heading text-cente"><h1><%= heading %></h1></div>
+        <div class="panel-body">
+
+            <form action="/searchProjects" method="post">
+                <div class="form-group">
+                    <label for="projectCode">Project Code:</label>
+                    <input type="text" class="form-control" id="projectCode" name="projectCode">
+                </div>
+
+                <div class="form-group">
+                    <label for="projectName">Name:</label>
+                    <input type="text" class="form-control" id="projectTitle" name="projectTitle">
+                </div>
+
+                <div class="form-group">
+                    <label for="changeItemTitle">Change Item Name:</label>
+                    <input type="text" class="form-control" id="changeItemTitle" name="changeItemTitle">
+                </div>
+
+                <div class="form-group">
+                    <label for="changeItemStatus">Change Item Status:</label>
+                    <select class="form-control" id="changeItemStatus" name="changeItemStatus">
+                        <option value="">Any</option>
+                        <option value="New">New</option>
+                        <option value="Impacting">Impacting</option>
+                        <option value="Impacted">Impacted</option>
+                        <option value="Returned">Returned</option>
+                        <option value="Approved">Approved</option>
+                        <option value="Closed">Closed</option>
+                        <option value="Withdrawn">Withdrawn</option>
+                        <option value="Rejected">Rejected</option>
+                        <option value="Provisional">Provisional</option>
+                        <option value="On-Hold">On-Hold</option>
+                        <option value="Archived">Archived</option>
+                    </select>
+                </div>
+
+                <input type="submit" value="Search Projects" class="btn btn-success btn-lg btn-block"/>
+
+            </form>
+
+        </div>
+    </div>
+</div>
+</body>
+</html>

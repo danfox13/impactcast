@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title><%= title %></title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/client/public/style.css">
+    <script src="/jquery/jquery.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+</head>
+<body>
+<% include templates/header.ejs %>
+<div class="container">
+
+    <div class="panel panel-default">
+        <div class="panel-heading text-center"><h1><%= heading %></h1></div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-3">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <center>
+                        <h1><%= newItems.length %></h1>
+                        <h5>New Items</h5>
+                    </center>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-3">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <center>
+                        <h1><%= readyToImpact.length %></h1>
+                        <h5>Items Ready to Impact</h5>
+                    </center>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-3">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <center>
+                        <h1><%= rejectedImpacts.length %></h1>
+                        <h5>Rejected Impacts</h5>
+                    </center>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-3">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <center>
+                        <h1><%= readyToForecast.length %></h1>
+                        <h5>Items Ready to Forecast</h5>
+                    </center>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="panel panel-default">
+                <div class="panel-heading text-cente"><h3>New Items</h3></div>
+                <div class="panel-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped table-hover">
+                            <thead>
+                            <tr>
+                                <th>View Project</th>
+                                <th>Project Code</th>
+                                <th>Project Title</th>
+                                <th>Change Items</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <% newItems.forEach(function(project){ %>
+                            <tr>
+
+                                <td><a href="/project/<%= project.projectCode %>" class="btn btn-success"
+                                       role="button">View</a>
+                                </td>
+                                <td><%= project.projectCode %></td>
+                                <td><%= project.projectTitle %></td>
+                                <td>
+
+                                    <% project.changeItems.forEach(function(changeItem){ %>
+                                    <a href="/project/<%= project.projectCode %>/<%= changeItem.changeTitle %>">
+                                        <%= changeItem.changeTitle %>
+                                    </a><br/>
+                                    <% }); %>
+
+                                </td>
+                            </tr>
+                            <% }); %>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-sm-6">
+            <div class="panel panel-default">
+                <div class="panel-heading text-cente"><h3>Ready to Impact</h3></div>
+                <div class="panel-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped table-hover">
+                            <thead>
+                            <tr>
+                                <th>View Project</th>
+                                <th>Project Code</th>
+                                <th>Project Title</th>
+                                <th>Change Items</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <% readyToImpact.forEach(function(project){ %>
+                            <tr>
+
+                                <td><a href="/project/<%= project.projectCode %>" class="btn btn-success"
+                                       role="button">View</a>
+                                </td>
+                                <td><%= project.projectCode %></td>
+                                <td><%= project.projectTitle %></td>
+                                <td>
+
+                                    <% project.changeItems.forEach(function(changeItem){ %>
+                                    <a href="/project/<%= project.projectCode %>/<%= changeItem.changeTitle %>">
+                                        <%= changeItem.changeTitle %>
+                                    </a><br/>
+                                    <% }); %>
+
+                                </td>
+                            </tr>
+                            <% }); %>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="panel panel-default">
+                <div class="panel-heading text-cente"><h3>Rejected Impacts</h3></div>
+                <div class="panel-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped table-hover">
+                            <thead>
+                            <tr>
+                                <th>View Project</th>
+                                <th>Project Code</th>
+                                <th>Project Title</th>
+                                <th>Change Items</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <% rejectedImpacts.forEach(function(project){ %>
+                            <tr>
+
+                                <td><a href="/project/<%= project.projectCode %>" class="btn btn-success"
+                                       role="button">View</a>
+                                </td>
+                                <td><%= project.projectCode %></td>
+                                <td><%= project.projectTitle %></td>
+                                <td>
+
+                                    <% project.changeItems.forEach(function(changeItem){ %>
+                                    <a href="/project/<%= project.projectCode %>/<%= changeItem.changeTitle %>">
+                                        <%= changeItem.changeTitle %>
+                                    </a><br/>
+                                    <% }); %>
+
+                                </td>
+                            </tr>
+                            <% }); %>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-sm-6">
+            <div class="panel panel-default">
+                <div class="panel-heading text-cente"><h3>Ready to Forecast</h3></div>
+                <div class="panel-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped table-hover">
+                            <thead>
+                            <tr>
+                                <th>View Project</th>
+                                <th>Project Code</th>
+                                <th>Project Title</th>
+                                <th>Change Items</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <% readyToForecast.forEach(function(project){ %>
+                            <tr>
+
+                                <td><a href="/project/<%= project.projectCode %>" class="btn btn-success"
+                                       role="button">View</a>
+                                </td>
+                                <td><%= project.projectCode %></td>
+                                <td><%= project.projectTitle %></td>
+                                <td>
+
+                                    <% project.changeItems.forEach(function(changeItem){ %>
+                                    <a href="/project/<%= project.projectCode %>/<%= changeItem.changeTitle %>">
+                                        <%= changeItem.changeTitle %>
+                                    </a><br/>
+                                    <% }); %>
+
+                                </td>
+                            </tr>
+                            <% }); %>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+</body>
+</html>

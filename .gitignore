@@ -1,7 +1,7 @@
 **/.iml
-**/.idea
+**/.idea/*
 **/node_modules
 npm-debug.log
 .DS_Store
 /*.env
-./globals.js
+server/globals.js
