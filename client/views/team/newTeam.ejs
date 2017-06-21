@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title><%= title %></title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/client/public/style.css">
+    <script src="/jquery/jquery.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/jsvalidate/validator.min.js"></script>
+</head>
+<body>
+<% include ../templates/header.ejs %>
+<div class="container">
+    <div class="panel panel-default">
+        <div class="panel-heading text-cente"><h1><%= heading %></h1></div>
+        <div class="panel-body">
+
+            <form action="/newTeam" method="post" data-toggle="validator" role="form">
+
+                <div class="form-group has-feedback">
+                    <label for="teamName">Team Name:</label>
+                    <div class="input-group">
+                        <span class="input-group-addon">T</span>
+                        <input type="text" class="form-control" id="teamName" name="teamName" required>
+                    </div>
+                    <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                    <div class="help-block with-errors"></div>
+                </div>
+
+                <input type="submit" value="Create Team" class="btn btn-success btn-lg btn-block"/>
+
+            </form>
+
+        </div>
+    </div>
+</div>
+</body>
+</html>
