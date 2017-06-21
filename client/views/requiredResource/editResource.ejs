@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title><%= title %></title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/client/public/style.css">
+    <script src="/jquery/jquery.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/jsvalidate/validator.min.js"></script>
+</head>
+<body>
+<% include ../templates/header.ejs %>
+<div class="container">
+    <div class="panel panel-default">
+        <div class="panel-heading text-cente"><h1><%= heading %></h1></div>
+        <div class="panel-body">
+
+            <form action="/project/<%= projectCode %>/<%= changeItem %>/<%= requiredResource._id %>/update"
+                  method="post" data-toggle="validator" role="form">
+
+
+                <div class="form-group has-feedback">
+                    <label for="roleName" class="control-label">Role Name:</label>
+                    <div class="input-group">
+                        <span class="input-group-addon">T</span>
+                        <input type="text" class="form-control" id="roleName" name="roleName"
+                               value="<%= requiredResource.roleName %>" required>
+                    </div>
+                    <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                    <div class="help-block with-errors"></div>
+                </div>
+
+
+                <div class="form-group has-feedback">
+                    <label for="pLine">P Line:</label>
+                    <select class="form-control" id="pLine" name="pLine" required>
+
+                        <%
+                        var pLineOptions = [
+                            "P01.02",
+                            "P01.02.A",
+                            "P01.06",
+                            "P01.08",
+                            "P01.10",
+                            "P02.02",
+                            "P02.02.F",
+                            "P02.04.A",
+                            "P02.05",
+                            "P02.05.F",
+                            "P02.08",
+                            "P02.12",
+                            "P03.02",
+                            "P03.02.F",
+                            "P03.03",
+                            "P03.05",
+                            "P03.05.F",
+                            "P04.18",
+                            "P04.101",
+                            "P04.102",
+                            "P04.103",
+                            "P04.104",
+                            "P04.105",
+                            "P04.106",
+                            "P04.107",
+                            "P04.108",
+                            "P04.109",
+                            "P04.110",
+                            "P04.111",
+                            "P04.101.A",
+                            "P04.102.A",
+                            "P04.103.A",
+                            "P04.104.A",
+                            "P04.105.A",
+                            "P04.106.A",
+                            "P04.107.A",
+                            "P04.108.A",
+                            "P04.109.A",
+                            "P04.110.A",
+                            "P04.111.A",
+                            "P04.101.F",
+                            "P04.102.F",
+                            "P04.103.F",
+                            "P04.104.",
+                            "P04.105.F",
+                            "P04.106.F",
+                            "P04.107.F",
+                            "P04.108.F",
+                            "P04.109.F",
+                            "P04.110.F",
+                            "P04.111.F",
+                            "P04.888",
+                            "P05.07",
+                            "P05.08",
+                            "P05.13",
+                            "P05.14",
+                            "P06.01",
+                            "P06.02",
+                            "P09.18",
+                            "P09.101",
+                            "P09.102",
+                            "P09.103",
+                            "P09.104",
+                            "P09.105",
+                            "P09.106",
+                            "P09.107",
+                            "P09.108",
+                            "P09.109",
+                            "P09.204",
+                            "P09.205",
+                            "P09.206",
+                            "P09.207",
+                            "P09.208",
+                            "P09.209",
+                            "P09.999"];
+                        for ( var j = 0; j < pLineOptions.length; j++ )
+                        {
+                            var selected = ( requiredResource.pLine == pLineOptions[j] ) ? "selected" : "";
+                        %>
+                        <option value="<%= pLineOptions[j] %>" <%= selected %>><%= pLineOptions[j] %></option>
+                        <%
+                        }
+                        %>
+                    </select>
+                </div>
+
+
+                <div class="form-group has-feedback">
+                    <label for="company">Company:</label>
+                    <select class="form-control" id="company" name="company" required>
+
+                        <%
+                        var companies = ["CG Aspire", "CG Others", "Other Contractors"];
+                        for ( var i = 0; i < companies.length; i++ )
+                        {
+                            var selectedCompany = ( requiredResource.company == companies[i] ) ? "selected" : "";
+                        %>
+                        <option value="<%= companies[i] %>" <%= selectedCompany %>><%= companies[i] %></option>
+                        <%
+                        }
+                        %>
+
+                    </select>
+                </div>
+
+
+                <div class="form-group has-feedback">
+                    <label for="resourceType">Resource Type:</label>
+                    <select class="form-control" id="resourceType" name="resourceType" required>
+
+                        <%
+                        var resourceTypes = [
+                            "Agile Product Owner",
+                            "Agile Scrum Master",
+                            "Applications Analyst", "Applications Problem Manager", "Applications Service Lead",
+                            "Bid Manager",
+                            "CDTi Developer",
+                            "CDTi Tester",
+                            "Clone Tester",
+                            "DES Developer",
+                            "DES Tester",
+                            "DAPI Developer",
+                            "DAPI Tester",
+                            "Env Managment",
+                            "EPG Application Analyst",
+                            "Front End Manager",
+                            "Independent Tester",
+                            "Internal Apps Developer",
+                            "Internal Apps Tester",
+                            "Messaging Developer",
+                            "Messaging Tester",
+                            "Networks DDOS",
+                            "Networks BIG IP Architect",
+                            "Networks BIG IP Engineer",
+                            "Networks BIG IP Provision",
+                            "Networks BIG IP Support",
+                            "Networks Cloud Architect",
+                            "Networks Cloud Engineer",
+                            "Networks Cloud Provision",
+                            "Networks Cloud Support",
+                            "Networks Core Architect",
+                            "Networks Core Engineer",
+                            "Networks Core Provision",
+                            "Networks Core Support",
+                            "Networks DDOS Architect",
+                            "Networks DDOS Engineer",
+                            "Networks DDOS Provision",
+                            "Networks DDOS Support",
+                            "Netowrks Management",
+                            "Networks Splunk Architect",
+                            "Networks Splunk Engineer",
+                            "Networks Splunk Provision",
+                            "Networks Splunk Support",
+                            "PMO Analyst",
+                            "PMO Manager",
+                            "PO Architect",
+                            "PO Engineer",
+                            "PO Env Mgt",
+                            "PO Management",
+                            "PO Provision",
+                            "PO Support",
+                            "PO Test",
+                            "Portal Developer",
+                            "Portal Tester",
+                            "Product Manager",
+                            "Programme Manager",
+                            "Project Architect",
+                            "Project Lead",
+                            "Project Manager",
+                            "Requirements Analysis",
+                            "RTI Developer",
+                            "RTI Tester",
+                            "Service Delivery Manager",
+                            "Service Introduction Manager",
+                            "Software Architect",
+                            "Test Analyst",
+                            "Test Manager",
+                            "Test Technical Specialist",
+                            "Websols Developer",
+                            "Websols Tester",
+                            "XFERS Application Analyst"];
+
+                        for ( var k = 0; k < resourceTypes.length; k++ )
+                        {
+                            var selectedResourceType = ( requiredResource.resourceType == resourceTypes[k] ) ? "selected" : "";
+                        %>
+                        <option value="<%= resourceTypes[k] %>" <%= selectedResourceType %>><%= resourceTypes[k] %></option>
+                        <%
+                        }
+                        %>
+                    </select>
+                </div>
+
+
+                <div class="form-group has-feedback">
+                    <label for="grade">Grade:</label>
+                    <select class="form-control" id="grade" name="grade" required>
+
+                        <%
+                        var grades = [
+                            "O1",
+                            "O2",
+                            "O3",
+                            "O4",
+                            "O5",
+                            "O6",
+                            "O7",
+                            "O8",
+                            "O9",
+                            "O10",
+                            "T1",
+                            "T2",
+                            "T3",
+                            "T4",
+                            "T5",
+                            "T6",
+                            "T7",
+                            "T8",
+                            "T9",
+                            "VP"];
+
+                        for ( var l = 0; l < grades.length; l++ )
+                        {
+                            var selectedGrade = ( requiredResource.grade == grades[l] ) ? "selected" : "";
+                        %>
+                        <option value="<%= grades[l] %>" <%= selectedGrade %>><%= grades[l] %></option>
+                        <%
+                        }
+                        %>
+
+                    </select>
+                </div>
+
+
+                <div class="form-group has-feedback">
+                    <label for="stage">Stage:</label>
+                    <select class="form-control" id="stage" name="stage" required>
+                        <%
+                        var stages = ["Project and Programme Management",
+                            "Architecture and Design",
+                            "Requirements",
+                            "Build and Unit Test",
+                            "System Test",
+                            "UAT Support",
+                            "Integration",
+                            "Inter System Test",
+                            "Implementation",
+                            "Support"];
+
+                        for ( var m = 0; m < stages.length; m++ )
+                        {
+                            var selectedStage = ( requiredResource.stage == stages[m] ) ? "selected" : "";
+                        %>
+                        <option value="<%= stages[m] %>" <%= selectedStage %>><%= stages[m] %></option>
+                        <%
+                        }
+                        %>
+                    </select>
+                </div>
+
+
+                <div class="form-group has-feedback">
+                    <label for="jobCode">Job Code:</label>
+                    <select class="form-control" id="jobCode" name="jobCode">
+                        <%
+                        var jobCodes = ["",
+                            "National Systems Normal"];
+
+                        for ( var n = 0; n < jobCodes.length; n++ )
+                        {
+                            var selectedJobCode = ( requiredResource.jobCode == jobCodes[n] ) ? "selected" : "";
+                        %>
+                        <option value="<%= jobCodes[n] %>" <%= selectedJobCode %>><%= jobCodes[n] %></option>
+                        <%
+                        }
+                        %>
+                    </select>
+                </div>
+
+
+                <div class="form-group">
+                    <label for="system">System:</label>
+                    <input type="text" class="form-control" id="system" name="system"
+                           value="<%= requiredResource.system %>">
+                </div>
+
+
+                <div class="form-group has-feedback">
+                    <label for="component">Component:</label>
+                    <select class="form-control" id="component" name="component">
+                        <%
+                        var components = ["",
+                            "CDF F/W",
+                            "Core",
+                            "D/W Audit",
+                            "D/W Back",
+                            "D/W Front",
+                            "Decision Service",
+                            "E",
+                            "F/W",
+                            "ICP",
+                            "Legacy",
+                            "NIRS"];
+
+                        for ( var o = 0; o < components.length; o++ )
+                        {
+                            var selectedComponent = ( requiredResource.component == components[o] ) ? "selected" : "";
+                        %>
+                        <option value="<%= components[o] %>" <%= selectedComponent %>><%= components[o] %></option>
+                        <%
+                        }
+                        %>
+                    </select>
+                </div>
+
+
+                <div class="form-group has-feedback">
+                    <label for="pricingFlag">Pricing Flag:</label>
+                    <select class="form-control" id="pricingFlag" name="pricingFlag">
+                        <%
+                        var pricingFlags = ["",
+                            "Fixed",
+                            "Input Based",
+                            "Productivity Based"];
+
+                        for ( var p = 0; p < pricingFlags.length; p++ )
+                        {
+                            var selectedPricingFlag = ( requiredResource.pricingFlag == pricingFlags[p] ) ? "selected" : "";
+                        %>
+                        <option value="<%= pricingFlags[p] %>" <%= selectedPricingFlag %>><%= pricingFlags[p] %></option>
+                        <%
+                        }
+                        %>
+                    </select>
+                </div>
+
+
+                <div class="form-group has-feedback">
+                    <label for="pricingFlag">Reason:</label>
+                    <select class="form-control" id="reason" name="reason">
+                        <%
+                        var reasons = ["",
+                            "Agile",
+                            "D/W Agreement",
+                            "Data Cleansing",
+                            "Data Migration",
+                            "Decision Service",
+                            "Decommissioning",
+                            "EDI",
+                            "ESB",
+                            "EU Compliance/Conformance",
+                            "EU Gateway",
+                            "FELIX",
+                            "Fixed Enhancements",
+                            "HMRC Agreement",
+                            "ICP",
+                            "LTS",
+                            "No Function Points",
+                            "Nugatory Work",
+                            "Other",
+                            "Package",
+                            "Presentation",
+                            "Productivity High FPs",
+                            "Productivity Low FPs",
+                            "Project Governance",
+                            "Regression Testing",
+                            "Technical S/W Change",
+                            "Testing Assurance",
+                            "Testing with a 3rd Party",
+                            "UEX",
+                            "WCM",
+                            "Work Item Types"];
+
+                        for ( var q = 0; q < reasons.length; q++ )
+                        {
+                            var selectedReason = ( requiredResource.reason == reasons[q] ) ? "selected" : "";
+                        %>
+                        <option value="<%= reasons[q] %>" <%= selectedReason %>><%= reasons[q] %></option>
+                        <%
+                        }
+                        %>
+                    </select>
+                </div>
+
+                <input type="submit" value="Update Required Resource" class="btn btn-success btn-lg btn-block"/>
+
+            </form>
+
+        </div>
+    </div>
+</div>
+</body>
+</html>

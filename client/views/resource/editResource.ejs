@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title><%= title %></title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/client/public/style.css">
+    <script src="/jquery/jquery.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/jsvalidate/validator.min.js"></script>
+</head>
+<body>
+<% include ../templates/header.ejs %>
+<div class="container">
+    <div class="panel panel-default">
+        <div class="panel-heading text-cente"><h1><%= heading %></h1></div>
+        <div class="panel-body">
+
+            <form action="/resource/<%= resource._id %>/update" method="post" data-toggle="validator" role="form">
+
+
+                <div class="form-group has-feedback">
+                    <label for="resourceName" class="control-label">Name:</label>
+                    <div class="input-group">
+                        <span class="input-group-addon">T</span>
+                        <input type="text" class="form-control" id="resourceName" name="resourceName"
+                               value="<%= resource.resourceName %>" required>
+                    </div>
+                    <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                    <div class="help-block with-errors"></div>
+                </div>
+
+
+                <div class="form-group has-feedback">
+                    <label for="employeeId" class="control-label">Employee ID:</label>
+                    <div class="input-group">
+                        <span class="input-group-addon">1</span>
+                        <input type="text" class="form-control" id="employeeId" name="employeeId" pattern="^[0-9]*$"
+                               maxlength="6" value="<%= resource.employeeId %>">
+                    </div>
+                    <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                    <div class="help-block with-errors"></div>
+                </div>
+
+
+                <div class="form-group has-feedback">
+                    <label for="location" class="control-label">Location:</label>
+                    <div class="input-group">
+                        <span class="input-group-addon">T</span>
+                        <input type="text" class="form-control" id="location" name="location"
+                               value="<%= resource.location %>">
+                    </div>
+                    <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                    <div class="help-block with-errors"></div>
+                </div>
+
+
+                <div class="form-group has-feedback">
+                    <label for="email" class="control-label">Email:</label>
+                    <div class="input-group">
+                        <span class="input-group-addon">@</span>
+                        <input type="text" class="form-control" id="email" name="email" value="<%= resource.email %>"
+                               pattern="^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$"
+                               required>
+                    </div>
+                    <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                    <div class="help-block with-errors"></div>
+                </div>
+
+
+                <div class="form-group has-feedback">
+                    <label for="role" class="control-label">Job Title:</label>
+                    <div class="input-group">
+                        <span class="input-group-addon">T</span>
+                        <input type="text" class="form-control" id="role" name="role" value="<%= resource.role %>"
+                               required>
+                    </div>
+                    <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                    <div class="help-block with-errors"></div>
+                </div>
+
+
+                <input type="submit" value="Edit Resource" class="btn btn-success btn-lg btn-block"/>
+
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>
