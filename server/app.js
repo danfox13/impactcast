@@ -1,21 +1,44 @@
-var express = require('express');
-var path = require('path');
-var logger = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
-var assert = require('assert');
+/**
+ * Entry point for server side app
+ * @author - Greg Wolverson
+ */
+const express = require('express');
+const app = express();
+const bodyParser = require('body-parser');
+const path = require('path');
+const logger = require('morgan');
+const cookieParser = require('cookie-parser');
+const assert = require('assert');
 
-var index = require('./routes/index');
+app.set('port', (process.env.PORT || 3001));
 
-var app = express();
+// Express only serves static assets in production
+if (process.env.NODE_ENV === 'production') {
+    app.use(express.static('./client/build'));
+}
+
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.json());
+
+app.use(function (req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+});
+
+app.listen(app.get('port'), () => {
+    console.log(`Find the server at: http://localhost:${app.get('port')}/`);
+});
+
+const index = require('./routes/index');
 
 // view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'ejs');
+//app.set('views', path.join(__dirname, 'views'));
+//app.set('view engine', 'ejs');
 
 app.use(logger('dev'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/js', express.static(__dirname + '/node_modules/bootstrap/dist/js')); // redirect bootstrap JS
@@ -26,23 +49,5 @@ app.use('/fonts', express.static(__dirname + '/node_modules/bootstrap/fonts')); 
 app.use('/public', express.static(__dirname + '/public'));
 
 app.use('/', index);
-
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  var err = new Error('Not Found');
-  err.status = 404;
-  next(err);
-});
-
-// error handler
-app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
-
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
-});
 
 module.exports = app;
