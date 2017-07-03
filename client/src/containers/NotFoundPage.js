@@ -11,7 +11,7 @@ export default class NotFoundPage extends Component {
                 <h1 className="page-header">Page not found</h1>
                 <p>
                     Ooops! Looks like the page you're looking for doesn't exist. <br/><br/>
-                    <Link to="/index">Go back to the home page</Link>
+                    <Link to="/">Go back to the home page</Link>
                 </p>
             </div>
         )

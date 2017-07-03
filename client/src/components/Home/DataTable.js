@@ -1,7 +1,45 @@
 import React, {Component} from 'react';
 
-export default class DataTable extends Component {
+class DataRow extends Component {
     render() {
+        return (
+            <tr>
+                <td><a href={'/project/' + this.props.dataItem.projectCode} className="btn btn-success"
+                       role="button">View</a>
+                </td>
+                <td>{this.props.dataItem.projectCode}</td>
+                <td>{this.props.dataItem.projectTitle}</td>
+                {this.props.dataItem.changeItems.map(changeItem =>
+                    <td key={changeItem.changeTitle}>
+                        <a href={'/project/' + this.props.dataItem.projectCode + '/' + changeItem.changeTitle}>
+                             {changeItem.changeTitle}
+                        </a><br/>
+                    </td>
+                )}
+            </tr>
+        )
+    }
+}
+
+class DataTable extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            dataItems: []
+        };
+    }
+
+    componentWillReceiveProps(nextProps) {
+        this.setState({
+            dataItems: nextProps.dataItems
+        });
+    }
+
+    render() {
+        let dataRows = this.state.dataItems.map(function (dataItem) {
+            return <DataRow key={dataItem._id} dataItem={dataItem}/>
+        });
+
         return (
             <div className="col-sm-6">
                 <div className="panel panel-default">
@@ -18,15 +56,7 @@ export default class DataTable extends Component {
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr>
-                                    <td><a href={'/project/' + this.props.viewLink} className="btn btn-success" role="button">View</a>
-                                    </td>
-                                    <td>{this.props.projectCode}</td>
-                                    <td>{this.props.projectTitle}</td>
-                                    <td>
-                                        <a href={'/project/' + this.props.itemLink}>{this.props.changeItem}</a><br/>
-                                    </td>
-                                </tr>
+                                {dataRows}
                                 </tbody>
                             </table>
                         </div>
@@ -36,3 +66,5 @@ export default class DataTable extends Component {
         )
     }
 }
+
+module.exports = DataTable;
