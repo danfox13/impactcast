@@ -10,7 +10,13 @@ var team = require('./team');
 var resource = require('./resource');
 
 //General Site URIs
-app.get('/', site.index);
+//app.get('/', site.index);
+
+//app.get('/', site.index);
+
+app.get('/homeData', function(request, response){
+    site.index(request, response);
+});
 
 //Project URIs
 app.get('/newProject', project.newProject);
