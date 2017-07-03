@@ -2,13 +2,13 @@
  * @author - Greg Wolverson
  */
 import React, {Component} from 'react';
-import CreateResource from '../components/Resource/CreateResource';
+import CreateTeam from '../../components/Team/CreateTeam';
 
-export default class NewResourcePage extends Component {
+export default class NewTeamPage extends Component {
     render() {
         return (
             <div>
-                <CreateResource />
+                <CreateTeam />
             </div>
         )
     }

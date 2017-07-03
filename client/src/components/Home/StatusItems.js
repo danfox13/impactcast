@@ -10,15 +10,15 @@ export default class StatusItems extends Component {
                     itemHeading="New Items"
                 />
                 <StatusItem
-                    numberOfItems="1"
+                    numberOfItems={this.props.totalReadyToImpact}
                     itemHeading="Items Ready to Impact"
                 />
                 <StatusItem
-                    numberOfItems="0"
+                    numberOfItems={this.props.totalRejectedImpacts}
                     itemHeading="Rejected Impacts"
                 />
                 <StatusItem
-                    numberOfItems="1"
+                    numberOfItems={this.props.totalReadyToForecast}
                     itemHeading="Items Ready to Forecast"
                 />
             </div>

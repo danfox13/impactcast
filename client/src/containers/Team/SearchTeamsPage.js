@@ -2,13 +2,13 @@
  * @author - Greg Wolverson
  */
 import React, {Component} from 'react';
-import CreateTeam from '../components/Team/CreateTeam';
+import SearchTeams from '../../components/Team/SearchTeams';
 
-export default class NewTeamPage extends Component {
+export default class SearchTeamsPage extends Component {
     render() {
         return (
             <div>
-                <CreateTeam />
+                <SearchTeams />
             </div>
         )
     }
