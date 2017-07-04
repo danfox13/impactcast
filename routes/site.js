@@ -35,3 +35,9 @@ exports.index = function(req, res){
         });
     }, 1000);
 };
+
+exports.login = function(req, res){
+    res.render('login', {
+        title: 'ImpactCast - Login'
+    });
+};

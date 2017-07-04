@@ -3,11 +3,32 @@ var path = require('path');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var session = require('express-session');
 var assert = require('assert');
 
 var index = require('./routes/index');
 
 var app = express();
+
+
+
+function checkAuth (req, res, next) {
+    console.log('checkAuth ' + req.url);
+
+    // don't serve /secure to those not logged in
+    // you should add to this list, for each and every secure url
+    if ((!(req.url === '/' || req.url === '/login')) && (!req.session || !req.session.authenticated)) {
+      console.log('hit');
+        res.render('login', {
+            title: 'ImpactCast - Login',
+            //TODO returns a 200 not 403
+            status: 403
+        });
+        return;
+    }
+    next();
+}
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -18,13 +39,18 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(session({
+    secret: 'secret',
+    resave: false,
+    saveUninitialized: true
+}));
 app.use('/js', express.static(__dirname + '/node_modules/bootstrap/dist/js')); // redirect bootstrap JS
 app.use('/jquery', express.static(__dirname + '/node_modules/jquery/dist')); // redirect JS jQuery
 app.use('/jsvalidate', express.static(__dirname + '/node_modules/bootstrap-validator/dist')); // redirect JS Validate
 app.use('/css', express.static(__dirname + '/node_modules/bootstrap/dist/css')); // redirect CSS bootstrap
 app.use('/fonts', express.static(__dirname + '/node_modules/bootstrap/fonts')); // redirect bootstrap fonts/glyficons
 app.use('/public', express.static(__dirname + '/public'));
-
+app.use(checkAuth);
 app.use('/', index);
 
 // catch 404 and forward to error handler

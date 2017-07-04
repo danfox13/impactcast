@@ -8,9 +8,16 @@ var requiredResource = require('./requiredResource');
 var impact = require('./impact');
 var team = require('./team');
 var resource = require('./resource');
+var user = require('./user');
+
 
 //General Site URIs
-app.get('/', site.index);
+app.get('/', site.login);
+app.post('/login', user.login);
+app.get('/logout', user.logout);
+app.get('/home', site.index);
+
+
 
 //Project URIs
 app.get('/newProject', project.newProject);
