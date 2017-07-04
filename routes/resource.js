@@ -149,7 +149,7 @@ exports.searchResources = function (req, res) {
             heading: 'Search Results',
             resources: results
         });
-    })
+    });
 };
 
 //
