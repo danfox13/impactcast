@@ -10,7 +10,7 @@ export default class Header extends Component {
             <Navbar inverse collapseOnSelect>
                 <Navbar.Header>
                     <Navbar.Brand>
-                        <a href="#">ImpactCast</a>
+                        <a href="/">ImpactCast</a>
                     </Navbar.Brand>
                     <Navbar.Toggle />
                 </Navbar.Header>
