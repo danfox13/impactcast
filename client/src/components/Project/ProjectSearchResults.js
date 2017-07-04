@@ -1,7 +1,46 @@
 import React, {Component} from 'react';
 
+class ResultRow extends Component {
+	render() {
+		return (
+            <tr>
+                <td>
+                    <a href={'/project/' + this.props.project.projectCode}
+                       className="btn btn-success" role="button">View
+                    </a>
+                </td>
+                <td>{this.props.project.projectCode}</td>
+                <td>{this.props.project.projectTitle}</td>
+                {this.props.project.changeItems.map(changeItem =>
+                    <td key={changeItem._id}>
+                        <a href={'/changeItem/' + changeItem._id}>{changeItem.changeItemTitle}</a>
+                        <br/>
+                    </td>
+                )}
+            </tr>
+        )
+	}
+}
+
 export default class ProjectSearchResults extends Component {
-    render() {
+	constructor(props) {
+		super(props);
+		this.state = {
+			results: this.props.searchResults
+		};
+	}
+
+	componentWillReceiveProps(nextProps) {
+		this.setState({
+			results: nextProps.searchResults
+		});
+	}
+
+	render() {
+		let resultRows = this.state.results.map(function (project) {
+			return <ResultRow key={project._id} project={project}/>
+		});
+
         return (
             <div className="panel panel-default">
                 <div className="panel-heading text-cente"><h1>Search Results</h1></div>
@@ -16,18 +55,7 @@ export default class ProjectSearchResults extends Component {
                                 <th>Change Items</th>
                             </tr>
                             </thead>
-                            <tbody>
-                            <tr>
-                                <td><a href="#" className="btn btn-success" role="button">View</a>
-                                </td>
-                                <td></td>
-                                <td></td>
-                                <td>
-                                    <a href="#">
-                                    </a><br/>
-                                </td>
-                            </tr>
-                            </tbody>
+                            <tbody>{resultRows}</tbody>
                         </table>
                     </div>
                 </div>
