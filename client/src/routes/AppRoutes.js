@@ -6,16 +6,17 @@ import { Router, Route, IndexRoute, browserHistory } from 'react-router';
 import App from '../components/App';
 import HomePage from '../containers/HomePage';
 
-// Team Route Components
+// Project Route Components
 import NewProjectPage from '../containers/Project/NewProjectPage';
 import SearchProjectsAndItems from '../containers/Project/SearchProjectsAndItems';
 import ProjectSearchResults from '../containers/Project/ProjectSearchResultsPage';
-import TeamPage from '../containers/Team/TeamPage';
+import Project from '../containers/Project/Project';
 
 // Team Route Components
 import NewTeamPage from '../containers/Team/NewTeamPage';
 import SearchTeamsPage from '../containers/Team/SearchTeamsPage';
 import TeamSearchResults from '../containers/Team/TeamSearchResultsPage';
+import TeamPage from '../containers/Team/TeamPage';
 
 // Resource Route Components
 import NewResourcePage from '../containers/Resource/NewResourcePage';
@@ -24,6 +25,7 @@ import ResourceSearchResults from '../containers/Resource/ResourceSearchResultsP
 import ResourcePage from '../containers/Resource/ResourcePage';
 
 import NotFoundPage from '../containers/NotFoundPage';
+import LoginPage from '../containers/Login';
 
 export default class AppRoutes extends Component {
     render() {
@@ -34,6 +36,7 @@ export default class AppRoutes extends Component {
                     <Route path="/newProject" component={NewProjectPage}/>
                     <Route path="/searchProjects" component={SearchProjectsAndItems} />
                     <Route path="/projectSearchResults" component={ProjectSearchResults}/>
+                    <Route path="/project" component={Project}/>
 
                     <Route path="/newTeam" component={NewTeamPage}/>
                     <Route path="/searchTeams" component={SearchTeamsPage} />
@@ -45,6 +48,8 @@ export default class AppRoutes extends Component {
                     <Route path="/resourceSearchResults" component={ResourceSearchResults} />
                     <Route path="/resource/:id" component={ResourcePage}/>
                 </Route>
+
+                <Route path="/login" component={LoginPage}/>
                 <Route path="*" component={NotFoundPage}/>
             </Router>
         )
