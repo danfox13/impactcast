@@ -1,3 +1,9 @@
+/**
+ *
+ * @type {*}
+ */
+
+
 var express = require('express');
 var app = express.Router();
 
@@ -16,6 +22,7 @@ app.get('/', site.login);
 app.post('/login', user.login);
 app.get('/logout', user.logout);
 app.get('/home', site.index);
+app.get('/user/userProfile', user.viewUserProfile);
 
 
 
