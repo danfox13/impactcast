@@ -79,6 +79,9 @@ exports.login = function(req, res){
 
 };
 
+exports.viewUserProfile = function(req, res){
+    res.render('user/userProfile', {title: 'User Profile'});
+}
 
 exports.logout = function(req, res){
 
