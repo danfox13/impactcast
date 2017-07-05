@@ -55,7 +55,7 @@ exports.login = function(req, res){
         if(hash !== undefined && password !== undefined
             && bcrypt.compareSync(password, hash)){
             console.log('pass');
-            req.session.email = email,
+            req.session.email = email;
             req.session.authenticated = true;
             res.redirect('/home');
         }
@@ -68,12 +68,17 @@ exports.login = function(req, res){
 
 //Link to viewUserProfile
 exports.viewUserProfile = function(req, res){
-    res.render('user/userProfile', {title: 'User Profile'});
+    res.render('user/userProfile',
+        {title: 'User Profile',
+        email: req.session.email});
 }
 
 //TODO Get information about the account from the request object.
 exports.viewEditProfile = function(req, res){
-    res.render('user/editProfile', {title: 'Edit Profile'});
+    console.log("EMAIL: " + req.session.email);
+    res.render('user/editProfile',
+        {title: 'Edit Profile',
+        email: req.session.email});
 }
 
 exports.logout = function(req, res){
