@@ -57,24 +57,21 @@ exports.changePassword = function(req, res){
     if(newPass && newPassCheck &&
         newPass === newPassCheck){
 
-        user.findById(email)
-            .then(function(err, result){
-                 if(err){
-                     console.log("Error: " + err);
-                 }
-                 else{
-                     var hash = results.password;
-                     var password = req.body.oldPassword;
-                     if(hash && password &&
-                     bcrypt.compareSync(password, hash)){
-                            console.log("PASSWORDS MATCH------------------------------\n" +
-                                "SAVING NEW PASSWORD HASH-----------------------------");
-                             results.password = bcrypt.hashSync(newPass, SALT_FACTOR);
-                         }
-                     }
-                     result.save();
+        user.findOne({
+            email: email,
+        })
+            .then(function(result){
+                var hash = result.password;
+                var password = req.body.oldPassword;
+                if(hash && password &&
+                    bcrypt.compareSync(password, hash)) {
+                    console.log("PASSWORDS MATCH------------------------------\n" +
+                        "SAVING NEW PASSWORD HASH-----------------------------");
+                    result.password = bcrypt.hashSync(newPass, SALT_FACTOR);
+
+                    result.save();
                 }
-            )
+            })
             .catch(function(err){
                 console.log("Error: " + err);
             });
@@ -88,8 +85,8 @@ exports.login = function(req, res){
     var password = req.body.pwd;
     user.findOne({
         email: email,
-    }).then(function (results) {
-        hash = results.password;
+    }).then(function (result) {
+        hash = result.password;
 
         //compare the hash in the collection to the hash of the presented password
         if(hash && password
