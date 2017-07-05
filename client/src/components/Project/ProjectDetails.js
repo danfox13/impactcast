@@ -12,8 +12,7 @@ export default class ProjectDetails extends Component
 	render()
 	{
 		return (
-			<Panel>
-				<h1 className="text-center">{this.props.projectTitle}</h1>
+			<Panel header={<div className="text-center">{this.props.projectTitle}</div>}>
 				<Grid>
 					<Row>
 						<Col sm={12}>

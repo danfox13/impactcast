@@ -11,7 +11,7 @@ export default class UpdateProject extends Component
 	{
 		super(props);
 		this.state = {
-			projectCode: this.props.params.id,
+			projectCode: this.props.projectCode,
 			projectName: this.props.projectName
 		};
 
@@ -33,12 +33,12 @@ export default class UpdateProject extends Component
 		return (
 			<Panel>
 				<h1 className="text-center">Update Project</h1>
-				<form action={'/project/' + this.props.params.id + '/update'} method="post">
+				<form action={'/project/' + this.props.projectCode + '/update'} method="post">
 					<FormGroup controlId="projectCode">
 						<ControlLabel>Project Code:</ControlLabel>
 						<InputGroup>
 							<InputGroup.Addon>T</InputGroup.Addon>
-							<FormControl type="text" name="projectCode" value={this.state.projectCode}
+							<FormControl name="projectCode" value={this.state.projectCode}
 							             onChange={this.handleInputChange} required/>
 						</InputGroup>
 						<FormControl.Feedback/>
@@ -47,7 +47,7 @@ export default class UpdateProject extends Component
 						<ControlLabel>Project Name:</ControlLabel>
 						<InputGroup>
 							<InputGroup.Addon>T</InputGroup.Addon>
-							<FormControl type="text" name="projectName" value={this.state.projectName}
+							<FormControl name="projectName" value={this.state.projectName}
 							             onChange={this.handleInputChange} required/>
 						</InputGroup>
 						<FormControl.Feedback/>

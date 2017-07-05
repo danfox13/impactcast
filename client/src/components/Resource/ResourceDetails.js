@@ -5,7 +5,7 @@ export default class ResourceDetails extends Component {
         return (
             <div className="panel panel-default">
 
-                <div className="panel-heading text-cente"><h1>Test Member</h1></div>
+                <div className="panel-heading text-center"><h1>Test Member</h1></div>
 
                 <div className="panel-body">
 
@@ -32,12 +32,12 @@ export default class ResourceDetails extends Component {
                                 <div className="modal-dialog">
                                     /* Modal content */
                                     <div className="modal-content">
-                                        <div className="modal-header" style="padding:35px 50px;">
+                                        <div className="modal-header">
                                             <button type="button" className="close" data-dismiss="modal">&times;
                                             </button>
                                             <h4><span className="glyphicon glyphicon-remove"/>Remove Resource</h4>
                                         </div>
-                                        <div className="modal-body" style="padding:40px 50px;">
+                                        <div className="modal-body">
                                             <h5>Are you sure you want to remove Test Member?</h5>
                                         </div>
                                         <div className="modal-footer">
