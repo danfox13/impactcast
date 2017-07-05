@@ -36,7 +36,23 @@
 
 
                             <div class="col-md-6">
-                                <a href="#demo" class="btn btn-success" data-toggle="collapse">Change Password</a>
+                                <span>
+                                    <a href="#demo" class="btn btn-success" data-toggle="collapse">Change Password</a>
+                                    <a href="#delete" class="btn btn-success" data-toggle="collapse">Delete Account</a>
+                                </span>
+                                <!--TODO make the delete account button work.-->
+                                <div id="delete" class="collapse">
+                                    <form data-toggle="validator" role="form">
+                                        <div class="form-group">
+                                            <label>Please enter your password:</label>
+                                            <div class="input-group">
+                                                <span class="input-group-addon">T</span>
+                                                <input type="password">
+                                            </div>
+                                        </div>
+                                    </form>
+                                    <a class="btn btn-warning">Delete</a>
+                                </div>
                                 <div id="demo" class="collapse">
                                     <form action="/user/changePassword" method="post" data-toggle="validator" role="form">
                                         <div class="form-group">
