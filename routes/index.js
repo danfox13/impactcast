@@ -24,6 +24,7 @@ app.get('/logout', user.logout);
 app.get('/home', site.index);
 app.get('/user/userProfile', user.viewUserProfile);
 app.post('/user/changePassword', user.changePassword);
+app.get('/user/editProfile', user.viewEditProfile);
 
 //Project URIs
 app.get('/newProject', project.newProject);

@@ -95,11 +95,21 @@ exports.login = function(req, res){
             res.redirect('/');
         }
     });
-
 };
 
+//Link to viewUserProfile
 exports.viewUserProfile = function(req, res){
-    res.render('user/userProfile', {title: 'User Profile'});
+    res.render('user/userProfile',
+        {title: 'User Profile',
+        email: req.session.email});
+}
+
+//TODO Get information about the account from the request object.
+exports.viewEditProfile = function(req, res){
+    console.log("EMAIL: " + req.session.email);
+    res.render('user/editProfile',
+        {title: 'Edit Profile',
+        email: req.session.email});
 }
 
 exports.logout = function(req, res){
