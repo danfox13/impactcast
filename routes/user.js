@@ -41,6 +41,37 @@ exports.addUser = function(req, res){
     res.redirect('/');
 }
 
+//Modify a user's password
+exports.changePassword = function(req, res){
+
+    var newPass = req.body.newPassword;
+    var newPassCheck = req.body.newPasswordCheck;
+    var email = req.session.email;
+    if(newPass && newPassCheck &&
+        newPass === newPassCheck){
+
+        user.findById(email)
+            .then(function(err, result){
+                 if(err){
+                     console.log("Error: " + err);
+                 }
+                 else{
+                     var hash = results.password;
+                     var password = req.body.oldPassword;
+                     if(hash && password &&
+                     bcrypt.compareSync(password, hash)){
+                             results.password = bcrypt.hashSync(newPass, SALT_FACTOR);
+                         }
+                     }
+                     result.save();
+                }
+            )
+            .catch(function(err){
+                console.log("Error: " + err);
+            });
+    }
+}
+
 exports.login = function(req, res){
 
     let hash;
@@ -52,10 +83,10 @@ exports.login = function(req, res){
         hash = results.password;
 
         //compare the hash in the collection to the hash of the presented password
-        if(hash !== undefined && password !== undefined
+        if(hash && password
             && bcrypt.compareSync(password, hash)){
             console.log('pass');
-            req.session.email = email,
+            req.session.email = email;
             req.session.authenticated = true;
             res.redirect('/home');
         }
