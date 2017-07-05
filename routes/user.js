@@ -68,8 +68,14 @@ exports.login = function(req, res){
     });
 };
 
+//Link to viewUserProfile
 exports.viewUserProfile = function(req, res){
     res.render('user/userProfile', {title: 'User Profile'});
+}
+
+//TODO Get information about the account from the request object.
+exports.viewEditProfile = function(req, res){
+    res.render('user/editProfile', {title: 'Edit Profile'});
 }
 
 exports.logout = function(req, res){
