@@ -5,7 +5,7 @@
 import React, {Component} from 'react';
 import {Button, ControlLabel, FormControl, FormGroup, InputGroup, Panel} from 'react-bootstrap';
 
-export default class EditResource extends Component
+export default class UpdateResource extends Component
 {
 	constructor(props)
 	{
@@ -35,7 +35,7 @@ export default class EditResource extends Component
 	{
 		return (
 			<Panel>
-				<h1 className="text-center">Edit Resource</h1>
+				<h1 className="text-center">Update Resource</h1>
 				<form action={'/resource/' + this.props.resourceName + '/update'} method="post">
 					<FormGroup controlId="resourceName">
 						<ControlLabel>Name:</ControlLabel>
@@ -84,7 +84,7 @@ export default class EditResource extends Component
 						</InputGroup>
 					</FormGroup>
 
-					<Button type="submit" bsStyle="success" bsSize="large" block>Edit Resource</Button>
+					<Button type="submit" bsStyle="success" bsSize="large" block>Update Resource</Button>
 				</form>
 			</Panel>
 		)

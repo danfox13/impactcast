@@ -10,7 +10,7 @@ export default class UpdateProjectPage extends Component
 	render()
 	{
 		return (
-			<UpdateProject projectCode={this.props.params.id}
+			<UpdateProject projectCode={this.props.params.projectCode}
 			               projectName={this.props.projectName}/>
 		)
 	}

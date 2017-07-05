@@ -8,28 +8,43 @@ import ChangeItems from "../../components/Project/ChangeItems";
 
 export default class Project extends Component
 {
+	constructor() {
+		super();
+		this.state = {
+			projectTitle: '',
+			changeItems: []
+		};
+
+		this.loadData = this.loadData.bind(this);
+	}
+
+	componentWillMount() {
+		this.loadData()
+	}
+
+	loadData() {
+		let url = 'http://localhost:3001/project/' + this.props.params.projectCode;
+		fetch(url)
+			.then(response => response.json())
+			.then((data) => {
+				this.setState({
+					projectTitle: data.results.projectTitle,
+					changeItems: data.results.changeItems
+				});
+			})
+			.catch(err => console.log(err));
+	}
 	render()
 	{
 		return (
 			<div>
 				<ProjectDetails
-					projectTitle="Banking System Upgrade"
-					projectCode={this.props.params.id}
+					projectTitle={this.state.projectTitle}
+					projectCode={this.props.params.projectCode}
 				/>
 				<ChangeItems
-					projectCode={this.props.params.id}
-					changeItems={[
-						{
-							title: "Network",
-							status: "lol",
-							lid: new Date("July 4, 2017 12:00:00")
-						},
-						{
-							title: "UI",
-							status: "asasa",
-							lid: new Date("July 4, 2017 12:10:00")
-						}
-					]}
+					projectCode={this.props.params.projectCode}
+					changeItems={this.state.changeItems}
 				/>
 			</div>
 		)

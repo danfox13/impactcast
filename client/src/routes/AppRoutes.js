@@ -10,8 +10,8 @@ import HomePage from '../containers/HomePage';
 import NewProjectPage from '../containers/Project/NewProjectPage';
 import SearchProjectsAndItems from '../containers/Project/SearchProjectsAndItems';
 import ProjectSearchResults from '../containers/Project/ProjectSearchResultsPage';
-import Project from '../containers/Project/Project';
-import UpdateProject from '../containers/Project/UpdateProject';
+import Project from '../containers/Project/ProjectPage';
+import UpdateProject from '../containers/Project/UpdateProjectPage';
 
 // Team Route Components
 import NewTeamPage from '../containers/Team/NewTeamPage';
@@ -24,6 +24,7 @@ import NewResourcePage from '../containers/Resource/NewResourcePage';
 import SearchResourcesPage from '../containers/Resource/SearchResourcesPage';
 import ResourceSearchResults from '../containers/Resource/ResourceSearchResultsPage';
 import ResourcePage from '../containers/Resource/ResourcePage';
+import UpdateResourcePage from '../containers/Resource/UpdateResourcePage';
 
 import NotFoundPage from '../containers/NotFoundPage';
 import LoginPage from '../containers/Login';
@@ -37,11 +38,8 @@ export default class AppRoutes extends Component {
                     <Route path="newProject" component={NewProjectPage}/>
                     <Route path="searchProjects" component={SearchProjectsAndItems} />
                     <Route path="projectSearchResults" component={ProjectSearchResults}/>
-                    <Route path="/newProject" component={NewProjectPage}/>
-                    <Route path="/searchProjects" component={SearchProjectsAndItems} />
-                    <Route path="/projectSearchResults" component={ProjectSearchResults}/>
-                    <Route path="/project/:id" component={Project}/>
-                    <Route path="/project/:id/update" component={UpdateProject}/>
+                    <Route path="project/:projectCode" component={Project}/>
+                    <Route path="project/:projectCode/update" component={UpdateProject}/>
 
                     <Route path="newTeam" component={NewTeamPage}/>
                     <Route path="searchTeams" component={SearchTeamsPage} />
@@ -51,7 +49,8 @@ export default class AppRoutes extends Component {
                     <Route path="newResource" component={NewResourcePage} />
                     <Route path="searchResources" component={SearchResourcesPage} />
                     <Route path="resourceSearchResults" component={ResourceSearchResults} />
-                    <Route path="resource/:id" component={ResourcePage}/>
+                    <Route path="resource/:resourceName" component={ResourcePage}/>
+                    <Route path="resource/:resourceName/update" component={UpdateResourcePage}/>
                 </Route>
 
                 <Route path="/login" component={LoginPage}/>
