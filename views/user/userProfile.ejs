@@ -9,6 +9,7 @@
     <script src="/jquery/jquery.min.js"></script>
     <script src="/js/bootstrap.min.js"></script>
 </head>
+
 <body>
 <% include ../templates/header.ejs %>
 <!--TODO change user profile information to display actual information.-->
@@ -16,21 +17,25 @@
     <div class="panel panel-default">
         <div class="panel-heading text-cente"><h1>User Profile</h1></div>
         <div class="panel-body">
-            <p><strong>Username:</strong></p>
-            <p><%= name %></p>
-            <p><strong>Email:</strong></p>
-            <p><%= email %></p>
-            <p><strong>Slack Handle:</strong></p>
-            <p><%= slack %></p>
+            <div class="media">
+                <div class="media-left media-top">
+                    <img src="/image/avatar.jpg" class="img-circle" style="width:150px">
+                </div>
+                <div class="media-body">
 
-            <a href="/user/editProfile" class="btn btn-success btn-lg btn-block">
-                Change Password and Edit Details
-            </a>
-
+                    <p><strong>Username:</strong></p>
+                    <p><%= name %></p>
+                    <p><strong>Email:</strong></p>
+                    <p><%= email %></p>
+                    <p><strong>Slack Handle:</strong></p>
+                    <p><%= slack %></p>
+                </div>
+                <a href="/user/editProfile" class="btn btn-success btn-lg btn-block" alt="avatar">
+                    Change Password and Edit Details
+                </a>
+            </div>
         </div>
-
     </div>
-
 </div>
 </body>
 </html>
