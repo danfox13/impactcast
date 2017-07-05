@@ -26,6 +26,11 @@ example.save(function(err){
     }
 });
 
+//view page for adding users
+exports.viewAddUser = function(req, res){
+    res.render('user/addUser', {title: "Add User"});
+}
+
 //Add a new user to the database
 exports.addUser = function(req, res){
     var email = req.body.email;
