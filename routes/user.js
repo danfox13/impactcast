@@ -113,6 +113,7 @@ exports.login = function(req, res){
                 console.log('pass');
                 req.session.email = email;
                 req.session.authenticated = true;
+                req.session.userID = result._id;
                 res.redirect('/home');
             }
             else {

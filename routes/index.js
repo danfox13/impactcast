@@ -23,12 +23,13 @@ app.post('/login', user.login);
 app.get('/logout', user.logout);
 app.get('/home', site.index);
 
-//user URIs
 app.get('/failedLogin', site.failedLogin);
+app.post('/changePassword', user.changePassword);
+
+//user URIs
 app.get('/user/addUser', user.viewAddUser);
 app.post('/user/addUser', user.addUser);
 app.get('/user/userProfile', user.viewUserProfile);
-app.post('/user/changePassword', user.changePassword);
 app.get('/user/editProfile', user.viewEditProfile);
 
 //Project URIs

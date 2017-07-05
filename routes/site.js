@@ -31,7 +31,7 @@ exports.index = function(req, res){
             newItems: newItems,
             readyToImpact: readyToImpact,
             readyToForecast: readyToForecast,
-            rejectedImpacts: rejectedImpacts
+            rejectedImpacts: rejectedImpacts,
         });
     }, 1000);
 };
