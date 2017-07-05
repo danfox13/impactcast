@@ -37,39 +37,34 @@ exports.addUser = function(req, res){
 
 exports.login = function(req, res){
 
-    //console.log("Logging in...");
-    var example = new user({
-        email: 'dummy@test.com',
-        password: bcrypt.hashSync('pass123', 10),
-    })
-    example.save(function(err){
-        if(err){
-            console.log(err);
-        }
-    });
+    // var example = new user({
+    //     email: 'dummy@test.com',
+    //     password: bcrypt.hashSync('pass123', 10),
+    // })
+    // example.save(function(err){
+    //     if(err){
+    //         console.log(err);
+    //     }
+    // });
+    //
+    // var example = new user({
+    //     email: 'dummy2@test.com',
+    //     password: bcrypt.hashSync('password', 10),
+    // })
+    // example.save(function(err){
+    //     if(err){
+    //         console.log(err);
+    //     }
+    // });
 
-    var example = new user({
-        email: 'dummy2@test.com',
-        password: bcrypt.hashSync('password', 10),
-    })
-    example.save(function(err){
-        if(err){
-            console.log(err);
-        }
-    });
-
-    //console.log("Added example");
     let hash;
     var password = req.body.pwd;
     user.findOne({
         email: req.body.email,
     }).then(function (results) {
-        //console.log("results = " + results);
         hash = results.password;
 
-/*        console.log("Checking password = " + password
-            + " (hash of " + bcrypt.hashSync(password, 10)
-            + ") against hash = " + hash);*/
+        //compare the hash in the collection to the hash of the presented password
         if(hash !== undefined && password !== undefined
             && bcrypt.compareSync(password, hash)){
             console.log('pass');
