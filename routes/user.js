@@ -30,7 +30,7 @@ user.find({
         var example = new user({
             name: 'admin',
             email: 'TESTONLY_admin@test.com',
-            slack: 'AHandle',
+            slack: '@admintest',
             password: bcrypt.hashSync('password', SALT_FACTOR),
         })
         example.save(function(err){
