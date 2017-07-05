@@ -15,27 +15,55 @@
 <!--TODO change user profile information to display actual information.-->
 <div class="container">
     <div class="panel panel-default">
-        <div class="panel-heading text-cente"><h1>User Profile</h1></div>
+        <div class="panel-heading text-cente"><h1>User Profile <em><%= name %></em></h1></div>
         <div class="panel-body">
             <div class="media">
                 <div class="media-left media-top">
                     <img src="/image/avatar.jpg" class="img-circle" style="width:150px">
                 </div>
                 <div class="media-body">
+                    <div class="row">
+                        <span>
+                            <p><strong>Username:</strong></p>
+                            <p><%= name %></p>
+                            <p><strong>Email:</strong></p>
+                            <p><%= email %></p>
+                            <p><img src="/image/slackLogo.svg" class="img-circle" style="width:19px">
+                                <strong>Slack Handle:</strong></p>
+                            <p><%= slack %></p>
+                        </span>
 
-                    <p><strong>Username:</strong></p>
-                    <p><%= name %></p>
-                    <p><strong>Email:</strong></p>
-                    <p><%= email %></p>
-                    <p><strong>Slack Handle:</strong></p>
-                    <p><%= slack %></p>
+
+                        <span>
+                            <a href="#demo" class="btn btn-success" data-toggle="collapse">Change Password</a>
+                            <div id="demo" class="collapse">
+                                <form action="/user/changePassword" method="post" data-toggle="validator" role="form">
+                                    <div class="form-group">
+                                        <label>Old Password:</label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon">T</span>
+                                            <input type="password" class="form-control" id="oldPassword" name="oldPassword">
+                                        </div>
+                                        <label>New Password:</label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon">T</span>
+                                            <input type="password" class="form-control" id="newPassword" name="newPassword">
+                                        </div>
+                                        <label>Reenter New Password:</label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon">T</span>
+                                            <input type="password" class="form-control" id="newPasswordCheck" name="newPasswordCheck">
+                                        </div>
+                                        <p></p>
+                                        <input type="submit" value="submit change" class="btn btn-success btn-m btn-black">
+                                    </div>
+                                </form>
+                            </div>
+                        </span>
+                    </div>
                 </div>
-                <a href="/user/editProfile" class="btn btn-success btn-lg btn-block" alt="avatar">
-                    Change Password and Edit Details
-                </a>
             </div>
         </div>
     </div>
-</div>
 </body>
 </html>
