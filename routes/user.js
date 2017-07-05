@@ -47,6 +47,13 @@ exports.changePassword = function(req, res){
     var newPass = req.body.newPassword;
     var newPassCheck = req.body.newPasswordCheck;
     var email = req.session.email;
+
+    console.log("CHANGING PASSWORD =======================================\n" +
+        "Email = " + email +
+        "\nOld Password = " + req.body.oldPassword +
+        "\nNew Password = " + newPass +
+        "\nCheck = " + newPassCheck);
+
     if(newPass && newPassCheck &&
         newPass === newPassCheck){
 
@@ -60,6 +67,8 @@ exports.changePassword = function(req, res){
                      var password = req.body.oldPassword;
                      if(hash && password &&
                      bcrypt.compareSync(password, hash)){
+                            console.log("PASSWORDS MATCH------------------------------\n" +
+                                "SAVING NEW PASSWORD HASH-----------------------------");
                              results.password = bcrypt.hashSync(newPass, SALT_FACTOR);
                          }
                      }
