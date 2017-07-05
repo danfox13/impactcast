@@ -12,11 +12,11 @@ export default class CreateTeam extends Component {
                     <form action="/newTeam" method="post" data-toggle="validator" role="form">
 
                         <div className="form-group has-feedback">
-                            <label htmlFor="projectName" className="control-label">Team Name:</label>
+                            <label htmlFor="teamName" className="control-label">Team Name:</label>
 
                             <div className="input-group">
                                 <span className="input-group-addon">T</span>
-                                <input type="text" className="form-control" id="projectName" name="projectName"
+                                <input type="text" className="form-control" id="teamName" name="teamName"
                                        required/>
                             </div>
                             <span className="glyphicon form-control-feedback" aria-hidden="true"/>

@@ -14,10 +14,10 @@ export default class Project extends Component
 			<div>
 				<ProjectDetails
 					projectTitle="Banking System Upgrade"
-					projectCode="BANK"
+					projectCode={this.props.params.id}
 				/>
 				<ChangeItems
-					projectCode="BANK"
+					projectCode={this.props.params.id}
 					changeItems={[
 						{
 							title: "Network",

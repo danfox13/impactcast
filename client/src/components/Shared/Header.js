@@ -31,7 +31,7 @@ export default class Header extends Component {
                         </NavDropdown>
                     </Nav>
                     <Nav pullRight>
-                        <NavItem eventKey={1} href="#"><span className="glyphicon glyphicon-log-in"/> Logout</NavItem>
+                        <NavItem eventKey={1} href="/login"><span className="glyphicon glyphicon-log-in"/> Logout</NavItem>
                     </Nav>
                 </Navbar.Collapse>
             </Navbar>
