@@ -240,7 +240,7 @@ exports.findResource = function (req, res) {
 //Load the search form
 exports.viewFindTeamMember = function (req, res) {
     res.render('resource/addTeamMemberResourceSearch', {
-        title: 'ImpactCast - Add a Team Member',
+        title: 'ImpactCast - Add a TeamPage Member',
         heading: 'Find a resource to add to ' + req.params.teamName,
         teamName: req.params.teamName
     });
@@ -258,7 +258,7 @@ exports.findTeamMember = function (req, res) {
         role: {$regex: "(?i).*" + req.body.role + ".*"}
     }).then(function (results) {
         res.render('resource/addTeamMemberResourceSearchResults', {
-            title: 'ImpactCast - Add a Team Member',
+            title: 'ImpactCast - Add a TeamPage Member',
             heading: 'Find a resource to add to ' + req.params.teamName,
             teamName: req.params.teamName,
             resources: results
