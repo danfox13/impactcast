@@ -1,7 +1,3 @@
-// //Add a new user to database
-// exports.newUser = function(email, password, name, slack){
-//
-// }
 var bcrypt = require('bcrypt');
 var mongoose = require('mongoose');
 var globals = require('../globals');
@@ -48,9 +44,10 @@ exports.addUser = function(req, res){
 exports.login = function(req, res){
 
     let hash;
+    var email = req.body.email;
     var password = req.body.pwd;
     user.findOne({
-        email: req.body.email,
+        email: email,
     }).then(function (results) {
         hash = results.password;
 
@@ -58,6 +55,7 @@ exports.login = function(req, res){
         if(hash !== undefined && password !== undefined
             && bcrypt.compareSync(password, hash)){
             console.log('pass');
+            req.session.email = email,
             req.session.authenticated = true;
             res.redirect('/home');
         }
