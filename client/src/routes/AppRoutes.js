@@ -11,7 +11,7 @@ import NewProjectPage from '../containers/Project/NewProjectPage';
 import SearchProjectsAndItems from '../containers/Project/SearchProjectsAndItems';
 import ProjectSearchResults from '../containers/Project/ProjectSearchResultsPage';
 import Project from '../containers/Project/ProjectPage';
-import UpdateProject from '../containers/Project/UpdateProjectPage';
+import UpdateProjectPage from '../containers/Project/UpdateProjectPage';
 
 // Team Route Components
 import NewTeamPage from '../containers/Team/NewTeamPage';
