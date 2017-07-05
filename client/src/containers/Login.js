@@ -29,13 +29,13 @@ export default function Login(props)
 				<form>
 					<Row>
 						<Col sm={6}>
-							<FormGroup controlID="email">
+							<FormGroup controlId="email">
 								<ControlLabel>E-mail address:</ControlLabel>
 								<FormControl type="text"/>
 							</FormGroup>
 						</Col>
 						<Col sm={6}>
-							<FormGroup controlID="pwd">
+							<FormGroup controlId="pwd">
 								<ControlLabel>Password:</ControlLabel>
 								<FormControl type="password"/>
 							</FormGroup>

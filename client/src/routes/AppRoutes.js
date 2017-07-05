@@ -11,6 +11,7 @@ import NewProjectPage from '../containers/Project/NewProjectPage';
 import SearchProjectsAndItems from '../containers/Project/SearchProjectsAndItems';
 import ProjectSearchResults from '../containers/Project/ProjectSearchResultsPage';
 import Project from '../containers/Project/Project';
+import UpdateProject from '../containers/Project/UpdateProject';
 
 // Team Route Components
 import NewTeamPage from '../containers/Team/NewTeamPage';
@@ -40,6 +41,7 @@ export default class AppRoutes extends Component {
                     <Route path="/searchProjects" component={SearchProjectsAndItems} />
                     <Route path="/projectSearchResults" component={ProjectSearchResults}/>
                     <Route path="/project/:id" component={Project}/>
+                    <Route path="/project/:id/update" component={UpdateProject}/>
 
                     <Route path="newTeam" component={NewTeamPage}/>
                     <Route path="searchTeams" component={SearchTeamsPage} />
