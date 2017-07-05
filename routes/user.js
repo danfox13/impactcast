@@ -104,18 +104,23 @@ exports.login = function(req, res){
     user.findOne({
         email: email,
     }).then(function (result) {
-        hash = result.password;
+        if(result) {
+            hash = result.password;
 
-        //compare the hash in the collection to the hash of the presented password
-        if(hash && password
-            && bcrypt.compareSync(password, hash)){
-            console.log('pass');
-            req.session.email = email;
-            req.session.authenticated = true;
-            res.redirect('/home');
+            //compare the hash in the collection to the hash of the presented password
+            if (hash && password
+                && bcrypt.compareSync(password, hash)) {
+                console.log('pass');
+                req.session.email = email;
+                req.session.authenticated = true;
+                res.redirect('/home');
+            }
+            else {
+                console.log(req.body.email + ' fail ' + password);
+                res.redirect('/failedLogin');
+            }
         }
         else{
-            console.log(req.body.email + ' fail ' + password);
             res.redirect('/failedLogin');
         }
     });
