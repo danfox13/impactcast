@@ -1,10 +1,48 @@
 /**
- * Created by GWOLVERS on 28/06/2017.
+ * @author - Greg Wolverson
  */
 import React, {Component} from 'react';
 
-export default class TeamMembers extends Component {
+class DataRow extends Component {
     render() {
+        return (
+            <tr>
+                <td><a href={'/resource/' + this.props.teamMember._id} className="btn btn-success"
+                       role="button">View</a>
+                </td>
+                <td>{this.props.teamMember.resourceName}</td>
+                <td>{this.props.teamMember.role}</td>
+                <td>
+                    <a href={'/team/' + this.props.team.teamName + '/remove/' + this.props.teamMember._id}
+                       className="btn btn-danger btn-block"
+                       role="button">Remove</a>
+                </td>
+            </tr>
+        )
+    }
+}
+
+class TeamMembers extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            team: {},
+            teamMembers: []
+        };
+    }
+
+    componentWillReceiveProps(nextProps) {
+        this.setState({
+            team: nextProps.team,
+            teamMembers: nextProps.team.teamMembers
+        });
+    }
+
+    render() {
+        let dataRows = this.state.teamMembers.map(function (teamMember) {
+            return <DataRow key={teamMember._id} dataItem={teamMember}/>
+        });
+
         return (
             <div className="row">
                 <div className="col-sm-12">
@@ -24,23 +62,14 @@ export default class TeamMembers extends Component {
                                         </thead>
                                         <tbody>
                                         <tr>
-                                            <td>
-                                                <a href="#" className="btn btn-success btn-block"
-                                                   role="button">View</a>
-                                            </td>
-                                            <td>Resource 1</td>
-                                            <td>Super Resource</td>
-                                            <td>
-                                                <a href="#" className="btn btn-danger btn-block"
-                                                   role="button">Remove</a>
-                                            </td>
+                                            {dataRows}
                                         </tr>
                                         <tr>
                                             <td></td>
                                             <td></td>
                                             <td></td>
                                             <td>
-                                                <a href="#" className="btn btn-success btn-block" role="button">Add</a>
+                                                <a href={'/team/' + this.state.team.teamName + '/addTeamMember'} className="btn btn-success btn-block" role="button">Add</a>
                                             </td>
                                         </tr>
                                         </tbody>
@@ -54,3 +83,5 @@ export default class TeamMembers extends Component {
         )
     }
 }
+
+module.exports = TeamMembers;

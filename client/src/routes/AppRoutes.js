@@ -33,20 +33,23 @@ export default class AppRoutes extends Component {
             <Router history={browserHistory} >
                 <Route path="/" component={App}>
                     <IndexRoute component={HomePage} />
+                    <Route path="newProject" component={NewProjectPage}/>
+                    <Route path="searchProjects" component={SearchProjectsAndItems} />
+                    <Route path="projectSearchResults" component={ProjectSearchResults}/>
                     <Route path="/newProject" component={NewProjectPage}/>
                     <Route path="/searchProjects" component={SearchProjectsAndItems} />
                     <Route path="/projectSearchResults" component={ProjectSearchResults}/>
                     <Route path="/project/:id" component={Project}/>
 
-                    <Route path="/newTeam" component={NewTeamPage}/>
-                    <Route path="/searchTeams" component={SearchTeamsPage} />
-                    <Route path="/teamSearchResults" component={TeamSearchResults}/>
-                    <Route path="/team" component={TeamPage}/>
+                    <Route path="newTeam" component={NewTeamPage}/>
+                    <Route path="searchTeams" component={SearchTeamsPage} />
+                    <Route path="teamSearchResults" component={TeamSearchResults}/>
+                    <Route path="team/:teamName" component={TeamPage}/>
 
-                    <Route path="/newResource" component={NewResourcePage} />
-                    <Route path="/searchResources" component={SearchResourcesPage} />
-                    <Route path="/resourceSearchResults" component={ResourceSearchResults} />
-                    <Route path="/resource/:id" component={ResourcePage}/>
+                    <Route path="newResource" component={NewResourcePage} />
+                    <Route path="searchResources" component={SearchResourcesPage} />
+                    <Route path="resourceSearchResults" component={ResourceSearchResults} />
+                    <Route path="resource/:id" component={ResourcePage}/>
                 </Route>
 
                 <Route path="/login" component={LoginPage}/>
