@@ -20,6 +20,16 @@ const SALT_FACTOR = 10;
 
 var user = mongoose.model('user', userSchema);
 
+var example = new user({
+    email: 'admin@test.com',
+    password: bcrypt.hashSync('password', SALT_FACTOR),
+})
+example.save(function(err){
+    if(err){
+        console.log(err);
+    }
+});
+
 //Add a new user to the database
 exports.addUser = function(req, res){
     var email = req.body.email;
@@ -36,26 +46,6 @@ exports.addUser = function(req, res){
 }
 
 exports.login = function(req, res){
-
-    // var example = new user({
-    //     email: 'dummy@test.com',
-    //     password: bcrypt.hashSync('pass123', 10),
-    // })
-    // example.save(function(err){
-    //     if(err){
-    //         console.log(err);
-    //     }
-    // });
-    //
-    // var example = new user({
-    //     email: 'dummy2@test.com',
-    //     password: bcrypt.hashSync('password', 10),
-    // })
-    // example.save(function(err){
-    //     if(err){
-    //         console.log(err);
-    //     }
-    // });
 
     let hash;
     var password = req.body.pwd;
