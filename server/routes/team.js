@@ -14,83 +14,83 @@ var teamSchema = new Schema({
 
 var team = mongoose.model('team', teamSchema);
 
+mongoose.Promise = Promise;
 
 //Load the new project form
 exports.newTeam = function (req, res) {
-    res.render('team/newTeam', {title: 'ImpactCast - New Team', heading: 'Create a new team'});
+    res.render('team/newTeam', {title: 'ImpactCast - New TeamPage', heading: 'Create a new team'});
 };
 
 
 //Submit the new team form
-exports.addNewTeam = function (req, res) {
+exports.addNewTeam = function (teamName, callback) {
 
     var data = new team({
-        teamName: req.body.teamName
+        teamName: teamName
     });
     data.save();
 
-    res.redirect('/team/' + req.body.teamName);
+    callback();
 };
 
-
-//Load the project info page
-exports.view = function (req, res) {
+//Load the team info page
+exports.view = function (teamName, callback) {
 
     var teamForecast = [];
     var now = new Date();
-
+    var newTeam = {};
 
     team.findOne({
-        teamName: req.params.teamName
-    }).populate('teamMembers').then(function (team) {
+        teamName: teamName
+    }).populate('teamMembers')
+        .then(team => {
+            newTeam = team;
+            team.teamMembers.forEach(function (teamMember) {
 
-        team.teamMembers.forEach(function (teamMember) {
+                var month = [];
+                var monthPlusOne = [];
+                var monthPlusTwo = [];
+                var monthPlusThree = [];
+                var monthPlusFour = [];
+                var monthPlusFive = [];
+                var monthPlusSix = [];
 
-            var month = [];
-            var monthPlusOne = [];
-            var monthPlusTwo = [];
-            var monthPlusThree = [];
-            var monthPlusFour = [];
-            var monthPlusFive = [];
-            var monthPlusSix = [];
+                var currentMonthWorkingDays = moment('01-' + (now.getMonth() + 1) + '-' + now.getFullYear(), 'DD-MM-YYYY').monthBusinessDays().length;
+                var monthPlusOneWorkingDays = moment('01-' + (now.getMonth() + 2) + '-' + now.getFullYear(), 'DD-MM-YYYY').monthBusinessDays().length;
+                var monthPlusTwoWorkingDays = moment('01-' + (now.getMonth() + 3) + '-' + now.getFullYear(), 'DD-MM-YYYY').monthBusinessDays().length;
+                var monthPlusThreeWorkingDays = moment('01-' + (now.getMonth() + 4) + '-' + now.getFullYear(), 'DD-MM-YYYY').monthBusinessDays().length;
+                var monthPlusFourWorkingDays = moment('01-' + (now.getMonth() + 5) + '-' + now.getFullYear(), 'DD-MM-YYYY').monthBusinessDays().length;
+                var monthPlusFiveWorkingDays = moment('01-' + (now.getMonth() + 6) + '-' + now.getFullYear(), 'DD-MM-YYYY').monthBusinessDays().length;
+                var monthPlusSixWorkingDays = moment('01-' + (now.getMonth() + 7) + '-' + now.getFullYear(), 'DD-MM-YYYY').monthBusinessDays().length;
 
-            var currentMonthWorkingDays = moment('01-' + (now.getMonth() + 1) + '-' + now.getFullYear(), 'DD-MM-YYYY').monthBusinessDays().length;
-            var monthPlusOneWorkingDays = moment('01-' + (now.getMonth() + 2) + '-' + now.getFullYear(), 'DD-MM-YYYY').monthBusinessDays().length;
-            var monthPlusTwoWorkingDays = moment('01-' + (now.getMonth() + 3) + '-' + now.getFullYear(), 'DD-MM-YYYY').monthBusinessDays().length;
-            var monthPlusThreeWorkingDays = moment('01-' + (now.getMonth() + 4) + '-' + now.getFullYear(), 'DD-MM-YYYY').monthBusinessDays().length;
-            var monthPlusFourWorkingDays = moment('01-' + (now.getMonth() + 5) + '-' + now.getFullYear(), 'DD-MM-YYYY').monthBusinessDays().length;
-            var monthPlusFiveWorkingDays = moment('01-' + (now.getMonth() + 6) + '-' + now.getFullYear(), 'DD-MM-YYYY').monthBusinessDays().length;
-            var monthPlusSixWorkingDays = moment('01-' + (now.getMonth() + 7) + '-' + now.getFullYear(), 'DD-MM-YYYY').monthBusinessDays().length;
+                project.getProjectsByResourceImpactMonth(teamMember._id, new Date(now.getFullYear(), now.getMonth(), 1), new Date(now.getFullYear(), now.getMonth() + 1, 1), function (results) {
+                    month = results;
+                });
 
-            project.getProjectsByResourceImpactMonth(teamMember._id, new Date(now.getFullYear(), now.getMonth(), 1), new Date(now.getFullYear(), now.getMonth() + 1, 1), function (results) {
-                month = results;
-            });
+                project.getProjectsByResourceImpactMonth(teamMember._id, new Date(now.getFullYear(), now.getMonth() + 1, 1), new Date(now.getFullYear(), now.getMonth() + 2, 1), function (results) {
+                    monthPlusOne = results;
+                });
 
-            project.getProjectsByResourceImpactMonth(teamMember._id, new Date(now.getFullYear(), now.getMonth() + 1, 1), new Date(now.getFullYear(), now.getMonth() + 2, 1), function (results) {
-                monthPlusOne = results;
-            });
+                project.getProjectsByResourceImpactMonth(teamMember._id, new Date(now.getFullYear(), now.getMonth() + 2, 1), new Date(now.getFullYear(), now.getMonth() + 3, 1), function (results) {
+                    monthPlusTwo = results;
+                });
 
-            project.getProjectsByResourceImpactMonth(teamMember._id, new Date(now.getFullYear(), now.getMonth() + 2, 1), new Date(now.getFullYear(), now.getMonth() + 3, 1), function (results) {
-                monthPlusTwo = results;
-            });
+                project.getProjectsByResourceImpactMonth(teamMember._id, new Date(now.getFullYear(), now.getMonth() + 3, 1), new Date(now.getFullYear(), now.getMonth() + 4, 1), function (results) {
+                    monthPlusThree = results;
+                });
 
-            project.getProjectsByResourceImpactMonth(teamMember._id, new Date(now.getFullYear(), now.getMonth() + 3, 1), new Date(now.getFullYear(), now.getMonth() + 4, 1), function (results) {
-                monthPlusThree = results;
-            });
+                project.getProjectsByResourceImpactMonth(teamMember._id, new Date(now.getFullYear(), now.getMonth() + 4, 1), new Date(now.getFullYear(), now.getMonth() + 5, 1), function (results) {
+                    monthPlusFour = results;
+                });
 
-            project.getProjectsByResourceImpactMonth(teamMember._id, new Date(now.getFullYear(), now.getMonth() + 4, 1), new Date(now.getFullYear(), now.getMonth() + 5, 1), function (results) {
-                monthPlusFour = results;
-            });
+                project.getProjectsByResourceImpactMonth(teamMember._id, new Date(now.getFullYear(), now.getMonth() + 5, 1), new Date(now.getFullYear(), now.getMonth() + 6, 1), function (results) {
+                    monthPlusFive = results;
+                });
 
-            project.getProjectsByResourceImpactMonth(teamMember._id, new Date(now.getFullYear(), now.getMonth() + 5, 1), new Date(now.getFullYear(), now.getMonth() + 6, 1), function (results) {
-                monthPlusFive = results;
-            });
+                project.getProjectsByResourceImpactMonth(teamMember._id, new Date(now.getFullYear(), now.getMonth() + 6, 1), new Date(now.getFullYear(), now.getMonth() + 7, 1), function (results) {
+                    monthPlusSix = results;
+                });
 
-            project.getProjectsByResourceImpactMonth(teamMember._id, new Date(now.getFullYear(), now.getMonth() + 6, 1), new Date(now.getFullYear(), now.getMonth() + 7, 1), function (results) {
-                monthPlusSix = results;
-            });
-
-            setTimeout(function () {
 
                 var monthCount = 0;
                 month.forEach(function (project) {
@@ -165,20 +165,19 @@ exports.view = function (req, res) {
                     monthPlusFive: monthP5Delta,
                     monthPlusSix: monthP6Delta
                 });
-            }, 1000);
-
-        });
-
-
-        setTimeout(function () {
-            res.render('team/team', {
-                title: 'ImpactCast - ' + team.teamName,
-                heading: team.teamName,
-                team: team,
-                teamForecast: teamForecast
             });
-        }, 2000);
-    })
+        })
+        .then(() => {
+            console.log("Team forecast: " + teamForecast);
+            console.log("Team: " + newTeam);
+
+            let result = {
+                team: newTeam,
+                teamForecast: teamForecast
+            };
+
+            callback(result);
+        });
 };
 
 //Update project Info
@@ -229,12 +228,11 @@ exports.delete = function (req, res) {
 
 //Load the search form
 exports.viewSearchTeams = function (req, res) {
-    res.render('team/searchTeams', {title: 'ImpactCast - Search Team', heading: 'Search Teams'});
+    res.render('team/searchTeams', {title: 'ImpactCast - Search TeamPage', heading: 'Search Teams'});
 };
 
 //Load the search results page
-exports.searchTeams = function (req, res) {
-
+exports.searchTeams = function (teamName, resourceName, callback) {
     team.aggregate([
         {$unwind: "$teamMembers"},
         {
@@ -248,8 +246,8 @@ exports.searchTeams = function (req, res) {
         {$unwind: "$teamMembers"},
         {
             $match: {
-                "teamMembers.resourceName": {$regex: "(?i).*" + req.body.resourceName + ".*"},
-                teamName: {$regex: "(?i).*" + req.body.teamName + ".*"}
+                "teamMembers.resourceName": {$regex: "(?i).*" + resourceName + ".*"},
+                teamName: {$regex: "(?i).*" + teamName + ".*"}
             }
         },
         {
@@ -261,11 +259,7 @@ exports.searchTeams = function (req, res) {
         }
 
     ]).then(function (results) {
-        res.render('team/searchTeamsResults', {
-            title: 'ImpactCast - Search Results',
-            heading: 'Search Results',
-            teams: results
-        });
+        callback(results);
     })
 };
 

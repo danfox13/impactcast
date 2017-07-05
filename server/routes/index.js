@@ -9,13 +9,63 @@ var impact = require('./impact');
 var team = require('./team');
 var resource = require('./resource');
 
-//General Site URIs
-//app.get('/', site.index);
-
-//app.get('/', site.index);
-
 app.get('/homeData', function(request, response){
     site.index(request, response);
+});
+
+// Team URI's
+app.get('/searchTeams', function (request, response) {
+    let teamName = request.query.teamName;
+    let resourceName = request.query.resourceName;
+
+    team.searchTeams(teamName, resourceName, function(results) {
+        let responseBody = {};
+
+        responseBody.results = {
+            results: results
+        };
+
+        response.setHeader('Content-Type', 'application/json');
+        response.write(JSON.stringify(responseBody));
+        response.end();
+    });
+});
+
+app.post('/newTeam', function(request, response) {
+
+    let teamName = request.body.teamName;
+
+    let responseBody = {};
+
+    team.addNewTeam(teamName, function(results) {
+
+        responseBody.result = {
+            teamName: teamName
+        };
+
+        response.setHeader('Content-Type', 'application/json');
+        response.statusCode = 200;
+        response.write(JSON.stringify(responseBody));
+        response.end();
+    });
+});
+
+app.get('/team/:teamName', function (request, response) {
+
+    let teamName = request.params.teamName;
+
+    team.view(teamName, function(result) {
+        let responseBody = {};
+
+        responseBody.result = {
+            team: result.team,
+            teamForecast: result.forecast
+        };
+
+        response.setHeader('Content-Type', 'application/json');
+        response.write(JSON.stringify(responseBody));
+        response.end();
+    });
 });
 
 //Project URIs
@@ -50,12 +100,12 @@ app.post('/project/:projectCode/:changeItem/:resourceId/addImpact', impact.add);
 app.get('/project/:projectCode/:changeItem/:resourceId/:impactId/delete', impact.delete);
 
 //Team URIs
-app.get('/newTeam', team.newTeam);
+//app.get('/newTeam', team.newTeam);
 app.post('/newTeam', team.addNewTeam);
-app.get('/searchTeams', team.viewSearchTeams);
-app.post('/searchTeams', team.searchTeams);
-app.get('/team/:teamName', team.view);
-app.get('/team/:teamName/update', team.viewUpdate);
+//app.get('/searchTeams', team.viewSearchTeams);
+//app.post('/searchTeams', team.searchTeams);
+//app.get('/team/:teamName', team.view);
+//app.get('/team/:teamName/update', team.viewUpdate);
 app.post('/team/:teamName/update', team.update);
 app.get('/team/:teamName/delete', team.delete);
 app.get('/team/:teamName/addToTeam/:resourceId', team.addTeamMember);

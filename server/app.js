@@ -32,20 +32,16 @@ app.listen(app.get('port'), () => {
 
 const index = require('./routes/index');
 
-// view engine setup
-//app.set('views', path.join(__dirname, 'views'));
-//app.set('view engine', 'ejs');
-
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use('/js', express.static(__dirname + '/node_modules/bootstrap/dist/js')); // redirect bootstrap JS
+/*app.use('/js', express.static(__dirname + '/node_modules/bootstrap/dist/js')); // redirect bootstrap JS
 app.use('/jquery', express.static(__dirname + '/node_modules/jquery/dist')); // redirect JS jQuery
 app.use('/jsvalidate', express.static(__dirname + '/node_modules/bootstrap-validator/dist')); // redirect JS Validate
 app.use('/css', express.static(__dirname + '/node_modules/bootstrap/dist/css')); // redirect CSS bootstrap
-app.use('/fonts', express.static(__dirname + '/node_modules/bootstrap/fonts')); // redirect bootstrap fonts/glyficons
+app.use('/fonts', express.static(__dirname + '/node_modules/bootstrap/fonts')); // redirect bootstrap fonts/glyficons*/
 app.use('/public', express.static(__dirname + '/public'));
 
 app.use('/', index);
