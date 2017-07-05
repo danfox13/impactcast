@@ -39,7 +39,7 @@ export default class AppRoutes extends Component {
                     <Route path="searchProjects" component={SearchProjectsAndItems} />
                     <Route path="projectSearchResults" component={ProjectSearchResults}/>
                     <Route path="project/:projectCode" component={Project}/>
-                    <Route path="project/:projectCode/update" component={UpdateProject}/>
+                    <Route path="project/:projectCode/update" component={UpdateProjectPage}/>
 
                     <Route path="newTeam" component={NewTeamPage}/>
                     <Route path="searchTeams" component={SearchTeamsPage} />
