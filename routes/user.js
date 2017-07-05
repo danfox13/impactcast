@@ -7,7 +7,7 @@ exports.login = function(req, res){
     /**
      * Put check credentials here.
      */
-
+cd 
     //TODO Hardcoded user/pass
     if (req.body.email === 'user@test.com' && req.body.pwd === 'pass') {
         console.log('pass');
