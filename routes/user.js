@@ -16,21 +16,32 @@ const SALT_FACTOR = 10;
 
 var user = mongoose.model('user', userSchema);
 
-var example = new user({
-    name: 'admin',
-    email: 'admin2@test.com',
-    slack: 'AHandle',
-    password: bcrypt.hashSync('password', SALT_FACTOR),
+console.log("Depopulating DB");
+user.find({
+    email: {$regex: "TESTONLY.*"}
 })
-example.save(function(err){
-    if(err){
-        console.log(err);
-    }
-});
+    .then(function(results){
+        results.forEach(entry =>
+        {console.log("Removed:\n" + entry);
+            entry.remove();});
+    })
+    .then(function(){
+        console.log("Populating DB");
+        var example = new user({
+            name: 'admin',
+            email: 'TESTONLY_admin@test.com',
+            slack: 'AHandle',
+            password: bcrypt.hashSync('password', SALT_FACTOR),
+        })
+        example.save(function(err){
+            console.log(err?"Error: " + err : "Added:\n" + example);
+
+        });
+    });
 
 //view page for adding users
 exports.viewAddUser = function(req, res){
-    res.render('user/addUser', {title: "Add User"});
+    res.render('user/addUser', {title: "Add User", heading: "Add User To System"});
 }
 
 //Add a new user to the database
@@ -105,7 +116,7 @@ exports.login = function(req, res){
         }
         else{
             console.log(req.body.email + ' fail ' + password);
-            res.redirect('/');
+            res.redirect('/failedLogin');
         }
     });
 };
@@ -148,5 +159,4 @@ exports.logout = function(req, res){
 
     delete req.session.authenticated;
     res.redirect('/');
-
 };

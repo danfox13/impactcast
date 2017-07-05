@@ -22,21 +22,19 @@
         </div>
     </div>
 
-
     <div class="container">
         <form method="post" action="/login">
             <div class="row">
-
                 <div class="col-sm-6">
                     <div class="form-group">
                         <label for="email">Email address:</label>
-                        <input type="email" class="form-control" id="email" name="email">
+                        <input type="email" class="form-control" id="email" name="email" required>
                     </div>
                 </div>
                 <div class="col-sm-6">
                     <div class="form-group">
                         <label for="pwd">Password:</label>
-                        <input type="password" class="form-control" id="pwd" name="pwd">
+                        <input type="password" class="form-control" id="pwd" name="pwd" required>
                     </div>
                 </div>
             </div>
@@ -46,6 +44,22 @@
                 </div>
             </div>
         </form>
+        <% if(failedLogin){ %>
+        <div class="row" style="margin-top:10px;">
+            <div class="col-sm-3"></div>
+            <div class="col-sm-6">
+                <div class="alert alert-danger alert-dismissible fade in" role="alert">
+                    <button type="button" class="close"
+                       data-dismiss="alert" aria-label="close">
+                        <span aria-hidden="true" style="color: darkslategrey">&times;</span></button>
+                    <strong>Incorrect Login Details!</strong> Have you
+                    <a href="/forgottenPassword"
+                    class="alert-link">forgotten your password?</a>
+                </div>
+            </div>
+            <div class="col-sm-3"></div>
+        </div>
+        <% } %>
     </div>
 
 

@@ -38,6 +38,14 @@ exports.index = function(req, res){
 
 exports.login = function(req, res){
     res.render('login', {
-        title: 'ImpactCast - Login'
+        title: 'ImpactCast - Login',
+        failedLogin: false
+    });
+};
+
+exports.failedLogin = function(req, res){
+    res.render('login', {
+        title: 'ImpactCast - Login',
+        failedLogin: true
     });
 };
