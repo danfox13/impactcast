@@ -17,7 +17,9 @@ const SALT_FACTOR = 10;
 var user = mongoose.model('user', userSchema);
 
 var example = new user({
-    email: 'admin@test.com',
+    name: 'admin',
+    email: 'admin2@test.com',
+    slack: 'AHandle',
     password: bcrypt.hashSync('password', SALT_FACTOR),
 })
 example.save(function(err){
@@ -105,9 +107,28 @@ exports.login = function(req, res){
 
 //Link to viewUserProfile
 exports.viewUserProfile = function(req, res){
-    res.render('user/userProfile',
-        {title: 'User Profile',
-        email: req.session.email});
+    var email = req.session.email;
+
+    user.findOne({
+        email: email,
+    }).then(
+        function(result){
+            console.log(result);
+            var name = result.name;
+            var slack = result.slack;
+
+            res.render('user/userProfile',
+                {title: 'User Profile',
+                    email: email,
+                    name: name,
+                    slack: slack});
+        }
+    ).catch(
+        function(error){
+            console.log(error);
+        }
+    );
+
 }
 
 //TODO Get information about the account from the request object.

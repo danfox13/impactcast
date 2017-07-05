@@ -15,46 +15,59 @@
     <div class="panel panel-default">
         <div class="panel-heading text-cente"><h1>Edit Profile</h1></div>
 
-        <form>
-            <div class="form-group">
-                <label>Username:</label>
-                <div class="input-group">
-                    <span class="input-group-addon">T</span>
-                    <input type="text" class="form-control" id="username" name="username">
-                </div>
-                <input type="submit" value="edit" class="btn btn-success btn-m btn-black">
-            </div>
+        <div class="panel-body">
 
-        </form>
-        <form action="/user/changePassword" method="post" data-toggle="validator" role="form">
-            <div class="form-group">
-                <label>Old Password:</label>
-                <div class="input-group">
-                    <span class="input-group-addon">T</span>
-                    <input type="password" class="form-control" id="oldPassword" name="oldPassword">
+            <form>
+                <div class="form-group">
+                    <h3>Change Username:</h3>
+                    <label>Username:</label>
+                    <div class="input-group">
+                        <span class="input-group-addon">T</span>
+                        <input type="text" class="form-control" id="username" name="username">
+                    </div>
+                    <p></p>
+                    <input type="submit" value="submit change" class="btn btn-success btn-m btn-black">
                 </div>
-                <label>New Password:</label>
-                <div class="input-group">
-                    <span class="input-group-addon">T</span>
-                    <input type="password" class="form-control" id="newPassword" name="newPassword">
-                </div>
-                <label>Reenter New Password:</label>
-                <div class="input-group">
-                    <span class="input-group-addon">T</span>
-                    <input type="password" class="form-control" id="newPasswordCheck" name="newPasswordCheck">
-                </div>
-                <input type="submit" value="edit" class="btn btn-success btn-m btn-black">
-            </div>
-        </form>
-        <form>
-            <div class="form-group">
-                <label>Slack Handle</label>
-                <div class="input-group">
-                    <span class="input-group-addon">T</span>
-                </div>
-            </div>
-        </form>
 
+            </form>
+
+            <form action="/user/changePassword" method="post" data-toggle="validator" role="form">
+                <div class="form-group">
+                    <h3>Change Password:</h3>
+                    <label>Old Password:</label>
+                    <div class="input-group">
+                        <span class="input-group-addon">T</span>
+                        <input type="password" class="form-control" id="oldPassword" name="oldPassword">
+                    </div>
+                    <label>New Password:</label>
+                    <div class="input-group">
+                        <span class="input-group-addon">T</span>
+                        <input type="password" class="form-control" id="newPassword" name="newPassword">
+                    </div>
+                    <label>Reenter New Password:</label>
+                    <div class="input-group">
+                        <span class="input-group-addon">T</span>
+                        <input type="password" class="form-control" id="newPasswordCheck" name="newPasswordCheck">
+                    </div>
+                    <p></p>
+                    <input type="submit" value="submit change" class="btn btn-success btn-m btn-black">
+                </div>
+            </form>
+
+
+            <form>
+                <div class="form-group">
+                    <h3>Change Slack Handle:</h3>
+                    <label>Slack Handle</label>
+                    <div class="input-group">
+                        <span class="input-group-addon">T</span>
+                        <input type="text" class="form-control" id="newSlackHandle" name="newSlackHandle">
+                    </div>
+                    <p></p>
+                <input type="submit" value="submit change" class="btn btn-success btn-m btn-black">
+                </div>
+            </form>
+        </div>
     </div>
 
 </div>
