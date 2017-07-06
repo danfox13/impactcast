@@ -2,15 +2,13 @@
  * @author: Artur Komoter
  */
 
-import React, {Component} from "react";
-import {Button, Col, Grid, Panel, Row} from "react-bootstrap";
+import React, {Component} from 'react';
+import {Button, Col, Grid, Panel, Row} from 'react-bootstrap';
 
-import DeleteModal from "../Shared/DeleteModal";
+import DeleteModal from '../Shared/DeleteModal';
 
-export default class ChangeItemDetails extends Component
-{
-	render()
-	{
+export default class ChangeItemDetails extends Component {
+	render() {
 		return (
 			<Panel header={<div className="text-center">Placeholder</div>}>
 				<Grid>

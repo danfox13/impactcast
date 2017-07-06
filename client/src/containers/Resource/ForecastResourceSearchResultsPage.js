@@ -1,10 +1,11 @@
 /**
- * @author - Greg Wolverson
+ * @author: Artur Komoter
  */
-import React, {Component} from 'react';
-import ResourceSearchResults from '../../components/Resource/ResourceSearchResults';
 
-export default class ResourceSearchResultsPage extends Component {
+import React, {Component} from 'react';
+import ForecastResourceSearchResults from '../../components/Resource/ForecastResourceSearchResults';
+
+export default class ForecastResourceSearchResultsPage extends Component {
 
 	constructor() {
 		super();
@@ -38,7 +39,7 @@ export default class ResourceSearchResultsPage extends Component {
 	render() {
 		return (
 			<div>
-				<ResourceSearchResults searchResults={this.state.results}/>
+				<ForecastResourceSearchResults searchResults={this.state.results}/>
 			</div>
 		)
 	}

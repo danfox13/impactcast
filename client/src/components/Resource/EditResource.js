@@ -5,10 +5,8 @@
 import React, {Component} from 'react';
 import {Button, ControlLabel, FormControl, FormGroup, InputGroup, Panel} from 'react-bootstrap';
 
-export default class EditResource extends Component
-{
-	constructor(props)
-	{
+export default class EditResource extends Component {
+	constructor(props) {
 		super(props);
 		this.state = {
 			resourceName: this.props.resourceName,
@@ -31,8 +29,7 @@ export default class EditResource extends Component
 		});
 	}
 
-	render()
-	{
+	render() {
 		return (
 			<Panel>
 				<h1 className="text-center">Edit Resource</h1>

@@ -5,10 +5,8 @@
 import React, {Component} from 'react';
 import {Button, Panel, Table} from 'react-bootstrap';
 
-export default class ChangeItems extends Component
-{
-	render()
-	{
+export default class ChangeItems extends Component {
+	render() {
 		return (
 			<Panel header={<h3 className="text-center">Attached Change Items</h3>}>
 				<Table striped hover responsive>

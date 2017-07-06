@@ -3,17 +3,9 @@
  */
 
 import React from 'react';
-import {Button,
-		Col,
-		ControlLabel,
-		FormControl,
-		FormGroup,
-		Grid,
-		Jumbotron,
-		Row} from 'react-bootstrap';
+import {Button, Col, ControlLabel, FormControl, FormGroup, Grid, Jumbotron, Row} from 'react-bootstrap';
 
-export default function Login(props)
-{
+export default function Login(props) {
 	return (
 		<div>
 			<br/>

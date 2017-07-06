@@ -4,10 +4,10 @@
 
 import React, {Component} from 'react';
 
-export default class SearchResources extends Component {
+export default class ForecastResourceSearch extends Component {
 
-	constructor() {
-		super();
+	constructor(props) {
+		super(props);
 		this.state = {
 			resourceName: '',
 			employeeId: '',
@@ -32,7 +32,7 @@ export default class SearchResources extends Component {
 	render() {
 		return (
 			<div className="panel panel-default">
-				<div className="panel-heading text-center"><h1>Search Resources</h1></div>
+				<div className="panel-heading text-center"><h1>Assign a Resource</h1></div>
 				<div className="panel-body">
 					<div className="form-group">
 						<label htmlFor="resourceName">Name:</label>
@@ -60,7 +60,7 @@ export default class SearchResources extends Component {
 						       value={this.state.role} onChange={this.handleInputChange}/>
 					</div>
 
-					<a href={'/resourceSearchResults?resourceName=' + this.state.resourceName
+					<a href={'forecastResourceSearchResults?resourceName=' + this.state.resourceName
 					+ '&employeeId=' + this.state.employeeId
 					+ '&location=' + this.state.location
 					+ '&email=' + this.state.email

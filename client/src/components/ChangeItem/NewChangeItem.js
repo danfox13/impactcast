@@ -5,10 +5,8 @@
 import React, {Component} from 'react';
 import {Button, ControlLabel, FormControl, FormGroup, Glyphicon, InputGroup, Panel} from 'react-bootstrap';
 
-export default class NewChangeItem extends Component
-{
-	render()
-	{
+export default class NewChangeItem extends Component {
+	render() {
 		return (
 			<Panel header={<div className="text-center">New Change Item</div>}>
 				<form>

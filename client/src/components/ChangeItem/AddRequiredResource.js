@@ -2,13 +2,11 @@
  * @author: Artur Komoter
  */
 
-import React, { Component } from 'react';
-import { Button, ControlLabel, FormControl, FormGroup, InputGroup, Panel } from 'react-bootstrap';
+import React, {Component} from 'react';
+import {Button, ControlLabel, FormControl, FormGroup, InputGroup, Panel} from 'react-bootstrap';
 
-export default class AddRequiredResource extends Component
-{
-	render()
-	{
+export default class AddRequiredResource extends Component {
+	render() {
 		return (
 			<Panel header={<div className="text-center">Add Required Resource</div>}>
 				<form>

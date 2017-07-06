@@ -2,13 +2,11 @@
  * @author: Artur Komoter
  */
 
-import React, { Component } from 'react';
-import { Button, ControlLabel, FormControl, FormGroup, InputGroup, Panel } from 'react-bootstrap';
+import React, {Component} from 'react';
+import {Button, ControlLabel, FormControl, FormGroup, InputGroup, Panel} from 'react-bootstrap';
 
-export default class UpdateProject extends Component
-{
-	constructor(props)
-	{
+export default class UpdateProject extends Component {
+	constructor(props) {
 		super(props);
 		this.state = {
 			projectCode: this.props.projectCode,
@@ -28,8 +26,7 @@ export default class UpdateProject extends Component
 		});
 	}
 
-	render()
-	{
+	render() {
 		return (
 			<Panel>
 				<h1 className="text-center">Update Project</h1>

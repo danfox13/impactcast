@@ -2,7 +2,7 @@
  * @author: Artur Komoter
  */
 
-import React, {Component} from "react";
+import React, {Component} from 'react';
 import {
 	Button,
 	Col,
@@ -15,12 +15,10 @@ import {
 	Panel,
 	Row,
 	Table
-} from "react-bootstrap";
+} from 'react-bootstrap';
 
-export default class Impact extends Component
-{
-	render()
-	{
+export default class Impact extends Component {
+	render() {
 		return (
 			<Panel header={<div className="text-center">Impact</div>}>
 				<Grid>

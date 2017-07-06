@@ -1,16 +1,14 @@
 import React, {Component} from 'react';
 
-export default class SearchProjectAndChangeItems extends Component
-{
-	constructor()
-	{
-        super();
-        this.state = {
-        	projectCode: '',
-	        projectTitle: '',
-	        changeItemTitle: '',
-	        changeItemStatus: '',
-        };
+export default class SearchProjectAndChangeItems extends Component {
+	constructor() {
+		super();
+		this.state = {
+			projectCode: '',
+			projectTitle: '',
+			changeItemTitle: '',
+			changeItemStatus: '',
+		};
 
 		this.handleInputChange = this.handleInputChange.bind(this);
 	}
@@ -25,8 +23,7 @@ export default class SearchProjectAndChangeItems extends Component
 		});
 	}
 
-	render()
-	{
+	render() {
 		return (
 			<div className="panel panel-default">
 				<div className="panel-heading text-cente"><h1>Search Projects</h1></div>
@@ -34,7 +31,7 @@ export default class SearchProjectAndChangeItems extends Component
 					<div className="form-group">
 						<label htmlFor="projectCode">Project Code:</label>
 						<input type="text" className="form-control" id="projectCode" name="projectCode"
-								value={this.state.projectCode} onChange={this.handleInputChange}/>
+						       value={this.state.projectCode} onChange={this.handleInputChange}/>
 					</div>
 
 					<div className="form-group">
@@ -69,9 +66,9 @@ export default class SearchProjectAndChangeItems extends Component
 						</select>
 					</div>
 					<a href={'/projectSearchResults?projectCode=' + this.state.projectCode
-							+ '&projectTitle=' + this.state.projectTitle
-							+ '&changeItemTitle=' + this.state.changeItemTitle
-							+ '&changeItemStatus=' + this.state.changeItemStatus}
+					+ '&projectTitle=' + this.state.projectTitle
+					+ '&changeItemTitle=' + this.state.changeItemTitle
+					+ '&changeItemStatus=' + this.state.changeItemStatus}
 					   className="btn btn-success btn-lg btn-block" role="button">Search Projects</a>
 				</div>
 			</div>

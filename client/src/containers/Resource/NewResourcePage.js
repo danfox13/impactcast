@@ -5,11 +5,11 @@ import React, {Component} from 'react';
 import CreateResource from '../../components/Resource/CreateResource';
 
 export default class NewResourcePage extends Component {
-    render() {
-        return (
-            <div>
-                <CreateResource />
-            </div>
-        )
-    }
+	render() {
+		return (
+			<div>
+				<CreateResource />
+			</div>
+		)
+	}
 }

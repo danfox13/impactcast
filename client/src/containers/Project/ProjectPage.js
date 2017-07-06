@@ -4,10 +4,9 @@
 
 import React, {Component} from 'react';
 import ProjectDetails from '../../components/Project/ProjectDetails';
-import ChangeItems from "../../components/Project/ChangeItems";
+import ChangeItems from '../../components/Project/ChangeItems';
 
-export default class Project extends Component
-{
+export default class Project extends Component {
 	constructor() {
 		super();
 		this.state = {
@@ -34,8 +33,8 @@ export default class Project extends Component
 			})
 			.catch(err => console.log(err));
 	}
-	render()
-	{
+
+	render() {
 		return (
 			<div>
 				<ProjectDetails

@@ -1,25 +1,27 @@
+/**
+ * @author: Artur Komoter
+ */
+
 import React, {Component} from 'react';
 
 class ResultRow extends Component {
 	render() {
 		return (
 			<tr>
-				<td><a href={'/team/' + this.props.team.teamName} className="btn btn-success" role="button">View</a>
+				<td>
+					<a href="/project/:projectCode/:changeItem/:requiredResource/assign/resource._id"
+					   className="btn btn-success" role="button">Assign
+					</a>
 				</td>
-				<td>{this.props.team.teamName}</td>
-				{this.props.team.teamMembers.map(teamMember =>
-					<td key={teamMember._id}>
-						<a href={'/resource/' + teamMember._id}>
-							{teamMember.resourceName}
-						</a><br/>
-					</td>
-				)}
+				<td>Placeholder</td>
+				<td>Placeholder</td>
 			</tr>
 		)
 	}
 }
 
-class TeamSearchResults extends Component {
+export default class ResourceSearchResults extends Component {
+
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -34,10 +36,9 @@ class TeamSearchResults extends Component {
 	}
 
 	render() {
-		let resultRows = this.state.results.map(function (team) {
-			return <ResultRow key={team._id} team={team}/>
-		});
-
+		// let resultRows = this.state.results.map(function (resource) {
+		// 	return <ResultRow key={resource._id} resource={resource}/>
+		// });
 		return (
 			<div className="panel panel-default">
 				<div className="panel-heading text-cente"><h1>Search Results</h1></div>
@@ -46,13 +47,13 @@ class TeamSearchResults extends Component {
 						<table className="table table-striped table-hover">
 							<thead>
 							<tr>
-								<th>View Team</th>
-								<th>Team Name</th>
-								<th>Team Members</th>
+								<th>View Resource</th>
+								<th>Name</th>
+								<th>Job Title</th>
 							</tr>
 							</thead>
 							<tbody>
-							{resultRows}
+							<ResultRow/>
 							</tbody>
 						</table>
 					</div>
@@ -61,5 +62,3 @@ class TeamSearchResults extends Component {
 		)
 	}
 }
-
-module.exports = TeamSearchResults;

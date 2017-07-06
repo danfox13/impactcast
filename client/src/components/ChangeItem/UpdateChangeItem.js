@@ -2,14 +2,11 @@
  * @author: Artur Komoter
  */
 
-import React, { Component } from 'react';
-import { Button, ControlLabel, FormControl, FormGroup,
-		 Glyphicon, InputGroup, Panel } from 'react-bootstrap';
+import React, {Component} from 'react';
+import {Button, ControlLabel, FormControl, FormGroup, Glyphicon, InputGroup, Panel} from 'react-bootstrap';
 
-export default class UpdateChangeItem extends Component
-{
-	render()
-	{
+export default class UpdateChangeItem extends Component {
+	render() {
 		return (
 			<Panel header={<div className="text-center">Update Change Item</div>}>
 				<form>

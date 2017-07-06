@@ -2,13 +2,11 @@
  * @author: Artur Komoter
  */
 
-import React, {Component} from "react";
-import {Button, Col, Glyphicon, Modal, Row} from "react-bootstrap";
+import React, {Component} from 'react';
+import {Button, Col, Glyphicon, Modal, Row} from 'react-bootstrap';
 
-export default class DeleteModal extends Component
-{
-	constructor()
-	{
+export default class DeleteModal extends Component {
+	constructor() {
 		super();
 		this.state = {
 			modal: false
@@ -17,13 +15,11 @@ export default class DeleteModal extends Component
 		this.toggle = this.toggle.bind(this);
 	}
 
-	toggle()
-	{
+	toggle() {
 		this.setState({modal: !this.state.modal})
 	}
 
-	render()
-	{
+	render() {
 		return (
 			<div>
 				<Button bsStyle="danger" block onClick={this.toggle}>Delete</Button>

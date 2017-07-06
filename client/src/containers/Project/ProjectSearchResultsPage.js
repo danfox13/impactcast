@@ -32,9 +32,10 @@ export default class ProjectSearchResultsPage extends Component {
 			})
 			.catch(err => console.log(err));
 	}
-    render() {
-        return (
-            <ProjectSearchResults searchResults={this.state.results}/>
-        )
-    }
+
+	render() {
+		return (
+			<ProjectSearchResults searchResults={this.state.results}/>
+		)
+	}
 }
