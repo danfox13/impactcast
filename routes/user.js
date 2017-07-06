@@ -1,4 +1,6 @@
 var bcrypt = require('bcrypt');
+var crypto = require('crypto');
+var mailer = require('./mailer');
 var mongoose = require('mongoose');
 var globals = require('../globals');
 var dburl = globals.dburl.toString();
@@ -18,7 +20,7 @@ var user = mongoose.model('user', userSchema);
 
 console.log("Depopulating DB");
 user.find({
-    email: {$regex: "TESTONLY.*"}
+    email: {$regex: ".*"}
 })
     .then(function(results){
         results.forEach(entry =>
@@ -29,7 +31,7 @@ user.find({
         console.log("Populating DB");
         var example = new user({
             name: 'admin',
-            email: 'TESTONLY_admin@test.com',
+            email: 'admin@test.com',
             slack: '@admintest',
             password: bcrypt.hashSync('password', SALT_FACTOR),
         })
@@ -41,13 +43,34 @@ user.find({
 
 //view page for adding users
 exports.viewAddUser = function(req, res){
-    res.render('user/addUser', {title: "Add User", heading: "Add User To System"});
+    res.render('user/addUser',
+        {title: "Add User",
+        heading: "Add User To System",
+        failed: false,
+        success: false});
 }
 
-//Add a new user to the database
+//view page for adding users after success
+exports.addedUser = function(req, res){
+    res.render('user/addUser',
+        {title: "Add User",
+        heading: "Add User To System",
+        failed: false,
+        success: true});
+}
+
+//view page for adding users after failure
+exports.failedAddUser = function(req, res){
+    res.render('user/addUser',
+        {title: "Add User",
+            heading: "Add User To System",
+            failed: true,});
+}
+
+//Add a new user to the database and send them their password in an email
 exports.addUser = function(req, res){
     var email = req.body.email;
-    var password = req.body.pwd;
+    var password = crypto.randomBytes(20).toString('hex');
     var salt = bcrypt.genSaltSync(SALT_FACTOR);
     var hash = bcrypt.hashSync(password, salt);
 
@@ -55,8 +78,16 @@ exports.addUser = function(req, res){
         email: email,
         password: hash,
     });
-    newUser.save();
-    res.redirect('/');
+
+    newUser.save()
+    .then(function(){
+        mailer.sendEmail(email, password);
+        res.redirect('/user/addUser/added')
+    })
+        .catch(function(err){
+            console.log("Error: " + err);
+            res.redirect('/user/addUser/failed');
+        });
 }
 
 //Modify a user's password

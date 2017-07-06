@@ -29,6 +29,8 @@ app.post('/changePassword', user.changePassword);
 //user URIs
 app.get('/user/addUser', user.viewAddUser);
 app.post('/user/addUser', user.addUser);
+app.get('/user/addUser/added', user.addedUser);
+app.get('/user/addUser/failed', user.failedAddUser);
 app.get('/user/userProfile', user.viewUserProfile);
 app.get('/user/editProfile', user.viewEditProfile);
 

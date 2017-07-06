@@ -46,8 +46,7 @@
                     <label for="slack" class="control-label">[ <em>Optional</em> ] Slack Handle:</label>
                     <div class="input-group">
                         <span class="input-group-addon">@</span>
-                        <input type="text" class="form-control" id="slack" name="slack"
-                        pattern="^@.*">
+                        <input type="text" class="form-control" id="slack" name="slack">
                     </div>
                     <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
                     <div class="help-block with-errors"></div>
@@ -63,11 +62,37 @@
                     </div>
                 </div>
                 <input type="submit" value="Create New User" class="btn btn-success btn-lg btn-block"/>
-
             </form>
-
         </div>
     </div>
+    <% if(failed){ %>
+    <div class="row" style="margin-top:10px;">
+        <div class="col-sm-3"></div>
+        <div class="col-sm-6">
+            <div class="alert alert-danger alert-dismissible fade in" role="alert">
+                <button type="button" class="close"
+                        data-dismiss="alert" aria-label="close">
+                    <span aria-hidden="true" style="color: darkslategrey">&times;</span></button>
+                <strong>Error!</strong> Failed to add user!
+            </div>
+        </div>
+        <div class="col-sm-3"></div>
+    </div>
+    <% } else if(success){%>
+    <div class="row" style="margin-top:10px;">
+        <div class="col-sm-3"></div>
+        <div class="col-sm-6">
+            <div class="alert alert-info alert-dismissible fade in" role="alert">
+                <button type="button" class="close"
+                        data-dismiss="alert" aria-label="close">
+                    <span aria-hidden="true" style="color: darkslategrey">&times;</span></button>
+                <strong>Success!</strong> Email sent to new user at the address
+                specified.
+            </div>
+        </div>
+        <div class="col-sm-3"></div>
+    </div>
+    <% } %>
 </div>
 </body>
 </html>
