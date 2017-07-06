@@ -57,57 +57,69 @@
                                 <p><%= slack %></p>
                             </div>
 
-                            <div class="col-md-6" id="accordion">
-                                <span>
-                                    <a href="#demo" class="btn btn-success" data-toggle="collapse">
-                                        Change Password
-                                    </a>
-                                    <a href="#delete" class="btn btn-success" data-toggle="collapse">
-                                        Delete Account
-                                    </a>
-                                    <div id="delete" class="collapse" data-parent="#accordion">
-                                        <form data-toggle="validator" role="form">
-                                            <div class="form-group">
-                                                <label>Please enter your password:</label>
-                                                <div class="input-group">
-                                                    <span class="input-group-addon">T</span>
-                                                    <input type="password" class="form-control">
+                            <div class="col-md-6">
+                                <div class="panel-group" id="accordion">
+                                    <div class="panel panel-default">
+                                        <div>
+                                            <h4 class="panel-title">
+                                                <a data-toggle="collapse" data-parent="#accordion" href="#delete">
+                                                    Delete Account
+                                                </a>
+                                            </h4>
+                                        </div>
+                                        <div id="delete" class="panel-collapse collapse in">
+                                            <form data-toggle="validator" role="form">
+                                                <div class="form-group">
+                                                    <label>Please enter your password:</label>
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon">T</span>
+                                                        <input type="password" class="form-control">
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <input type="submit" value="Permanently Delete Account" class="btn btn-danger btn-m btn-black">
-                                        </form>
+                                                <input type="submit" value="Permanently Delete Account" class="btn btn-danger btn-m btn-black">
+                                            </form>
+                                        </div>
                                     </div>
-                                    <div id="demo" class="collapse" data-parent="#accordion">
-                                        <form action="/user/changePassword" method="post" data-toggle="validator" role="form">
-                                            <div class="form-group">
-                                                <label>Old Password:</label>
-                                                <div class="input-group">
-                                                    <span class="input-group-addon">T</span>
-                                                    <input type="password" class="form-control" id="oldPassword" name="oldPassword" required>
-                                                </div>
-                                                <label>New Password:</label>
-                                                <div class="input-group">
-                                                    <span class="input-group-addon">T</span>
-                                                    <input type="password" class="form-control" id="newPassword" name="newPassword"
+                                    <div class="panel panel-default">
+                                        <div>
+                                            <h4 class="panel-title">
+                                                <a data-toggle="collapse" data-parent="#accordion" href="#demo">
+                                                    Change Password
+                                                </a>
+                                            </h4>
+                                        </div>
+                                        <div id="demo" class="panel-collapse collapse in">
+                                            <form action="/user/changePassword" method="post" data-toggle="validator" role="form">
+                                                <div class="form-group">
+                                                    <label>Old Password:</label>
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon">T</span>
+                                                        <input type="password" class="form-control" id="oldPassword" name="oldPassword" required>
+                                                    </div>
+                                                    <label>New Password:</label>
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon">T</span>
+                                                        <input type="password" class="form-control" id="newPassword" name="newPassword"
                                                            pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required>
-                                                </div>
-                                                <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
-                                                <div class="help-block with-errors">Must have upper and lowercase chars and a number.
+                                                    </div>
+                                                    <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                                                    <div class="help-block with-errors">Must have upper and lowercase chars and a number.
                                                     Min 8 chars.</div>
-                                                <label>Reenter New Password:</label>
-                                                <div class="input-group">
-                                                    <span class="input-group-addon">T</span>
-                                                    <input type="password" class="form-control" id="newPasswordCheck" name="newPasswordCheck"
+                                                    <label>Reenter New Password:</label>
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon">T</span>
+                                                        <input type="password" class="form-control" id="newPasswordCheck" name="newPasswordCheck"
                                                            pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required>
+                                                    </div>
+                                                    <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                                                    <div class="help-block with-errors"></div>
+                                                    <p></p>
+                                                    <input type="submit" value="Change Password" class="btn btn-success btn-m btn-black">
                                                 </div>
-                                                <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
-                                                <div class="help-block with-errors"></div>
-                                                <p></p>
-                                                <input type="submit" value="Change Password" class="btn btn-success btn-m btn-black">
-                                            </div>
-                                        </form>
+                                            </form>
+                                        </div>
                                     </div>
-                                </span>
+                                </div>
                             </div>
                         </div>
                     <!--</div>-->
