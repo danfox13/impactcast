@@ -33,7 +33,7 @@ export default class UpdateProject extends Component
 		return (
 			<Panel>
 				<h1 className="text-center">Update Project</h1>
-				<form action={'/project/' + this.props.projectCode + '/update'} method="post">
+				<form>
 					<FormGroup controlId="projectCode">
 						<ControlLabel>Project Code:</ControlLabel>
 						<InputGroup>

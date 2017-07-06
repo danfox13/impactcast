@@ -35,13 +35,13 @@ export default class DeleteProject extends Component
 						<Modal.Title><Glyphicon glyph="remove"/> Remove Project</Modal.Title>
 					</Modal.Header>
 					<Modal.Body>
-						<h5>Are you sure you want to remove {this.props.projectCode}?</h5>
+						<h5>Are you sure you want to remove Placeholder?</h5>
 					</Modal.Body>
 					<Modal.Footer>
 						<Row>
 							<Col sm={6}>
 								<Button
-									href={'/project/' + this.props.projectCode + '/delete'}
+									href="/project/:projectCode/delete"
 									bsStyle="success" block>
 									<Glyphicon glyph="ok"/> Yes
 								</Button>

@@ -10,7 +10,7 @@ export default class EditResourcePage extends Component
 	render()
 	{
 		return (
-			<EditResource resourceName={this.props.params.id}/>
+			<EditResource resourceName={this.props.params.resourceName}/>
 		)
 	}
 }

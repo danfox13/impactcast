@@ -12,23 +12,23 @@ export default class ProjectDetails extends Component
 	render()
 	{
 		return (
-			<Panel header={<div className="text-center">{this.props.projectTitle}</div>}>
+			<Panel header={<div className="text-center">Placeholder</div>}>
 				<Grid>
 					<Row>
 						<Col sm={12}>
-							<strong>Project Code:</strong> {this.props.projectCode} <br/><br/>
+							<strong>Project Code:</strong> Placeholder <br/><br/>
 						</Col>
 					</Row>
 					<Row>
 						<Col sm={4}>
-							<Button href={'/project/' + this.props.projectCode + '/newChangeItem'}
+							<Button href="/project/:projectCode/newChangeItem"
 							        bsStyle="success" block>Add a Change Item</Button>
 						</Col>
 						<Col sm={4}>
-							<Button href={'/project/' + this.props.projectCode + '/update'}
+							<Button href="/project/:projectCode/update"
 							        bsStyle="success" block>Edit Project Details</Button>
 						</Col>
-						<DeleteProject projectCode={this.props.projectCode}/>
+						<DeleteProject/>
 					</Row>
 				</Grid>
 			</Panel>

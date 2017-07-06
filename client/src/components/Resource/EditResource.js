@@ -36,7 +36,7 @@ export default class EditResource extends Component
 		return (
 			<Panel>
 				<h1 className="text-center">Edit Resource</h1>
-				<form action={'/resource/' + this.props.resourceName + '/update'} method="post">
+				<form>
 					<FormGroup controlId="resourceName">
 						<ControlLabel>Name:</ControlLabel>
 						<InputGroup>
