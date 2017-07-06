@@ -173,7 +173,7 @@ exports.viewUserProfile = function(req, res){
             var name = result.name;
             var slack = result.slack;
 
-            res.redirect('user/userProfile',
+            res.render('user/userProfile',
                 {title: 'User Profile',
                     email: email,
                     name: name,
