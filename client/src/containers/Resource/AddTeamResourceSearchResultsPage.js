@@ -1,10 +1,12 @@
 /**
- * @author - Greg Wolverson
+ * @author: Artur Komoter
  */
-import React, {Component} from 'react';
-import TeamSearchResults from '../../components/Team/TeamSearchResults';
 
-export default class TeamSearchResultsPage extends Component {
+import React, {Component} from 'react';
+import AddTeamResourceSearchResults from '../../components/Resource/AddTeamResourceSearchResults';
+
+export default class AddTeamResourceSearchResultsPage extends Component {
+
     constructor() {
         super();
         this.state = {
@@ -19,7 +21,11 @@ export default class TeamSearchResultsPage extends Component {
     }
 
     performSearch() {
-        let url = `http://localhost:3001/searchTeams?teamName=${this.props.location.query.teamName}&resourceName=${this.props.location.query.resourceName}`;
+        let url = 'http://localhost:3001/searchResources?resourceName=' + this.props.location.query.resourceName
+            + '&employeeId=' + this.props.location.query.employeeId
+            + '&location=' + this.props.location.query.location
+            + '&email=' + this.props.location.query.email
+            + '&role=' + this.props.location.query.role;
         fetch(url)
             .then(response => response.json())
             .then((result) => {
@@ -33,9 +39,7 @@ export default class TeamSearchResultsPage extends Component {
     render() {
         return (
             <div>
-                <TeamSearchResults
-                    searchResults={this.state.results}
-                />
+                <AddTeamResourceSearchResults searchResults={this.state.results}/>
             </div>
         )
     }

@@ -3,17 +3,17 @@ import SearchTeams from 'SearchTeams';
 import TeamSearchResults from 'TeamSearchResults';
 
 export default class TeamSearch extends Component {
-	constructor() {
-		super();
-		this.state = {};
-	}
+    constructor() {
+        super();
+        this.state = {};
+    }
 
-	render() {
-		return (
-			<div>
-				<SearchTeams />
-				<TeamSearchResults />
-			</div>
-		)
-	}
+    render() {
+        return (
+            <div>
+                <SearchTeams />
+                <TeamSearchResults />
+            </div>
+        )
+    }
 }

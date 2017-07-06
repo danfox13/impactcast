@@ -9,18 +9,18 @@ class ResultRow extends Component {
         return (
             <tr>
                 <td>
-                    <a href={'/resource/' + this.props.resource.resourceName}
-                       className="btn btn-success" role="button">View
+                    <a href="/team/:teamName/addToTeam/:resource"
+                       className="btn btn-success" role="button">Add to Team
                     </a>
                 </td>
-                <td>{this.props.resource.resourceName}</td>
-                <td>{this.props.resourceName.role}</td>
+                <td>Placeholder</td>
+                <td>Placeholder</td>
             </tr>
         )
     }
 }
 
-export default class ResourceSearchResults extends Component {
+export default class AddTeamResourceSearchResults extends Component {
 
     constructor(props) {
         super(props);
@@ -36,9 +36,9 @@ export default class ResourceSearchResults extends Component {
     }
 
     render() {
-        let resultRows = this.state.results.map(function (resource) {
-            return <ResultRow key={resource._id} resource={resource}/>
-        });
+        // let resultRows = this.state.results.map(function (resource) {
+        // 	return <ResultRow key={resource._id} resource={resource}/>
+        // });
         return (
             <div className="panel panel-default">
                 <div className="panel-heading text-cente"><h1>Search Results</h1></div>
@@ -52,7 +52,9 @@ export default class ResourceSearchResults extends Component {
                                 <th>Job Title</th>
                             </tr>
                             </thead>
-                            <tbody>{resultRows}</tbody>
+                            <tbody>
+                            <ResultRow/>
+                            </tbody>
                         </table>
                     </div>
                 </div>

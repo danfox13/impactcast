@@ -8,12 +8,12 @@ import RequiredResourceDetails from '../../components/RequiredResource/RequiredR
 import Impact from '../../components/RequiredResource/Impact';
 
 export default class RequiredResourcePage extends Component {
-	render() {
-		return (
-			<div>
-				<RequiredResourceDetails/>
-				<Impact/>
-			</div>
-		)
-	}
+    render() {
+        return (
+            <div>
+                <RequiredResourceDetails/>
+                <Impact/>
+            </div>
+        )
+    }
 }
