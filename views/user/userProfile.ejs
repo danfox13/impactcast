@@ -57,47 +57,50 @@
                                 <p><%= slack %></p>
                             </div>
 
-                            <div class="col-md-6">
+                            <div class="col-md-6" id="accordion">
                                 <span>
-                                    <a href="#demo" class="btn btn-success" data-toggle="collapse">Change Password</a>
-                                    <a href="#delete" class="btn btn-success" data-toggle="collapse">Delete Account</a>
+                                    <a href="#demo" class="btn btn-success" data-toggle="collapse">
+                                        Change Password
+                                    </a>
+                                    <a href="#delete" class="btn btn-success" data-toggle="collapse">
+                                        Delete Account
+                                    </a>
+                                    <div id="delete" class="collapse" data-parent="#accordion">
+                                        <form data-toggle="validator" role="form">
+                                            <div class="form-group">
+                                                <label>Please enter your password:</label>
+                                                <div class="input-group">
+                                                    <span class="input-group-addon">T</span>
+                                                    <input type="password" class="form-control">
+                                                </div>
+                                            </div>
+                                        </form>
+                                        <a class="btn btn-warning">Delete</a>
+                                    </div>
+                                    <div id="demo" class="collapse" data-parent="#accordion">
+                                        <form action="/user/changePassword" method="post" data-toggle="validator" role="form">
+                                            <div class="form-group">
+                                                <label>Old Password:</label>
+                                                <div class="input-group">
+                                                    <span class="input-group-addon">T</span>
+                                                    <input type="password" class="form-control" id="oldPassword" name="oldPassword">
+                                                </div>
+                                                <label>New Password:</label>
+                                                <div class="input-group">
+                                                    <span class="input-group-addon">T</span>
+                                                    <input type="password" class="form-control" id="newPassword" name="newPassword">
+                                                </div>
+                                                <label>Reenter New Password:</label>
+                                                <div class="input-group">
+                                                    <span class="input-group-addon">T</span>
+                                                    <input type="password" class="form-control" id="newPasswordCheck" name="newPasswordCheck">
+                                                </div>
+                                                <p></p>
+                                                <input type="submit" value="submit change" class="btn btn-success btn-m btn-black">
+                                            </div>
+                                        </form>
+                                    </div>
                                 </span>
-                                <!--TODO make the delete account button work.-->
-                                <div id="delete" class="collapse">
-                                    <form data-toggle="validator" role="form">
-                                        <div class="form-group">
-                                            <label>Please enter your password:</label>
-                                            <div class="input-group">
-                                                <span class="input-group-addon">T</span>
-                                                <input type="password" class="form-control">
-                                            </div>
-                                        </div>
-                                    </form>
-                                    <a class="btn btn-warning">Delete</a>
-                                </div>
-                                <div id="demo" class="collapse">
-                                    <form action="/user/changePassword" method="post" data-toggle="validator" role="form">
-                                        <div class="form-group">
-                                            <label>Old Password:</label>
-                                            <div class="input-group">
-                                                <span class="input-group-addon">T</span>
-                                                <input type="password" class="form-control" id="oldPassword" name="oldPassword">
-                                            </div>
-                                            <label>New Password:</label>
-                                            <div class="input-group">
-                                                <span class="input-group-addon">T</span>
-                                                <input type="password" class="form-control" id="newPassword" name="newPassword">
-                                            </div>
-                                            <label>Reenter New Password:</label>
-                                            <div class="input-group">
-                                                <span class="input-group-addon">T</span>
-                                                <input type="password" class="form-control" id="newPasswordCheck" name="newPasswordCheck">
-                                            </div>
-                                            <p></p>
-                                            <input type="submit" value="submit change" class="btn btn-success btn-m btn-black">
-                                        </div>
-                                    </form>
-                                </div>
                             </div>
                         </div>
                     <!--</div>-->
