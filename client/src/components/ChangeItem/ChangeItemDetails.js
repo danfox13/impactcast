@@ -2,10 +2,10 @@
  * @author: Artur Komoter
  */
 
-import React, {Component} from 'react';
-import {Button, Col, Grid, Panel, Row} from 'react-bootstrap';
+import React, {Component} from "react";
+import {Button, Col, Grid, Panel, Row} from "react-bootstrap";
 
-import DeleteChangeItem from './DeleteChangeItem';
+import DeleteModal from "../Shared/DeleteModal";
 
 export default class ChangeItemDetails extends Component
 {
@@ -30,14 +30,18 @@ export default class ChangeItemDetails extends Component
 					</Row>
 					<Row>
 						<Col sm={4}>
-							<Button href={'/project/projectCode/changeItem/addRequiredResource'}
+							<Button href={'/project/:projectCode/:changeItem/addRequiredResource'}
 							        bsStyle="success" block>Add a Resource Requirement</Button>
 						</Col>
 						<Col sm={4}>
-							<Button href={'/project/projectCode/changeItem/update'}
+							<Button href={'/project/:projectCode/:changeItem/update'}
 							        bsStyle="success" block>Update Change Item Details</Button>
 						</Col>
-						<DeleteChangeItem/>
+						<Col sm={3}>
+							<DeleteModal subjectType="Change Item"
+							             subjectRoute="/project/:projectCode/:changeItem"
+							             subjectName="Placeholder"/>
+						</Col>
 					</Row>
 				</Grid>
 			</Panel>

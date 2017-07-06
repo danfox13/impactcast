@@ -2,10 +2,10 @@
  * @author: Artur Komoter
  */
 
-import React, {Component} from 'react';
-import {Button, Col, Grid, Panel, Row} from 'react-bootstrap';
+import React, {Component} from "react";
+import {Button, Col, Grid, Panel, Row} from "react-bootstrap";
 
-import DeleteProject from '../../components/Project/DeleteProject';
+import DeleteModal from "../Shared/DeleteModal";
 
 export default class ProjectDetails extends Component
 {
@@ -28,7 +28,11 @@ export default class ProjectDetails extends Component
 							<Button href="/project/:projectCode/update"
 							        bsStyle="success" block>Edit Project Details</Button>
 						</Col>
-						<DeleteProject/>
+						<Col sm={3}>
+							<DeleteModal subjectType="Project"
+							             subjectRoute="/project/:projectCode"
+							             subjectName="Placeholder"/>
+						</Col>
 					</Row>
 				</Grid>
 			</Panel>
