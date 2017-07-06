@@ -14,45 +14,10 @@
 <% include ../templates/header.ejs %>
 <div class="container">
     <div class="panel panel-default">
-        <div class="panel-heading text-cente"><h1><%= heading %></h1></div>
+        <div class="panel-heading text-center"><h1><%= heading %></h1></div>
         <div class="panel-body">
 
-            <form action="/newResource" method="post" data-toggle="validator" role="form">
-
-
-                <div class="form-group has-feedback">
-                    <label for="resourceName" class="control-label">Name:</label>
-                    <div class="input-group">
-                        <span class="input-group-addon">T</span>
-                        <input type="text" class="form-control" id="resourceName" name="resourceName" required>
-                    </div>
-                    <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
-                    <div class="help-block with-errors"></div>
-                </div>
-
-
-                <div class="form-group has-feedback">
-                    <label for="employeeId" class="control-label">Employee ID:</label>
-                    <div class="input-group">
-                        <span class="input-group-addon">1</span>
-                        <input type="text" class="form-control" id="employeeId" name="employeeId" pattern="^[0-9]*$"
-                               maxlength="6">
-                    </div>
-                    <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
-                    <div class="help-block with-errors"></div>
-                </div>
-
-
-                <div class="form-group has-feedback">
-                    <label for="location" class="control-label">Location:</label>
-                    <div class="input-group">
-                        <span class="input-group-addon">T</span>
-                        <input type="text" class="form-control" id="location" name="location">
-                    </div>
-                    <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
-                    <div class="help-block with-errors"></div>
-                </div>
-
+            <form action="/user/addUser" method="post" data-toggle="validator" role="form">
 
                 <div class="form-group has-feedback">
                     <label for="email" class="control-label">Email:</label>
@@ -68,17 +33,36 @@
 
 
                 <div class="form-group has-feedback">
-                    <label for="role" class="control-label">Job Title:</label>
+                    <label for="name" class="control-label">[ <em>Optional</em> ] Name:</label>
                     <div class="input-group">
                         <span class="input-group-addon">T</span>
-                        <input type="text" class="form-control" id="role" name="role" required>
+                        <input type="text" class="form-control" id="name" name="name">
                     </div>
                     <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
                     <div class="help-block with-errors"></div>
                 </div>
 
-
-                <input type="submit" value="Create Resource" class="btn btn-success btn-lg btn-block"/>
+                <div class="form-group has-feedback">
+                    <label for="slack" class="control-label">[ <em>Optional</em> ] Slack Handle:</label>
+                    <div class="input-group">
+                        <span class="input-group-addon">@</span>
+                        <input type="text" class="form-control" id="slack" name="slack"
+                        pattern="^@.*">
+                    </div>
+                    <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                    <div class="help-block with-errors"></div>
+                </div>
+                <div class="row" style="margin-top:10px;">
+                    <div class="col-sm-12">
+                        <div class="alert alert-info" role="alert">
+                            The new user will be emailed a
+                            <strong> new randomized password</strong> at the
+                            <strong>address given above</strong>, to be changed
+                            when they first login to the system.
+                        </div>
+                    </div>
+                </div>
+                <input type="submit" value="Create New User" class="btn btn-success btn-lg btn-block"/>
 
             </form>
 
