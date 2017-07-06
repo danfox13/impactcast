@@ -17,7 +17,7 @@ function checkAuth (req, res, next) {
 
     // don't serve /secure to those not logged in
     // you should add to this list, for each and every secure url
-    if ((!(req.url === '/' || req.url === '/login')) && (!req.session || !req.session.authenticated)) {
+    if ((!(req.url === '/' || req.url === '/login' || req.url === '/forgotPassword')) && (!req.session || !req.session.authenticated)) {
       console.log('hit');
         res.render('login', {
             title: 'ImpactCast - Login',

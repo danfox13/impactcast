@@ -43,7 +43,7 @@ user.find({
 
 //view page for adding users
 exports.viewAddUser = function(req, res){
-    res.render('user/addUser',
+    res.redirect('user/addUser',
         {title: "Add User",
         heading: "Add User To System",
         failed: false,
@@ -81,12 +81,12 @@ exports.addUser = function(req, res){
 
     newUser.save()
     .then(function(){
-        mailer.sendEmail(email, password);
-        res.redirect('/user/addUser/added')
+        mailer.sendAddUserEmail(email, password);
+        res.render('/user/addUser/added')
     })
         .catch(function(err){
             console.log("Error: " + err);
-            res.redirect('/user/addUser/failed');
+            res.render('/user/addUser/failed');
         });
 }
 
@@ -173,7 +173,7 @@ exports.viewUserProfile = function(req, res){
             var name = result.name;
             var slack = result.slack;
 
-            res.render('user/userProfile',
+            res.redirect('user/userProfile',
                 {title: 'User Profile',
                     email: email,
                     name: name,
@@ -217,12 +217,12 @@ exports.deleteUser = function(req, res){
 
 }
 
-//TODO Get information about the account from the request object.
-exports.viewEditProfile = function(req, res){
-    console.log("EMAIL: " + req.session.email);
-    res.render('user/editProfile',
-        {title: 'Edit Profile',
-        email: req.session.email});
+exports.forgotPassword = function(req, res){
+    res.render('forgotPassword', {title: "Forgotten Password", sentEmail: false});
+}
+
+exports.resetPassword = function(req, res){
+    res.render('forgotPassword', {title: "Forgotten Password", sentEmail: true});
 }
 
 exports.logout = function(req, res){

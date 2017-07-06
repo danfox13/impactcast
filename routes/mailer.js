@@ -8,7 +8,7 @@ var transporter = nodemailer.createTransport({
     }
 });
 
-exports.sendEmail = function(recipient, password){
+exports.sendAddUserEmail = function(recipient, password){
     var mailOptions = {
         from: 'augaapp@gmail.com',
         to: recipient,
@@ -30,5 +30,3 @@ exports.sendEmail = function(recipient, password){
         }
     });
 }
-
-module.exports = exports;
