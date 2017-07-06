@@ -5,21 +5,21 @@
 import React, { Component } from 'react';
 import {Button, Col, Glyphicon, Modal, Row} from 'react-bootstrap';
 
-export default class DeleteProject extends Component
+export default class DeleteChangeItem extends Component
 {
 	constructor()
 	{
 		super();
 		this.state = {
-			deleteProjectModal: false
+			deleteChangeItemModal: false
 		};
 
-		this.toggleDeleteProjectModal = this.toggleDeleteProjectModal.bind(this);
+		this.toggleDeleteChangeItemModal = this.toggleDeleteChangeItemModal.bind(this);
 	}
 
-	toggleDeleteProjectModal()
+	toggleDeleteChangeItemModal()
 	{
-		this.setState({deleteProjectModal: !this.state.deleteProjectModal})
+		this.setState({deleteChangeItemModal: !this.state.deleteChangeItemModal})
 	}
 
 	render()
@@ -27,12 +27,12 @@ export default class DeleteProject extends Component
 		return (
 			<Col sm={3}>
 				<Button bsStyle="danger" block
-				        onClick={this.toggleDeleteProjectModal}>Delete
+				        onClick={this.toggleDeleteChangeItemModal}>Delete
 				</Button>
-				<Modal show={this.state.deleteProjectModal}
-				       onHide={this.toggleDeleteProjectModal}>
+				<Modal show={this.state.deleteChangeItemModal}
+				       onHide={this.toggleDeleteChangeItemModal}>
 					<Modal.Header>
-						<Modal.Title><Glyphicon glyph="remove"/> Remove Project</Modal.Title>
+						<Modal.Title><Glyphicon glyph="remove"/> Remove Change Item</Modal.Title>
 					</Modal.Header>
 					<Modal.Body>
 						<h5>Are you sure you want to remove Placeholder?</h5>
@@ -41,7 +41,7 @@ export default class DeleteProject extends Component
 						<Row>
 							<Col sm={6}>
 								<Button
-									href="/project/:projectCode/delete"
+									href={'/project/changeItem/delete'}
 									bsStyle="success" block>
 									<Glyphicon glyph="ok"/> Yes
 								</Button>
@@ -49,7 +49,7 @@ export default class DeleteProject extends Component
 							<Col sm={6}>
 								<Button type="submit"
 								        bsStyle="danger" block
-								        onClick={this.toggleDeleteProjectModal}>
+								        onClick={this.toggleDeleteChangeItemModal}>
 									<Glyphicon glyph="remove"/> No
 								</Button>
 							</Col>
