@@ -70,7 +70,7 @@ exports.failedAddUser = function(req, res){
 //Add a new user to the database and send them their password in an email
 exports.addUser = function(req, res){
     var email = req.body.email;
-    var password = crypto.randomBytes(20).toString('hex');
+    var password = crypto.randomBytes(10).toString('hex');
     var salt = bcrypt.genSaltSync(SALT_FACTOR);
     var hash = bcrypt.hashSync(password, salt);
 
@@ -120,6 +120,9 @@ exports.changePassword = function(req, res){
 
                     result.save();
                 }
+            })
+            .then(function(){
+                res.redirect('/user/userProfile');
             })
             .catch(function(err){
                 console.log("Error: " + err);
@@ -177,6 +180,36 @@ exports.viewUserProfile = function(req, res){
                     slack: slack});
         }
     ).catch(
+        function(error){
+            console.log(error);
+        }
+    );
+
+}
+
+//Delete user
+exports.deleteUser = function(req, res){
+    var email = req.session.email;
+    var password = req.body.password;
+
+    user.findOne({
+        email: email,
+    }).then(
+        function(result){
+            console.log(result);
+            var hash = result.password;
+            if(hash && password &&
+                bcrypt.compareSync(password, hash)) {
+                console.log("PASSWORDS MATCH------------------------------\n" +
+                    "DELETING USER xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+                result.remove();
+            }
+        }
+    )
+        .then(function(){
+            req.session.authenticated = false;
+            res.redirect('/');
+        }).catch(
         function(error){
             console.log(error);
         }

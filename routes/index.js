@@ -24,7 +24,8 @@ app.get('/logout', user.logout);
 app.get('/home', site.index);
 
 app.get('/failedLogin', site.failedLogin);
-app.post('/changePassword', user.changePassword);
+app.post('/user/changePassword', user.changePassword);
+app.post('/user/deleteUser', user.deleteUser);
 
 //user URIs
 app.get('/user/addUser', user.viewAddUser);

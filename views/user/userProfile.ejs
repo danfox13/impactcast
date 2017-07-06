@@ -64,16 +64,17 @@
                                 </span>
                                 <!--TODO make the delete account button work.-->
                                 <div id="delete" class="collapse">
-                                    <form data-toggle="validator" role="form">
+                                    <form action="/user/deleteUser" method="post" data-toggle="validator" role="form">
                                         <div class="form-group">
                                             <label>Please enter your password:</label>
                                             <div class="input-group">
                                                 <span class="input-group-addon">T</span>
-                                                <input type="password" class="form-control">
+                                                <input type="password" class="form-control"
+                                                id="password" name="password">
                                             </div>
                                         </div>
+                                        <input type="submit" value="Delete Account (Permanent Action)" class="btn btn-danger btn-m btn-black">
                                     </form>
-                                    <a class="btn btn-warning">Delete</a>
                                 </div>
                                 <div id="demo" class="collapse">
                                     <form action="/user/changePassword" method="post" data-toggle="validator" role="form">
@@ -81,20 +82,27 @@
                                             <label>Old Password:</label>
                                             <div class="input-group">
                                                 <span class="input-group-addon">T</span>
-                                                <input type="password" class="form-control" id="oldPassword" name="oldPassword">
+                                                <input type="password" class="form-control" id="oldPassword" name="oldPassword" required>
                                             </div>
                                             <label>New Password:</label>
                                             <div class="input-group">
                                                 <span class="input-group-addon">T</span>
-                                                <input type="password" class="form-control" id="newPassword" name="newPassword">
+                                                <input type="password" class="form-control" id="newPassword" name="newPassword"
+                                                    pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required>
                                             </div>
+                                            <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                                            <div class="help-block with-errors">Must have upper and lowercase chars and a number.
+                                            Min 8 chars.</div>
                                             <label>Reenter New Password:</label>
                                             <div class="input-group">
                                                 <span class="input-group-addon">T</span>
-                                                <input type="password" class="form-control" id="newPasswordCheck" name="newPasswordCheck">
+                                                <input type="password" class="form-control" id="newPasswordCheck" name="newPasswordCheck"
+                                                       pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required>
                                             </div>
+                                            <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                                            <div class="help-block with-errors"></div>
                                             <p></p>
-                                            <input type="submit" value="submit change" class="btn btn-success btn-m btn-black">
+                                            <input type="submit" value="Change Password" class="btn btn-success btn-m btn-black">
                                         </div>
                                     </form>
                                 </div>
