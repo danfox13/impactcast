@@ -29,6 +29,9 @@ app.post('/user/deleteUser', user.deleteUser);
 
 app.get('/forgotPassword', user.forgotPassword);
 app.post('/forgotPassword', user.resetPassword);
+app.get('/invalidEmail', user.invalidEmail);
+
+app.get('/reset/:token', user.resetPasswordLink);
 
 //user URIs
 app.get('/user/addUser', user.viewAddUser);

@@ -12,6 +12,8 @@ var userSchema = new Schema({
     name: {type: String},
     password: {type: String, required: true},
     slack: {type: String},
+    resetPasswordToken: String,
+    resetPasswordExpires: Date,
 }, {collection: 'user'});
 
 const SALT_FACTOR = 10;
@@ -30,9 +32,9 @@ user.find({
     .then(function(){
         console.log("Populating DB");
         var example = new user({
-            name: 'admin',
-            email: 'admin@test.com',
-            slack: '@admintest',
+            name: 'Owen',
+            email: 'owen.jenkins@capgemini.com',
+            slack: '@ojenkins',
             password: bcrypt.hashSync('password', SALT_FACTOR),
         })
         example.save(function(err){
@@ -43,7 +45,7 @@ user.find({
 
 //view page for adding users
 exports.viewAddUser = function(req, res){
-    res.redirect('user/addUser',
+    res.render('user/addUser',
         {title: "Add User",
         heading: "Add User To System",
         failed: false,
@@ -82,7 +84,7 @@ exports.addUser = function(req, res){
     newUser.save()
     .then(function(){
         mailer.sendAddUserEmail(email, password);
-        res.render('/user/addUser/added')
+        res.redirect('/user/addUser/added');
     })
         .catch(function(err){
             console.log("Error: " + err);
@@ -131,7 +133,6 @@ exports.changePassword = function(req, res){
 }
 
 exports.login = function(req, res){
-
     let hash;
     var email = req.body.email;
     var password = req.body.pwd;
@@ -173,7 +174,7 @@ exports.viewUserProfile = function(req, res){
             var name = result.name;
             var slack = result.slack;
 
-            res.redirect('user/userProfile',
+            res.render('user/userProfile',
                 {title: 'User Profile',
                     email: email,
                     name: name,
@@ -218,11 +219,55 @@ exports.deleteUser = function(req, res){
 }
 
 exports.forgotPassword = function(req, res){
-    res.render('forgotPassword', {title: "Forgotten Password", sentEmail: false});
+    res.render('forgotPassword', {title: "Forgotten Password", sentEmail: false, validEmail: true});
 }
 
 exports.resetPassword = function(req, res){
-    res.render('forgotPassword', {title: "Forgotten Password", sentEmail: true});
+    var email = req.body.email;
+    var token = crypto.randomBytes(20).toString('hex');
+
+    user.findOne({
+        email: email,
+    })
+        .then(
+        function(result) {
+            console.log("Email = " + email + ", Result = " + result);
+            if (result) {
+                result.resetPasswordToken = token;
+                result.resetPasswordExpires = Date.now() + 3600000; // expires in 1 hour
+                result.save().then(function(){
+                    console.log("Saved");
+                    mailer.sendResetEmail(email, token);
+                    console.log("Sent");
+                    res.render('forgotPassword', {title: "Forgotten Password", sentEmail: true, validEmail: true});
+                });
+            }
+            else{
+              res.redirect('/invalidEmail');
+            }
+        })
+}
+
+exports.resetPasswordLink = function(req, res) {
+
+        user.findOne({
+            resetPasswordToken: req.params.token,
+            resetPasswordExpires: {$gt: Date.now()}
+        }).then(function (results) {
+            if(results){
+                res.render('resetPassword', {title: "Reset Password", invalidLink: false, email: results.email});
+            }
+            else {
+                res.render('resetPassword', {title: "Reset Password", invalidLink: true, email: null});
+            }
+        }).catch(function(err){
+            console.log("Error: " + err);
+            res.redirect('/');
+        });
+}
+
+exports.invalidEmail = function(req, res){
+    res.render('forgotPassword', {title: "Forgotten Password", sentEmail: false, validEmail: false});
 }
 
 exports.logout = function(req, res){

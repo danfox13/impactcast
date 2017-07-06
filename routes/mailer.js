@@ -30,3 +30,28 @@ exports.sendAddUserEmail = function(recipient, password){
         }
     });
 }
+
+exports.sendResetEmail = function(recipient, token){
+    console.log("Making email");
+    var mailOptions = {
+        from: 'augaapp@gmail.com',
+        to: recipient,
+        subject: 'Password Reset Link!',
+        text: 'Your account has requested a reset link for your password.' +
+        '\n\nHere is your password reset link. If you did not request to change your password, ' +
+        'please contact us immediately.' +
+        '\n\nReset Link: ' + "http://localhost:3000/reset/" + token +
+            '\n\nThis link will expire in 1 hour.',
+    };
+
+    console.log("Made email including " + token + " for " + recipient);
+    transporter.sendMail(mailOptions, function (error, info) {
+
+        if (error) {
+            console.log(error);
+        } else {
+            console.log('Email sent: ' + info.response);
+        }
+    });
+    console.log("Sent email");
+}
