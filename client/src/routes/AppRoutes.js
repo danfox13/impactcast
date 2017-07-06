@@ -19,6 +19,12 @@ import SearchTeamsPage from '../containers/Team/SearchTeamsPage';
 import TeamSearchResults from '../containers/Team/TeamSearchResultsPage';
 import TeamPage from '../containers/Team/TeamPage';
 
+// Change Item Components
+import ChangeItem from '../containers/ChangeItem/ChangeItem';
+import NewChangeItemPage from '../containers/ChangeItem/NewChangeItemPage';
+import UpdateChangeItemPage from '../containers/ChangeItem/UpdateChangeItemPage';
+import AddRequiredResourcePage from '../containers/ChangeItem/AddRequiredResourcePage';
+
 // Resource Route Components
 import NewResourcePage from '../containers/Resource/NewResourcePage';
 import SearchResourcesPage from '../containers/Resource/SearchResourcesPage';
@@ -40,6 +46,12 @@ export default class AppRoutes extends Component {
                     <Route path="projectSearchResults" component={ProjectSearchResults}/>
                     <Route path="project/:projectCode" component={Project}/>
                     <Route path="project/:projectCode/update" component={UpdateProjectPage}/>
+
+                    <Route path="project/:projectCode/newChangeItem" component={NewChangeItemPage}/>
+	                <Route path="project/:projectCode/:changeItem" component={ChangeItem}/>
+                    <Route path="project/:projectCode/:changeItem/addRequiredResource"
+                           component={AddRequiredResourcePage}/>
+                    <Route path="project/:projectCode/:changeItem/update" component={UpdateChangeItemPage}/>
 
                     <Route path="newTeam" component={NewTeamPage}/>
                     <Route path="searchTeams" component={SearchTeamsPage} />
