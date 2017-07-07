@@ -25,6 +25,7 @@ app.get('/home', site.index);
 
 app.get('/failedLogin', site.failedLogin);
 app.post('/user/changePassword', user.changePassword);
+app.post('/user/changeName', user.changeName);
 app.post('/user/deleteUser', user.deleteUser);
 
 app.get('/reset/forgotPassword', user.forgotPassword);

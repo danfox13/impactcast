@@ -85,6 +85,8 @@ exports.addUser = function(req, res){
     var newUser = new user({
         email: email,
         password: hash,
+        name: (req.body.name?req.body.namename:email),
+        slack: (req.body.slack?req.body.slack:"None"),
     });
 
     //save the new user on the database
@@ -98,6 +100,28 @@ exports.addUser = function(req, res){
         .catch(function(err){
             console.log("Error: " + err);
             res.redirect('/user/addUser/failed');
+        });
+}
+
+//Change a user's vanity name
+exports.changeName = function(req, res){
+    //find the user currently logged in
+    user.findOne({
+        email: req.session.email,
+    })
+        .then(function(result){
+                console.log("CHANGING USERNAME");
+                result.name =req.body.name;
+
+                //save the newly modified user entry in the database
+                result.save();
+
+        })
+        .then(function(){
+            res.redirect('/user/userProfile');
+        })
+        .catch(function(err){
+            console.log("Error: " + err);
         });
 }
 
@@ -250,17 +274,6 @@ exports.forgotPassword = function(req, res){
 exports.resetPassword = function(req, res){
     var email = req.body.email;
     var token = crypto.randomBytes(20).toString('hex');
-
-    console.log("Current DB--------------");
-
-    user.find({
-        email: {$regex: ".*"}
-    })
-        .then(function (results) {
-            results.forEach(entry => {
-                console.log(entry);
-            });
-        });
 
     user.findOne({
         email: email,

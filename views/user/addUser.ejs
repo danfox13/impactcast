@@ -20,11 +20,11 @@
             <form action="/user/addUser" method="post" data-toggle="validator" role="form">
 
                 <div class="form-group has-feedback">
-                    <label for="email" class="control-label">Email:</label>
                     <div class="input-group">
                         <span class="input-group-addon">@</span>
                         <input type="text" class="form-control" id="email" name="email"
                                pattern="^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$"
+                               placeholder="Enter an email address"
                                required>
                     </div>
                     <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
@@ -33,20 +33,20 @@
 
 
                 <div class="form-group has-feedback">
-                    <label for="name" class="control-label">[ <em>Optional</em> ] Name:</label>
                     <div class="input-group">
                         <span class="input-group-addon">T</span>
-                        <input type="text" class="form-control" id="name" name="name">
+                        <input type="text" class="form-control" id="name" name="name"
+                        placeholder="(Optional) Enter a username">
                     </div>
                     <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
                     <div class="help-block with-errors"></div>
                 </div>
 
                 <div class="form-group has-feedback">
-                    <label for="slack" class="control-label">[ <em>Optional</em> ] Slack Handle:</label>
                     <div class="input-group">
                         <span class="input-group-addon">@</span>
-                        <input type="text" class="form-control" id="slack" name="slack">
+                        <input type="text" class="form-control" id="slack" name="slack"
+                        placeholder="(Optional) Enter a slack handle">
                     </div>
                     <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
                     <div class="help-block with-errors"></div>
