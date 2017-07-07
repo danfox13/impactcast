@@ -3,10 +3,74 @@
  */
 import React, {Component} from 'react';
 
-export default class TeamForecast extends Component {
+class Forecast extends Component {
+    render() {
+        return (
+            <p className="bg-danger text-center">
+                {this.props.forecastValue}
+            </p>
+        )
+    }
+}
+
+class DataRow extends Component {
+    constructor() {
+        super();
+
+        this.displayMonthForecast = this.displayMonthForecast.bind(this);
+    }
+
+    displayMonthForecast(month) {
+        if (month === 0) {
+            return <Forecast
+                className='bg-success text-center'
+                forecastValue={month}/>
+        } else if (month < 0) {
+            return <Forecast
+                className='bg-danger text-center'
+                forecastValue={'-' + month}/>
+        } else {
+            return <Forecast
+                className='bg-danger text-center'
+                forecastValue={'+' + month}/>
+        }
+    }
+
+    render() {
+        return (
+            <tr>
+                <td><a href={'/resource/' + this.props.forecast.teamMember.resourceId}>Test Member</a></td>
+                <td>
+                    { this.displayMonthForecast(this.props.forecast.teamMember.currentMonth) }
+                </td>
+                <td>
+                    { this.displayMonthForecast(this.props.forecast.teamMember.monthPlusOne) }
+                </td>
+                <td>
+                    { this.displayMonthForecast(this.props.forecast.teamMember.monthPlusTwo) }
+                </td>
+                <td>
+                    { this.displayMonthForecast(this.props.forecast.teamMember.monthPlusThree) }
+                </td>
+                <td>
+                    { this.displayMonthForecast(this.props.forecast.teamMember.monthPlusFour) }
+                </td>
+                <td>
+                    { this.displayMonthForecast(this.props.forecast.teamMember.monthPlusFive) }
+                </td>
+                <td>
+                    { this.displayMonthForecast(this.props.forecast.teamMember.monthPlusSix) }
+                </td>
+            </tr>
+        )
+    }
+}
+
+class TeamForecast extends Component {
     constructor() {
         super();
         this.state = {
+            teamForecast: [],
             today: new Date(),
             month: [
                 " January",
@@ -29,6 +93,12 @@ export default class TeamForecast extends Component {
         this.getCurrentMonth = this.getCurrentMonth.bind(this);
     }
 
+    componentWillReceiveProps(nextProps) {
+        this.setState({
+            teamForecast: nextProps.teamForecast
+        });
+    }
+
     getCurrentMonth() {
         return this.getFormattedMonth(this.state.today.getMonth());
     }
@@ -42,6 +112,11 @@ export default class TeamForecast extends Component {
     }
 
     render() {
+
+        let dataRows = this.state.teamForecast.map(function (forecast) {
+            return <DataRow key={forecast.resourceId} forecast={forecast}/>
+        });
+
         return (
             <div className="row">
                 <div className="col-sm-12">
@@ -55,40 +130,24 @@ export default class TeamForecast extends Component {
                                         <thead>
                                         <tr>
                                             <th colSpan="1" className="text-center col-md-1">Name</th>
-                                            <th colSpan="1" className="text-center col-md-1"> { this.getCurrentMonth() } </th>
-                                            <th colSpan="1" className="text-center col-md-1"> { this.getMonthFromNow(1) } </th>
-                                            <th colSpan="1" className="text-center col-md-1"> { this.getMonthFromNow(2) } </th>
-                                            <th colSpan="1" className="text-center col-md-1"> { this.getMonthFromNow(3) } </th>
-                                            <th colSpan="1" className="text-center col-md-1"> { this.getMonthFromNow(4) } </th>
-                                            <th colSpan="1" className="text-center col-md-1"> { this.getMonthFromNow(5) } </th>
-                                            <th colSpan="1" className="text-center col-md-1"> { this.getMonthFromNow(6) } </th>
+                                            <th colSpan="1"
+                                                className="text-center col-md-1"> { this.getCurrentMonth() } </th>
+                                            <th colSpan="1"
+                                                className="text-center col-md-1"> { this.getMonthFromNow(1) } </th>
+                                            <th colSpan="1"
+                                                className="text-center col-md-1"> { this.getMonthFromNow(2) } </th>
+                                            <th colSpan="1"
+                                                className="text-center col-md-1"> { this.getMonthFromNow(3) } </th>
+                                            <th colSpan="1"
+                                                className="text-center col-md-1"> { this.getMonthFromNow(4) } </th>
+                                            <th colSpan="1"
+                                                className="text-center col-md-1"> { this.getMonthFromNow(5) } </th>
+                                            <th colSpan="1"
+                                                className="text-center col-md-1"> { this.getMonthFromNow(6) } </th>
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        <tr>
-                                            <td><a href="/resource/1">Test Member</a></td>
-                                            <td>
-                                                <p className="bg-danger text-center">-22</p>
-                                            </td>
-                                            <td>
-                                                <p className="bg-danger text-center">-21</p>
-                                            </td>
-                                            <td>
-                                                <p className="bg-danger text-center">-23</p>
-                                            </td>
-                                            <td>
-                                                <p className="bg-danger text-center">-21</p>
-                                            </td>
-                                            <td>
-                                                <p className="bg-danger text-center">-22</p>
-                                            </td>
-                                            <td>
-                                                <p className="bg-danger text-center">-22</p>
-                                            </td>
-                                            <td>
-                                                <p className="bg-danger text-center">-21</p>
-                                            </td>
-                                        </tr>
+                                        {dataRows}
                                         </tbody>
                                     </table>
                                 </div>
@@ -100,3 +159,5 @@ export default class TeamForecast extends Component {
         )
     }
 }
+
+module.exports = TeamForecast;

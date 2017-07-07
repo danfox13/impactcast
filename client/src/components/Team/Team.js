@@ -28,7 +28,7 @@ export default class Team extends Component {
                     <div className="row">
                         <div className="col-sm-12">
                             <b>Team Name: </b>
-                                {this.props.team.teamName}
+                                {this.props.teamName}
                             <br/><br/>
                         </div>
                     </div>
@@ -51,7 +51,7 @@ export default class Team extends Component {
                                             <h4><span className="glyphicon glyphicon-remove"/> Remove Item</h4>
                                         </div>
                                         <div className="modal-body" style={{padding: 40 + 'px' + 50 + 'px'}}>
-                                            <h5>Are you sure you want to remove {this.props.team.teamName}?</h5>
+                                            <h5>Are you sure you want to remove {this.props.teamName}?</h5>
                                         </div>
                                         <div className="modal-footer">
                                             <div className="row">

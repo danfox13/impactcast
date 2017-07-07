@@ -10,7 +10,7 @@ export default class TeamPage extends Component {
     constructor() {
         super();
         this.state = {
-            team: {},
+            team: [],
             teamForecast: []
         };
 
@@ -23,16 +23,18 @@ export default class TeamPage extends Component {
     }
 
     loadData(teamName) {
+        console.log("Loading team data...");
         let url = 'http://localhost:3001/team/' + teamName;
         fetch(url)
             .then(response => response.json())
             .then((results) => {
+                console.log("Server Response: " + JSON.stringify(results, undefined, 4));
                 this.setState({
                     team: results.result.team,
                     teamForecast: results.result.teamForecast
                 })
-                    .catch(err => console.log(err));
-            });
+            })
+            .catch(err => console.log(err));
     }
 
     render() {

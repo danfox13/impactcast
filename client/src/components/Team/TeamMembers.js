@@ -5,6 +5,7 @@ import React, {Component} from 'react';
 
 class DataRow extends Component {
     render() {
+        console.log("team member: " + JSON.stringify(this.props.teamMember, undefined, 4));
         return (
             <tr>
                 <td><a href={'/resource/' + this.props.teamMember._id} className="btn btn-success"
@@ -40,7 +41,7 @@ class TeamMembers extends Component {
 
     render() {
         let dataRows = this.state.teamMembers.map(function (teamMember) {
-            return <DataRow key={teamMember._id} dataItem={teamMember}/>
+            return <DataRow key={teamMember._id} teamMember={teamMember}/>
         });
 
         return (

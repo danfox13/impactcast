@@ -36,134 +36,163 @@ exports.addNewTeam = function (teamName, callback) {
 //Load the team info page
 exports.view = function (teamName, callback) {
 
-    var teamForecast = [];
-    var now = new Date();
-    var newTeam = {};
+    let teamForecast = [];
+    let now = new Date();
+    let newTeam = {};
 
     team.findOne({
         teamName: teamName
     }).populate('teamMembers')
         .then(team => {
             newTeam = team;
+
             team.teamMembers.forEach(function (teamMember) {
 
+                console.log("Found some team members: " + team.teamMembers.length);
+
                 var month = [];
-                var monthPlusOne = [];
+               /* var monthPlusOne = [];
                 var monthPlusTwo = [];
                 var monthPlusThree = [];
                 var monthPlusFour = [];
                 var monthPlusFive = [];
-                var monthPlusSix = [];
+                var monthPlusSix = [];*/
 
                 var currentMonthWorkingDays = moment('01-' + (now.getMonth() + 1) + '-' + now.getFullYear(), 'DD-MM-YYYY').monthBusinessDays().length;
-                var monthPlusOneWorkingDays = moment('01-' + (now.getMonth() + 2) + '-' + now.getFullYear(), 'DD-MM-YYYY').monthBusinessDays().length;
+               /* var monthPlusOneWorkingDays = moment('01-' + (now.getMonth() + 2) + '-' + now.getFullYear(), 'DD-MM-YYYY').monthBusinessDays().length;
                 var monthPlusTwoWorkingDays = moment('01-' + (now.getMonth() + 3) + '-' + now.getFullYear(), 'DD-MM-YYYY').monthBusinessDays().length;
                 var monthPlusThreeWorkingDays = moment('01-' + (now.getMonth() + 4) + '-' + now.getFullYear(), 'DD-MM-YYYY').monthBusinessDays().length;
                 var monthPlusFourWorkingDays = moment('01-' + (now.getMonth() + 5) + '-' + now.getFullYear(), 'DD-MM-YYYY').monthBusinessDays().length;
                 var monthPlusFiveWorkingDays = moment('01-' + (now.getMonth() + 6) + '-' + now.getFullYear(), 'DD-MM-YYYY').monthBusinessDays().length;
-                var monthPlusSixWorkingDays = moment('01-' + (now.getMonth() + 7) + '-' + now.getFullYear(), 'DD-MM-YYYY').monthBusinessDays().length;
+                var monthPlusSixWorkingDays = moment('01-' + (now.getMonth() + 7) + '-' + now.getFullYear(), 'DD-MM-YYYY').monthBusinessDays().length;*/
 
-                project.getProjectsByResourceImpactMonth(teamMember._id, new Date(now.getFullYear(), now.getMonth(), 1), new Date(now.getFullYear(), now.getMonth() + 1, 1), function (results) {
-                    month = results;
-                });
+                let responses = [];
 
-                project.getProjectsByResourceImpactMonth(teamMember._id, new Date(now.getFullYear(), now.getMonth() + 1, 1), new Date(now.getFullYear(), now.getMonth() + 2, 1), function (results) {
-                    monthPlusOne = results;
-                });
+                responses.push(new Promise(function (resolve, reject) {
+                    project.getProjectsByResourceImpactMonth(teamMember._id, new Date(now.getFullYear(), now.getMonth(), 1), new Date(now.getFullYear(), now.getMonth() + 1, 1), function (results) {
+                        month = results;
+                        resolve();
+                    });
+                }));
 
-                project.getProjectsByResourceImpactMonth(teamMember._id, new Date(now.getFullYear(), now.getMonth() + 2, 1), new Date(now.getFullYear(), now.getMonth() + 3, 1), function (results) {
-                    monthPlusTwo = results;
-                });
+                /*responses.push(new Promise(function (resolve, reject) {
+                    project.getProjectsByResourceImpactMonth(teamMember._id, new Date(now.getFullYear(), now.getMonth() + 1, 1), new Date(now.getFullYear(), now.getMonth() + 2, 1), function (results) {
+                        monthPlusOne = results;
+                        resolve();
+                    });
+                }));
 
-                project.getProjectsByResourceImpactMonth(teamMember._id, new Date(now.getFullYear(), now.getMonth() + 3, 1), new Date(now.getFullYear(), now.getMonth() + 4, 1), function (results) {
-                    monthPlusThree = results;
-                });
+                responses.push(new Promise(function (resolve, reject) {
+                    project.getProjectsByResourceImpactMonth(teamMember._id, new Date(now.getFullYear(), now.getMonth() + 2, 1), new Date(now.getFullYear(), now.getMonth() + 3, 1), function (results) {
+                        monthPlusTwo = results;
+                        resolve();
+                    });
+                }));
 
-                project.getProjectsByResourceImpactMonth(teamMember._id, new Date(now.getFullYear(), now.getMonth() + 4, 1), new Date(now.getFullYear(), now.getMonth() + 5, 1), function (results) {
-                    monthPlusFour = results;
-                });
+                responses.push(new Promise(function (resolve, reject) {
+                    project.getProjectsByResourceImpactMonth(teamMember._id, new Date(now.getFullYear(), now.getMonth() + 3, 1), new Date(now.getFullYear(), now.getMonth() + 4, 1), function (results) {
+                        monthPlusThree = results;
+                        resolve();
+                    });
+                }));
 
-                project.getProjectsByResourceImpactMonth(teamMember._id, new Date(now.getFullYear(), now.getMonth() + 5, 1), new Date(now.getFullYear(), now.getMonth() + 6, 1), function (results) {
-                    monthPlusFive = results;
-                });
+                responses.push(new Promise(function (resolve, reject) {
+                    project.getProjectsByResourceImpactMonth(teamMember._id, new Date(now.getFullYear(), now.getMonth() + 4, 1), new Date(now.getFullYear(), now.getMonth() + 5, 1), function (results) {
+                        monthPlusFour = results;
+                        resolve();
+                    });
+                }));
 
-                project.getProjectsByResourceImpactMonth(teamMember._id, new Date(now.getFullYear(), now.getMonth() + 6, 1), new Date(now.getFullYear(), now.getMonth() + 7, 1), function (results) {
-                    monthPlusSix = results;
-                });
+                responses.push(new Promise(function (resolve, reject) {
+                    project.getProjectsByResourceImpactMonth(teamMember._id, new Date(now.getFullYear(), now.getMonth() + 5, 1), new Date(now.getFullYear(), now.getMonth() + 6, 1), function (results) {
+                        monthPlusFive = results;
+                        resolve();
+                    });
+                }));
 
+                responses.push(new Promise(function (resolve, reject) {
+                    project.getProjectsByResourceImpactMonth(teamMember._id, new Date(now.getFullYear(), now.getMonth() + 6, 1), new Date(now.getFullYear(), now.getMonth() + 7, 1), function (results) {
+                        monthPlusSix = results;
+                        resolve();
+                    });
+                }));*/
 
-                var monthCount = 0;
-                month.forEach(function (project) {
-                    project.changeItems.forEach(function (changeItem) {
-                        monthCount += changeItem.resourcesRequired.impact.days
-                    })
-                });
-                var monthDelta = monthCount - currentMonthWorkingDays;
+                Promise.all(responses).then(function () {
 
-
-                var monthP1Count = 0;
-                monthPlusOne.forEach(function (project) {
-                    project.changeItems.forEach(function (changeItem) {
-                        monthP1Count += changeItem.resourcesRequired.impact.days
-                    })
-                });
-                var monthP1Delta = monthP1Count - monthPlusOneWorkingDays;
-
-
-                var monthP2Count = 0;
-                monthPlusTwo.forEach(function (project) {
-                    project.changeItems.forEach(function (changeItem) {
-                        monthP2Count += changeItem.resourcesRequired.impact.days
-                    })
-                });
-                var monthP2Delta = monthP2Count - monthPlusTwoWorkingDays;
-
-
-                var monthP3Count = 0;
-                monthPlusThree.forEach(function (project) {
-                    project.changeItems.forEach(function (changeItem) {
-                        monthP3Count += changeItem.resourcesRequired.impact.days
-                    })
-                });
-                var monthP3Delta = monthP3Count - monthPlusThreeWorkingDays;
+                    var monthCount = 0;
+                    month.forEach(function (project) {
+                        project.changeItems.forEach(function (changeItem) {
+                            monthCount += changeItem.resourcesRequired.impact.days
+                        })
+                    });
+                    let monthDelta = monthCount - currentMonthWorkingDays;
 
 
-                var monthP4Count = 0;
-                monthPlusFour.forEach(function (project) {
-                    project.changeItems.forEach(function (changeItem) {
-                        monthP4Count += changeItem.resourcesRequired.impact.days
-                    })
-                });
-                var monthP4Delta = monthP4Count - monthPlusFourWorkingDays;
+                  /*  var monthP1Count = 0;
+                    monthPlusOne.forEach(function (project) {
+                        project.changeItems.forEach(function (changeItem) {
+                            monthP1Count += changeItem.resourcesRequired.impact.days
+                        })
+                    });
+                    let monthP1Delta = monthP1Count - monthPlusOneWorkingDays;
 
 
-                var monthP5Count = 0;
-                monthPlusFive.forEach(function (project) {
-                    project.changeItems.forEach(function (changeItem) {
-                        monthP5Count += changeItem.resourcesRequired.impact.days
-                    })
-                });
-                var monthP5Delta = monthP5Count - monthPlusFiveWorkingDays;
+                    var monthP2Count = 0;
+                    monthPlusTwo.forEach(function (project) {
+                        project.changeItems.forEach(function (changeItem) {
+                            monthP2Count += changeItem.resourcesRequired.impact.days
+                        })
+                    });
+                    let monthP2Delta = monthP2Count - monthPlusTwoWorkingDays;
 
 
-                var monthP6Count = 0;
-                monthPlusSix.forEach(function (project) {
-                    project.changeItems.forEach(function (changeItem) {
-                        monthP6Count += changeItem.resourcesRequired.impact.days
-                    })
-                });
-                var monthP6Delta = monthP6Count - monthPlusSixWorkingDays;
+                    var monthP3Count = 0;
+                    monthPlusThree.forEach(function (project) {
+                        project.changeItems.forEach(function (changeItem) {
+                            monthP3Count += changeItem.resourcesRequired.impact.days
+                        })
+                    });
+                    let monthP3Delta = monthP3Count - monthPlusThreeWorkingDays;
 
-                teamForecast.push({
-                    resourceId: teamMember._id,
-                    name: teamMember.resourceName,
-                    currentMonth: monthDelta,
-                    monthPlusOne: monthP1Delta,
-                    monthPlusTwo: monthP2Delta,
-                    monthPlusThree: monthP3Delta,
-                    monthPlusFour: monthP4Delta,
-                    monthPlusFive: monthP5Delta,
-                    monthPlusSix: monthP6Delta
+
+                    var monthP4Count = 0;
+                    monthPlusFour.forEach(function (project) {
+                        project.changeItems.forEach(function (changeItem) {
+                            monthP4Count += changeItem.resourcesRequired.impact.days
+                        })
+                    });
+                    let monthP4Delta = monthP4Count - monthPlusFourWorkingDays;
+
+
+                    var monthP5Count = 0;
+                    monthPlusFive.forEach(function (project) {
+                        project.changeItems.forEach(function (changeItem) {
+                            monthP5Count += changeItem.resourcesRequired.impact.days
+                        })
+                    });
+                    let monthP5Delta = monthP5Count - monthPlusFiveWorkingDays;
+
+                    var monthP6Count = 0;
+                    monthPlusSix.forEach(function (project) {
+                        project.changeItems.forEach(function (changeItem) {
+                            monthP6Count += changeItem.resourcesRequired.impact.days
+                        })
+                    });
+                    let monthP6Delta = monthP6Count - monthPlusSixWorkingDays;*/
+
+                    teamForecast.push({
+                        resourceId: teamMember._id,
+                        name: teamMember.resourceName,
+                        currentMonth: monthDelta,
+                        /*monthPlusOne: monthP1Delta,
+                        monthPlusTwo: monthP2Delta,
+                        monthPlusThree: monthP3Delta,
+                        monthPlusFour: monthP4Delta,
+                        monthPlusFive: monthP5Delta,
+                        monthPlusSix: monthP6Delta*/
+                    });
+
+                    console.log("Forecast for team member is: " + JSON.stringify(teamForecast, undefined, 4));
                 });
             });
         })
