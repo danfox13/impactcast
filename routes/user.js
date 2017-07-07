@@ -97,7 +97,7 @@ exports.addUser = function(req, res){
     })
         .catch(function(err){
             console.log("Error: " + err);
-            res.render('/user/addUser/failed');
+            res.redirect('/user/addUser/failed');
         });
 }
 

@@ -71,42 +71,50 @@
                                 <div id="changePassword" class="tab-pane fade in active">
                                     <form action="/user/changePassword" method="post" data-toggle="validator" role="form">
                                         <div class="form-group">
-                                            <label>Old Password:</label>
-                                            <div class="input-group">
+                                            <div class="input-group" style="margin-top: 20px;">
                                                 <span class="input-group-addon">T</span>
                                                 <input type="password" class="form-control" id="oldPassword"
-                                                       name="oldPassword" required>
+                                                       name="oldPassword"
+                                                       placeholder="Enter old password" required>
                                             </div>
-                                            <label>New Password:</label>
+                                        </div>
+                                        <div class="form-group">
                                             <div class="input-group">
                                                 <span class="input-group-addon">T</span>
                                                 <input type="password" class="form-control" id="newPassword"
-                                                       name="newPassword" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required>
-                                            </div>
-                                            <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
-                                            <div class="help-block with-errors">Must have upper and lowercase chars and a number.
-                                                Min 8 chars.</div>
-                                            <label>Reenter New Password:</label>
-                                            <div class="input-group">
-                                                <span class="input-group-addon">T</span>
-                                                <input type="password" class="form-control" id="newPasswordCheck"
-                                                       name="newPasswordCheck" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                                                       name="newPassword" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                                                       placeholder="Enter new password"
                                                        required>
                                             </div>
                                             <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
                                             <div class="help-block with-errors"></div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="input-group">
+                                                <span class="input-group-addon">T</span>
+                                                <input type="password" class="form-control" id="newPasswordCheck"
+                                                       name="newPasswordCheck" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                                                       placeholder="Confirm new password"
+                                                       data-match="#newPassword"
+                                                       required>
+                                            </div>
+                                            <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                                            <div class="help-block with-errors">
+                                                Minimum 8 chars. Must include upper/lower case and a digit.
+                                            </div>
                                             <p></p>
                                             <input type="submit" value="Change Password" class="btn btn-success btn-m btn-black">
                                         </div>
                                     </form>
                                 </div>
                                 <div id="delete" class="tab-pane fade">
-                                    <form data-toggle="validator" role="form">
+                                    <form action="user/deleteUser" data-toggle="validator" role="form">
                                         <div class="form-group">
-                                            <label>Please enter your password:</label>
-                                            <div class="input-group">
+                                            <div class="input-group" style="margin-top: 20px;">
                                                 <span class="input-group-addon">T</span>
-                                                <input type="password" class="form-control">
+                                                <input type="password" class="form-control" id="password" name="password"
+                                                       placeholder="Enter your password"
+                                                required>
                                             </div>
                                         </div>
                                         <input type="submit" value="Permanently Delete Account"
