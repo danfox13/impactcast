@@ -224,7 +224,7 @@ exports.deleteUser = function(req, res){
             if(hash && password &&
                 bcrypt.compareSync(password, hash)) {
 
-                //if the user entered the correct password, delete their entry
+                //if the user entered the correct password, delete their entry in the database
                 console.log("PASSWORDS MATCH, DELETING USER");
                 result.remove();
             }
@@ -273,6 +273,8 @@ exports.resetPassword = function(req, res){
                 result.resetPasswordExpires = Date.now() + 3600000; // expires in 1 hour
                 result.save().then(function(){
                     console.log("Saved");
+
+                    //send user the password reset link in an email
                     mailer.sendResetEmail(email, token);
                     console.log("Sent");
                     res.render('reset/forgotPassword', {title: "Forgotten Password", sentEmail: true, validEmail: true});
@@ -314,7 +316,7 @@ exports.changeForgottenPassword = function(req, res){
     var newPassCheck = req.body.newPasswordCheck;
     var email = req.params.email;
 
-    console.log("CHANGING PASSWORD =======================================\n" +
+    console.log("CHANGING PASSWORD \n" +
         "Email = " + email +
         "\nNew Password = " + newPass +
         "\nCheck = " + newPassCheck);
@@ -327,8 +329,7 @@ exports.changeForgottenPassword = function(req, res){
         })
             .then(function(result) {
                 if (result) {
-                console.log("GOT CORRECT RESET LINK--------------------------\n" +
-                    "SAVING NEW PASSWORD HASH-----------------------------");
+                console.log("GOT CORRECT RESET LINK, SAVING NEW PASSWORD HASH");
                 result.password = bcrypt.hashSync(newPass, SALT_FACTOR);
                 result.resetPasswordToken = null;
                 result.resetPasswordExpires = Date.now();
