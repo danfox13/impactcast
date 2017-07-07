@@ -1,13 +1,15 @@
 import React, {Component} from 'react';
+import {Button, Panel, Table} from 'react-bootstrap';
 
 class ResultRow extends Component {
     render() {
         return (
             <tr>
                 <td>
-                    <a href={'/project/' + this.props.project.projectCode}
-                       className="btn btn-success" role="button">View
-                    </a>
+                    <Button bsStyle="success"
+                            href={'/project/' + this.props.project.projectCode}>
+                        View
+                    </Button>
                 </td>
                 <td>{this.props.project.projectCode}</td>
                 <td>{this.props.project.projectTitle}</td>
@@ -42,24 +44,19 @@ export default class ProjectSearchResults extends Component {
         });
 
         return (
-            <div className="panel panel-default">
-                <div className="panel-heading text-cente"><h1>Search Results</h1></div>
-                <div className="panel-body">
-                    <div className="table-responsive">
-                        <table className="table table-striped table-hover">
-                            <thead>
-                            <tr>
-                                <th>View Project</th>
-                                <th>Project Code</th>
-                                <th>Project Title</th>
-                                <th>Change Items</th>
-                            </tr>
-                            </thead>
-                            <tbody>{resultRows}</tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
+            <Panel header={<div className="text-center">Search Results</div>}>
+                <Table striped hover responsive>
+                    <thead>
+                    <tr>
+                        <th>View Project</th>
+                        <th>Project Code</th>
+                        <th>Project Title</th>
+                        <th>Change Items</th>
+                    </tr>
+                    </thead>
+                    <tbody>{resultRows}</tbody>
+                </Table>
+            </Panel>
         )
     }
 }

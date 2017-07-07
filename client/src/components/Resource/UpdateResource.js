@@ -31,17 +31,16 @@ export default class UpdateResource extends Component {
 
     render() {
         return (
-            <Panel>
-                <h1 className="text-center">Update Resource</h1>
-                <form action={'/resource/' + this.props.resourceName + '/update'} method="post">
+            <Panel header={<div className="text-center">Update Resource</div>}>
+                <form>
                     <FormGroup controlId="resourceName">
-                        <ControlLabel>Name:</ControlLabel>
+                        <ControlLabel htmlFor="resourceName">Name:</ControlLabel>
                         <InputGroup>
                             <InputGroup.Addon>T</InputGroup.Addon>
                             <FormControl name="resourceName" value={this.state.resourceName}
                                          onChange={this.handleInputChange} required/>
-                            <FormControl.Feedback/>
                         </InputGroup>
+                        <FormControl.Feedback/>
                     </FormGroup>
                     <FormGroup controlId="employeeId">
                         <ControlLabel>Employee ID:</ControlLabel>
@@ -49,8 +48,8 @@ export default class UpdateResource extends Component {
                             <InputGroup.Addon>1</InputGroup.Addon>
                             <FormControl name="employeeId" value={this.state.employeeId}
                                          onChange={this.handleInputChange} required/>
-                            <FormControl.Feedback/>
                         </InputGroup>
+                        <FormControl.Feedback/>
                     </FormGroup>
                     <FormGroup controlId="location">
                         <ControlLabel>Location:</ControlLabel>
@@ -58,8 +57,8 @@ export default class UpdateResource extends Component {
                             <InputGroup.Addon>T</InputGroup.Addon>
                             <FormControl name="location" value={this.state.location}
                                          onChange={this.handleInputChange} required/>
-                            <FormControl.Feedback/>
                         </InputGroup>
+                        <FormControl.Feedback/>
                     </FormGroup>
                     <FormGroup controlId="email">
                         <ControlLabel>E-mail:</ControlLabel>
@@ -68,8 +67,8 @@ export default class UpdateResource extends Component {
                             <FormControl name="email" value={this.state.email}
                                          pattern="^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$"
                                          onChange={this.handleInputChange} required/>
-                            <FormControl.Feedback/>
                         </InputGroup>
+                        <FormControl.Feedback/>
                     </FormGroup>
                     <FormGroup controlId="role">
                         <ControlLabel>Job Role:</ControlLabel>
@@ -77,8 +76,8 @@ export default class UpdateResource extends Component {
                             <InputGroup.Addon>T</InputGroup.Addon>
                             <FormControl name="role" value={this.state.role}
                                          onChange={this.handleInputChange} required/>
-                            <FormControl.Feedback/>
                         </InputGroup>
+                        <FormControl.Feedback/>
                     </FormGroup>
 
                     <Button type="submit" bsStyle="success" bsSize="large" block>Update Resource</Button>

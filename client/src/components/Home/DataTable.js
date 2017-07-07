@@ -1,11 +1,15 @@
 import React, {Component} from 'react';
+import {Button, Col, Panel, Table} from 'react-bootstrap';
 
 class DataRow extends Component {
     render() {
         return (
             <tr>
-                <td><a href={'/project/' + this.props.dataItem.projectCode} className="btn btn-success"
-                       role="button">View</a>
+                <td>
+                    <Button bsStyle="success"
+                            href={'/project/' + this.props.dataItem.projectCode}>
+                        View
+                    </Button>
                 </td>
                 <td>{this.props.dataItem.projectCode}</td>
                 <td>{this.props.dataItem.projectTitle}</td>
@@ -41,28 +45,23 @@ class DataTable extends Component {
         });
 
         return (
-            <div className="col-sm-6">
-                <div className="panel panel-default">
-                    <div className="panel-heading text-cente"><h3>{this.props.tableHeader}</h3></div>
-                    <div className="panel-body">
-                        <div className="table-responsive">
-                            <table className="table table-striped table-hover">
-                                <thead>
-                                <tr>
-                                    <th>View Project</th>
-                                    <th>Project Code</th>
-                                    <th>Project Title</th>
-                                    <th>Change Items</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                {dataRows}
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <Col sm={6}>
+                <Panel header={<div className="text-center">{this.props.tableHeader}</div>}>
+                    <Table striped hover responsive>
+                        <thead>
+                        <tr>
+                            <th>View Project</th>
+                            <th>Project Code</th>
+                            <th>Project Title</th>
+                            <th>Change Items</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {dataRows}
+                        </tbody>
+                    </Table>
+                </Panel>
+            </Col>
         )
     }
 }

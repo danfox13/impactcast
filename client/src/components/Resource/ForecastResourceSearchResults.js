@@ -3,15 +3,16 @@
  */
 
 import React, {Component} from 'react';
+import {Button, Panel, Table} from 'react-bootstrap';
 
 class ResultRow extends Component {
     render() {
         return (
             <tr>
                 <td>
-                    <a href="/project/:projectCode/:changeItem/:requiredResource/assign/:resource"
-                       className="btn btn-success" role="button">Assign
-                    </a>
+                    <Button href="/project/:projectCode/:changeItem/:requiredResource/assign/:resource"
+                            bsStyle="success">Assign
+                    </Button>
                 </td>
                 <td>Placeholder</td>
                 <td>Placeholder</td>
@@ -40,25 +41,20 @@ export default class ForecastResourceSearchResults extends Component {
         // 	return <ResultRow key={resource._id} resource={resource}/>
         // });
         return (
-            <div className="panel panel-default">
-                <div className="panel-heading text-cente"><h1>Search Results</h1></div>
-                <div className="panel-body">
-                    <div className="table-responsive">
-                        <table className="table table-striped table-hover">
-                            <thead>
-                            <tr>
-                                <th>View Resource</th>
-                                <th>Name</th>
-                                <th>Job Title</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <ResultRow/>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
+            <Panel header={<div className="text-center">Search Results</div>}>
+                <Table striped hover responsive>
+                    <thead>
+                    <tr>
+                        <th>View Resource</th>
+                        <th>Name</th>
+                        <th>Job Title</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <ResultRow/>
+                    </tbody>
+                </Table>
+            </Panel>
         )
     }
 }

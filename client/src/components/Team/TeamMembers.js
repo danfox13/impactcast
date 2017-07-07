@@ -2,20 +2,22 @@
  * @author - Greg Wolverson
  */
 import React, {Component} from 'react';
+import {Button, Col, Panel, Row, Table} from 'react-bootstrap';
 
 class DataRow extends Component {
     render() {
         return (
             <tr>
-                <td><a href={'/resource/' + this.props.teamMember._id} className="btn btn-success"
-                       role="button">View</a>
+                <td>
+                    <Button href={'/resource/' + this.props.teamMember._id} bsStyle="success">View</Button>
                 </td>
                 <td>{this.props.teamMember.resourceName}</td>
                 <td>{this.props.teamMember.role}</td>
                 <td>
-                    <a href={'/team/' + this.props.team.teamName + '/remove/' + this.props.teamMember._id}
-                       className="btn btn-danger btn-block"
-                       role="button">Remove</a>
+                    <Button href={'/team/' + this.props.team.teamName
+                    + '/' + this.props.teamMember._id + '/delete'} bsStyle="danger" block>
+                        Remove
+                    </Button>
                 </td>
             </tr>
         )
@@ -29,6 +31,7 @@ class TeamMembers extends Component {
             team: {},
             teamMembers: []
         };
+
     }
 
     componentWillReceiveProps(nextProps) {
@@ -44,43 +47,31 @@ class TeamMembers extends Component {
         });
 
         return (
-            <div className="row">
-                <div className="col-sm-12">
-                    <div className="container">
-                        <div className="panel panel-default">
-                            <div className="panel-heading text-cente"><h3>Team Members</h3></div>
-                            <div className="panel-body">
-                                <div className="table-responsive">
-                                    <table className="table table-striped table-hover">
-                                        <thead>
-                                        <tr>
-                                            <th>View</th>
-                                            <th>Name</th>
-                                            <th>Role</th>
-                                            <th>Remove</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        <tr>
-                                            {dataRows}
-                                        </tr>
-                                        <tr>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td>
-                                                <a href={'/team/' + this.state.team.teamName + '/addTeamMember'}
-                                                   className="btn btn-success btn-block" role="button">Add</a>
-                                            </td>
-                                        </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <Panel header={<div className="text-center">Team Members</div>}>
+                <Table striped hover responsive>
+                    <thead>
+                    <tr>
+                        <th>View</th>
+                        <th>Name</th>
+                        <th>Role</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        {dataRows}
+                    </tr>
+                    </tbody>
+                </Table>
+                <Row>
+                    <Col sm={12}>
+                        <Button bsStyle="success" block
+                                href={'/team/' + this.state.team.teamName + '/addTeamMember'}>
+                            Add
+                        </Button>
+                    </Col>
+                </Row>
+            </Panel>
         )
     }
 }

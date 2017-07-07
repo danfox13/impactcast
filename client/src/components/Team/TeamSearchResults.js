@@ -1,17 +1,20 @@
 import React, {Component} from 'react';
+import {Button, Panel, Table} from 'react-bootstrap';
 
 class ResultRow extends Component {
     render() {
         return (
             <tr>
-                <td><a href={'/team/' + this.props.team.teamName} className="btn btn-success" role="button">View</a>
+                <td>
+                    <Button href={'/team/' + this.props.team.teamName} bsStyle="success">View</Button>
                 </td>
                 <td>{this.props.team.teamName}</td>
                 {this.props.team.teamMembers.map(teamMember =>
                     <td key={teamMember._id}>
                         <a href={'/resource/' + teamMember._id}>
                             {teamMember.resourceName}
-                        </a><br/>
+                        </a>
+                        <br/>
                     </td>
                 )}
             </tr>
@@ -34,30 +37,25 @@ class TeamSearchResults extends Component {
     }
 
     render() {
-        let resultRows = this.state.results.map(function (team) {
+        let resultRows = this.state.results.map(team => {
             return <ResultRow key={team._id} team={team}/>
         });
 
         return (
-            <div className="panel panel-default">
-                <div className="panel-heading text-cente"><h1>Search Results</h1></div>
-                <div className="panel-body">
-                    <div className="table-responsive">
-                        <table className="table table-striped table-hover">
-                            <thead>
-                            <tr>
-                                <th>View Team</th>
-                                <th>Team Name</th>
-                                <th>Team Members</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {resultRows}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
+            <Panel header={<div className="text-center">Search Results</div>}>
+                <Table striped hover responsive>
+                    <thead>
+                    <tr>
+                        <th>View Team</th>
+                        <th>Team Name</th>
+                        <th>Team Members</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {resultRows}
+                    </tbody>
+                </Table>
+            </Panel>
         )
     }
 }

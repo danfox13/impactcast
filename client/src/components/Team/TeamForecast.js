@@ -2,6 +2,7 @@
  * @author - Greg Wolverson
  */
 import React, {Component} from 'react';
+import {Panel, Table} from 'react-bootstrap';
 
 export default class TeamForecast extends Component {
     constructor() {
@@ -9,18 +10,18 @@ export default class TeamForecast extends Component {
         this.state = {
             today: new Date(),
             month: [
-                ' January',
-                ' February',
-                ' March',
-                ' April',
-                ' May',
-                ' June',
-                ' July',
-                ' August',
-                ' September',
-                ' October',
-                ' November',
-                ' December'
+                'January',
+                'February',
+                'March',
+                'April',
+                'May',
+                'June',
+                'July',
+                'August',
+                'September',
+                'October',
+                'November',
+                'December'
             ]
         };
 
@@ -43,67 +44,48 @@ export default class TeamForecast extends Component {
 
     render() {
         return (
-            <div className="row">
-                <div className="col-sm-12">
-                    <div className="container">
-                        <div className="panel panel-default">
-                            <div className="panel-heading text-cente"><h3>Six Month Forecast Delta</h3></div>
-                            <div className="panel-body">
-                                <div className=" table-responsive ">
-                                    <br/>
-                                    <table className=" table table-striped table-hover table-bordered">
-                                        <thead>
-                                        <tr>
-                                            <th colSpan="1" className="text-center col-md-1">Name</th>
-                                            <th colSpan="1"
-                                                className="text-center col-md-1"> { this.getCurrentMonth() } </th>
-                                            <th colSpan="1"
-                                                className="text-center col-md-1"> { this.getMonthFromNow(1) } </th>
-                                            <th colSpan="1"
-                                                className="text-center col-md-1"> { this.getMonthFromNow(2) } </th>
-                                            <th colSpan="1"
-                                                className="text-center col-md-1"> { this.getMonthFromNow(3) } </th>
-                                            <th colSpan="1"
-                                                className="text-center col-md-1"> { this.getMonthFromNow(4) } </th>
-                                            <th colSpan="1"
-                                                className="text-center col-md-1"> { this.getMonthFromNow(5) } </th>
-                                            <th colSpan="1"
-                                                className="text-center col-md-1"> { this.getMonthFromNow(6) } </th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        <tr>
-                                            <td><a href="/resource/1">Test Member</a></td>
-                                            <td>
-                                                <p className="bg-danger text-center">-22</p>
-                                            </td>
-                                            <td>
-                                                <p className="bg-danger text-center">-21</p>
-                                            </td>
-                                            <td>
-                                                <p className="bg-danger text-center">-23</p>
-                                            </td>
-                                            <td>
-                                                <p className="bg-danger text-center">-21</p>
-                                            </td>
-                                            <td>
-                                                <p className="bg-danger text-center">-22</p>
-                                            </td>
-                                            <td>
-                                                <p className="bg-danger text-center">-22</p>
-                                            </td>
-                                            <td>
-                                                <p className="bg-danger text-center">-21</p>
-                                            </td>
-                                        </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <Panel header={<div className="text-center">Six Month Forecast Delta</div>}>
+                <Table striped hover bordered responsive>
+                    <thead>
+                    <tr>
+                        <th className="col-md-1">Name</th>
+                        <th className="col-md-1">{this.getCurrentMonth()}</th>
+                        <th className="col-md-1">{this.getMonthFromNow(1)}</th>
+                        <th className="col-md-1">{this.getMonthFromNow(2)}</th>
+                        <th className="col-md-1">{this.getMonthFromNow(3)}</th>
+                        <th className="col-md-1">{this.getMonthFromNow(4)}</th>
+                        <th className="col-md-1">{this.getMonthFromNow(5)}</th>
+                        <th className="col-md-1">{this.getMonthFromNow(6)}</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>Placeholder</td>
+                        <td>
+                            <p className="bg-danger text-center">-22</p>
+                        </td>
+                        <td>
+                            <p className="bg-success text-center">21</p>
+                        </td>
+                        <td>
+                            <p className="bg-danger text-center">-23</p>
+                        </td>
+                        <td>
+                            <p className="text-center">0</p>
+                        </td>
+                        <td>
+                            <p className="bg-danger text-center">-22</p>
+                        </td>
+                        <td>
+                            <p className="bg-danger text-center">-22</p>
+                        </td>
+                        <td>
+                            <p className="bg-danger text-center">-21</p>
+                        </td>
+                    </tr>
+                    </tbody>
+                </Table>
+            </Panel>
         )
     }
 }
