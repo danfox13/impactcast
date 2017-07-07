@@ -1,6 +1,7 @@
 var bcrypt = require('bcrypt');
 var crypto = require('crypto');
 var mailer = require('./mailer');
+var slack = require('./slack');
 var mongoose = require('mongoose');
 var globals = require('../globals');
 var dburl = globals.dburl.toString();
@@ -12,6 +13,7 @@ var userSchema = new Schema({
     name: {type: String},
     password: {type: String, required: true},
     slack: {type: String},
+    webhook: {type: String},
     resetPasswordToken: String,
     resetPasswordExpires: Date,
 }, {collection: 'user'});
@@ -20,6 +22,8 @@ var userSchema = new Schema({
 const SALT_FACTOR = 10;
 
 var user = mongoose.model('user', userSchema);
+
+exports.userModel = user;
 
 //Depopulate the database and then add one admin user for testing
 user.find({
@@ -36,11 +40,14 @@ user.find({
         var example = new user({
             name: 'Owen',
             email: 'owen.jenkins@capgemini.com',
-            slack: '@ojenkins',
+            slack: '@owenjenkins',
+            webhook: 'https://hooks.slack.com/services/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',
             password: bcrypt.hashSync('password', SALT_FACTOR),
         })
         example.save(function (err) {
             console.log(err ? "Error: " + err : "Added:\n" + example);
+        }).then(function(){
+            slack.sendSlackMessage('owen.jenkins@capgemini.com', "Hi Owen!");
         });
     });
 
@@ -86,7 +93,8 @@ exports.addUser = function(req, res){
         email: email,
         password: hash,
         name: (req.body.name?req.body.namename:email),
-        slack: (req.body.slack?req.body.slack:"None"),
+        slack: "None",
+        slack: "None"
     });
 
     //save the new user on the database
