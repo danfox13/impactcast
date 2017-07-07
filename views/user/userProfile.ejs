@@ -45,20 +45,27 @@
                 </a>
             </h1>
         </div>
-        <div class="panel-body">
+        <div class="panel-body" style="min-height: 360px;">
             <div class="media">
-
                 <div class="media-left media-top">
-                    <img src="/image/avatar.jpg" class="img-circle" style="width:250px">
+                    <img src="/image/avatar.png" class="img-circle" style="width:250px;
+                    border: solid 10px skyblue;
+                    margin: 20px;">
                 </div>
                 <div class="media-body">
                     <div class="row">
-                        <div class="col-md-6">
-                            <p><strong><font size="4">Email:</font></strong></p>
-                            <p><font size="4"><%= email %></font></p>
-                            <p><img src="/image/slackLogo.svg" class="img-circle" style="width:19px">
-                                <strong><font size="4">Slack Handle:</font></strong></p>
-                            <p><font size="4"><%= slack %></font></p>
+                        <div class="col-md-6" style="margin-top: 20px;">
+                            <div class="panel panel-default">
+                                <div class="panel-body"><font size="5"><strong>Email Address</strong></font></div>
+                                <div class="panel-footer"><font size="4"><%= email %></font></div>
+                            </div>
+                            <div class="panel panel-default">
+                                <div class="panel-body">
+                                    <img src="/image/slackLogo.svg" class="img-circle" style="width:30px; margin: 5px;">
+                                    <font size="5"><strong>Slack Handle</strong></font>
+                                </div>
+                                <div class="panel-footer"><font size="4"><%= slack %></font></div>
+                            </div>
                         </div>
 
                         <div class="col-md-6">
