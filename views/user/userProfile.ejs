@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,53 +9,59 @@
     <link rel="stylesheet" href="/public/stylesheets/style.css">
     <script src="/jquery/jquery.min.js"></script>
     <script src="/js/bootstrap.min.js"></script>
-    <script>$(".glyphicon-pencil").click(function() {
-            var pen = $(this);
-            pen.css("visibility", "hidden");
-            $(this).prev().attr("contenteditable", "true").focusout(function() {
-                $(this).removeAttr("contenteditable").off("focusout");
-                pen.css("visibility", "visible");
-            });
-        });
+    <script>
+        $("#userName").editable({
+            type: "textarea",
+            pk: 1,
+            name: "userName",
+            url: "post.php",
+            title: "userName"
+        })
     </script>
+    <style>
+        h5.smallP {
+            margin-bottom: 5px;
+            margin-top: 5px;
+        }
+        h1.smallP {
+            margin-bottom: 5px;
+            margin-top: 5px;
+        }
+    </style>
 </head>
+
+
+<a href="#" id="userName"></a>
 
 <body>
 <% include ../templates/header.ejs %>
-<!--TODO change user profile information to display actual information.-->
 <div class="container">
     <div class="panel panel-default">
-        <div class="panel-heading text-center">
-            <h1>User Profile
-                <em>
-                    <h1 class="active">
-                        User Name
-                        <button type="button" class="btn btn-default btn-sm" aria-label="Left align">
-                                    <span class="glyphicon glyphicon-pencil" aria-hidden="true">
-                                    </span>
-                        </button>
-
-                    </h1>
-                </em>
+        <div class="panel-heading text-left">
+            <h5 class="smallP"><font color="darkslategray" size="4">USER PROFILE</font>
+            </h5>
+            <h1 class="smallP">
+                User Name
+                <button type="button" class="btn btn-default btn-sm" aria-label="Left align">
+                    <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+                </button>
             </h1>
         </div>
         <div class="panel-body">
             <div class="media">
 
                 <div class="media-left media-top">
-                    <img src="/image/avatar.jpg" class="img-circle" style="width:150px">
+                    <img src="/image/avatar.jpg" class="img-circle" style="width:250px">
                 </div>
                 <div class="media-body">
                     <!--<div class="row">-->
                     <div class="row">
                         <div class="col-md-6">
-                            <p><strong>Username:</strong></p>
-                            <p><%= name %></p>
-                            <p><strong>Email:</strong></p>
-                            <p><%= email %></p>
+                            <p><strong><font size="4">Email:</font></strong></p>
+                            <p><font size="4"><%= email %></font></p>
                             <p><img src="/image/slackLogo.svg" class="img-circle" style="width:19px">
-                                <strong>Slack Handle:</strong></p>
-                            <p><%= slack %></p>
+                                <strong><font size="4">Slack Handle:</font></strong></p>
+                            <p><font size="4"><%= slack %></font></p>
                         </div>
 
                         <div class="col-md-6">
