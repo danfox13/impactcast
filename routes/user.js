@@ -47,7 +47,7 @@ user.find({
         example.save(function (err) {
             console.log(err ? "Error: " + err : "Added:\n" + example);
         }).then(function(){
-            slack.sendSlackMessage('owen.jenkins@capgemini.com', "Hi Owen!");
+            slack.sendSlackMessage('owen.jenkins@capgemini.com', "You've been assigned some more work!");
         });
     });
 
@@ -119,7 +119,7 @@ exports.changeName = function(req, res){
     })
         .then(function(result){
                 console.log("CHANGING USERNAME");
-                result.name =req.body.name;
+                result.name = req.body.name;
 
                 //save the newly modified user entry in the database
                 result.save();
