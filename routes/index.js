@@ -27,11 +27,12 @@ app.get('/failedLogin', site.failedLogin);
 app.post('/user/changePassword', user.changePassword);
 app.post('/user/deleteUser', user.deleteUser);
 
-app.get('/forgotPassword', user.forgotPassword);
-app.post('/forgotPassword', user.resetPassword);
-app.get('/invalidEmail', user.invalidEmail);
+app.get('/reset/forgotPassword', user.forgotPassword);
+app.post('/reset/forgotPassword', user.resetPassword);
+app.get('/reset/invalidEmail', user.invalidEmail);
 
 app.get('/reset/:token', user.resetPasswordLink);
+app.post('/reset/changeForgottenPassword/:email', user.changeForgottenPassword);
 
 //user URIs
 app.get('/user/addUser', user.viewAddUser);

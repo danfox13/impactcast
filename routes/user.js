@@ -16,20 +16,22 @@ var userSchema = new Schema({
     resetPasswordExpires: Date,
 }, {collection: 'user'});
 
+//how computationally expensive it is to calculate the hash + salt
 const SALT_FACTOR = 10;
 
 var user = mongoose.model('user', userSchema);
 
-console.log("Depopulating DB");
+//Depopulate the database and then add one admin user for testing
 user.find({
     email: {$regex: ".*"}
 })
     .then(function(results){
+        console.log("Depopulating DB");
         results.forEach(entry =>
         {console.log("Removed:\n" + entry);
             entry.remove();});
     })
-    .then(function(){
+    .then(function() {
         console.log("Populating DB");
         var example = new user({
             name: 'Owen',
@@ -37,9 +39,8 @@ user.find({
             slack: '@ojenkins',
             password: bcrypt.hashSync('password', SALT_FACTOR),
         })
-        example.save(function(err){
-            console.log(err?"Error: " + err : "Added:\n" + example);
-
+        example.save(function (err) {
+            console.log(err ? "Error: " + err : "Added:\n" + example);
         });
     });
 
@@ -72,17 +73,25 @@ exports.failedAddUser = function(req, res){
 //Add a new user to the database and send them their password in an email
 exports.addUser = function(req, res){
     var email = req.body.email;
+
+    //generate a random new password for the new user
     var password = crypto.randomBytes(10).toString('hex');
+
+    //generate the hash of that password to add to the database
     var salt = bcrypt.genSaltSync(SALT_FACTOR);
     var hash = bcrypt.hashSync(password, salt);
 
+    //create the entry for the new user
     var newUser = new user({
         email: email,
         password: hash,
     });
 
+    //save the new user on the database
     newUser.save()
     .then(function(){
+
+        //send the new user an email with their login details
         mailer.sendAddUserEmail(email, password);
         res.redirect('/user/addUser/added');
     })
@@ -92,38 +101,45 @@ exports.addUser = function(req, res){
         });
 }
 
-//Modify a user's password
+//Change a user's password and send them an email
 exports.changePassword = function(req, res){
 
     var newPass = req.body.newPassword;
     var newPassCheck = req.body.newPasswordCheck;
     var email = req.session.email;
 
-    console.log("CHANGING PASSWORD =======================================\n" +
+    console.log("CHANGING PASSWORD FOR USER:\n" +
         "Email = " + email +
         "\nOld Password = " + req.body.oldPassword +
         "\nNew Password = " + newPass +
         "\nCheck = " + newPassCheck);
 
+    //double check that the new passwords match
     if(newPass && newPassCheck &&
         newPass === newPassCheck){
 
+        //find the user currently logged in
         user.findOne({
             email: email,
         })
             .then(function(result){
+
+                //check that they entered the correct password for their account
                 var hash = result.password;
                 var password = req.body.oldPassword;
                 if(hash && password &&
                     bcrypt.compareSync(password, hash)) {
-                    console.log("PASSWORDS MATCH------------------------------\n" +
-                        "SAVING NEW PASSWORD HASH-----------------------------");
+                    console.log("PASSWORDS MATCH, SAVING NEW PASSWORD HASH");
                     result.password = bcrypt.hashSync(newPass, SALT_FACTOR);
 
+                    //save the newly modified user entry in the database
                     result.save();
                 }
             })
             .then(function(){
+
+                //send the user an email to let them know their password has been changed
+                mailer.sendPasswordChangedEmail(email);
                 res.redirect('/user/userProfile');
             })
             .catch(function(err){
@@ -132,19 +148,25 @@ exports.changePassword = function(req, res){
     }
 }
 
+//Login to the system
 exports.login = function(req, res){
-    let hash;
     var email = req.body.email;
     var password = req.body.pwd;
+
+    console.log("Attempted login: " + email + " and " + password);
+
+    //find the entry for the user in the database
     user.findOne({
         email: email,
     }).then(function (result) {
         if(result) {
-            hash = result.password;
+            var hash = result.password;
 
             //compare the hash in the collection to the hash of the presented password
             if (hash && password
                 && bcrypt.compareSync(password, hash)) {
+
+                //if they match, log the user in and authenticate the session
                 console.log('pass');
                 req.session.email = email;
                 req.session.authenticated = true;
@@ -201,8 +223,9 @@ exports.deleteUser = function(req, res){
             var hash = result.password;
             if(hash && password &&
                 bcrypt.compareSync(password, hash)) {
-                console.log("PASSWORDS MATCH------------------------------\n" +
-                    "DELETING USER xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+
+                //if the user entered the correct password, delete their entry
+                console.log("PASSWORDS MATCH, DELETING USER");
                 result.remove();
             }
         }
@@ -218,13 +241,26 @@ exports.deleteUser = function(req, res){
 
 }
 
+//redirect to the forgotten password view
 exports.forgotPassword = function(req, res){
-    res.render('forgotPassword', {title: "Forgotten Password", sentEmail: false, validEmail: true});
+    res.render('reset/forgotPassword', {title: "Forgotten Password", sentEmail: false, validEmail: true});
 }
 
+//generate a reset password link and email it to the user
 exports.resetPassword = function(req, res){
     var email = req.body.email;
     var token = crypto.randomBytes(20).toString('hex');
+
+    console.log("Current DB--------------");
+
+    user.find({
+        email: {$regex: ".*"}
+    })
+        .then(function (results) {
+            results.forEach(entry => {
+                console.log(entry);
+            });
+        });
 
     user.findOne({
         email: email,
@@ -239,15 +275,16 @@ exports.resetPassword = function(req, res){
                     console.log("Saved");
                     mailer.sendResetEmail(email, token);
                     console.log("Sent");
-                    res.render('forgotPassword', {title: "Forgotten Password", sentEmail: true, validEmail: true});
+                    res.render('reset/forgotPassword', {title: "Forgotten Password", sentEmail: true, validEmail: true});
                 });
             }
             else{
-              res.redirect('/invalidEmail');
+              res.redirect('/reset/invalidEmail');
             }
         })
 }
 
+//if the reset password link used is valid, redirect the user to a page where they can change their password
 exports.resetPasswordLink = function(req, res) {
 
         user.findOne({
@@ -255,10 +292,10 @@ exports.resetPasswordLink = function(req, res) {
             resetPasswordExpires: {$gt: Date.now()}
         }).then(function (results) {
             if(results){
-                res.render('resetPassword', {title: "Reset Password", invalidLink: false, email: results.email});
+                res.render('reset/resetPassword', {title: "Reset Password", invalidLink: false, email: results.email});
             }
             else {
-                res.render('resetPassword', {title: "Reset Password", invalidLink: true, email: null});
+                res.render('reset/resetPassword', {title: "Reset Password", invalidLink: true, email: null});
             }
         }).catch(function(err){
             console.log("Error: " + err);
@@ -266,10 +303,50 @@ exports.resetPasswordLink = function(req, res) {
         });
 }
 
+//if the user entered an invalid email, redirect them back with an alert
 exports.invalidEmail = function(req, res){
-    res.render('forgotPassword', {title: "Forgotten Password", sentEmail: false, validEmail: false});
+    res.render('reset/forgotPassword', {title: "Forgotten Password", sentEmail: false, validEmail: false});
 }
 
+//change a user's password without them having to know the old one (only used through reset link)
+exports.changeForgottenPassword = function(req, res){
+    var newPass = req.body.newPassword;
+    var newPassCheck = req.body.newPasswordCheck;
+    var email = req.params.email;
+
+    console.log("CHANGING PASSWORD =======================================\n" +
+        "Email = " + email +
+        "\nNew Password = " + newPass +
+        "\nCheck = " + newPassCheck);
+
+    if(newPass && newPassCheck &&
+        newPass === newPassCheck){
+
+        user.findOne({
+            email: email,
+        })
+            .then(function(result) {
+                if (result) {
+                console.log("GOT CORRECT RESET LINK--------------------------\n" +
+                    "SAVING NEW PASSWORD HASH-----------------------------");
+                result.password = bcrypt.hashSync(newPass, SALT_FACTOR);
+                result.resetPasswordToken = null;
+                result.resetPasswordExpires = Date.now();
+                result.save();
+            }
+            })
+            .then(function(){
+                mailer.sendPasswordChangedEmail(email);
+                console.log("Redirect to login");
+                res.redirect('/');
+            })
+            .catch(function(err){
+                console.log("Error: " + err);
+            });
+    }
+}
+
+//Logout
 exports.logout = function(req, res){
 
     delete req.session.authenticated;

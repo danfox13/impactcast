@@ -55,3 +55,22 @@ exports.sendResetEmail = function(recipient, token){
     });
     console.log("Sent email");
 }
+
+exports.sendPasswordChangedEmail = function(recipient){
+    var mailOptions = {
+        from: 'augaapp@gmail.com',
+        to: recipient,
+        subject: 'Your Auga password has been changed!',
+        text: 'Someone has changed the password used to access your account.' +
+        '\n\nIf this was not you, please contact us immediately.'
+    };
+
+    transporter.sendMail(mailOptions, function (error, info) {
+
+        if (error) {
+            console.log(error);
+        } else {
+            console.log('Email sent: ' + info.response);
+        }
+    });
+}

@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="/public/stylesheets/style.css">
     <script src="/jquery/jquery.min.js"></script>
     <script src="/js/bootstrap.min.js"></script>
+    <script src="/jsvalidate/validator.min.js"></script>
     <script>$(".glyphicon-pencil").click(function() {
             var pen = $(this);
             pen.css("visibility", "hidden");
@@ -83,22 +84,25 @@
                                                 <label>Old Password:</label>
                                                 <div class="input-group">
                                                     <span class="input-group-addon">T</span>
-                                                    <input type="password" class="form-control" id="oldPassword" name="oldPassword" required>
+                                                    <input type="password" class="form-control" id="oldPassword" name="oldPassword"
+                                                           placeholder="Enter old password" required>
                                                 </div>
                                                 <label>New Password:</label>
                                                 <div class="input-group">
                                                     <span class="input-group-addon">T</span>
                                                     <input type="password" class="form-control" id="newPassword" name="newPassword"
-                                                           pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required>
+                                                           pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                                                           placeholder="Minimum 8 chars, with upper/lowercase and a digit"
+                                                           title="Password must be at least 8 characters long, and contain an uppercase letter, lowercase letter and number" required>
                                                 </div>
                                                 <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
-                                                <div class="help-block with-errors">Must have upper and lowercase chars and a number.
-                                                    Min 8 chars.</div>
+                                                <div class="help-block with-errors"></div>
                                                 <label>Reenter New Password:</label>
                                                 <div class="input-group">
                                                     <span class="input-group-addon">T</span>
                                                     <input type="password" class="form-control" id="newPasswordCheck" name="newPasswordCheck"
-                                                           pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required>
+                                                           data-match="#newPassword"
+                                                           placeholder="Minimum 8 chars, with upper/lowercase and a digit" required>
                                                 </div>
                                                 <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
                                                 <div class="help-block with-errors"></div>

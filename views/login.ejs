@@ -44,7 +44,7 @@
                 </div>
             </div>
         </form>
-        <% if(failedLogin){ %>
+        <% if(failedLogin){ //Activate this if a user has been directed to this page after attempting to login and failing %>
         <div class="row" style="margin-top:10px;">
             <div class="col-sm-3"></div>
             <div class="col-sm-6">
@@ -53,7 +53,8 @@
                        data-dismiss="alert" aria-label="close">
                         <span aria-hidden="true" style="color: darkslategrey">&times;</span></button>
                     <strong>Incorrect Login Details!</strong> Have you
-                    <a href="/forgotPassword" class="alert-link">forgotten your password?</a>
+                    <!-- Display link to route user to the page for recovering account details in the alert -->
+                    <a href="/reset/forgotPassword" class="alert-link">forgotten your password?</a>
                 </div>
             </div>
             <div class="col-sm-3"></div>
