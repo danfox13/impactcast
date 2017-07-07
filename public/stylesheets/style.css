@@ -25,7 +25,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .btn-success:active,
-.btn-success:focus
+.btn-success:focus,
 .btn-success:active:focus,
 .btn-success:active:hover {
     background-color: #397C94;
@@ -50,6 +50,16 @@ h1, h2, h3, h4, h5, h6 {
 
 .dropdown-menu > li > a {
     line-height: 40px;
+}
+
+.form-control, .input-group-addon {
+    border-radius: 0;
+}
+
+.has-error .form-control,
+.has-error .input-group-addon, .has-danger {
+    color: #BD6F54;
+    border-color: #BD6F54;
 }
 
 .navbar {
