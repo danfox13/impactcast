@@ -24,23 +24,24 @@ app.get('/logout', user.logout);
 app.get('/home', site.index);
 
 app.get('/failedLogin', site.failedLogin);
-app.post('/user/changePassword', user.changePassword);
-app.post('/user/changeName', user.changeName);
-app.post('/user/deleteUser', user.deleteUser);
 
+//Password reset URIs
 app.get('/reset/forgotPassword', user.forgotPassword);
 app.post('/reset/forgotPassword', user.resetPassword);
 app.get('/reset/invalidEmail', user.invalidEmail);
-
 app.get('/reset/:token', user.resetPasswordLink);
 app.post('/reset/changeForgottenPassword/:email', user.changeForgottenPassword);
 
 //user URIs
-app.get('/user/addUser', user.viewAddUser);
-app.post('/user/addUser', user.addUser);
-app.get('/user/addUser/added', user.addedUser);
-app.get('/user/addUser/failed', user.failedAddUser);
-app.get('/user/userProfile', user.viewUserProfile);
+app.get('/addUser', user.viewAddUser);
+app.post('/addUser', user.addUser);
+app.get('/addedUser', user.addedUser);
+app.get('/failedAddUser', user.failedAddUser);
+app.get('/userProfile', user.viewUserProfile);
+app.get('/viewUsers', user.viewUsers);
+app.post('/changePassword', user.changePassword);
+app.post('/changeName', user.changeName);
+app.post('/deleteUser', user.deleteUser);
 
 //Project URIs
 app.get('/newProject', project.newProject);

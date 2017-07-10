@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title><%= title %></title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/public/style.css">
+    <script src="/jquery/jquery.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+</head>
+<body>
+<% include ../templates/header.ejs %>
+<div class="container">
+    <div class="panel panel-default">
+        <div class="panel-heading text-center"><h1><%= heading %></h1></div>
+        <div class="panel-body">
+            <div class="table-responsive">
+                <table class="table table-striped table-hover">
+                    <thead>
+                    <tr>
+                        <th>
+                        <% if(viewer.isAdmin){%>
+                        User Actions
+                        <%} else {%>
+                        View User
+                        <%}%>
+                        </th>
+                        <th>Email</th>
+                        <th>Name</th>
+                        <th>Slack Handle</th>
+                        <% if(viewer.isAdmin){%>
+                        <th>Admin Actions</th>
+                        <%}%>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <% users.forEach(function(user){ %>
+                    <tr>
+                        <% if(viewer.isAdmin){%>
+                        <td><a href="/user/<%= user.email %>/viewProfile" class="btn btn-info"
+                               role="button">View</a>
+                            <a href="/user/<%= user.email %>/deleteUser" class="btn btn-danger"
+                               role="button">Delete</a>
+                        </td>
+                        <%} else {%>
+                        <td><a href="/user/<%= user.email %>/viewProfile" class="btn btn-info"
+                               role="button">View</a>
+                        </td>
+                        <%}%>
+                        <td><%= user.email %>
+                            <% if(user.isAdmin){%><span class="badge"> Admin </span><%}%>
+                        </td>
+                        <td><%= (user.name?user.name:"-") %></td>
+                        <td><%= (user.slack?user.slack:"-") %></td>
+                        <% if(viewer.isAdmin){%>
+                        <td>
+                            <% if(user.isAdmin){ %>
+                            <a href="/user/<%= user.email %>/revokeAdmin" class="label label-danger" role="button">Revoke Admin</a>
+                            <%} else{%>
+                            <a href="/user/<%= user.email %>/makeAdmin" class="label label-warning" role="button">Make Admin</a>
+                            <%}%>
+                        </td>
+                        <%}%>
+                        </tr>
+                    <% }); %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

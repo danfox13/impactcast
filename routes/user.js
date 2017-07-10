@@ -13,9 +13,9 @@ var userSchema = new Schema({
     name: {type: String},
     password: {type: String, required: true},
     slack: {type: String},
-    webhook: {type: String},
     resetPasswordToken: String,
     resetPasswordExpires: Date,
+    isAdmin: Boolean,
 }, {collection: 'user'});
 
 //how computationally expensive it is to calculate the hash + salt
@@ -41,15 +41,27 @@ user.find({
             name: 'Owen',
             email: 'owen.jenkins@capgemini.com',
             slack: '@owenjenkins',
-            webhook: 'https://hooks.slack.com/services/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',
             password: bcrypt.hashSync('password', SALT_FACTOR),
+            isAdmin: true,
         })
         example.save(function (err) {
             console.log(err ? "Error: " + err : "Added:\n" + example);
         }).then(function(){
             //slack.individualMessage('owen.jenkins@capgemini.com', "You've been assigned some more work!");
             //slack.generalMessage("Hello All!");
-        });
+        }).then(() =>{
+        var example = new user({
+            email: 'rosie.butcher@capgemini.com',
+            password: bcrypt.hashSync('password', SALT_FACTOR),
+            isAdmin: false,
+        })
+        example.save(function (err) {
+            console.log(err ? "Error: " + err : "Added:\n" + example);
+        }).then(function(){
+            //slack.individualMessage('owen.jenkins@capgemini.com', "You've been assigned some more work!");
+            //slack.generalMessage("Hello All!");
+        });}
+        );
     });
 
 //view page for adding users
@@ -104,11 +116,11 @@ exports.addUser = function(req, res){
 
         //send the new user an email with their login details
         mailer.sendAddUserEmail(email, password);
-        res.redirect('/user/addUser/added');
+        res.redirect('addedUser');
     })
         .catch(function(err){
             console.log("Error: " + err);
-            res.redirect('/user/addUser/failed');
+            res.redirect('failedAddUser');
         });
 }
 
@@ -386,6 +398,23 @@ exports.changeForgottenPassword = function(req, res){
                 console.log("Error: " + err);
             });
     }
+}
+
+//View all users page
+exports.viewUsers = function(req, res){
+    user.findOne({
+        email: req.session.email,
+    }).then(function(viewer){
+        user.find({
+            email: {$regex: ".*"}
+        }).then(function(results){
+            res.render('user/viewUsers', {title: "View Users",
+                heading: "View Users",
+                users: results,
+                viewer: viewer,
+            });
+        });
+    });
 }
 
 //Logout
