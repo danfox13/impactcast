@@ -47,7 +47,8 @@ user.find({
         example.save(function (err) {
             console.log(err ? "Error: " + err : "Added:\n" + example);
         }).then(function(){
-            slack.sendSlackMessage('owen.jenkins@capgemini.com', "You've been assigned some more work!");
+            //slack.individualMessage('owen.jenkins@capgemini.com', "You've been assigned some more work!");
+            //slack.generalMessage("Hello All!");
         });
     });
 
@@ -167,6 +168,15 @@ exports.changePassword = function(req, res){
                     //save the newly modified user entry in the database
                     result.save();
                 }
+                else{
+                    console.log("WRONG PASSWORD, DISPLAYING ERROR MSG");
+                    res.render('user/userProfile', {
+                        title: 'User Profile',
+                        email: result.email,
+                        name: result.name,
+                        slack: result.slack,
+                        wrongPassword: true});
+                }
             })
             .then(function(){
 
@@ -232,7 +242,8 @@ exports.viewUserProfile = function(req, res){
                 {title: 'User Profile',
                     email: email,
                     name: name,
-                    slack: slack});
+                    slack: slack,
+                wrongPassword: false});
         }
     ).catch(
         function(error){
@@ -259,6 +270,15 @@ exports.deleteUser = function(req, res){
                 //if the user entered the correct password, delete their entry in the database
                 console.log("PASSWORDS MATCH, DELETING USER");
                 result.remove();
+            }
+            else{
+                console.log("WRONG PASSWORD, DISPLAYING ERROR MSG");
+                res.render('user/userProfile', {
+                    title: 'User Profile',
+                    email: result.email,
+                    name: result.name,
+                    slack: result.slack,
+                    wrongPassword: true});
             }
         }
     )
