@@ -86,8 +86,18 @@ h1, h2, h3, h4, h5, h6 {
 .navbar-nav > li:hover,
 .navbar-nav > li:active,
 .navbar-nav > li:focus {
+    color: #FFFFFF;
+    background-color: #FFFFFF;
     border-bottom: 2px solid #465A64;
 }
+
+.tab-content{
+    background-color: #FFFFFF;
+    color: #FFFFFF;
+    border-color: #F0F0F0;
+    padding: 5px;
+}
+
 
 .panel, .panel-default, .modal-body, .modal-footer {
     color: white;

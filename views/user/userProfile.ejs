@@ -14,22 +14,6 @@
     <link href="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet"/>
     <script src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
     <style>
-        .panel-custom{
-            border-width: 9999999px;
-        }
-
-        .panel-custom > .panel-heading{
-            border-color: #465A64;
-            background-color: #0F4155;
-            color: #F0F0F0;
-        }
-
-        .panel-custom > .panel-body{
-            border-color: #465A64;
-            background-color: #66C6E7;
-            color: #465A64;
-        }
-
         .panel-custom2 > .panel-body{
             border-color: #465A64;
             background-color: #F0F0F0;
@@ -38,7 +22,7 @@
 
         .panel-custom2 > .panel-footer{
             border-color: #465A64;
-            background-color: #0F4155;
+            background-color: rgb(17, 89, 139);
             color: #F0F0F0;
         }
     </style>
@@ -58,7 +42,7 @@
 <body>
 <% include ../templates/header.ejs %>
 <div class="container">
-    <div class="panel panel-custom">
+    <div class="panel panel-default">
         <div class="panel-heading text-left">
             <h1>
                 <a style="color: black; border: none;"
@@ -71,7 +55,7 @@
             <div class="media">
                 <div class="media-left media-top">
                     <img src="/image/avatar.png" class="img-circle" style="width:250px;
-                    border: solid 10px skyblue;
+                    border: solid 10px rgb(17, 89, 139);
                     margin: 20px;">
                 </div>
                 <div class="media-body">
