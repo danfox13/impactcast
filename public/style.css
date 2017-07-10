@@ -62,17 +62,9 @@ h1, h2, h3, h4, h5, h6 {
     border-color: #BD6F54;
 }
 
-<<<<<<< HEAD
-.modal-header h4 .close {
-  background-color: #5cb85c;
-  color: white !important;
-  text-align: center;
-  font-size: 30px;
-=======
 .navbar {
     text-transform: uppercase;
     background-color: white;
->>>>>>> ae22cdde6599f43bd2ea944852298ca1723282ed
 }
 
 .navbar-brand {
