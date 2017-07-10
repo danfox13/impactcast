@@ -26,7 +26,7 @@ export default class SearchProjectAndChangeItems extends Component {
 
     render() {
         return (
-            <Panel header={<div className="text-center">Search Projects</div>}>
+            <Panel header="Search Projects" bsStyle="primary">
                 <FormGroup controlId="projectCode">
                     <ControlLabel>Project Code:</ControlLabel>
                     <FormControl name="projectCode" value={this.state.projectCode}

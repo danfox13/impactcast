@@ -8,7 +8,7 @@ import {Link} from 'react-router';
 export default class Header extends Component {
     render() {
         return (
-            <Navbar collapseOnSelect>
+            <Navbar fluid collapseOnSelect>
                 <Navbar.Header>
                     <Navbar.Brand>
                         <Link to="/">

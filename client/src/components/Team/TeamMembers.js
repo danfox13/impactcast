@@ -47,7 +47,7 @@ class TeamMembers extends Component {
         });
 
         return (
-            <Panel header={<div className="text-center">Team Members</div>}>
+            <Panel header="Team Members">
                 <Table striped hover responsive>
                     <thead>
                     <tr>

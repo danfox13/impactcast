@@ -5,7 +5,7 @@ import DeleteModal from '../Shared/DeleteModal';
 export default class ResourceDetails extends Component {
     render() {
         return (
-            <Panel header={<div className="text-center">Placeholder</div>}>
+            <Panel header="Placeholder" bsStyle="primary">
                 <Row>
                     <Col sm={6}>
                         <strong>Employee ID: </strong>Placeholder<br/><br/>

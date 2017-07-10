@@ -4,7 +4,7 @@ import {Button, ControlLabel, FormControl, FormGroup, InputGroup, Panel} from 'r
 export default class CreateResource extends Component {
     render() {
         return (
-            <Panel header={<div className="text-center">Create a New Resource</div>}>
+            <Panel header="Create a New Resource" bsStyle="primary">
                 <form>
                     <FormGroup controlId="resourceName">
                         <ControlLabel htmlFor="resourceName">Name:</ControlLabel>

@@ -8,7 +8,7 @@ import {Button, ControlLabel, FormControl, FormGroup, InputGroup, Panel} from 'r
 export default class AddRequiredResource extends Component {
     render() {
         return (
-            <Panel header={<div className="text-center">Add Required Resource</div>}>
+            <Panel header="Add Required Resource" bsStyle="primary">
                 <form>
                     <FormGroup controlId="roleName">
                         <ControlLabel>Role Name:</ControlLabel>

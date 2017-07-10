@@ -81,7 +81,7 @@ export default class ResourceDetails extends Component {
 
     render() {
         return (
-            <Panel header={<div className="text-center">Six Month Forecast</div>}>
+            <Panel header="Six Month Forecast">
                 <Tabs defaultActiveKey={1}>
                     <Tab eventKey={1} title={this.getCurrentMonth()}>
                         <Forecast/>

@@ -31,7 +31,7 @@ export default class UpdateResource extends Component {
 
     render() {
         return (
-            <Panel header={<div className="text-center">Update Resource</div>}>
+            <Panel header="Update Resource" bsStyle="primary">
                 <form>
                     <FormGroup controlId="resourceName">
                         <ControlLabel htmlFor="resourceName">Name:</ControlLabel>

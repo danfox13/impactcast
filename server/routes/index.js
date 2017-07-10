@@ -70,11 +70,36 @@ app.get('/team/:teamName', function (request, response) {
 
 // Project URIs
 
+app.post('/newProject', (request, response) => {
+    project.addNewProject(request, () => {
+        let responseBody = {};
+        responseBody.result = {
+            projectCode: request.body.projectCode
+        };
+
+        response.setHeader('Content-Type', 'application/json');
+        response.statusCode = 200;
+        response.write(JSON.stringify(responseBody));
+        response.end();
+    });
+});
+
+app.get('/searchProjects', (request, response) => {
+    project.runSearchProjects(request.query, results => {
+        let responseBody = {};
+
+        responseBody.results = {
+            results: results
+        };
+
+        response.setHeader('Content-Type', 'application/json');
+        response.write(JSON.stringify(responseBody));
+        response.end();
+    });
+});
+
 app.get('/project/:projectCode', (request, response) => {
-
-    let projectCode = request.params.projectCode;
-
-    project.view(projectCode, result => {
+    project.view(request.params.projectCode, result => {
        let responseBody = {};
 
        responseBody.result = {
@@ -90,10 +115,10 @@ app.get('/project/:projectCode', (request, response) => {
 
 
 //Project URIs
-app.get('/newProject', project.newProject);
-app.post('/newProject', project.addNewProject);
-app.get('/searchProjects', project.searchProjects);
-app.post('/searchProjects', project.runSearchProjects);
+//app.get('/newProject', project.newProject);
+//app.post('/newProject', project.addNewProject);
+//app.get('/searchProjects', project.searchProjects);
+//app.post('/searchProjects', project.runSearchProjects);
 //app.get('/project/:projectCode', project.view);
 app.get('/project/:projectCode/update', project.viewUpdate);
 app.post('/project/:projectCode/update', project.update);

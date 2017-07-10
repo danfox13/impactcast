@@ -44,7 +44,7 @@ export default class ProjectSearchResults extends Component {
         });
 
         return (
-            <Panel header={<div className="text-center">Search Results</div>}>
+            <Panel header="Search Results" bsStyle="primary">
                 <Table striped hover responsive>
                     <thead>
                     <tr>

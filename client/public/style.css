@@ -91,15 +91,21 @@ h1, h2, h3, h4, h5, h6 {
     border-radius: 0;
 }
 
-.panel-default > .panel-heading, .modal-header {
+.panel-default > .panel-heading,
+.panel-primary > .panel-heading,
+.modal-header {
     background-color: rgb(17, 89, 139);
     border: 0;
     border-radius: 0;
     color: white;
-    font-size: 36px;
+    font-size: 24px;
     font-weight: bold;
     text-align: center;
     text-transform: uppercase;
+}
+
+.panel-primary > .panel-heading {
+    font-size: 36px;
 }
 
 .table, .table a {
@@ -109,13 +115,12 @@ h1, h2, h3, h4, h5, h6 {
 
 .table > tbody > tr,
 .table-striped > tbody > tr:nth-of-type(odd),
-.table-striped > tbody > tr:nth-of-type(even)
-{
+.table-striped > tbody > tr:nth-of-type(even) {
     background-color: inherit;
 }
 
-.table > thead > tr > th, .table > tbody > tr > td
-{
+.table > thead > tr > th,
+.table > tbody > tr > td {
     border: 0;
     padding: 0;
 }

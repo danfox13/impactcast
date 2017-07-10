@@ -42,7 +42,7 @@ export default class AddTeamResourceSearchResults extends Component {
         // 	return <ResultRow key={resource._id} resource={resource}/>
         // });
         return (
-            <Panel header={<div className="text-center">Search Results</div>}>
+            <Panel header="Search Results" bsStyle="primary">
                 <Table striped hover responsive>
                     <thead>
                     <tr>

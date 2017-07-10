@@ -32,7 +32,7 @@ export default class ForecastResourceSearch extends Component {
 
     render() {
         return (
-            <Panel header={<div className="text-center">Assign a Resource</div>}>
+            <Panel header="Assign a Resource" bsStyle="primary">
                 <FormGroup controlId="resourceName">
                     <ControlLabel htmlFor="resourceName">Name:</ControlLabel>
                     <FormControl name="resourceName" value={this.state.resourceName}

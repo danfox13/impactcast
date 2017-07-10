@@ -8,7 +8,7 @@ import {Button, ControlLabel, FormControl, FormGroup, Glyphicon, InputGroup, Pan
 export default class UpdateChangeItem extends Component {
     render() {
         return (
-            <Panel header={<div className="text-center">Update Change Item</div>}>
+            <Panel header="Update Change Item" bsStyle="primary">
                 <form>
                     <FormGroup controlId="changeTitle">
                         <ControlLabel>Change Title:</ControlLabel>

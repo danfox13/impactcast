@@ -24,7 +24,7 @@ export default class SearchTeams extends Component {
 
     render() {
         return (
-            <Panel header={<div className="text-center">Search Teams</div>}>
+            <Panel header="Search Teams" bsStyle="primary">
                 <form>
                     <FormGroup controlId="teamName">
                         <ControlLabel htmlFor="teamName">Team Name:</ControlLabel>

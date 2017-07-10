@@ -44,7 +44,7 @@ export default class TeamForecast extends Component {
 
     render() {
         return (
-            <Panel header={<div className="text-center">Six Month Forecast Delta</div>}>
+            <Panel header="Six Month Forecast Delta">
                 <Table striped hover bordered responsive>
                     <thead>
                     <tr>

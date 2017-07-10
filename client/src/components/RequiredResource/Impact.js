@@ -20,7 +20,7 @@ import {
 export default class Impact extends Component {
     render() {
         return (
-            <Panel header={<div className="text-center">Impact</div>}>
+            <Panel header="Impact">
                 <Grid>
                     <Row>
                         <Col sm={6}>

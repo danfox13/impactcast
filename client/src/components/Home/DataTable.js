@@ -13,13 +13,15 @@ class DataRow extends Component {
                 </td>
                 <td>{this.props.dataItem.projectCode}</td>
                 <td>{this.props.dataItem.projectTitle}</td>
+                <td>
                 {this.props.dataItem.changeItems.map(changeItem =>
-                    <td key={changeItem.changeTitle}>
-                        <a href={'/project/' + this.props.dataItem.projectCode + '/' + changeItem.changeTitle}>
-                            {changeItem.changeTitle}
-                        </a><br/>
-                    </td>
+                <div key={changeItem.changeTitle}>
+                    <a href={'/project/' + this.props.dataItem.projectCode + '/' + changeItem.changeTitle}>
+                        {changeItem.changeTitle}
+                    </a>
+                </div>
                 )}
+                </td>
             </tr>
         )
     }
@@ -46,7 +48,7 @@ class DataTable extends Component {
 
         return (
             <Col sm={6}>
-                <Panel header={<div className="text-center">{this.props.tableHeader}</div>}>
+                <Panel header={this.props.tableHeader}>
                     <Table striped hover responsive>
                         <thead>
                         <tr>

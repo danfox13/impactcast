@@ -8,7 +8,7 @@ import {Button, Panel, Table} from 'react-bootstrap';
 export default class RequiredResources extends Component {
     render() {
         return (
-            <Panel header={<div className="text-center">Required Resources</div>}>
+            <Panel header="Required Resources">
                 <Table striped hover responsive>
                     <thead>
                     <tr>

@@ -54,7 +54,7 @@ export default class CreateTeam extends Component {
 
     render() {
         return (
-            <Panel header={<div className="text-center">Create a Team</div>}>
+            <Panel header="Create a Team" b>
                 <form onSubmit={this.handleSubmit} data-toggle="validator" role="form">
 
                     <FormGroup>

@@ -31,17 +31,16 @@ exports.newProject = function (req, res) {
 
 
 //Submit the new project form
-exports.addNewProject = function (req, res) {
+exports.addNewProject = function (req, callback) {
 
     //Add to database
-    var data = new project({
+    let data = new project({
         projectCode: req.body.projectCode,
-        projectTitle: req.body.projectName
+        projectTitle: req.body.projectTitle
     });
     data.save();
 
-    res.body = {projectCode: req.body.projectCode};
-    res.redirect('/project/' + req.body.projectCode);
+    callback();
 };
 
 
@@ -51,11 +50,6 @@ exports.view = function (req, callback) {
     project.findOne({
         projectCode: req
     }).populate('changeItems').then(function (project) {
-        // res.render('project/project', {
-        //     title: 'ImpactCast - ' + project.projectTitle,
-        //     heading: project.projectTitle,
-        //     project: project
-        // });
         let result = {
             projectTitle: project.projectTitle,
             changeItems: project.changeItems
@@ -73,8 +67,7 @@ exports.searchProjects = function (req, res) {
 
 
 //Load the search results page
-exports.runSearchProjects = function (req, res) {
-
+exports.runSearchProjects = function (req, callback) {
     project.aggregate([
         {$unwind: "$changeItems"},
         {
@@ -88,10 +81,10 @@ exports.runSearchProjects = function (req, res) {
         {$unwind: "$changeItems"},
         {
             $match: {
-                "changeItems.changeTitle": {$regex: "(?i).*" + req.body.changeItemTitle + ".*"},
-                "changeItems.status": {$regex: "(?i).*" + req.body.changeItemStatus + ".*"},
-                projectCode: {$regex: "(?i).*" + req.body.projectCode + ".*"},
-                projectTitle: {$regex: "(?i).*" + req.body.projectTitle + ".*"}
+                "changeItems.changeTitle": {$regex: "(?i).*" + req.changeItemTitle + ".*"},
+                "changeItems.status": {$regex: "(?i).*" + req.changeItemStatus + ".*"},
+                projectCode: {$regex: "(?i).*" + req.projectCode + ".*"},
+                projectTitle: {$regex: "(?i).*" + req.projectTitle + ".*"}
             }
         },
         {
@@ -103,13 +96,7 @@ exports.runSearchProjects = function (req, res) {
             }
         }
 
-    ]).then(function (results) {
-        res.render('project/searchProjectsResults', {
-            title: 'ImpactCast - Search Results',
-            heading: 'Search Results',
-            projects: results
-        });
-    })
+    ]).then(results => callback(results));
 };
 
 
@@ -121,7 +108,7 @@ exports.viewUpdate = function (req, res) {
     }).then(function (project) {
         res.render('project/updateProject', {
             title: 'ImpactCast - ' + project.projectCode,
-            heading: "Update " + project.projectCode,
+            heading: 'Update ' + project.projectCode,
             project: project
         });
     })
@@ -145,7 +132,7 @@ exports.update = function (req, res) {
 
             res.body = {
                 title: 'ImpactCast - ' + project.projectCode,
-                heading: "Update " + project.projectCode,
+                heading: 'Update ' + project.projectCode,
                 project: project
             };
             res.redirect('/project/' + req.body.projectCode);
@@ -169,27 +156,27 @@ exports.delete = function (req, res) {
 //find all projects containing a change item with status
 exports.getProjectsWithStatus = function (status, callback) {
     project.aggregate([
-        {$unwind: "$changeItems"},
+        {$unwind: '$changeItems'},
         {
             $lookup: {
-                from: "changeItem",
-                localField: "changeItems",
-                foreignField: "_id",
-                as: "changeItems"
+                from: 'changeItem',
+                localField: 'changeItems',
+                foreignField: '_id',
+                as: 'changeItems'
             }
         },
-        {$unwind: "$changeItems"},
+        {$unwind: '$changeItems'},
         {
             $match: {
-                "changeItems.status": status
+                'changeItems.status': status
             }
         },
         {
             $group: {
-                _id: "$_id",
-                projectCode: {"$first": "$projectCode"},
-                projectTitle: {"$first": "$projectTitle"},
-                changeItems: {"$push": "$changeItems"}
+                _id: '$_id',
+                projectCode: {'$first': '$projectCode'},
+                projectTitle: {'$first': '$projectTitle'},
+                changeItems: {'$push': '$changeItems'}
             }
         }
 
@@ -203,56 +190,56 @@ exports.getProjectsWithStatus = function (status, callback) {
 exports.getProjectsByResourceImpactMonth = function (resourceId, startDate, endDate, callback) {
 
     project.aggregate([
-        {$unwind: "$changeItems"},
+        {$unwind: '$changeItems'},
         {
             $lookup: {
-                from: "changeItem",
-                localField: "changeItems",
-                foreignField: "_id",
-                as: "changeItems"
+                from: 'changeItem',
+                localField: 'changeItems',
+                foreignField: '_id',
+                as: 'changeItems'
             }
         },
-        {$unwind: "$changeItems"},
-        {$unwind: "$changeItems.resourcesRequired"},
+        {$unwind: '$changeItems'},
+        {$unwind: '$changeItems.resourcesRequired'},
         {
             $lookup: {
-                from: "requiredResource",
-                localField: "changeItems.resourcesRequired",
-                foreignField: "_id",
-                as: "changeItems.resourcesRequired"
+                from: 'requiredResource',
+                localField: 'changeItems.resourcesRequired',
+                foreignField: '_id',
+                as: 'changeItems.resourcesRequired'
             }
         },
-        {$unwind: "$changeItems.resourcesRequired"},
+        {$unwind: '$changeItems.resourcesRequired'},
         {
             $lookup: {
-                from: "resource",
-                localField: "changeItems.resourcesRequired.forecastedResource",
-                foreignField: "_id",
-                as: "changeItems.resourcesRequired.forecastedResource"
+                from: 'resource',
+                localField: 'changeItems.resourcesRequired.forecastedResource',
+                foreignField: '_id',
+                as: 'changeItems.resourcesRequired.forecastedResource'
             }
         },
-        {$unwind: "$changeItems.resourcesRequired.forecastedResource"},
-        {$unwind: "$changeItems.resourcesRequired.impact"},
+        {$unwind: '$changeItems.resourcesRequired.forecastedResource'},
+        {$unwind: '$changeItems.resourcesRequired.impact'},
         {
             $lookup: {
-                from: "impact",
-                localField: "changeItems.resourcesRequired.impact",
-                foreignField: "_id",
-                as: "changeItems.resourcesRequired.impact"
+                from: 'impact',
+                localField: 'changeItems.resourcesRequired.impact',
+                foreignField: '_id',
+                as: 'changeItems.resourcesRequired.impact'
             }
-        }, {$unwind: "$changeItems.resourcesRequired.impact"},
+        }, {$unwind: '$changeItems.resourcesRequired.impact'},
         {
             $match: {
-                "changeItems.resourcesRequired.forecastedResource._id": mongoose.mongo.ObjectID( resourceId ),
-                "changeItems.resourcesRequired.impact.month": {$gte: startDate, $lt: endDate}
+                'changeItems.resourcesRequired.forecastedResource._id': mongoose.mongo.ObjectID(resourceId),
+                'changeItems.resourcesRequired.impact.month': {$gte: startDate, $lt: endDate}
             }
         },
         {
             $group: {
-                _id: "$_id",
-                projectCode: {"$first": "$projectCode"},
-                projectTitle: {"$first": "$projectTitle"},
-                changeItems: {"$push": "$changeItems"}
+                _id: '$_id',
+                projectCode: {'$first': '$projectCode'},
+                projectTitle: {'$first': '$projectTitle'},
+                changeItems: {'$push': '$changeItems'}
             }
         }
     ]).then(function (results) {

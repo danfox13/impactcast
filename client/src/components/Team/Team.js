@@ -21,7 +21,7 @@ export default class Team extends Component {
 
     render() {
         return (
-            <Panel header={<div className="text-center">Placeholder</div>}>
+            <Panel header="Placeholder" bsStyle="primary">
                 <Row>
                     <Col sm={12}>
                         <strong>Team Name: </strong>Placeholder
