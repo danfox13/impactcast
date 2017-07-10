@@ -1,30 +1,129 @@
-a {
-    color: #00b7ff;
+body {
+    background-color: #F0F0F0;
 }
 
-html body {
-    background-color: rgba(55, 120, 97, 0.85);
-
+h1, h2, h3, h4, h5, h6 {
+    text-transform: uppercase;
 }
 
-.vertical-center {
-    min-height: 100%; /* Fallback for browsers do NOT support vh unit */
-    min-height: 100vh; /* These two lines are counted as one :-)       */
-
-    display: flex;
-    align-items: center;
+.btn {
+    border: 0;
+    border-radius: 0;
 }
 
-.modal-header, h4, .close {
-    background-color: #5cb85c;
-    color: white !important;
+.btn-success {
+    background-color: #54a2bd;
+}
+
+.btn-danger {
+    background-color: #BD6F54;
+}
+
+.btn-success.disabled:hover,
+.btn-success:hover {
+    background-color: #4391AC;
+}
+
+.btn-success:active,
+.btn-success:focus,
+.btn-success:active:focus,
+.btn-success:active:hover {
+    background-color: #397C94;
+}
+
+.close, .close:hover {
+    color: white;
+    opacity: .75;
+}
+
+.close:hover {
+    opacity: 1;
+}
+
+.dropdown-menu {
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+    padding: 0;
+}
+
+.dropdown-menu > li > a {
+    line-height: 40px;
+}
+
+.form-control, .input-group-addon {
+    border-radius: 0;
+}
+
+.has-error .form-control,
+.has-error .input-group-addon, .has-danger {
+    color: #BD6F54;
+    border-color: #BD6F54;
+}
+
+.navbar {
+    text-transform: uppercase;
+    background-color: white;
+}
+
+.navbar-brand {
+    height: 110px;
+}
+
+.navbar-nav > li > a {
+    line-height: 78px;
+    color: #465A64;
+    font-size: 18px;
+}
+
+.navbar-nav > li:hover,
+.navbar-nav > li:active,
+.navbar-nav > li:focus {
+    border-bottom: 2px solid #465A64;
+}
+
+.panel, .panel-default, .modal-body, .modal-footer {
+    color: white;
+    background-color: #66c6e7;
+    border: 0;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
+}
+
+.panel-default > .panel-heading, .modal-header {
+    background-color: rgb(17, 89, 139);
+    border: 0;
+    border-radius: 0;
+    color: white;
+    font-size: 36px;
+    font-weight: bold;
     text-align: center;
-    font-size: 30px;
+    text-transform: uppercase;
 }
 
-.modal-footer {
-    background-color: #f9f9f9;
+.table, .table a {
+    text-transform: none;
+    color: white;
 }
 
+.table > tbody > tr,
+.table-striped > tbody > tr:nth-of-type(odd),
+.table-striped > tbody > tr:nth-of-type(even)
+{
+    background-color: inherit;
+}
 
+.table > thead > tr > th, .table > tbody > tr > td
+{
+    border: 0;
+    padding: 0;
+}
 
+.table > tbody > tr > td {
+    line-height: 40px;
+}
+
+.table .btn {
+    padding: 5px 40px;
+}

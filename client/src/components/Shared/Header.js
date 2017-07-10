@@ -3,13 +3,18 @@
  */
 import React, {Component} from 'react';
 import {Glyphicon, MenuItem, Nav, Navbar, NavDropdown, NavItem} from 'react-bootstrap';
+import {Link} from 'react-router';
 
 export default class Header extends Component {
     render() {
         return (
-            <Navbar inverse collapseOnSelect>
+            <Navbar collapseOnSelect>
                 <Navbar.Header>
-                    <Navbar.Brand><a href="/">ImpactCast</a></Navbar.Brand>
+                    <Navbar.Brand>
+                        <Link to="/">
+                            <img src="/img/logo.png" alt="Auga" height="100%"/>
+                        </Link>
+                    </Navbar.Brand>
                     <Navbar.Toggle />
                 </Navbar.Header>
                 <Navbar.Collapse>
