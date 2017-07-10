@@ -7,8 +7,8 @@ import ProjectDetails from '../../components/Project/ProjectDetails';
 import ChangeItems from '../../components/Project/ChangeItems';
 
 export default class Project extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             projectTitle: '',
             changeItems: []
@@ -26,9 +26,10 @@ export default class Project extends Component {
         fetch(url)
             .then(response => response.json())
             .then((data) => {
+                console.log(data);
                 this.setState({
-                    projectTitle: data.results.projectTitle,
-                    changeItems: data.results.changeItems
+                    projectTitle: data.result.projectTitle,
+                    changeItems: data.result.changeItems
                 });
             })
             .catch(err => console.log(err));

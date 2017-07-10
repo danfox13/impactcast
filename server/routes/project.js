@@ -46,16 +46,22 @@ exports.addNewProject = function (req, res) {
 
 
 //Load the project info page
-exports.view = function (req, res) {
+exports.view = function (req, callback) {
 
     project.findOne({
-        projectCode: req.params.projectCode
+        projectCode: req
     }).populate('changeItems').then(function (project) {
-        res.render('project/project', {
-            title: 'ImpactCast - ' + project.projectTitle,
-            heading: project.projectTitle,
-            project: project
-        });
+        // res.render('project/project', {
+        //     title: 'ImpactCast - ' + project.projectTitle,
+        //     heading: project.projectTitle,
+        //     project: project
+        // });
+        let result = {
+            projectTitle: project.projectTitle,
+            changeItems: project.changeItems
+        };
+
+        callback(result);
     })
 };
 
