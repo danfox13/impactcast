@@ -26,4 +26,8 @@ html body {
   background-color: #f9f9f9;
 }
 
-
+.mytextarea {
+  height: 60px;
+  width: 1000px;
+  font-size: 100%;
+}

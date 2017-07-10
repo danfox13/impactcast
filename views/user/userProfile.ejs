@@ -31,7 +31,8 @@
     <div class="panel panel-default">
         <div class="panel-heading text-left">
             <h1>
-                <a href="#" id="username" data-type="text" data-title="Enter Username">
+                <a style="color: black; border: none;"
+                   href="#" id="username" data-type="text" data-title="Enter Username">
                     <%= name %>
                 </a>
             </h1>
@@ -147,7 +148,9 @@
             console.log("------------DOCUMENT READY--------------");
             $(document).ready( function() {
                 $.fn.editable.defaults.mode = 'inline';
-                $('#username').editable();
+                $('#username').editable({
+                inputclass: 'mytextarea'
+            });
             });
         })(jQuery);
     </script>
