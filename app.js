@@ -24,7 +24,7 @@ function checkAuth (req, res, next) {
             title: 'ImpactCast - Login',
             //TODO returns a 200 not 403
             status: 403,
-            failedLogin: (req.url === '/failedLogin'?true:false),
+            failedLogin: (req.url === '/failedLogin')
         });
         return;
     }
