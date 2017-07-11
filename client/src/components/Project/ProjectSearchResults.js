@@ -48,7 +48,7 @@ export default class ProjectSearchResults extends Component {
                 <Table striped hover responsive>
                     <thead>
                     <tr>
-                        <th>View Project</th>
+                        <th/>
                         <th>Project Code</th>
                         <th>Project Title</th>
                         <th>Change Items</th>

@@ -45,7 +45,7 @@ export default class ForecastResourceSearchResults extends Component {
                 <Table striped hover responsive>
                     <thead>
                     <tr>
-                        <th>View Resource</th>
+                        <th/>
                         <th>Name</th>
                         <th>Job Title</th>
                     </tr>

@@ -12,7 +12,7 @@ export default class RequiredResources extends Component {
                 <Table striped hover responsive>
                     <thead>
                     <tr>
-                        <th>View/Edit</th>
+                        <th/>
                         <th>Role Name</th>
                         <th>Grade</th>
                         <th>Impact</th>

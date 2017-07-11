@@ -51,7 +51,7 @@ class TeamMembers extends Component {
                 <Table striped hover responsive>
                     <thead>
                     <tr>
-                        <th>View</th>
+                        <th/>
                         <th>Name</th>
                         <th>Role</th>
                         <th>Action</th>

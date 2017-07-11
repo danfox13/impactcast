@@ -47,7 +47,7 @@ export default class ResourceSearchResults extends Component {
                         <table className="table table-striped table-hover">
                             <thead>
                             <tr>
-                                <th>View Resource</th>
+                                <th/>
                                 <th>Name</th>
                                 <th>Job Title</th>
                             </tr>

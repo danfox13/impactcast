@@ -4,6 +4,7 @@
 
 import React, {Component} from 'react';
 import {Button, Col, Panel, Row} from 'react-bootstrap';
+import {LinkContainer} from 'react-router-bootstrap';
 
 import DeleteModal from '../Shared/DeleteModal';
 
@@ -46,19 +47,21 @@ export default class ChangeItemDetails extends Component {
                 </Row>
                 <Row>
                     <Col sm={4}>
-                        <Button href={'/project/' + this.props.projectCode
-                                    + '/' + this.state.changeItem.changeTitle + '/addRequiredResource'}
-                                bsStyle="success" block>Add a Resource Requirement</Button>
+                        <LinkContainer to={'/project/' + this.props.projectCode
+                        + '/' + this.state.changeItem.changeTitle + '/addRequiredResource'}>
+                            <Button bsStyle="success" block>Add a Resource Requirement</Button>
+                        </LinkContainer>
                     </Col>
                     <Col sm={4}>
-                        <Button href={'/project/' + this.props.projectCode
-                                    + '/' + this.state.changeItem.changeTitle + '/update'}
-                                bsStyle="success" block>Update Change Item Details</Button>
+                        <LinkContainer to={'/project/' + this.props.projectCode
+                        + '/' + this.state.changeItem.changeTitle + '/update'}>
+                            <Button bsStyle="success" block>Update Change Item Details</Button>
+                        </LinkContainer>
                     </Col>
                     <Col sm={4}>
                         <DeleteModal subjectType="Change Item"
                                      subjectRoute={'/project/' + this.props.projectCode
-                                                + '/' + this.state.changeItem.changeTitle}
+                                     + '/' + this.state.changeItem.changeTitle}
                                      subjectName={this.state.changeItem.changeTitle}/>
                     </Col>
                 </Row>

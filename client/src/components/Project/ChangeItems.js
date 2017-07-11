@@ -13,7 +13,7 @@ export default class ChangeItems extends Component {
                 <Table striped hover responsive>
                     <thead>
                     <tr>
-                        <th>View</th>
+                        <th/>
                         <th>Name</th>
                         <th>Status</th>
                         <th>LID</th>
