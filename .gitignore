@@ -3,6 +3,6 @@ npm-debug.log
 .DS_Store
 /*.env
 globals.js
-.idea
+.idea/*
 client/
 server/
