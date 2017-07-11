@@ -20,6 +20,7 @@ var requiredResourceSchema = new Schema({
     pricingFlag: String,
     reason: String,
     impact: [{type: Schema.Types.ObjectId, ref: 'impact'}],
+    actual: [{type: Schema.Types.ObjectId, ref: 'actual'}],
     forecastedResource: {type: Schema.Types.ObjectId, ref: 'resource'}
 
 }, {collection: 'requiredResource'});
@@ -135,6 +136,17 @@ exports.addImpact = function (resourceID, impactID) {
         _id: resourceID
     }).then(function (requiredResource) {
         requiredResource.impact.push(impactID);
+        requiredResource.save();
+
+    });
+};
+
+//add an actual
+exports.addActual = function (resourceID, actualID) {
+    requiredResource.findOne({
+        _id: resourceID
+    }).then(function (requiredResource) {
+        requiredResource.actual.push(actualID);
         requiredResource.save();
 
     });
