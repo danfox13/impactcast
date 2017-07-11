@@ -113,6 +113,32 @@ app.get('/project/:projectCode', (request, response) => {
     });
 });
 
+app.get('/project/:projectCode/update', (request, response) => {
+   project.viewUpdate(request.params.projectCode, result => {
+      let responseBody = {};
+      responseBody.result = {
+          projectTitle: result.projectTitle
+      };
+
+       response.setHeader('Content-Type', 'application/json');
+       response.write(JSON.stringify(responseBody));
+       response.end();
+   });
+});
+
+app.post('/project/:projectCode/update', (request, response) => {
+   project.update(request, () => {
+       let responseBody = {};
+       responseBody.result = {
+           projectCode: request.body.projectCode
+       };
+
+       response.setHeader('Content-Type', 'application/json');
+       response.write(JSON.stringify(responseBody));
+       response.end();
+   })
+});
+
 
 //Project URIs
 //app.get('/newProject', project.newProject);
@@ -120,8 +146,8 @@ app.get('/project/:projectCode', (request, response) => {
 //app.get('/searchProjects', project.searchProjects);
 //app.post('/searchProjects', project.runSearchProjects);
 //app.get('/project/:projectCode', project.view);
-app.get('/project/:projectCode/update', project.viewUpdate);
-app.post('/project/:projectCode/update', project.update);
+//app.get('/project/:projectCode/update', project.viewUpdate);
+//app.post('/project/:projectCode/update', project.update);
 app.get('/project/:projectCode/delete', project.delete);
 
 //Change Item URIs

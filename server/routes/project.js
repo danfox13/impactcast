@@ -101,43 +101,39 @@ exports.runSearchProjects = function (req, callback) {
 
 
 //load update project info form
-exports.viewUpdate = function (req, res) {
+exports.viewUpdate = function (req, callback) {
 
     project.findOne({
-        projectCode: req.params.projectCode
-    }).then(function (project) {
-        res.render('project/updateProject', {
-            title: 'ImpactCast - ' + project.projectCode,
-            heading: 'Update ' + project.projectCode,
-            project: project
-        });
-    })
+        projectCode: req
+    }).then(result => callback(result))
 };
 
 //update project info
-exports.update = function (req, res) {
+exports.update = function (req, callback) {
 
     var newData = {
         projectCode: req.body.projectCode,
-        projectTitle: req.body.projectName
+        projectTitle: req.body.projectTitle
     };
 
     project.findOneAndUpdate({projectCode: req.params.projectCode}, newData, {
         upsert: false,
         new: false
-    }, function (err, project) {
-        if (err) {
-            return res.send(500, {error: err});
-        } else {
+    }).then(callback)
 
-            res.body = {
-                title: 'ImpactCast - ' + project.projectCode,
-                heading: 'Update ' + project.projectCode,
-                project: project
-            };
-            res.redirect('/project/' + req.body.projectCode);
-        }
-    });
+    //     function (err, project) {
+    //     if (err) {
+    //         return res.send(500, {error: err});
+    //     } else {
+    //
+    //         res.body = {
+    //             title: 'ImpactCast - ' + project.projectCode,
+    //             heading: 'Update ' + project.projectCode,
+    //             project: project
+    //         };
+    //         res.redirect('/project/' + req.body.projectCode);
+    //     }
+    // });
 };
 
 
