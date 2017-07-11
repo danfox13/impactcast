@@ -138,14 +138,10 @@ exports.update = function (req, callback) {
 
 
 //delete the project
-exports.delete = function (req, res) {
-
+exports.delete = function (req, callback) {
     project.findOneAndRemove({
-        projectCode: req.params.projectCode
-    }, function (err, doc) {
-        res.redirect('/');
-    });
-
+        projectCode: req
+    }).then(callback);
 };
 
 

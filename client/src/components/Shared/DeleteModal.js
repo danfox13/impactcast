@@ -4,6 +4,7 @@
 
 import React, {Component} from 'react';
 import {Button, Col, Glyphicon, Modal, Row} from 'react-bootstrap';
+import {browserHistory} from 'react-router';
 
 export default class DeleteModal extends Component {
     constructor() {
@@ -13,10 +14,25 @@ export default class DeleteModal extends Component {
         };
 
         this.toggle = this.toggle.bind(this);
+        this.deleteSubject = this.deleteSubject.bind(this);
+        this.handleRedirect = this.handleRedirect.bind(this);
     }
 
     toggle() {
         this.setState({modal: !this.state.modal})
+    }
+
+    deleteSubject() {
+        let url = 'http://localhost:3001' + this.props.subjectRoute + '/delete';
+        fetch(url).then(response => response.json())
+            .then(this.handleRedirect)
+            .catch(err => console.log(err));
+    }
+
+    handleRedirect(response) {
+        if (response.result.route) {
+            browserHistory.push(response.result.route);
+        }
     }
 
     render() {
@@ -35,9 +51,7 @@ export default class DeleteModal extends Component {
                     <Modal.Footer>
                         <Row>
                             <Col sm={6}>
-                                <Button
-                                    href={this.props.subjectRoute + '/delete'}
-                                    bsStyle="success" block>
+                                <Button bsStyle="success" onClick={this.deleteSubject} block>
                                     <Glyphicon glyph="ok"/> Yes
                                 </Button>
                             </Col>

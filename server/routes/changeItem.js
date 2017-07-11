@@ -40,7 +40,7 @@ exports.newChangeItem = function (req, res) {
 
 
 //Submit the new project form
-exports.addChangeItem = function (req, res) {
+exports.addChangeItem = function (req, callback) {
 
     var data = new changeItem({
         changeTitle: req.body.changeTitle,
@@ -55,12 +55,12 @@ exports.addChangeItem = function (req, res) {
     data.save();
     project.addChangeItem(req.params.projectCode, data._id);
 
-    res.redirect('/project/' + req.params.projectCode + '/' + req.body.changeTitle);
+    callback(req.body.changeTitle);
 };
 
 
 //Load the changeitem info page
-exports.view = function (req, res) {
+exports.view = function (req, callback) {
 
     changeItem.findOne({
         changeTitle: req.params.changeItem
@@ -78,19 +78,14 @@ exports.view = function (req, res) {
     }).then(function (changeItem) {
 
         changeItem.resourcesRequired.forEach(function(resource){
-            var dayCount = 0;
+            let dayCount = 0;
             resource.impact.forEach(function (monthlyImpact) {
                 dayCount = parseInt(dayCount) + parseInt(monthlyImpact.days);
             });
             resource.totalManDays = dayCount;
         });
 
-        res.render('changeItem/changeItem', {
-            title: 'ImpactCast - ' + changeItem.changeTitle,
-            heading: changeItem.changeTitle,
-            projectCode: req.params.projectCode,
-            changeItem: changeItem
-        });
+        callback(changeItem)
     })
 };
 

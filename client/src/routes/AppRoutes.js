@@ -58,6 +58,9 @@ export default class AppRoutes extends Component {
 
                     <Route path="project/:projectCode/newChangeItem" component={NewChangeItemPage}/>
                     <Route path="project/:projectCode/:changeItem" component={ChangeItem}/>
+                    <Route path="project/:projectCode/:changeItem/addRequiredResource"
+                           component={AddRequiredResourcePage}/>
+                    <Route path="project/:projectCode/:changeItem/update" component={UpdateChangeItemPage}/>
                     <Route path="project/:projectCode/:changeItem/:resourceName"
                            component={RequiredResourcePage}/>
                     <Route path="project/:projectCode/:changeItem/:resourceName/forecastResource"
@@ -66,9 +69,6 @@ export default class AppRoutes extends Component {
                            component={ForecastResourceSearchResultsPage}/>
                     <Route path="project/:projectCode/:changeItem/:resourceName/update"
                            component={UpdateRequiredResourcePage}/>
-                    <Route path="project/:projectCode/:changeItem/addRequiredResource"
-                           component={AddRequiredResourcePage}/>
-                    <Route path="project/:projectCode/:changeItem/update" component={UpdateChangeItemPage}/>
 
                     <Route path="newTeam" component={NewTeamPage}/>
                     <Route path="searchTeams" component={SearchTeamsPage}/>

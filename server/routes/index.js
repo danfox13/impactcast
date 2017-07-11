@@ -9,7 +9,7 @@ var impact = require('./impact');
 var team = require('./team');
 var resource = require('./resource');
 
-app.get('/homeData', function(request, response){
+app.get('/homeData', function (request, response) {
     site.index(request, response);
 });
 
@@ -18,7 +18,7 @@ app.get('/searchTeams', function (request, response) {
     let teamName = request.query.teamName;
     let resourceName = request.query.resourceName;
 
-    team.searchTeams(teamName, resourceName, function(results) {
+    team.searchTeams(teamName, resourceName, function (results) {
         let responseBody = {};
 
         responseBody.results = {
@@ -31,13 +31,13 @@ app.get('/searchTeams', function (request, response) {
     });
 });
 
-app.post('/newTeam', function(request, response) {
+app.post('/newTeam', function (request, response) {
 
     let teamName = request.body.teamName;
 
     let responseBody = {};
 
-    team.addNewTeam(teamName, function(results) {
+    team.addNewTeam(teamName, function (results) {
 
         responseBody.result = {
             teamName: teamName
@@ -54,7 +54,7 @@ app.get('/team/:teamName', function (request, response) {
 
     let teamName = request.params.teamName;
 
-    team.view(teamName, function(result) {
+    team.view(teamName, function (result) {
         let responseBody = {};
 
         responseBody.result = {
@@ -100,37 +100,78 @@ app.get('/searchProjects', (request, response) => {
 
 app.get('/project/:projectCode', (request, response) => {
     project.view(request.params.projectCode, result => {
-       let responseBody = {};
+        let responseBody = {};
 
-       responseBody.result = {
-           projectTitle: result.projectTitle,
-           changeItems: result.changeItems
-       };
+        responseBody.result = {
+            projectTitle: result.projectTitle,
+            changeItems: result.changeItems
+        };
 
-       response.setHeader('Content-Type', 'application/json');
-       response.write(JSON.stringify(responseBody));
-       response.end();
+        response.setHeader('Content-Type', 'application/json');
+        response.write(JSON.stringify(responseBody));
+        response.end();
     });
 });
 
 app.get('/project/:projectCode/update', (request, response) => {
-   project.viewUpdate(request.params.projectCode, result => {
-      let responseBody = {};
-      responseBody.result = {
-          projectTitle: result.projectTitle
-      };
+    project.viewUpdate(request.params.projectCode, result => {
+        let responseBody = {};
+        responseBody.result = {
+            projectTitle: result.projectTitle
+        };
 
-       response.setHeader('Content-Type', 'application/json');
-       response.write(JSON.stringify(responseBody));
-       response.end();
-   });
+        response.setHeader('Content-Type', 'application/json');
+        response.write(JSON.stringify(responseBody));
+        response.end();
+    });
 });
 
 app.post('/project/:projectCode/update', (request, response) => {
-   project.update(request, () => {
+    project.update(request, () => {
+        let responseBody = {};
+        responseBody.result = {
+            projectCode: request.body.projectCode
+        };
+
+        response.setHeader('Content-Type', 'application/json');
+        response.write(JSON.stringify(responseBody));
+        response.end();
+    })
+});
+
+app.get('/project/:projectCode/delete', (request, response) => {
+    project.delete(request.params.projectCode, () => {
+        let responseBody = {};
+        responseBody.result = {
+            route: '/'
+        };
+
+        response.setHeader('Content-Type', 'application/json');
+        response.write(JSON.stringify(responseBody));
+        response.end();
+    })
+});
+
+//Change Item URIs
+
+app.post('/project/:projectCode/newChangeItem', (request, response) => {
+    changeItem.addChangeItem(request, result => {
+        let responseBody = {};
+        responseBody.result = {
+            changeTitle: result
+        };
+
+        response.setHeader('Content-Type', 'application/json');
+        response.write(JSON.stringify(responseBody));
+        response.end();
+    })
+});
+
+app.get('/project/:projectCode/:changeItem', (request, response) => {
+   changeItem.view(request, result => {
        let responseBody = {};
        responseBody.result = {
-           projectCode: request.body.projectCode
+           changeItem: result
        };
 
        response.setHeader('Content-Type', 'application/json');
@@ -139,21 +180,9 @@ app.post('/project/:projectCode/update', (request, response) => {
    })
 });
 
-
-//Project URIs
-//app.get('/newProject', project.newProject);
-//app.post('/newProject', project.addNewProject);
-//app.get('/searchProjects', project.searchProjects);
-//app.post('/searchProjects', project.runSearchProjects);
-//app.get('/project/:projectCode', project.view);
-//app.get('/project/:projectCode/update', project.viewUpdate);
-//app.post('/project/:projectCode/update', project.update);
-app.get('/project/:projectCode/delete', project.delete);
-
-//Change Item URIs
-app.get('/project/:projectCode/newChangeItem', changeItem.newChangeItem);
-app.post('/project/:projectCode/newChangeItem', changeItem.addChangeItem);
-app.get('/project/:projectCode/:changeItem', changeItem.view);
+//app.get('/project/:projectCode/newChangeItem', changeItem.newChangeItem);
+//app.post('/project/:projectCode/newChangeItem', changeItem.addChangeItem);
+//app.get('/project/:projectCode/:changeItem', changeItem.view);
 app.get('/project/:projectCode/:changeItem/update', changeItem.viewUpdate);
 app.post('/project/:projectCode/:changeItem/update', changeItem.update);
 app.get('/project/:projectCode/:changeItem/delete', changeItem.delete);
