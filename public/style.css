@@ -83,24 +83,11 @@ h1, h2, h3, h4, h5, h6 {
     font-size: 18px;
 }
 
-.nav-tabs>li.active>a,
-.nav-tabs>li.active>a:focus,
-.nav-tabs>li.active>a:hover{
-    background-color: #66C6E7;
-    border: 1px solid #FFFFFF;
-    border-bottom-color: transparent;
+.navbar-nav > li:hover,
+.navbar-nav > li:active,
+.navbar-nav > li:focus {
+    border-bottom: 2px solid #465A64;
 }
-
-.nav-tabs {
-    border-bottom: 1px solid #FFFFFF;
-}
-
-.tab-content{
-    background-color: #66C6E7;
-    border-color: #F0F0F0;
-    padding: 5px;
-}
-
 
 .panel, .panel-default, .modal-body, .modal-footer {
     color: white;
