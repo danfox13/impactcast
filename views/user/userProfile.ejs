@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,6 +13,19 @@
     <link href="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet"/>
     <script src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
     <style>
+        .panel-custom2 > .panel-body{
+            border-color: #465A64;
+            background-color: #FFFFFF;
+            color: #0F4155;
+        }
+
+        .panel-custom2 > .panel-footer{
+            border-color: #465A64;
+            background-color: rgb(17, 89, 139);
+            color: #F0F0F0;
+        }
+    </style>
+    <style>
         h5.smallP {
             margin-bottom: 5px;
             margin-top: 5px;
@@ -21,6 +33,7 @@
         h1.smallP {
             margin-bottom: 5px;
             margin-top: 5px;
+            color: #F0F0F0;
         }
     </style>
 </head>
@@ -30,11 +43,12 @@
 <div class="container">
     <div class="panel panel-default">
         <div class="panel-heading text-left">
-            <h1>
-                <a style="color: black; border: none;"
-                   href="#" id="username" data-type="text" data-title="Enter Username">
-                    <%= name %>
-                </a>
+            <h1><font style="text-transform: none;" color="#FFFFFF">
+                <span style="color: #ffffff; border:5px transparent solid; border-radius: 10px;"
+                   href="#" id="username" value="name" data-type="text" data-title="Enter Username"
+                data-url="/changeName">
+                    <%= (name !== ""?name:email) %>
+                </span></font>
             </h1>
         </div>
         <div class="panel-body" style="min-height: 360px;">
@@ -47,28 +61,29 @@
                 <div class="media-body">
                     <div class="row">
                         <div class="col-md-6" style="margin-top: 20px;">
-                            <div class="panel panel-default">
-                                <div class="panel-body"><font size="5"><strong>Email Address</strong></font></div>
+                            <div class="panel panel-custom2">
+                                <div class="panel-body"><font color = "#465a64" size="5"><strong>Email Address</strong></font></div>
                                 <div class="panel-footer"><font size="4"><%= email %></font></div>
                             </div>
-                            <div class="panel panel-default">
+                            <div class="panel panel-custom2" >
                                 <div class="panel-body">
-                                    <img src="/image/slackLogo.svg" class="img-circle" style="width:30px; margin: 5px;">
-                                    <font size="5"><strong>Slack Handle</strong></font>
+                                    <img src="/image/SlackLogo.svg" class="img-circle" style="width:30px; margin: 5px;">
+                                    <font color = "#465a64" size="5"><strong>Slack Handle</strong></font>
                                 </div>
                                 <div class="panel-footer"><font size="4"><%= slack %></font></div>
                             </div>
                         </div>
 
-                        <div class="col-md-6">
+                        <div class="col-md-6"  style="margin-top: 20px;"
+                        >
                             <ul class="nav nav-tabs">
-                                <li class="active"><a data-toggle="tab" href="#changePassword">Change Password</a></li>
-                                <li><a data-toggle ="tab" href="#delete">Delete Account</a></li>
+                                <li class="active"><a data-toggle="tab" href="#changePassword"><strong>Change Password</strong></a></li>
+                                <li><a data-toggle ="tab" href="#delete"><strong>Delete Account</strong></a></li>
                             </ul>
 
                             <div class="tab-content">
                                 <div id="changePassword" class="tab-pane fade in active">
-                                    <form action="/changePassword" method="post" data-toggle="validator" role="form">
+                                    <form action="/user/changePassword" method="post" data-toggle="validator" role="form">
                                         <div class="form-group">
                                             <div class="input-group" style="margin-top: 20px;">
                                                 <span class="input-group-addon">T</span>
@@ -107,13 +122,13 @@
                                     </form>
                                 </div>
                                 <div id="delete" class="tab-pane fade">
-                                    <form action="/deleteUser" method="post" data-toggle="validator" role="form">
+                                    <form action="/user/deleteUser" method="post" data-toggle="validator" role="form">
                                         <div class="form-group">
                                             <div class="input-group" style="margin-top: 20px;">
                                                 <span class="input-group-addon">T</span>
                                                 <input type="password" class="form-control" id="password" name="password"
                                                        placeholder="Enter your password"
-                                                required>
+                                                       required>
                                             </div>
                                         </div>
                                         <input type="submit" value="Permanently Delete Account"
@@ -149,8 +164,12 @@
             $(document).ready( function() {
                 $.fn.editable.defaults.mode = 'inline';
                 $('#username').editable({
-                inputclass: 'mytextarea'
-            });
+                    tpl: '<textarea style="height: 70px; font-size: 100%;" maxlength="30"></textarea>',
+                    type: 'text',
+                    pk: 1,
+                    url: '/changeUser',
+                    inputclass: 'mytextarea',
+                });
             });
         })(jQuery);
     </script>

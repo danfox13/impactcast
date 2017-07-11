@@ -47,21 +47,18 @@ user.find({
         example.save(function (err) {
             console.log(err ? "Error: " + err : "Added:\n" + example);
         }).then(function(){
-            //slack.individualMessage('owen.jenkins@capgemini.com', "You've been assigned some more work!");
-            //slack.generalMessage("Hello All!");
-        }).then(() =>{
         var example = new user({
             email: 'rosie.butcher@capgemini.com',
             password: bcrypt.hashSync('password', SALT_FACTOR),
             isAdmin: false,
-        })
+        });
         example.save(function (err) {
             console.log(err ? "Error: " + err : "Added:\n" + example);
         }).then(function(){
-            //slack.individualMessage('owen.jenkins@capgemini.com', "You've been assigned some more work!");
-            //slack.generalMessage("Hello All!");
-        });}
-        );
+            slack.individualMessage('owen.jenkins@capgemini.com', "You've been assigned some more work!");
+            slack.generalMessage("Hello All!");
+        });
+        });
     });
 
 //view page for adding users
@@ -126,20 +123,25 @@ exports.addUser = function(req, res){
 
 //Change a user's vanity name
 exports.changeName = function(req, res){
+
+    console.log("GOT NEW NAME: " + req.body.value);
     //find the user currently logged in
     user.findOne({
         email: req.session.email,
     })
         .then(function(result){
                 console.log("CHANGING USERNAME");
-                result.name = req.body.name;
+                result.name = req.body.value;
 
                 //save the newly modified user entry in the database
                 result.save();
 
         })
         .then(function(){
-            res.redirect('/user/userProfile');
+            console.log("Saved");
+            res.newValue = req.body.value;
+            res.send();
+            console.log("Sent response");
         })
         .catch(function(err){
             console.log("Error: " + err);
