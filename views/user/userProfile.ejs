@@ -44,17 +44,24 @@
     <div class="panel panel-default">
         <div class="panel-heading text-left">
             <h1><font style="text-transform: none;" color="#FFFFFF">
+                    <% if(viewerAdmin||viewerSelf){%>
                 <span style="color: #ffffff; border:5px transparent solid; border-radius: 10px;"
                    href="#" id="username" value="name" data-type="text" data-title="Enter Username"
                 data-url="/changeName">
-                    <%= (name !== ""?name:email) %>
-                </span></font>
+                    <%= name %>
+                </span>
+                <%} else{%>
+                    <span style="color: #ffffff;">
+                    <%= name %>
+                </span>
+                    <%}%>
+                </font>
             </h1>
         </div>
         <div class="panel-body" style="min-height: 360px;">
             <div class="media">
                 <div class="media-left media-top">
-                    <img src="/image/avatar.png" class="img-circle" style="width:250px;
+                    <img src="/image/<%= (isAdmin?"admin":"") %>avatar.png" class="img-circle" style="width:250px;
                     border: solid 10px rgb(17, 89, 139);
                     margin: 20px;">
                 </div>
@@ -73,9 +80,8 @@
                                 <div class="panel-footer"><font size="4"><%= slack %></font></div>
                             </div>
                         </div>
-
-                        <div class="col-md-6"  style="margin-top: 20px;"
-                        >
+                        <% if(viewerSelf){%>
+                        <div class="col-md-6"  style="margin-top: 20px;">
                             <ul class="nav nav-tabs">
                                 <li class="active"><a data-toggle="tab" href="#changePassword"><strong>Change Password</strong></a></li>
                                 <li><a data-toggle ="tab" href="#delete"><strong>Delete Account</strong></a></li>
@@ -122,7 +128,7 @@
                                     </form>
                                 </div>
                                 <div id="delete" class="tab-pane fade">
-                                    <form action="/user/deleteUser" method="post" data-toggle="validator" role="form">
+                                    <form action="/deleteMe" method="post" data-toggle="validator" role="form">
                                         <div class="form-group">
                                             <div class="input-group" style="margin-top: 20px;">
                                                 <span class="input-group-addon">T</span>
@@ -137,6 +143,56 @@
                                 </div>
                             </div>
                         </div>
+                        <%} else if(viewerAdmin){%>
+                        <div class="col-md-6"  style="margin-top: 20px;">
+                            <ul class="nav nav-tabs">
+                                <li class="active"><a data-toggle="tab" href="#changePassword"><strong>Change Password</strong></a></li>
+                                <li><a data-toggle ="tab" href="#delete"><strong>Delete Account</strong></a></li>
+                            </ul>
+
+                            <div class="tab-content">
+                                <div id="changePassword" class="tab-pane fade in active">
+                                    <form action="/user/changePassword" method="post" data-toggle="validator" role="form">
+                                        <div class="form-group">
+                                            <div class="input-group" style="margin-top: 20px;">
+                                                <span class="input-group-addon">T</span>
+                                                <input type="password" class="form-control" id="oldPassword"
+                                                       name="oldPassword"
+                                                       placeholder="Enter old password" required>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="input-group">
+                                                <span class="input-group-addon">T</span>
+                                                <input type="password" class="form-control" id="newPassword"
+                                                       name="newPassword" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                                                       placeholder="Enter new password"
+                                                       required>
+                                            </div>
+                                            <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                                            <div class="help-block with-errors"></div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="input-group">
+                                                <span class="input-group-addon">T</span>
+                                                <input type="password" class="form-control" id="newPasswordCheck"
+                                                       name="newPasswordCheck" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                                                       placeholder="Confirm new password"
+                                                       data-match="#newPassword"
+                                                       required>
+                                            </div>
+                                            <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                                            <div class="help-block with-errors">
+                                                Minimum 8 chars. Must include upper/lower case and a digit.
+                                            </div>
+                                            <p></p>
+                                            <input type="submit" value="Change Password" class="btn btn-success btn-m btn-black">
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <%}%>
                     </div>
                 </div>
             </div>
@@ -169,6 +225,8 @@
                     pk: 1,
                     url: '/changeUser',
                     inputclass: 'mytextarea',
+                    send: 'always',
+                    emptytext: '<%= email%>',
                 });
             });
         })(jQuery);

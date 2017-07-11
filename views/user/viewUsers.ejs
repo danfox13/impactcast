@@ -39,26 +39,27 @@
                     <tr>
                         <td class="text-center">
                             <% if(viewer.isAdmin){%>
-                            <a href="/user/<%= user.email %>/viewProfile" class="btn btn-info"
+                            <a href="/user/<%= user._id %>/viewProfile" class="btn btn-info"
                                role="button">View</a>
-                            <a href="/user/<%= user.email %>/deleteUser" class="btn btn-danger"
+                            <a href="/user/<%= user._id %>/deleteUser" class="btn btn-danger"
                                role="button">Delete</a>
                             <%} else {%>
-                            <a href="/user/<%= user.email %>/viewProfile" class="btn btn-info"
+                            <a href="/user/<%= user._id %>/viewProfile" class="btn btn-info"
                                role="button">View</a>
                         <%}%>
                         </td>
                         <td><%= user.email %>
                             <% if(user.isAdmin){%><span class="badge"> Admin </span><%}%>
+                            <% if(user.email === email){%><span class="badge"> Me </span><%}%>
                         </td>
                         <td><%= (user.name?user.name:"-") %></td>
                         <td><%= (user.slack?user.slack:"-") %></td>
                         <% if(viewer.isAdmin){%>
                         <td>
                             <% if(user.isAdmin){ %>
-                            <a href="/user/<%= user.email %>/revokeAdmin" class="label label-danger" role="button">Revoke Admin</a>
+                            <a href="/user/<%= user._id %>/revokeAdmin" class="label label-danger" role="button">Revoke Admin</a>
                             <%} else{%>
-                            <a href="/user/<%= user.email %>/makeAdmin" class="label label-warning" role="button">Make Admin</a>
+                            <a href="/user/<%= user._id %>/makeAdmin" class="label label-warning" role="button">Make Admin</a>
                             <%}%>
                         </td>
                         <%}%>

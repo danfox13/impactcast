@@ -37,11 +37,13 @@ app.get('/addUser', user.viewAddUser);
 app.post('/addUser', user.addUser);
 app.get('/addedUser', user.addedUser);
 app.get('/failedAddUser', user.failedAddUser);
-app.get('/userProfile', user.viewUserProfile);
+app.get('/myProfile', user.myProfile);
+app.get('/user/:user/viewProfile', user.viewUserProfile);
 app.get('/viewUsers', user.viewUsers);
 app.post('/changePassword', user.changePassword);
 app.post('/changeName', user.changeName);
-app.post('/deleteUser', user.deleteUser);
+app.get('/deleteMe', user.deleteMe);
+app.post('user/:user/deleteUser', user.deleteUser);
 
 //Project URIs
 app.get('/newProject', project.newProject);

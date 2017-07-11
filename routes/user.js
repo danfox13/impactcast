@@ -49,14 +49,16 @@ user.find({
         }).then(function(){
         var example = new user({
             email: 'rosie.butcher@capgemini.com',
+            name: 'rosie.butcher@capgemini.com',
+            slack: "None",
             password: bcrypt.hashSync('password', SALT_FACTOR),
             isAdmin: false,
         });
         example.save(function (err) {
             console.log(err ? "Error: " + err : "Added:\n" + example);
         }).then(function(){
-            slack.individualMessage('owen.jenkins@capgemini.com', "You've been assigned some more work!");
-            slack.generalMessage("Hello All!");
+            // slack.individualMessage('owen.jenkins@capgemini.com', "You've been assigned some more work!");
+            // slack.generalMessage("Hello All!");
         });
         });
     });
@@ -102,9 +104,8 @@ exports.addUser = function(req, res){
     var newUser = new user({
         email: email,
         password: hash,
-        name: (req.body.name?req.body.namename:email),
-        slack: "None",
-        slack: "None"
+        name: (req.body.name?req.body.name:email),
+        slack: "Not Set",
     });
 
     //save the new user on the database
@@ -123,25 +124,25 @@ exports.addUser = function(req, res){
 
 //Change a user's vanity name
 exports.changeName = function(req, res){
-
-    console.log("GOT NEW NAME: " + req.body.value);
+    var name = req.body.value;
+    console.log("GOT NEW NAME: " + name);
     //find the user currently logged in
     user.findOne({
         email: req.session.email,
     })
         .then(function(result){
-                console.log("CHANGING USERNAME");
-                result.name = req.body.value;
-
+            name = (name.trim() !== ""?name:result.email);
+                console.log("CHANGING USERNAME to " + name);
+                result.name = name;
                 //save the newly modified user entry in the database
                 result.save();
 
         })
         .then(function(){
-            console.log("Saved");
-            res.newValue = req.body.value;
+            console.log("Saved with name: " + name);
+            res.newValue = name;
             res.send();
-            console.log("Sent response");
+            console.log("Sent response with " + res.newValue);
         })
         .catch(function(err){
             console.log("Error: " + err);
@@ -227,6 +228,8 @@ exports.login = function(req, res){
                 req.session.email = email;
                 req.session.authenticated = true;
                 req.session.userID = result._id;
+                req.session.viewerAdmin = result.isAdmin,
+                console.log("LOGGED IN USER: " + result);
                 res.redirect('/home');
             }
             else {
@@ -240,23 +243,32 @@ exports.login = function(req, res){
     });
 };
 
+exports.myProfile = function(req, res){
+    res.redirect('/user/' + req.session.userID + '/viewProfile');
+}
+
 //Link to viewUserProfile
 exports.viewUserProfile = function(req, res){
-    var email = req.session.email;
-
+    console.log("REQ: " + req);
+    console.log("ID: " + req.params.user);
     user.findOne({
-        email: email,
+        _id: req.params.user,
     }).then(
         function(result){
             console.log(result);
             var name = result.name;
             var slack = result.slack;
-
+            var email = result.email;
+            console.log("IS ADMIN? " + req.session.isAdmin);
             res.render('user/userProfile',
                 {title: 'User Profile',
                     email: email,
                     name: name,
                     slack: slack,
+                    isAdmin: result.isAdmin,
+                    viewerAdmin: req.session.viewerAdmin,
+                    viewerSelf: email === req.session.email,
+                    id: result._id,
                 wrongPassword: false});
         }
     ).catch(
@@ -267,8 +279,60 @@ exports.viewUserProfile = function(req, res){
 
 }
 
-//Delete user
+//As an admin, delete a user
 exports.deleteUser = function(req, res){
+    var email = req.session.email;
+    var password = req.body.adminPassword;
+
+    var account;
+    user.findOne({
+        _id: req.params.user,
+    }).then(function(result){
+        account = result;
+    })
+    if(account) {
+        user.findOne({
+            email: email,
+        }).then(
+            function (result) {
+                console.log(result);
+                var hash = result.password;
+                if (hash && password &&
+                    bcrypt.compareSync(password, hash)) {
+
+                    //if the user entered the correct password, get the user and delete them
+                    console.log("PASSWORDS MATCH, DELETING USER");
+
+                }
+                else {
+                    console.log("WRONG PASSWORD, DISPLAYING ERROR MSG");
+                    res.render('user/userProfile', {
+                        title: 'User Profile',
+                        email: result.email,
+                        name: result.name,
+                        slack: result.slack,
+                        wrongPassword: true,
+                        isAdmin: result.isAdmin,
+                        viewerAdmin: req.session.viewerAdmin,
+                        viewerSelf: email === req.session.email,
+                        id: result._id,
+                    });
+                }
+            }
+        )
+            .then(function () {
+                req.session.authenticated = false;
+                res.redirect('/');
+            }).catch(
+            function (error) {
+                console.log(error);
+            }
+        );
+    }
+}
+
+//Delete user
+exports.deleteMe = function(req, res){
     var email = req.session.email;
     var password = req.body.password;
 
@@ -414,6 +478,7 @@ exports.viewUsers = function(req, res){
                 heading: "View Users",
                 users: results,
                 viewer: viewer,
+                email: req.session.email,
             });
         });
     });

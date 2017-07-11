@@ -32,6 +32,7 @@ exports.index = function(req, res){
             readyToImpact: readyToImpact,
             readyToForecast: readyToForecast,
             rejectedImpacts: rejectedImpacts,
+            user: req.session.userID,
         });
     }, 1000);
 };
