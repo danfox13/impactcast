@@ -9,8 +9,6 @@
     "node": "6.10.3"
   },
   "dependencies": {
-    "bootstrap": "^3.3.7",
-    "jquery": "^3.2.1",
     "bcrypt": "^1.0.2",
     "crypto": "^0.0.3",
     "nodemailer": "^4.0.1",
