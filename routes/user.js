@@ -310,7 +310,8 @@ exports.showDeleteUser = function(req, res){
             user: result._id,
             email: result.email,
             failed: false,
-            success: false});
+            success: false,
+            wrongPassword: false,});
     });
 }
 
@@ -346,7 +347,8 @@ exports.deleteUser = function(req, res){
                                 user: account._id,
                                 email: account.email,
                                 failed: false,
-                                success: true});
+                                success: true,
+                                wrongPassword: false,});
                         });
                     }
                     else {
@@ -356,17 +358,35 @@ exports.deleteUser = function(req, res){
                             heading: "Delete User",
                             user: account._id,
                             email: account.email,
-                            failed: true,
-                            success: false});
+                            failed: false,
+                            success: false,
+                            wrongPassword: true,});
                     }
                 }
             )
+        } else {
+            res.render('user/deleteUser', {
+                title: "Delete User",
+                heading: "Delete User",
+                user: account._id,
+                email: account.email,
+                failed: true,
+                success: false,
+                wrongPassword: false,
+            });
         }
     }).catch(
         function (error) {
             console.log(error);
-        }
-    );
+            res.render('user/deleteUser', {
+                title: "Delete User",
+                heading: "Delete User",
+                user: account._id,
+                email: account.email,
+                failed: true,
+                success: false,
+                wrongPassword: false,});
+        });
 }
 
 //Delete user
@@ -522,6 +542,111 @@ exports.viewUsers = function(req, res){
             });
         });
     });
+}
+
+exports.showMakeAdmin = function(req, res){
+    user.findOne({
+        _id: req.params.user,
+    }).then( function(result) {
+        res.render('user/makeAdmin', {
+            title: 'Make Admin',
+            heading: 'Make Admin',
+            user: result._id,
+            email: result.email,
+            failed: false,
+            success: false,
+            wrongPassword: false,
+        });
+    });
+}
+
+exports.showRevokeAdmin = function(req, res){
+    user.findOne({
+        _id: req.params.user,
+    }).then( function(result) {
+    res.render('user/revokeAdmin', {
+        title: 'Revoke Admin',
+        heading: 'Revoke Admin',
+        user: result._id,
+        email: result.email,
+        failed: false,
+        success: false,
+        wrongPassword: false,
+    });
+});
+}
+
+exports.flipAdmin = function(req, res){
+    console.log("Flipping Admin User: " + req.params.user);
+    var email = req.session.email;
+    var password = req.body.adminPassword;
+
+    var account;
+    user.findOne({
+        _id: req.params.user,
+    }).then(function(result){
+        console.log("Found account: " + result);
+        account = result;
+        if(account) {
+            user.findOne({
+                email: email,
+            }).then(
+                function (result) {
+                    console.log("You are: " + result);
+                    var hash = result.password;
+                    if (hash && password &&
+                        bcrypt.compareSync(password, hash)) {
+
+                        //if the user entered the correct password, get the user and delete them
+                        console.log("PASSWORDS MATCH, FLIPPING USER ADMIN TO " + !(account.isAdmin));
+                        account.isAdmin = !(account.isAdmin);
+                        account.save().then(function(){
+                            res.render('user/' + (account.isAdmin?'makeAdmin':'revokeAdmin'), {
+                                title: (account.isAdmin?'Make Admin':'Revoke Admin'),
+                                heading: (account.isAdmin?'Make Admin':'Revoke Admin'),
+                                user: account._id,
+                                email: account.email,
+                                failed: false,
+                                success: true,
+                                wrongPassword: false,});
+                        });
+                    }
+                    else {
+                        console.log("WRONG PASSWORD, DISPLAYING ERROR MSG");
+                        res.render('user/' + (!account.isAdmin?'makeAdmin':'revokeAdmin'), {
+                            title: (!account.isAdmin?'Make Admin':'Revoke Admin'),
+                            heading: (!account.isAdmin?'Make Admin':'Revoke Admin'),
+                            user: account._id,
+                            email: account.email,
+                            failed: false,
+                            success: false,
+                            wrongPassword: true,});
+                    }
+                }
+            )
+        } else {
+            res.render('user/' + (!account.isAdmin?'makeAdmin':'revokeAdmin'), {
+                title: (!account.isAdmin?'Make Admin':'Revoke Admin'),
+                heading: (!account.isAdmin?'Make Admin':'Revoke Admin'),
+                user: account._id,
+                email: account.email,
+                failed: true,
+                success: false,
+                wrongPassword: false,
+            });
+        }
+    }).catch(
+        function (error) {
+            console.log(error);
+            res.render('user/' + (!account.isAdmin?'makeAdmin':'revokeAdmin'), {
+                title: (!account.isAdmin?'Make Admin':'Revoke Admin'),
+                heading: (!account.isAdmin?'Make Admin':'Revoke Admin'),
+                user: account._id,
+                email: account.email,
+                failed: true,
+                success: false,
+                wrongPassword: false,});
+        });
 }
 
 //Logout

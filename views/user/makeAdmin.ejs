@@ -18,8 +18,7 @@
                         style="text-transform: none; margin:10px;">[<%= email %>]</span></h1>
         </div>
         <div class="panel-body">
-            <form action="/user/<%= user %>/deleteUser" method="post" data-toggle="validator" role="form">
-
+            <form action="/user/<%= user %>/flipAdmin" method="post" data-toggle="validator" role="form">
                 <div class="form-group has-feedback">
                     <div class="input-group">
                         <span class="input-group-addon">T</span>
@@ -32,12 +31,12 @@
                 <div class="row" style="margin-top:10px;">
                     <div class="col-sm-12">
                         <div class="alert alert-danger" role="alert">
-                            This user will be
-                            <strong> permanently deleted.</strong>
+                            This user will be given
+                            <strong> administrator permissions.</strong>
                         </div>
                     </div>
                 </div>
-                <input type="submit" value="Delete User" class="btn btn-danger btn-lg btn-block"/>
+                <input type="submit" value="Make User Administrator" class="btn btn-success btn-lg btn-block"/>
             </form>
         </div>
     </div>
@@ -49,7 +48,7 @@
                 <button type="button" class="close"
                         data-dismiss="alert" aria-label="close">
                     <span aria-hidden="true" style="color: darkslategrey">&times;</span></button>
-                <strong>Error!</strong> Failed to delete user!
+                <strong>Error!</strong> Failed to make user an administrator!
             </div>
         </div>
         <div class="col-sm-3"></div>
@@ -62,7 +61,7 @@
                 <button type="button" class="close"
                         data-dismiss="alert" aria-label="close">
                     <span aria-hidden="true" style="color: darkslategrey">&times;</span></button>
-                <strong>Success!</strong> User was deleted.
+                <strong>Success!</strong> User was given administrator permissions.
             </div>
         </div>
         <div class="col-sm-3"></div>

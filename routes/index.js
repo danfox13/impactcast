@@ -52,6 +52,11 @@ app.post('/deleteMe', user.deleteMe);
 app.get('/user/:user/deleteUser', user.showDeleteUser);
 app.post('/user/:user/deleteUser', user.deleteUser);
 
+//permissions URIs
+app.get('/user/:user/makeAdmin', user.showMakeAdmin);
+app.get('/user/:user/revokeAdmin', user.showRevokeAdmin);
+app.post('/user/:user/flipAdmin', user.flipAdmin);
+
 //Project URIs
 app.get('/newProject', project.newProject);
 app.post('/newProject', project.addNewProject);
