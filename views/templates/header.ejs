@@ -1,16 +1,17 @@
-<nav class="navbar navbar-inverse">
-    <div class="container-fluid">
+<nav class="navbar">
+    <div class="container-flex">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="/"><b>ImpactCast</b></a>
+            <a class="navbar-brand" href="/home">
+                <img src="/image/logo.png" style="height: 100%"/>
+            </a>
         </div>
         <div class="collapse navbar-collapse" id="myNavbar">
             <ul class="nav navbar-nav">
-                <li><a href="/">Home</a></li>
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">Projects and Change Items<span class="caret"></span></a>
                     <ul class="dropdown-menu">
@@ -34,6 +35,8 @@
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
+                <li><a href="/viewUsers"><span class="glyphicon glyphicon-th-list"></span> Users</a></li>
+                <li><a href="/myProfile"><span class="glyphicon glyphicon-user"></span> My Profile</a></li>
                 <li><a href="/logout"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
             </ul>
         </div>

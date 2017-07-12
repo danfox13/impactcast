@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title><%= title %></title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/public/style.css">
+    <script src="/jquery/jquery.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/jsvalidate/validator.min.js"></script>
+</head>
+<body>
+<% include ../templates/header.ejs %>
+<div class="container">
+    <div class="panel panel-default">
+        <div class="panel-heading text-center"><h1><%= heading %></h1></div>
+        <div class="panel-body">
+
+            <form action="/addUser" method="post" data-toggle="validator" role="form">
+
+                <div class="form-group has-feedback">
+                    <div class="input-group">
+                        <span class="input-group-addon">@</span>
+                        <input type="text" class="form-control" id="email" name="email"
+                               pattern="^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$"
+                               placeholder="Enter an email address"
+                               required>
+                    </div>
+                    <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                    <div class="help-block with-errors"></div>
+                </div>
+
+
+                <div class="form-group has-feedback">
+                    <div class="input-group">
+                        <span class="input-group-addon">T</span>
+                        <input type="text" class="form-control" id="name" name="name"
+                        placeholder="(Optional) Enter a username">
+                    </div>
+                    <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                    <div class="help-block with-errors"></div>
+                </div>
+
+                <div class="form-group has-feedback">
+                    <div class="input-group">
+                        <span class="input-group-addon">#</span>
+                        <input type="text" class="form-control" id="slack" name="slack"
+                        placeholder="(Optional) Enter a slack handle">
+                    </div>
+                    <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                    <div class="help-block with-errors"></div>
+                </div>
+                <div class="form-group has-feedback">
+                    <div class="checkbox">
+                        <label>
+                        <input type="checkbox" id="isAdmin" name="isAdmin"> This user is an administrator of the system.
+                        </label>
+                    </div>
+                </div>
+                <div class="row" style="margin-top:10px;">
+                    <div class="col-sm-12">
+                        <div class="alert alert-info" role="alert">
+                            The new user will be emailed a
+                            <strong> new randomized password</strong> at the
+                            <strong>address given above</strong>, to be changed
+                            when they first login to the system.
+                        </div>
+                    </div>
+                </div>
+                <input type="submit" value="Create New User" class="btn btn-success btn-lg btn-block"/>
+            </form>
+        </div>
+    </div>
+    <% if(failed){ %><!-- An error occurred and the user could not be added -->
+    <div class="row" style="margin-top:10px;">
+        <div class="col-sm-3"></div>
+        <div class="col-sm-6">
+            <div class="alert alert-danger alert-dismissible fade in" role="alert">
+                <button type="button" class="close"
+                        data-dismiss="alert" aria-label="close">
+                    <span aria-hidden="true" style="color: darkslategrey">&times;</span></button>
+                <strong>Error!</strong> Failed to add user!
+            </div>
+        </div>
+        <div class="col-sm-3"></div>
+    </div>
+    <% } else if(success){%><!-- The operation went successfully and the user was added -->
+    <div class="row" style="margin-top:10px;">
+        <div class="col-sm-3"></div>
+        <div class="col-sm-6">
+            <div class="alert alert-info alert-dismissible fade in" role="alert">
+                <button type="button" class="close"
+                        data-dismiss="alert" aria-label="close">
+                    <span aria-hidden="true" style="color: darkslategrey">&times;</span></button>
+                <strong>Success!</strong> Email sent to new user at the address
+                specified.
+            </div>
+        </div>
+        <div class="col-sm-3"></div>
+    </div>
+    <% } %>
+</div>
+</body>
+</html>

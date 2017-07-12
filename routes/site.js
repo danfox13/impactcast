@@ -31,13 +31,22 @@ exports.index = function(req, res){
             newItems: newItems,
             readyToImpact: readyToImpact,
             readyToForecast: readyToForecast,
-            rejectedImpacts: rejectedImpacts
+            rejectedImpacts: rejectedImpacts,
+            user: req.session.userID,
         });
     }, 1000);
 };
 
 exports.login = function(req, res){
     res.render('login', {
-        title: 'ImpactCast - Login'
+        title: 'ImpactCast - Login',
+        failedLogin: false
+    });
+};
+
+exports.failedLogin = function(req, res){
+    res.render('login', {
+        title: 'ImpactCast - Login',
+        failedLogin: true
     });
 };

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title><%= title %></title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/public/style.css">
+    <script src="/jquery/jquery.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/jsvalidate/validator.min.js"></script>
+</head>
+<body>
+<% include ../templates/header.ejs %>
+<div class="container">
+    <div class="panel panel-default">
+        <div class="panel-heading text-center"><h1><%= heading %><span
+                        style="text-transform: none; margin:10px;">[<%= email %>]</span></h1>
+        </div>
+        <div class="panel-body">
+            <form action="/user/<%= user %>/flipAdmin" method="post" data-toggle="validator" role="form">
+
+                <div class="form-group has-feedback">
+                    <div class="input-group">
+                        <span class="input-group-addon">T</span>
+                        <input type="password" class="form-control" id="slack" name="adminPassword"
+                               placeholder="Enter your administrator password">
+                    </div>
+                    <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                    <div class="help-block with-errors"></div>
+                </div>
+                <div class="row" style="margin-top:10px;">
+                    <div class="col-sm-12">
+                        <div class="alert alert-danger" role="alert">
+                            Administrator permissions will be
+                            <strong> revoked from this user.</strong>
+                        </div>
+                    </div>
+                </div>
+                <input type="submit" value="Make User Administrator" class="btn btn-danger btn-lg btn-block"/>
+            </form>
+        </div>
+    </div>
+    <% if(failed){ %><!-- An error occurred and the user could not be revoked admin -->
+    <div class="row" style="margin-top:10px;">
+        <div class="col-sm-3"></div>
+        <div class="col-sm-6">
+            <div class="alert alert-danger alert-dismissible fade in" role="alert">
+                <button type="button" class="close"
+                        data-dismiss="alert" aria-label="close">
+                    <span aria-hidden="true" style="color: darkslategrey">&times;</span></button>
+                <strong>Error!</strong> Failed to revoke administrator permissions!
+            </div>
+        </div>
+        <div class="col-sm-3"></div>
+    </div>
+    <% } else if(success){%><!-- The operation went successfully and the user was revoked admin -->
+    <div class="row" style="margin-top:10px;">
+        <div class="col-sm-3"></div>
+        <div class="col-sm-6">
+            <div class="alert alert-info alert-dismissible fade in" role="alert">
+                <button type="button" class="close"
+                        data-dismiss="alert" aria-label="close">
+                    <span aria-hidden="true" style="color: darkslategrey">&times;</span></button>
+                <strong>Success!</strong> Administrator permissions were revoked from user.
+            </div>
+        </div>
+        <div class="col-sm-3"></div>
+    </div>
+    <% } else if(wrongPassword){%><!-- Alert to tell the user they entered the wrong password,
+    with a reset page link too -->
+    <div class="row" style="margin-top:10px;">
+        <div class="col-sm-3"></div>
+        <div class="col-sm-6">
+            <div class="alert alert-danger alert-dismissible fade in" role="alert">
+                <button type="button" class="close"
+                        data-dismiss="alert" aria-label="close">
+                    <span aria-hidden="true" style="color: darkslategrey">&times;</span></button>
+                <strong>Incorrect Password!</strong> Have you
+                <!-- Display link to route user to the page for recovering account details in the alert -->
+                <a href="/reset/forgotPassword" class="alert-link">forgotten your password?</a>
+            </div>
+        </div>
+        <div class="col-sm-3"></div>
+    </div>
+    <% } %>
+</div>
+</body>
+</html>
