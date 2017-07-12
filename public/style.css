@@ -1,0 +1,150 @@
+body {
+    background-color: #F0F0F0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    text-transform: uppercase;
+}
+
+.btn {
+    border: 0;
+    border-radius: 0;
+}
+
+.btn-success {
+    background-color: #54a2bd;
+}
+
+.btn-danger {
+    background-color: #BD6F54;
+}
+
+.btn-success.disabled:hover,
+.btn-success:hover {
+    background-color: #4391AC;
+}
+
+.btn-success:active,
+.btn-success:focus,
+.btn-success:active:focus,
+.btn-success:active:hover {
+    background-color: #397C94;
+}
+
+.close, .close:hover {
+    color: white;
+    opacity: .75;
+}
+
+.close:hover {
+
+    opacity: 1;
+}
+
+.dropdown-menu {
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+    padding: 0;
+}
+
+.dropdown-menu > li > a {
+    line-height: 40px;
+}
+
+.form-control, .input-group-addon {
+    border-radius: 0;
+}
+
+.has-error .form-control,
+.has-error .input-group-addon, .has-danger {
+    color: #BD6F54;
+    border-color: #BD6F54;
+}
+
+.navbar {
+    text-transform: uppercase;
+    background-color: white;
+}
+
+.navbar-brand {
+    height: 110px;
+}
+
+.mytextarea {
+    height: 60px;
+    font-size: 100%;
+}
+
+.navbar-nav > li > a {
+    line-height: 78px;
+    color: #465A64;
+    font-size: 18px;
+}
+
+.nav-tabs>li.active>a,
+.nav-tabs>li.active>a:focus,
+.nav-tabs>li.active>a:hover{
+    color: white !important;
+    background-color: #66C6E7;
+    border: 1px solid #FFFFFF;
+    border-bottom-color: transparent;
+}
+
+.nav-tabs {
+    color: rgb(17, 89, 139);
+    border-bottom: 1px solid #FFFFFF;
+}
+
+.tab-content{
+    background-color: #66C6E7;
+    border-color: #F0F0F0;
+    padding: 5px;
+}
+
+
+.panel, .panel-default, .modal-body, .modal-footer {
+    color: white;
+    background-color: #66c6e7;
+    border: 0;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
+}
+
+.panel-default > .panel-heading, .modal-header {
+    background-color: rgb(17, 89, 139);
+    border: 0;
+    border-radius: 0;
+    color: white;
+    font-size: 36px;
+    font-weight: bold;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+.table, .table a {
+    text-transform: none;
+    color: white;
+}
+
+.table > tbody > tr,
+.table-striped > tbody > tr:nth-of-type(odd),
+.table-striped > tbody > tr:nth-of-type(even)
+{
+    background-color: inherit;
+}
+
+.table > thead > tr > th, .table > tbody > tr > td
+{
+    border: 0;
+    padding: 0;
+}
+
+.table > tbody > tr > td {
+    line-height: 40px;
+}
+
+.table .btn {
+    padding: 5px 40px;
+}

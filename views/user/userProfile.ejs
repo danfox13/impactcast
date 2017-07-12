@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title><%= title %></title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/public/style.css">
+    <link rel="stylesheet" href="bootstrap-editable/css/bootstrap-editable.css">
+    <script src="/jquery/jquery.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/jsvalidate/validator.min.js"></script>
+    <link href="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet"/>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
+    <style>
+        .panel-custom2 > .panel-body{
+            border-color: #465A64;
+            background-color: #FFFFFF;
+            color: #0F4155;
+        }
+
+        .panel-custom2 > .panel-footer{
+            border-color: #465A64;
+            background-color: rgb(17, 89, 139);
+            color: #F0F0F0;
+        }
+    </style>
+    <style>
+        h5.smallP {
+            margin-bottom: 5px;
+            margin-top: 5px;
+        }
+        h1.smallP {
+            margin-bottom: 5px;
+            margin-top: 5px;
+            color: #F0F0F0;
+        }
+    </style>
+</head>
+
+<body>
+<% include ../templates/header.ejs %>
+<div class="container">
+    <div class="panel panel-default">
+        <div class="panel-heading text-left">
+            <h1><font style="text-transform: none;" color="#FFFFFF">
+                    <% if(viewerAdmin||viewerSelf){%>
+                <span style="color: #ffffff; border:5px transparent solid; border-radius: 10px;"
+                   href="#" id="username" value="name" data-type="text" data-title="Enter Username"
+                data-url="/user/<%= id %>/changeName">
+                    <%= name %>
+                </span>
+                <%} else{%>
+                    <span style="color: #ffffff;">
+                    <%= name %>
+                </span>
+                    <%}%>
+                </font>
+            </h1>
+        </div>
+        <div class="panel-body" style="min-height: 360px;">
+            <div class="media">
+                <div class="media-left media-top">
+                    <img src="/image/<%= (isAdmin?"admin":"") %>avatar.png" class="img-circle" style="width:250px;
+                    border: solid 10px rgb(17, 89, 139);
+                    margin: 20px;">
+                </div>
+                <div class="media-body">
+                    <div class="row">
+                        <% if(viewerSelf){%><!-- If viewing your own profile, you can change your password,
+                                or delete your account if you want to -->
+                        <div class="col-md-6" style="margin-top: 20px;">
+                            <div class="panel panel-custom2">
+                                <div class="panel-body"><font color = "#465a64" size="5"><strong>Email Address</strong></font></div>
+                                <div class="panel-footer"><font size="4"><%= email %></font></div>
+                            </div>
+                            <div class="panel panel-custom2" >
+                                <div class="panel-body">
+                                    <img src="/image/SlackLogo.svg" class="img-circle" style="width:30px; margin: 5px;">
+                                    <font color = "#465a64" size="5"><strong>Slack Handle</strong></font>
+                                </div>
+                                <div class="panel-footer"><font size="4"><%= (slack?slack:"-") %></font></div>
+                            </div>
+                        </div>
+                        <div class="col-md-6"  style="margin-top: 20px;">
+                            <ul class="nav nav-tabs">
+                                <li class="active"><a data-toggle="tab" href="#changePassword"><strong>Change Password</strong></a></li>
+                                <li><a data-toggle ="tab" href="#delete"><strong>Delete Account</strong></a></li>
+                            </ul>
+
+                            <div class="tab-content">
+                                <div id="changePassword" class="tab-pane fade in active">
+                                    <form action="/changePassword" method="post" data-toggle="validator" role="form">
+                                        <div class="form-group">
+                                            <div class="input-group" style="margin-top: 20px;">
+                                                <span class="input-group-addon">T</span>
+                                                <input type="password" class="form-control" id="oldPassword"
+                                                       name="oldPassword"
+                                                       placeholder="Enter old password" required>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="input-group">
+                                                <span class="input-group-addon">T</span>
+                                                <input type="password" class="form-control" id="newPassword"
+                                                       name="newPassword" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                                                       placeholder="Enter new password"
+                                                       required>
+                                            </div>
+                                            <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                                            <div class="help-block with-errors"></div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="input-group">
+                                                <span class="input-group-addon">T</span>
+                                                <input type="password" class="form-control" id="newPasswordCheck"
+                                                       name="newPasswordCheck" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                                                       placeholder="Confirm new password"
+                                                       data-match="#newPassword"
+
+                                                       required>
+                                            </div>
+                                            <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                                            <div class="help-block with-errors">
+                                                Minimum 8 chars. Must include upper/lower case and a digit. Cannot be the same as your old password.
+                                            </div>
+                                        </div>
+                                            <input type="submit" value="Change Password"
+                                                   style="background-color: lightgreen; color: rgb(70, 90, 100);
+                                                         font-weight: bold;"
+                                                   class="btn btn-success btn-m btn-black">
+                                    </form>
+                                </div>
+                                <div id="delete" class="tab-pane fade">
+                                    <form action="/deleteMe" method="post" data-toggle="validator" role="form">
+                                        <div class="form-group">
+                                            <div class="input-group" style="margin-top: 20px;">
+                                                <span class="input-group-addon">T</span>
+                                                <input type="password" class="form-control" id="password" name="password"
+                                                       placeholder="Enter your password"
+                                                       required>
+                                            </div>
+                                        </div>
+                                        <input type="submit" value="Permanently Delete Account"
+                                               style="background-color: red; color: white; font-weight: bold;"
+                                               class="btn btn-danger btn-m btn-black">
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <%} else{ %>
+                        <div class="col-md-11" style="margin-top: 20px;">
+                            <div class="panel panel-custom2">
+                                <div class="panel-body"><font color = "#465a64" size="5"><strong>Email Address</strong></font></div>
+                                <div class="panel-footer"><font size="4"><%= email %></font></div>
+                            </div>
+                            <div class="panel panel-custom2" >
+                                <div class="panel-body">
+                                    <img src="/image/SlackLogo.svg" class="img-circle" style="width:30px; margin: 5px;">
+                                    <font color = "#465a64" size="5"><strong>Slack Handle</strong></font>
+                                </div>
+                                <div class="panel-footer"><font size="4"><%= (slack?slack:"-") %></font></div>
+                            </div>
+                        </div>
+                        <%}%>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <% if(wrongPassword){%><!-- Alert to tell the user they entered the wrong password,
+    with a reset page link too -->
+    <div class="row" style="margin-top:10px;">
+        <div class="col-sm-3"></div>
+        <div class="col-sm-6">
+            <div class="alert alert-danger alert-dismissible fade in" role="alert">
+                <button type="button" class="close"
+                        data-dismiss="alert" aria-label="close">
+                    <span aria-hidden="true" style="color: darkslategrey">&times;</span></button>
+                <strong>Incorrect Password!</strong> Have you
+                <!-- Display link to route user to the page for recovering account details in the alert -->
+                <a href="/reset/forgotPassword" class="alert-link">forgotten your password?</a>
+            </div>
+        </div>
+        <div class="col-sm-3"></div>
+    </div>
+    <% } %>
+    <script>
+        //Code for making the username editable
+        (function($){
+            $(document).ready( function() {
+                $.fn.editable.defaults.mode = 'inline';
+                $('#username').editable({
+                    tpl: '<textarea style="height: 70px; font-size: 100%;" maxlength="30"></textarea>',
+                    type: 'text',
+                    pk: 1,
+                    inputclass: 'mytextarea',
+                    send: 'always',
+                    emptytext: '<%= email%>',
+                });
+            });
+        })(jQuery);
+    </script>
+</body>
+</html>

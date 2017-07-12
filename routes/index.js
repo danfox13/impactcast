@@ -1,3 +1,9 @@
+/**
+ *
+ * @type {*}
+ */
+
+
 var express = require('express');
 var app = express.Router();
 
@@ -17,7 +23,39 @@ app.post('/login', user.login);
 app.get('/logout', user.logout);
 app.get('/home', site.index);
 
+app.get('/failedLogin', site.failedLogin);
 
+//Password reset URIs
+app.get('/reset/forgotPassword', user.forgotPassword);
+app.post('/reset/forgotPassword', user.resetPassword);
+app.get('/reset/invalidEmail', user.invalidEmail);
+app.get('/reset/:token', user.resetPasswordLink);
+app.post('/reset/changeForgottenPassword/:email', user.changeForgottenPassword);
+
+//adding user URIs
+app.get('/addUser', user.viewAddUser);
+app.post('/addUser', user.addUser);
+app.get('/addedUser', user.addedUser);
+app.get('/failedAddUser', user.failedAddUser);
+
+//user profile URIs
+app.get('/myProfile', user.myProfile);
+app.get('/user/:user/viewProfile', user.viewUserProfile);
+app.get('/viewUsers', user.viewUsers);
+
+//changing password URIs
+app.post('/changePassword', user.changePassword);
+app.post('/user/:user/changeName', user.changeName);
+
+//deleting user URIs
+app.post('/deleteMe', user.deleteMe);
+app.get('/user/:user/deleteUser', user.showDeleteUser);
+app.post('/user/:user/deleteUser', user.deleteUser);
+
+//permissions URIs
+app.get('/user/:user/makeAdmin', user.showMakeAdmin);
+app.get('/user/:user/revokeAdmin', user.showRevokeAdmin);
+app.post('/user/:user/flipAdmin', user.flipAdmin);
 
 //Project URIs
 app.get('/newProject', project.newProject);

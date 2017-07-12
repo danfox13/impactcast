@@ -36,7 +36,7 @@ exports.addNewProject = function (req, res) {
     //Add to database
     var data = new project({
         projectCode: req.body.projectCode,
-        projectTitle: req.body.projectName
+        projectTitle: req.body.projectName,
     });
     data.save();
 
