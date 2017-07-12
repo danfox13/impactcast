@@ -38,8 +38,10 @@
                     <% users.forEach(function(user){ %>
                     <tr>
                         <td class="text-center">
-                            <% if(viewer._id !== user._id){%>
-                            <% if(viewer.isAdmin){%>
+                            <% if(viewer.email === user.email){%>
+                            <a href="/myProfile" class="btn btn-success"
+                               role="button" style="width: 70%" >My Profile</a>
+                            <%} else if(viewer.isAdmin){%>
                             <a href="/user/<%= user._id %>/viewProfile" class="btn btn-success"
                                role="button">View</a>
                             <a href="/user/<%= user._id %>/deleteUser" class="btn btn-danger"
@@ -48,7 +50,6 @@
                             <a href="/user/<%= user._id %>/viewProfile" class="btn btn-success"
                                role="button">View</a>
                         <%}%>
-                            <%}%>
                         </td>
                         <td><%= user.email %>
                             <% if(user.isAdmin){%><span style="padding: 8px; margin-left: 10px;" class="badge"> Admin </span><%}%>
