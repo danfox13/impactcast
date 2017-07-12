@@ -67,7 +67,8 @@
                 </div>
                 <div class="media-body">
                     <div class="row">
-                        <% if(viewerSelf){%>
+                        <% if(viewerSelf){%><!-- If viewing your own profile, you can change your password,
+                                or delete your account if you want to -->
                         <div class="col-md-6" style="margin-top: 20px;">
                             <div class="panel panel-custom2">
                                 <div class="panel-body"><font color = "#465a64" size="5"><strong>Email Address</strong></font></div>
@@ -167,7 +168,8 @@
             </div>
         </div>
     </div>
-    <% if(wrongPassword){ //Activate this if a user has been directed to this page after attempting to login and failing %>
+    <% if(wrongPassword){%><!-- Alert to tell the user they entered the wrong password,
+    with a reset page link too -->
     <div class="row" style="margin-top:10px;">
         <div class="col-sm-3"></div>
         <div class="col-sm-6">
@@ -184,8 +186,8 @@
     </div>
     <% } %>
     <script>
+        //Code for making the username editable
         (function($){
-            console.log("------------DOCUMENT READY--------------");
             $(document).ready( function() {
                 $.fn.editable.defaults.mode = 'inline';
                 $('#username').editable({

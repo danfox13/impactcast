@@ -40,7 +40,7 @@
             </form>
         </div>
     </div>
-    <% if(failed){ %>
+    <% if(failed){ %><!-- An error occurred and the user could not be made admin -->
     <div class="row" style="margin-top:10px;">
         <div class="col-sm-3"></div>
         <div class="col-sm-6">
@@ -53,7 +53,7 @@
         </div>
         <div class="col-sm-3"></div>
     </div>
-    <% } else if(success){%>
+    <% } else if(success){%><!-- The operation went successfully and the user was made admin -->
     <div class="row" style="margin-top:10px;">
         <div class="col-sm-3"></div>
         <div class="col-sm-6">
@@ -66,7 +66,8 @@
         </div>
         <div class="col-sm-3"></div>
     </div>
-    <% } else if(wrongPassword){ //Activate this if a user has been directed to this page after attempting to login and failing %>
+    <% } else if(wrongPassword){ %><!-- Alert to tell the user they entered the wrong password,
+                                       with a reset page link too -->
     <div class="row" style="margin-top:10px;">
         <div class="col-sm-3"></div>
         <div class="col-sm-6">

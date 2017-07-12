@@ -65,7 +65,7 @@
             </form>
         </div>
     </div>
-    <% if(failed){ %>
+    <% if(failed){ %><!-- An error occurred and the user could not be added -->
     <div class="row" style="margin-top:10px;">
         <div class="col-sm-3"></div>
         <div class="col-sm-6">
@@ -78,7 +78,7 @@
         </div>
         <div class="col-sm-3"></div>
     </div>
-    <% } else if(success){%>
+    <% } else if(success){%><!-- The operation went successfully and the user was added -->
     <div class="row" style="margin-top:10px;">
         <div class="col-sm-3"></div>
         <div class="col-sm-6">

@@ -7,39 +7,45 @@ messenger.setWebhook("https://hooks.slack.com/services/T65CH6U7L/B65H360GM/hJW9v
 
 
 //Send a slack message to an individual's slackbot channel
-exports.individualMessage = function(recipientEmail, messageText){
+exports.individualMessage = function (recipientEmail, messageText) {
 
+    //get the details of the user with the recipient email
     user.userModel.findOne({
         email: recipientEmail
-    }).then(function(result){
-        console.log("Result: " + result);
+    }).then(function (result) {
 
-        if(result) {
+        if (result) {
+
+            //send a message to them via slack
             messenger.webhook({
                 channel: "@owenjenkins",
                 username: "Auga Bot",
                 icon_emoji: ":spades:",
                 text: "Hi " + result.name + ", here's a new message:\n>>>" + messageText,
             }, function (err, response) {
-                console.log(response);
+                if (err) {
+                    console.log("Error: " + err);
+                }
             })
-            console.log("Sent webhook");
         }
-    }).catch(function(err){
+    }).catch(function (err) {
         console.log("Error: " + err);
     })
 
 }
 
 //Send a slack message to the #general channel
-exports.generalMessage = function(messageText) {
+exports.generalMessage = function (messageText) {
 
+    //send a message to the slack #general channel
     messenger.webhook({
         channel: "#general",
         username: "Auga Bot",
         icon_emoji: ":spades:",
         text: "Hi everyone, here's some info:\n>>>" + messageText,
     }, function (err, response) {
-        console.log(response);
+        if (err) {
+            console.log("Error: " + err);
+        }
     });
 }

@@ -9,7 +9,7 @@ mongoose.createConnection(dburl);
 
 var Schema = mongoose.Schema;
 var userSchema = new Schema({
-    email: {type: String, required: true, index:{unique: true}},
+    email: {type: String, required: true, index: {unique: true}},
     name: {type: String},
     password: {type: String, required: true},
     slack: {type: String},
@@ -25,70 +25,77 @@ var user = mongoose.model('user', userSchema);
 
 exports.userModel = user;
 
-//Depopulate the database and then add one admin user for testing
-user.find({
-    email: {$regex: ".*"}
-})
-    .then(function(results){
-        console.log("Depopulating DB");
-        results.forEach(function(entry)
-        {console.log("Removed:\n" + entry);
-            entry.remove();});
-    })
-    .then(function() {
-        console.log("Populating DB");
-        var example = new user({
-            name: 'Owen',
-            email: 'owen.jenkins@capgemini.com',
-            slack: '@owenjenkins',
-            password: bcrypt.hashSync('password', SALT_FACTOR),
-            isAdmin: true,
-        })
-        example.save(function (err) {
-            console.log(err ? "Error: " + err : "Added:\n" + example);
-        }).then(function(){
-        var example = new user({
-            email: 'rosie.butcher@capgemini.com',
-            password: bcrypt.hashSync('password', SALT_FACTOR),
-            isAdmin: false,
-        });
-        example.save(function (err) {
-            console.log(err ? "Error: " + err : "Added:\n" + example);
-        }).then(function(){
-            // slack.individualMessage('owen.jenkins@capgemini.com', "You've been assigned some more work!");
-            // slack.generalMessage("Hello All!");
-        });
-        });
-    });
+// //========================TESTING====================================
+// //Depopulate the database and then add one admin user for testing
+// user.find({
+//     email: {$regex: ".*"}
+// })
+//     .then(function (results) {
+//         console.log("Depopulating DB");
+//         results.forEach(function (entry) {//console.log("Removed:\n" + entry);
+//             entry.remove();
+//         });
+//     })
+//     .then(function () {
+//         console.log("Populating DB");
+//         var example = new user({
+//             name: 'Owen',
+//             email: 'owen.jenkins@capgemini.com',
+//             slack: '@owenjenkins',
+//             password: bcrypt.hashSync('password', SALT_FACTOR),
+//             isAdmin: true,
+//         })
+//         example.save(function (err) {
+//             //console.log(err ? "Error: " + err : "Added:\n" + example);
+//         }).then(function () {
+//             var example = new user({
+//                 email: 'rosie.butcher@capgemini.com',
+//                 password: bcrypt.hashSync('password', SALT_FACTOR),
+//                 isAdmin: false,
+//             });
+//             example.save(function (err) {
+//                 //console.log(err ? "Error: " + err : "Added:\n" + example);
+//             }).then(function () {
+//                 slack.individualMessage('owen.jenkins@capgemini.com', "You've been assigned some more work!");
+//                 slack.generalMessage("Hello All!");
+//             });
+//         });
+//     });
 
 //view page for adding users
-exports.viewAddUser = function(req, res){
+exports.viewAddUser = function (req, res) {
     res.render('user/addUser',
-        {title: "Add User",
-        heading: "Add User To System",
-        failed: false,
-        success: false});
+        {
+            title: "Add User",
+            heading: "Add User To System",
+            failed: false,
+            success: false
+        });
 }
 
 //view page for adding users after success
-exports.addedUser = function(req, res){
+exports.addedUser = function (req, res) {
     res.render('user/addUser',
-        {title: "Add User",
-        heading: "Add User To System",
-        failed: false,
-        success: true});
+        {
+            title: "Add User",
+            heading: "Add User To System",
+            failed: false,
+            success: true
+        });
 }
 
 //view page for adding users after failure
-exports.failedAddUser = function(req, res){
+exports.failedAddUser = function (req, res) {
     res.render('user/addUser',
-        {title: "Add User",
+        {
+            title: "Add User",
             heading: "Add User To System",
-            failed: true,});
+            failed: true,
+        });
 }
 
 //Add a new user to the database and send them their password in an email
-exports.addUser = function(req, res){
+exports.addUser = function (req, res) {
     var email = req.body.email;
 
     //generate a random new password for the new user
@@ -102,100 +109,93 @@ exports.addUser = function(req, res){
     var newUser = new user({
         email: email,
         password: hash,
-        name: (req.body.name?req.body.name:null),
-        slack: (req.body.slack?req.body.slack:null),
+        name: (req.body.name ? req.body.name : null),
+        slack: (req.body.slack ? req.body.slack : null),
     });
 
     //save the new user on the database
     newUser.save()
-    .then(function(){
+        .then(function () {
 
-        //send the new user an email with their login details
-        mailer.sendAddUserEmail(email, password);
-        res.redirect('addedUser');
-    })
-        .catch(function(err){
+            //send the new user an email with their login details
+            mailer.sendAddUserEmail(email, password);
+            res.redirect('addedUser');
+        })
+        .catch(function (err) {
             console.log("Error: " + err);
             res.redirect('failedAddUser');
         });
 }
 
 //Change a user's vanity name
-exports.changeName = function(req, res){
+exports.changeName = function (req, res) {
     var userID = req.params.user;
     var name = req.body.value;
-    console.log("GOT NEW NAME: " + name);
+
     //find the user currently logged in
     user.findOne({
         _id: userID,
     })
-        .then(function(result){
-            if(name.trim() !== ""){
-                console.log("CHANGING USERNAME to " + name);
+        .then(function (result) {
+            if (name.trim() !== "") {
 
                 result.name = name;
+
                 //save the newly modified user entry in the database
                 result.save();
             }
-             else{
+            else {
                 name = result.email;
                 result.name = null;
+
                 //save the newly modified user entry in the database
                 result.save();
             }
         })
-        .then(function(){
-            console.log("Saved with name: " + name);
+        .then(function () {
             res.newValue = name;
             res.send();
-            console.log("Sent response with " + res.newValue);
         })
-        .catch(function(err){
+        .catch(function (err) {
             console.log("Error: " + err);
         });
 }
 
 //Change a user's password and send them an email
-exports.changePassword = function(req, res){
+exports.changePassword = function (req, res) {
 
     var newPass = req.body.newPassword;
     var newPassCheck = req.body.newPasswordCheck;
     var email = req.session.email;
 
-    console.log("CHANGING PASSWORD FOR USER:\n" +
-        "Email = " + email +
-        "\nOld Password = " + req.body.oldPassword +
-        "\nNew Password = " + newPass +
-        "\nCheck = " + newPassCheck);
-
     //double check that the new passwords match and are different to the old
-    if(newPass && newPassCheck &&
+    if (newPass && newPassCheck &&
         newPass === newPassCheck &&
-        newPass !== req.body.oldPassword){
+        newPass !== req.body.oldPassword) {
 
         //find the user currently logged in
         user.findOne({
             email: email,
         })
-            .then(function(result){
+            .then(function (result) {
 
                 //check that they entered the correct password for their account
                 var hash = result.password;
                 var password = req.body.oldPassword;
-                if(hash && password &&
+                if (hash && password &&
                     bcrypt.compareSync(password, hash)) {
-                    console.log("PASSWORDS MATCH, SAVING NEW PASSWORD HASH");
                     result.password = bcrypt.hashSync(newPass, SALT_FACTOR);
 
                     //save the newly modified user entry in the database
                     result.save();
+
                     //send the user an email to let them know their password has been changed
                     mailer.sendPasswordChangedEmail(email);
                 }
-                else{
-                    console.log("WRONG PASSWORD, DISPLAYING ERROR MSG");
+                else {
                     res.render('user/userProfile',
-                        {title: 'User Profile',
+                        {
+                            title: 'User Profile',
                             email: email,
                             name: req.session.name,
                             slack: req.session.slack,
@@ -203,12 +203,14 @@ exports.changePassword = function(req, res){
                             viewerAdmin: req.session.viewerAdmin,
                             viewerSelf: true,
                             id: req.session.id,
-                            wrongPassword: true});
+                            wrongPassword: true
+                        });
                 }
             })
-            .then(function(){
+            .then(function () {
                 res.render('user/userProfile',
-                    {title: 'User Profile',
+                    {
+                        title: 'User Profile',
                         email: email,
                         name: req.session.name,
                         slack: req.session.slack,
@@ -216,26 +218,25 @@ exports.changePassword = function(req, res){
                         viewerAdmin: req.session.viewerAdmin,
                         viewerSelf: true,
                         id: req.session.id,
-                        wrongPassword: false});
+                        wrongPassword: false
+                    });
             })
-            .catch(function(err){
+            .catch(function (err) {
                 console.log("Error: " + err);
             });
     }
 }
 
 //Login to the system
-exports.login = function(req, res){
+exports.login = function (req, res) {
     var email = req.body.email;
     var password = req.body.pwd;
-
-    console.log("Attempted login: " + email + " and " + password);
 
     //find the entry for the user in the database
     user.findOne({
         email: email,
     }).then(function (result) {
-        if(result) {
+        if (result) {
             var hash = result.password;
 
             //compare the hash in the collection to the hash of the presented password
@@ -243,46 +244,45 @@ exports.login = function(req, res){
                 && bcrypt.compareSync(password, hash)) {
 
                 //if they match, log the user in and authenticate the session
-                console.log('pass');
                 req.session.email = email;
                 req.session.name = result.name;
                 req.session.slack = result.slack;
                 req.session.authenticated = true;
                 req.session.userID = result._id;
                 req.session.viewerAdmin = result.isAdmin,
-                console.log("LOGGED IN USER: " + result);
-                res.redirect('/home');
+                    res.redirect('/home');
             }
             else {
-                console.log(req.body.email + ' fail ' + password);
                 res.redirect('/failedLogin');
             }
         }
-        else{
+        else {
             res.redirect('/failedLogin');
         }
+    }).catch(function (err) {
+        console.log("Error: " + err);
     });
 };
 
-exports.myProfile = function(req, res){
+//redirect user to their own profile page
+exports.myProfile = function (req, res) {
     res.redirect('/user/' + req.session.userID + '/viewProfile');
 }
 
 //Link to viewUserProfile
-exports.viewUserProfile = function(req, res){
-    console.log("REQ: " + req);
-    console.log("ID: " + req.params.user);
+exports.viewUserProfile = function (req, res) {
+
     user.findOne({
         _id: req.params.user,
     }).then(
-        function(result){
-            console.log(result);
+        function (result) {
+            //console.log(result);
             var name = result.name;
             var slack = result.slack;
             var email = result.email;
-            console.log("IS ADMIN? " + req.session.isAdmin);
             res.render('user/userProfile',
-                {title: 'User Profile',
+                {
+                    title: 'User Profile',
                     email: email,
                     name: name,
                     slack: slack,
@@ -290,20 +290,22 @@ exports.viewUserProfile = function(req, res){
                     viewerAdmin: req.session.viewerAdmin,
                     viewerSelf: email === req.session.email,
                     id: result._id,
-                wrongPassword: false});
+                    wrongPassword: false
+                });
         }
     ).catch(
-        function(error){
-            console.log(error);
+        function (error) {
+            console.log("Error: " + error);
         }
     );
 
 }
 
-exports.showDeleteUser = function(req, res){
+//show the page for deleting a user
+exports.showDeleteUser = function (req, res) {
     user.findOne({
         _id: req.params.user,
-    }).then( function(result) {
+    }).then(function (result) {
         res.render('user/deleteUser', {
             title: "Delete User",
             heading: "Delete User",
@@ -311,35 +313,38 @@ exports.showDeleteUser = function(req, res){
             email: result.email,
             failed: false,
             success: false,
-            wrongPassword: false,});
+            wrongPassword: false,
+        });
     });
 }
 
 //As an admin, delete a user
-exports.deleteUser = function(req, res){
-    console.log("Deleting User: " + req.params.user);
+exports.deleteUser = function (req, res) {
     var email = req.session.email;
     var password = req.body.adminPassword;
 
+    //get the details of the user to be deleted
     var account;
     user.findOne({
         _id: req.params.user,
-    }).then(function(result){
-        console.log("Found account: " + result);
+    }).then(function (result) {
         account = result;
-        if(account) {
+        if (account) {
+
+            //get the details of the admin trying to delete the user
             user.findOne({
                 email: email,
             }).then(
                 function (result) {
-                    console.log("You are: " + result);
+
+                    //check the admin entered the correct password
                     var hash = result.password;
                     if (hash && password &&
                         bcrypt.compareSync(password, hash)) {
 
-                        //if the user entered the correct password, get the user and delete them
-                        console.log("PASSWORDS MATCH, DELETING USER");
-                        account.remove().then(function(){
+                        //if the user entered the correct password,
+                        //get the user and delete them
+                        account.remove().then(function () {
                             mailer.sendAccountDeletedEmail(account.email);
                             res.render('user/deleteUser', {
                                 title: "Delete User",
@@ -348,11 +353,13 @@ exports.deleteUser = function(req, res){
                                 email: account.email,
                                 failed: false,
                                 success: true,
-                                wrongPassword: false,});
+                                wrongPassword: false,
+                            });
                         });
                     }
                     else {
-                        console.log("WRONG PASSWORD, DISPLAYING ERROR MSG");
+
+                        //show a wrong password warning if the admin password was incorrect
                         res.render('user/deleteUser', {
                             title: "Delete User",
                             heading: "Delete User",
@@ -360,11 +367,14 @@ exports.deleteUser = function(req, res){
                             email: account.email,
                             failed: false,
                             success: false,
-                            wrongPassword: true,});
+                            wrongPassword: true,
+                        });
                     }
                 }
             )
         } else {
+
+            //display an error message if the action couldn't be performed
             res.render('user/deleteUser', {
                 title: "Delete User",
                 heading: "Delete User",
@@ -375,166 +385,163 @@ exports.deleteUser = function(req, res){
                 wrongPassword: false,
             });
         }
-    }).catch(
-        function (error) {
-            console.log(error);
-            res.render('user/deleteUser', {
-                title: "Delete User",
-                heading: "Delete User",
-                user: account._id,
-                email: account.email,
-                failed: true,
-                success: false,
-                wrongPassword: false,});
-        });
+    }).catch(function (err) {
+        console.log("Error: " + err);
+    });
 }
 
-//Delete user
-exports.deleteMe = function(req, res){
-    console.log("Deleting myself");
+//delete a user's own account
+exports.deleteMe = function (req, res) {
+
     var email = req.session.email;
     var password = req.body.password;
 
+    //get the details of the user
     user.findOne({
         email: email,
     }).then(
-        function(result){
-            console.log(result);
+        function (result) {
             var hash = result.password;
-            if(hash && password &&
+
+            //check the user entered the correct password
+            if (hash && password &&
                 bcrypt.compareSync(password, hash)) {
 
                 //if the user entered the correct password, delete their entry in the database
-                console.log("PASSWORDS MATCH, DELETING USER");
                 result.remove();
                 mailer.sendAccountDeletedEmail(email);
             }
-            else{
-                console.log("WRONG PASSWORD, DISPLAYING ERROR MSG");
+            else {
+
+                //show a wrong password warning if the password was incorrect
                 res.render('user/userProfile', {
                     title: 'User Profile',
                     email: result.email,
                     name: result.name,
                     slack: result.slack,
-                    wrongPassword: true});
+                    wrongPassword: true
+                });
             }
         }
     )
-        .then(function(){
+        .then(function () {
             req.session.authenticated = false;
             res.redirect('/');
         }).catch(
-        function(error){
-            console.log(error);
+        function (error) {
+            console.log("Error: " + error);
         }
     );
 
 }
 
 //redirect to the forgotten password view
-exports.forgotPassword = function(req, res){
+exports.forgotPassword = function (req, res) {
     res.render('reset/forgotPassword', {title: "Forgotten Password", sentEmail: false, validEmail: true});
 }
 
 //generate a reset password link and email it to the user
-exports.resetPassword = function(req, res){
+exports.resetPassword = function (req, res) {
     var email = req.body.email;
     var token = crypto.randomBytes(20).toString('hex');
 
+    //get the details of the user associated with the email given
     user.findOne({
         email: email,
     })
         .then(
-        function(result) {
-            console.log("Email = " + email + ", Result = " + result);
-            if (result) {
-                result.resetPasswordToken = token;
-                result.resetPasswordExpires = Date.now() + 3600000; // expires in 1 hour
-                result.save().then(function(){
-                    console.log("Saved");
+            function (result) {
+                if (result) {
+                    result.resetPasswordToken = token;
+                    result.resetPasswordExpires = Date.now() + 3600000; // expires in 1 hour
+                    result.save().then(function () {
 
-                    //send user the password reset link in an email
-                    mailer.sendResetEmail(email, token);
-                    console.log("Sent");
-                    res.render('reset/forgotPassword', {title: "Forgotten Password", sentEmail: true, validEmail: true});
-                });
-            }
-            else{
-              res.redirect('/reset/invalidEmail');
-            }
-        })
+                        //send user the password reset link in an email
+                        mailer.sendResetEmail(email, token);
+                        res.render('reset/forgotPassword', {
+                            title: "Forgotten Password",
+                            sentEmail: true,
+                            validEmail: true
+                        });
+                    });
+                }
+                else {
+                    res.redirect('/reset/invalidEmail');
+                }
+            }).catch(function (err) {
+        console.log("Error: " + err);
+    });
 }
 
 //if the reset password link used is valid, redirect the user to a page where they can change their password
-exports.resetPasswordLink = function(req, res) {
+exports.resetPasswordLink = function (req, res) {
 
-        user.findOne({
-            resetPasswordToken: req.params.token,
-            resetPasswordExpires: {$gt: Date.now()}
-        }).then(function (results) {
-            if(results){
-                res.render('reset/resetPassword', {title: "Reset Password", invalidLink: false, email: results.email});
-            }
-            else {
-                res.render('reset/resetPassword', {title: "Reset Password", invalidLink: true, email: null});
-            }
-        }).catch(function(err){
-            console.log("Error: " + err);
-            res.redirect('/');
-        });
+    //get the details of the user the token belongs to, and check it hasn't expired
+    user.findOne({
+        resetPasswordToken: req.params.token,
+        resetPasswordExpires: {$gt: Date.now()}
+    }).then(function (results) {
+        if (results) {
+            res.render('reset/resetPassword', {title: "Reset Password", invalidLink: false, email: results.email});
+        }
+        else {
+            res.render('reset/resetPassword', {title: "Reset Password", invalidLink: true, email: null});
+        }
+    }).catch(function (err) {
+        console.log("Error: " + err);
+        res.redirect('/');
+    });
 }
 
 //if the user entered an invalid email, redirect them back with an alert
-exports.invalidEmail = function(req, res){
+exports.invalidEmail = function (req, res) {
     res.render('reset/forgotPassword', {title: "Forgotten Password", sentEmail: false, validEmail: false});
 }
 
 //change a user's password without them having to know the old one (only used through reset link)
-exports.changeForgottenPassword = function(req, res){
+exports.changeForgottenPassword = function (req, res) {
     var newPass = req.body.newPassword;
     var newPassCheck = req.body.newPasswordCheck;
     var email = req.params.email;
 
-    console.log("CHANGING PASSWORD \n" +
-        "Email = " + email +
-        "\nNew Password = " + newPass +
-        "\nCheck = " + newPassCheck);
+    //check the two passwords given match
+    if (newPass && newPassCheck &&
+        newPass === newPassCheck) {
 
-    if(newPass && newPassCheck &&
-        newPass === newPassCheck){
-
+        //get the details of the user to reset the password of
         user.findOne({
             email: email,
         })
-            .then(function(result) {
+            .then(function (result) {
                 if (result) {
-                console.log("GOT CORRECT RESET LINK, SAVING NEW PASSWORD HASH");
-                result.password = bcrypt.hashSync(newPass, SALT_FACTOR);
-                result.resetPasswordToken = null;
-                result.resetPasswordExpires = Date.now();
-                result.save();
-            }
+                    result.password = bcrypt.hashSync(newPass, SALT_FACTOR);
+                    result.resetPasswordToken = null;
+                    result.resetPasswordExpires = Date.now();
+                    result.save();
+                }
             })
-            .then(function(){
+            .then(function () {
+
+                //send an email to the user to let them know their password has been changed
                 mailer.sendPasswordChangedEmail(email);
-                console.log("Redirect to login");
                 res.redirect('/');
             })
-            .catch(function(err){
+            .catch(function (err) {
                 console.log("Error: " + err);
             });
     }
 }
 
 //View all users page
-exports.viewUsers = function(req, res){
+exports.viewUsers = function (req, res) {
     user.findOne({
         email: req.session.email,
-    }).then(function(viewer){
+    }).then(function (viewer) {
         user.find({
             email: {$regex: ".*"}
-        }).then(function(results){
-            res.render('user/viewUsers', {title: "View Users",
+        }).then(function (results) {
+            res.render('user/viewUsers', {
+                title: "View Users",
                 heading: "View Users",
                 users: results,
                 viewer: viewer,
@@ -544,10 +551,11 @@ exports.viewUsers = function(req, res){
     });
 }
 
-exports.showMakeAdmin = function(req, res){
+//show the page for making a user an administrator
+exports.showMakeAdmin = function (req, res) {
     user.findOne({
         _id: req.params.user,
-    }).then( function(result) {
+    }).then(function (result) {
         res.render('user/makeAdmin', {
             title: 'Make Admin',
             heading: 'Make Admin',
@@ -560,74 +568,82 @@ exports.showMakeAdmin = function(req, res){
     });
 }
 
-exports.showRevokeAdmin = function(req, res){
+//show the page for revoking administrator permissions
+exports.showRevokeAdmin = function (req, res) {
     user.findOne({
         _id: req.params.user,
-    }).then( function(result) {
-    res.render('user/revokeAdmin', {
-        title: 'Revoke Admin',
-        heading: 'Revoke Admin',
-        user: result._id,
-        email: result.email,
-        failed: false,
-        success: false,
-        wrongPassword: false,
+    }).then(function (result) {
+        res.render('user/revokeAdmin', {
+            title: 'Revoke Admin',
+            heading: 'Revoke Admin',
+            user: result._id,
+            email: result.email,
+            failed: false,
+            success: false,
+            wrongPassword: false,
+        });
     });
-});
 }
 
-exports.flipAdmin = function(req, res){
-    console.log("Flipping Admin User: " + req.params.user);
+//'flip' the admin setting of a user - switch it from true to false or vice versa
+exports.flipAdmin = function (req, res) {
     var email = req.session.email;
     var password = req.body.adminPassword;
 
+    //find the account to change the settings of
     var account;
     user.findOne({
         _id: req.params.user,
-    }).then(function(result){
-        console.log("Found account: " + result);
+    }).then(function (result) {
         account = result;
-        if(account) {
+        if (account) {
+
+            //find the account of the admin trying to change the settings
             user.findOne({
                 email: email,
             }).then(
                 function (result) {
-                    console.log("You are: " + result);
                     var hash = result.password;
+
+                    //check the admin entered the correct password
                     if (hash && password &&
                         bcrypt.compareSync(password, hash)) {
 
                         //if the user entered the correct password, get the user and delete them
-                        console.log("PASSWORDS MATCH, FLIPPING USER ADMIN TO " + !(account.isAdmin));
                         account.isAdmin = !(account.isAdmin);
-                        account.save().then(function(){
-                            res.render('user/' + (account.isAdmin?'makeAdmin':'revokeAdmin'), {
-                                title: (account.isAdmin?'Make Admin':'Revoke Admin'),
-                                heading: (account.isAdmin?'Make Admin':'Revoke Admin'),
+                        account.save().then(function () {
+                            res.render('user/' + (account.isAdmin ? 'makeAdmin' : 'revokeAdmin'), {
+                                title: (account.isAdmin ? 'Make Admin' : 'Revoke Admin'),
+                                heading: (account.isAdmin ? 'Make Admin' : 'Revoke Admin'),
                                 user: account._id,
                                 email: account.email,
                                 failed: false,
                                 success: true,
-                                wrongPassword: false,});
+                                wrongPassword: false,
+                            });
                         });
                     }
                     else {
-                        console.log("WRONG PASSWORD, DISPLAYING ERROR MSG");
-                        res.render('user/' + (!account.isAdmin?'makeAdmin':'revokeAdmin'), {
-                            title: (!account.isAdmin?'Make Admin':'Revoke Admin'),
-                            heading: (!account.isAdmin?'Make Admin':'Revoke Admin'),
+
+                        //Show wrong password warning if the admin password didn't match
+                        res.render('user/' + (!account.isAdmin ? 'makeAdmin' : 'revokeAdmin'), {
+                            title: (!account.isAdmin ? 'Make Admin' : 'Revoke Admin'),
+                            heading: (!account.isAdmin ? 'Make Admin' : 'Revoke Admin'),
                             user: account._id,
                             email: account.email,
                             failed: false,
                             success: false,
-                            wrongPassword: true,});
+                            wrongPassword: true,
+                        });
                     }
                 }
             )
         } else {
-            res.render('user/' + (!account.isAdmin?'makeAdmin':'revokeAdmin'), {
-                title: (!account.isAdmin?'Make Admin':'Revoke Admin'),
-                heading: (!account.isAdmin?'Make Admin':'Revoke Admin'),
+
+            //show an error message if the action couldn't be performed
+            res.render('user/' + (!account.isAdmin ? 'makeAdmin' : 'revokeAdmin'), {
+                title: (!account.isAdmin ? 'Make Admin' : 'Revoke Admin'),
+                heading: (!account.isAdmin ? 'Make Admin' : 'Revoke Admin'),
                 user: account._id,
                 email: account.email,
                 failed: true,
@@ -637,20 +653,12 @@ exports.flipAdmin = function(req, res){
         }
     }).catch(
         function (error) {
-            console.log(error);
-            res.render('user/' + (!account.isAdmin?'makeAdmin':'revokeAdmin'), {
-                title: (!account.isAdmin?'Make Admin':'Revoke Admin'),
-                heading: (!account.isAdmin?'Make Admin':'Revoke Admin'),
-                user: account._id,
-                email: account.email,
-                failed: true,
-                success: false,
-                wrongPassword: false,});
+            console.log("Error: " + error);
         });
 }
 
 //Logout
-exports.logout = function(req, res){
+exports.logout = function (req, res) {
 
     delete req.session.authenticated;
     res.redirect('/');

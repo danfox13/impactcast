@@ -1,5 +1,6 @@
 var nodemailer = require('nodemailer');
 
+//create transporter to use for sending emails
 var transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
@@ -8,7 +9,8 @@ var transporter = nodemailer.createTransport({
     }
 });
 
-exports.sendAddUserEmail = function(recipient, password){
+//send an email to let the user know they've been added with their login details
+exports.sendAddUserEmail = function (recipient, password) {
     var mailOptions = {
         from: 'augaapp@gmail.com',
         to: recipient,
@@ -31,7 +33,8 @@ exports.sendAddUserEmail = function(recipient, password){
     });
 }
 
-exports.sendResetEmail = function(recipient, token){
+//send an email to give the user a password reset link
+exports.sendResetEmail = function (recipient, token) {
     console.log("Making email");
     var mailOptions = {
         from: 'augaapp@gmail.com',
@@ -56,7 +59,9 @@ exports.sendResetEmail = function(recipient, token){
     console.log("Sent email");
 }
 
-exports.sendPasswordChangedEmail = function(recipient){
+
+//send an email to let the user know their password has been changed
+exports.sendPasswordChangedEmail = function (recipient) {
     var mailOptions = {
         from: 'augaapp@gmail.com',
         to: recipient,
@@ -75,7 +80,9 @@ exports.sendPasswordChangedEmail = function(recipient){
     });
 }
 
-exports.sendAccountDeletedEmail = function(recipient){
+
+//send an email to let the user know their account has been deleted (removed from the DB)
+exports.sendAccountDeletedEmail = function (recipient) {
     var mailOptions = {
         from: 'augaapp@gmail.com',
         to: recipient,
