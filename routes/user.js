@@ -111,6 +111,7 @@ exports.addUser = function (req, res) {
         password: hash,
         name: (req.body.name ? req.body.name : null),
         slack: (req.body.slack ? req.body.slack : null),
+        isAdmin: req.body.isAdmin,
     });
 
     //save the new user on the database
