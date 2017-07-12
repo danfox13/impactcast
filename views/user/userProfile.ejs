@@ -67,6 +67,7 @@
                 </div>
                 <div class="media-body">
                     <div class="row">
+                        <% if(viewerSelf){%>
                         <div class="col-md-6" style="margin-top: 20px;">
                             <div class="panel panel-custom2">
                                 <div class="panel-body"><font color = "#465a64" size="5"><strong>Email Address</strong></font></div>
@@ -80,7 +81,6 @@
                                 <div class="panel-footer"><font size="4"><%= (slack?slack:"-") %></font></div>
                             </div>
                         </div>
-                        <% if(viewerSelf){%>
                         <div class="col-md-6"  style="margin-top: 20px;">
                             <ul class="nav nav-tabs">
                                 <li class="active"><a data-toggle="tab" href="#changePassword"><strong>Change Password</strong></a></li>
@@ -147,7 +147,21 @@
                                 </div>
                             </div>
                         </div>
-                        <%} %>
+                        <%} else{ %>
+                        <div class="col-md-11" style="margin-top: 20px;">
+                            <div class="panel panel-custom2">
+                                <div class="panel-body"><font color = "#465a64" size="5"><strong>Email Address</strong></font></div>
+                                <div class="panel-footer"><font size="4"><%= email %></font></div>
+                            </div>
+                            <div class="panel panel-custom2" >
+                                <div class="panel-body">
+                                    <img src="/image/SlackLogo.svg" class="img-circle" style="width:30px; margin: 5px;">
+                                    <font color = "#465a64" size="5"><strong>Slack Handle</strong></font>
+                                </div>
+                                <div class="panel-footer"><font size="4"><%= (slack?slack:"-") %></font></div>
+                            </div>
+                        </div>
+                        <%}%>
                     </div>
                 </div>
             </div>

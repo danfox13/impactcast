@@ -300,8 +300,23 @@ exports.viewUserProfile = function(req, res){
 
 }
 
+exports.showDeleteUser = function(req, res){
+    user.findOne({
+        _id: req.params.user,
+    }).then( function(result) {
+        res.render('user/deleteUser', {
+            title: "Delete User",
+            heading: "Delete User",
+            user: result._id,
+            email: result.email,
+            failed: false,
+            success: false});
+    });
+}
+
 //As an admin, delete a user
 exports.deleteUser = function(req, res){
+    console.log("Deleting User: " + req.params.user);
     var email = req.session.email;
     var password = req.body.adminPassword;
 
@@ -309,34 +324,49 @@ exports.deleteUser = function(req, res){
     user.findOne({
         _id: req.params.user,
     }).then(function(result){
+        console.log("Found account: " + result);
         account = result;
-    })
-    if(account) {
-        user.findOne({
-            email: email,
-        }).then(
-            function (result) {
-                console.log(result);
-                var hash = result.password;
-                if (hash && password &&
-                    bcrypt.compareSync(password, hash)) {
+        if(account) {
+            user.findOne({
+                email: email,
+            }).then(
+                function (result) {
+                    console.log("You are: " + result);
+                    var hash = result.password;
+                    if (hash && password &&
+                        bcrypt.compareSync(password, hash)) {
 
-                    //if the user entered the correct password, get the user and delete them
-                    console.log("PASSWORDS MATCH, DELETING USER");
-                    account.remove();
-                    mailer.sendAccountDeletedEmail(account.email);
+                        //if the user entered the correct password, get the user and delete them
+                        console.log("PASSWORDS MATCH, DELETING USER");
+                        account.remove().then(function(){
+                            mailer.sendAccountDeletedEmail(account.email);
+                            res.render('user/deleteUser', {
+                                title: "Delete User",
+                                heading: "Delete User",
+                                user: account._id,
+                                email: account.email,
+                                failed: false,
+                                success: true});
+                        });
+                    }
+                    else {
+                        console.log("WRONG PASSWORD, DISPLAYING ERROR MSG");
+                        res.render('user/deleteUser', {
+                            title: "Delete User",
+                            heading: "Delete User",
+                            user: account._id,
+                            email: account.email,
+                            failed: true,
+                            success: false});
+                    }
                 }
-                else {
-                    console.log("WRONG PASSWORD, DISPLAYING ERROR MSG");
-                    res.redirect('/viewUsers');
-                }
-            }
-        ).catch(
-            function (error) {
-                console.log(error);
-            }
-        );
-    }
+            )
+        }
+    }).catch(
+        function (error) {
+            console.log(error);
+        }
+    );
 }
 
 //Delete user

@@ -49,6 +49,7 @@ app.post('/user/:user/changeName', user.changeName);
 
 //deleting user URIs
 app.post('/deleteMe', user.deleteMe);
+app.get('/user/:user/deleteUser', user.showDeleteUser);
 app.post('/user/:user/deleteUser', user.deleteUser);
 
 //Project URIs

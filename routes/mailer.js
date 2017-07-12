@@ -81,7 +81,7 @@ exports.sendAccountDeletedEmail = function(recipient){
         to: recipient,
         subject: 'Your Auga account has been deleted!',
         text: 'Someone has removed your Auga account from our database.' +
-        '\n\nIf this was not intentional, please contact us immediately.'
+        '\n\nIf you were not expecting this, please contact us immediately.'
     };
 
     transporter.sendMail(mailOptions, function (error, info) {
