@@ -41,7 +41,7 @@ exports.sendResetEmail = function(recipient, token){
         '\n\nHere is your password reset link. If you did not request to change your password, ' +
         'please contact us immediately.' +
         '\n\nReset Link: ' + "http://localhost:3000/reset/" + token +
-            '\n\nThis link will expire in 1 hour.',
+        '\n\nThis link will expire in 1 hour.',
     };
 
     console.log("Made email including " + token + " for " + recipient);
@@ -63,6 +63,25 @@ exports.sendPasswordChangedEmail = function(recipient){
         subject: 'Your Auga password has been changed!',
         text: 'Someone has changed the password used to access your account.' +
         '\n\nIf this was not you, please contact us immediately.'
+    };
+
+    transporter.sendMail(mailOptions, function (error, info) {
+
+        if (error) {
+            console.log(error);
+        } else {
+            console.log('Email sent: ' + info.response);
+        }
+    });
+}
+
+exports.sendAccountDeletedEmail = function(recipient){
+    var mailOptions = {
+        from: 'augaapp@gmail.com',
+        to: recipient,
+        subject: 'Your Auga account has been deleted!',
+        text: 'Someone has removed your Auga account from our database.' +
+        '\n\nIf this was not intentional, please contact us immediately.'
     };
 
     transporter.sendMail(mailOptions, function (error, info) {

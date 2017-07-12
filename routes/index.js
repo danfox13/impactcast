@@ -32,18 +32,24 @@ app.get('/reset/invalidEmail', user.invalidEmail);
 app.get('/reset/:token', user.resetPasswordLink);
 app.post('/reset/changeForgottenPassword/:email', user.changeForgottenPassword);
 
-//user URIs
+//adding user URIs
 app.get('/addUser', user.viewAddUser);
 app.post('/addUser', user.addUser);
 app.get('/addedUser', user.addedUser);
 app.get('/failedAddUser', user.failedAddUser);
+
+//user profile URIs
 app.get('/myProfile', user.myProfile);
 app.get('/user/:user/viewProfile', user.viewUserProfile);
 app.get('/viewUsers', user.viewUsers);
+
+//changing password URIs
 app.post('/changePassword', user.changePassword);
-app.post('/changeName', user.changeName);
-app.get('/deleteMe', user.deleteMe);
-app.post('user/:user/deleteUser', user.deleteUser);
+app.post('/user/:user/changeName', user.changeName);
+
+//deleting user URIs
+app.post('/deleteMe', user.deleteMe);
+app.post('/user/:user/deleteUser', user.deleteUser);
 
 //Project URIs
 app.get('/newProject', project.newProject);

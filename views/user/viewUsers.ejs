@@ -38,28 +38,32 @@
                     <% users.forEach(function(user){ %>
                     <tr>
                         <td class="text-center">
+                            <% if(viewer._id !== user._id){%>
                             <% if(viewer.isAdmin){%>
-                            <a href="/user/<%= user._id %>/viewProfile" class="btn btn-info"
+                            <a href="/user/<%= user._id %>/viewProfile" class="btn btn-success"
                                role="button">View</a>
                             <a href="/user/<%= user._id %>/deleteUser" class="btn btn-danger"
                                role="button">Delete</a>
                             <%} else {%>
-                            <a href="/user/<%= user._id %>/viewProfile" class="btn btn-info"
+                            <a href="/user/<%= user._id %>/viewProfile" class="btn btn-success"
                                role="button">View</a>
                         <%}%>
+                            <%}%>
                         </td>
                         <td><%= user.email %>
-                            <% if(user.isAdmin){%><span class="badge"> Admin </span><%}%>
-                            <% if(user.email === email){%><span class="badge"> Me </span><%}%>
+                            <% if(user.isAdmin){%><span style="padding: 8px; margin-left: 10px;" class="badge"> Admin </span><%}%>
+                            <% if(user.email === email){%><span style="padding: 8px; margin-left: 10px;" class="badge"> Me </span><%}%>
                         </td>
                         <td><%= (user.name?user.name:"-") %></td>
                         <td><%= (user.slack?user.slack:"-") %></td>
                         <% if(viewer.isAdmin){%>
                         <td>
                             <% if(user.isAdmin){ %>
-                            <a href="/user/<%= user._id %>/revokeAdmin" class="label label-danger" role="button">Revoke Admin</a>
+                            <a href="/user/<%= user._id %>/revokeAdmin" style="padding: 8px;"
+                               class="label label-danger" role="button">Revoke Admin</a>
                             <%} else{%>
-                            <a href="/user/<%= user._id %>/makeAdmin" class="label label-warning" role="button">Make Admin</a>
+                            <a href="/user/<%= user._id %>/makeAdmin" style="padding: 8px;"
+                               class="label label-warning" role="button">Make Admin</a>
                             <%}%>
                         </td>
                         <%}%>

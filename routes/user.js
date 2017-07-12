@@ -31,7 +31,7 @@ user.find({
 })
     .then(function(results){
         console.log("Depopulating DB");
-        results.forEach(entry =>
+        results.forEach(function(entry)
         {console.log("Removed:\n" + entry);
             entry.remove();});
     })
@@ -49,8 +49,6 @@ user.find({
         }).then(function(){
         var example = new user({
             email: 'rosie.butcher@capgemini.com',
-            name: 'rosie.butcher@capgemini.com',
-            slack: "None",
             password: bcrypt.hashSync('password', SALT_FACTOR),
             isAdmin: false,
         });
@@ -124,19 +122,27 @@ exports.addUser = function(req, res){
 
 //Change a user's vanity name
 exports.changeName = function(req, res){
+    var userID = req.params.user;
     var name = req.body.value;
     console.log("GOT NEW NAME: " + name);
     //find the user currently logged in
     user.findOne({
-        email: req.session.email,
+        _id: userID,
     })
         .then(function(result){
-            name = (name.trim() !== ""?name:result.email);
+            if(name.trim() !== ""){
                 console.log("CHANGING USERNAME to " + name);
+
                 result.name = name;
                 //save the newly modified user entry in the database
                 result.save();
-
+            }
+             else{
+                name = result.email;
+                result.name = null;
+                //save the newly modified user entry in the database
+                result.save();
+            }
         })
         .then(function(){
             console.log("Saved with name: " + name);
@@ -162,9 +168,10 @@ exports.changePassword = function(req, res){
         "\nNew Password = " + newPass +
         "\nCheck = " + newPassCheck);
 
-    //double check that the new passwords match
+    //double check that the new passwords match and are different to the old
     if(newPass && newPassCheck &&
-        newPass === newPassCheck){
+        newPass === newPassCheck &&
+        newPass !== req.body.oldPassword){
 
         //find the user currently logged in
         user.findOne({
@@ -182,22 +189,34 @@ exports.changePassword = function(req, res){
 
                     //save the newly modified user entry in the database
                     result.save();
+                    //send the user an email to let them know their password has been changed
+                    mailer.sendPasswordChangedEmail(email);
                 }
                 else{
                     console.log("WRONG PASSWORD, DISPLAYING ERROR MSG");
-                    res.render('user/userProfile', {
-                        title: 'User Profile',
-                        email: result.email,
-                        name: result.name,
-                        slack: result.slack,
-                        wrongPassword: true});
+                    res.render('user/userProfile',
+                        {title: 'User Profile',
+                            email: email,
+                            name: req.session.name,
+                            slack: req.session.slack,
+                            isAdmin: req.session.viewerAdmin,
+                            viewerAdmin: req.session.viewerAdmin,
+                            viewerSelf: true,
+                            id: req.session.id,
+                            wrongPassword: true});
                 }
             })
             .then(function(){
-
-                //send the user an email to let them know their password has been changed
-                mailer.sendPasswordChangedEmail(email);
-                res.redirect('/user/userProfile');
+                res.render('user/userProfile',
+                    {title: 'User Profile',
+                        email: email,
+                        name: req.session.name,
+                        slack: req.session.slack,
+                        isAdmin: req.session.viewerAdmin,
+                        viewerAdmin: req.session.viewerAdmin,
+                        viewerSelf: true,
+                        id: req.session.id,
+                        wrongPassword: false});
             })
             .catch(function(err){
                 console.log("Error: " + err);
@@ -226,6 +245,8 @@ exports.login = function(req, res){
                 //if they match, log the user in and authenticate the session
                 console.log('pass');
                 req.session.email = email;
+                req.session.name = result.name;
+                req.session.slack = result.slack;
                 req.session.authenticated = true;
                 req.session.userID = result._id;
                 req.session.viewerAdmin = result.isAdmin,
@@ -302,28 +323,15 @@ exports.deleteUser = function(req, res){
 
                     //if the user entered the correct password, get the user and delete them
                     console.log("PASSWORDS MATCH, DELETING USER");
-
+                    account.remove();
+                    mailer.sendAccountDeletedEmail(account.email);
                 }
                 else {
                     console.log("WRONG PASSWORD, DISPLAYING ERROR MSG");
-                    res.render('user/userProfile', {
-                        title: 'User Profile',
-                        email: result.email,
-                        name: result.name,
-                        slack: result.slack,
-                        wrongPassword: true,
-                        isAdmin: result.isAdmin,
-                        viewerAdmin: req.session.viewerAdmin,
-                        viewerSelf: email === req.session.email,
-                        id: result._id,
-                    });
+                    res.redirect('/viewUsers');
                 }
             }
-        )
-            .then(function () {
-                req.session.authenticated = false;
-                res.redirect('/');
-            }).catch(
+        ).catch(
             function (error) {
                 console.log(error);
             }
@@ -333,6 +341,7 @@ exports.deleteUser = function(req, res){
 
 //Delete user
 exports.deleteMe = function(req, res){
+    console.log("Deleting myself");
     var email = req.session.email;
     var password = req.body.password;
 
@@ -348,6 +357,7 @@ exports.deleteMe = function(req, res){
                 //if the user entered the correct password, delete their entry in the database
                 console.log("PASSWORDS MATCH, DELETING USER");
                 result.remove();
+                mailer.sendAccountDeletedEmail(email);
             }
             else{
                 console.log("WRONG PASSWORD, DISPLAYING ERROR MSG");

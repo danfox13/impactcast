@@ -85,7 +85,7 @@ h1, h2, h3, h4, h5, h6 {
 .nav-tabs>li.active>a,
 .nav-tabs>li.active>a:focus,
 .nav-tabs>li.active>a:hover{
-    color: rgb(17, 89, 139);
+    color: white !important;
     background-color: #66C6E7;
     border: 1px solid #FFFFFF;
     border-bottom-color: transparent;
