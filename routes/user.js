@@ -102,8 +102,8 @@ exports.addUser = function(req, res){
     var newUser = new user({
         email: email,
         password: hash,
-        name: (req.body.name?req.body.name:email),
-        slack: "Not Set",
+        name: (req.body.name?req.body.name:null),
+        slack: (req.body.slack?req.body.slack:null),
     });
 
     //save the new user on the database
