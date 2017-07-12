@@ -11,7 +11,7 @@ export default class NewChangeItem extends Component {
         super(props);
         this.state = {
             changeTitle: '',
-            status: '',
+            status: 'New',
             lid: '',
             startDate: '',
             endDate: '',

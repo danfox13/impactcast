@@ -180,11 +180,25 @@ app.get('/project/:projectCode/:changeItem', (request, response) => {
    })
 });
 
+app.post('/project/:projectCode/:changeItem/update', (request, response) => {
+   changeItem.update(request, result => {
+       let responseBody = {};
+       responseBody.result = {
+           projectCode: result.projectCode,
+           changeTitle: result.changeTitle
+       };
+
+       response.setHeader('Content-Type', 'application/json');
+       response.write(JSON.stringify(responseBody));
+       response.end();
+   })
+});
+
 //app.get('/project/:projectCode/newChangeItem', changeItem.newChangeItem);
 //app.post('/project/:projectCode/newChangeItem', changeItem.addChangeItem);
 //app.get('/project/:projectCode/:changeItem', changeItem.view);
-app.get('/project/:projectCode/:changeItem/update', changeItem.viewUpdate);
-app.post('/project/:projectCode/:changeItem/update', changeItem.update);
+//app.get('/project/:projectCode/:changeItem/update', changeItem.viewUpdate);
+//app.post('/project/:projectCode/:changeItem/update', changeItem.update);
 app.get('/project/:projectCode/:changeItem/delete', changeItem.delete);
 
 //Required Resource URIs

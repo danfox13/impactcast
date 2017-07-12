@@ -107,9 +107,9 @@ exports.viewUpdate = function (req, res) {
 
 
 //Run update query
-exports.update = function (req, res) {
+exports.update = function (req, callback) {
 
-    var newData = {
+    let newData = {
         changeTitle: req.body.changeTitle,
         status: req.body.status,
         lid: req.body.lid,
@@ -122,20 +122,14 @@ exports.update = function (req, res) {
     changeItem.findOneAndUpdate({changeTitle: req.params.changeItem}, newData, {
         upsert: false,
         new: false
-    }, function (err, changeItem) {
-        if (err) {
-            return res.send(500, {error: err});
-        } else {
-            res.body = {
-                title: 'ImpactCast - ' + changeItem.changeTitle,
-                heading: changeItem.changeTitle,
-                projectCode: req.params.projectCode,
-                changeItem: changeItem
-            };
-            res.redirect('/project/' + req.params.projectCode + '/' + req.body.changeTitle);
-        }
-    });
+    }).then(() => {
+        let result = {
+            projectCode: req.params.projectCode,
+            changeTitle: req.body.changeTitle
+        };
 
+        callback(result)
+    })
 };
 
 //delete the changeItem
