@@ -2,7 +2,7 @@ body {
     background-color: #F0F0F0;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1, h2, h3, h4 {
     text-transform: uppercase;
 }
 
@@ -12,23 +12,23 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .btn-success {
-    background-color: #54a2bd;
-}
-
-.btn-danger {
-    background-color: #BD6F54;
+    background-color: #11598B;
 }
 
 .btn-success.disabled:hover,
 .btn-success:hover {
-    background-color: #4391AC;
+    background-color: #0f507d;
 }
 
 .btn-success:active,
 .btn-success:focus,
 .btn-success:active:focus,
 .btn-success:active:hover {
-    background-color: #397C94;
+    background-color: #286996;
+}
+
+.btn-danger {
+    background-color: #BD6F54;
 }
 
 .close, .close:hover {
@@ -37,7 +37,6 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .close:hover {
-
     opacity: 1;
 }
 
@@ -50,6 +49,19 @@ h1, h2, h3, h4, h5, h6 {
 
 .dropdown-menu > li > a {
     line-height: 40px;
+}
+
+.dropdown-menu > li > a:focus,
+.dropdown-menu > li > a:hover {
+    color: inherit;
+    background-color: #F0F0F0;
+    outline: none;
+}
+
+.dropdown-menu > .active > a,
+.dropdown-menu > .active > a:focus,
+.dropdown-menu > .active > a:hover {
+    background-color: rgb(17, 89, 139);
 }
 
 .form-control, .input-group-addon {
@@ -76,7 +88,7 @@ h1, h2, h3, h4, h5, h6 {
     font-size: 100%;
 }
 
-.navbar-nav > li > a {
+.navbar-default .navbar-nav > li > a {
     line-height: 78px;
     color: #465A64;
     font-size: 18px;
@@ -102,8 +114,20 @@ h1, h2, h3, h4, h5, h6 {
     padding: 5px;
 }
 
+.navbar-default .navbar-nav > li:hover,
+.navbar-default .navbar-nav > li:active,
+.navbar-default .navbar-nav > li:focus {
+    border-bottom: 2px solid #465A64;
+}
 
-.panel, .panel-default, .modal-body, .modal-footer {
+.navbar-default .navbar-nav > .open > a,
+.navbar-default .navbar-nav > .open > a:focus,
+.navbar-default .navbar-nav > .open > a:hover {
+    color: #465A64;
+    background-color: #F0F0F0;
+}
+
+.panel, .modal-body, .modal-footer, .modal-content {
     color: white;
     background-color: #66c6e7;
     border: 0;
@@ -112,39 +136,59 @@ h1, h2, h3, h4, h5, h6 {
     border-radius: 0;
 }
 
-.panel-default > .panel-heading, .modal-header {
-    background-color: rgb(17, 89, 139);
+.panel-heading, .modal-header {
+    background-color: #11598B;
+    color: white;
     border: 0;
     border-radius: 0;
-    color: white;
-    font-size: 36px;
     font-weight: bold;
     text-align: center;
     text-transform: uppercase;
 }
 
-.table, .table a {
-    text-transform: none;
+.panel-default > .panel-heading {
+    background-color: #407aa2;
+    font-size: 20px;
     color: white;
 }
 
-.table > tbody > tr,
-.table-striped > tbody > tr:nth-of-type(odd),
-.table-striped > tbody > tr:nth-of-type(even)
-{
-    background-color: inherit;
+.panel-primary > .panel-heading {
+    font-size: 36px;
+    background-color: #11598B;
+    color: white;
 }
 
-.table > thead > tr > th, .table > tbody > tr > td
-{
-    border: 0;
-    padding: 0;
+.table-responsive {
+    margin-right: -15px;
 }
 
-.table > tbody > tr > td {
-    line-height: 40px;
+.table {
+    margin-bottom: 0;
+}
+
+.table a {
+    color: white;
 }
 
 .table .btn {
-    padding: 5px 40px;
+    width: 100%;
+}
+
+.table > tbody > tr > td,
+.table > thead > tr > th {
+    vertical-align: middle;
+    border: 0;
+    padding: 0 8px 0 0;
+}
+
+.table > thead > tr > th {
+    padding-bottom: 5px;
+}
+
+.table-striped > tbody > tr:nth-of-type(odd) {
+    background-color: #51a0ba;
+}
+
+.table-striped > tbody > tr:nth-of-type(even) {
+    background-color: #488ea5;
 }
