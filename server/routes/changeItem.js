@@ -133,13 +133,11 @@ exports.update = function (req, callback) {
 };
 
 //delete the changeItem
-exports.delete = function (req, res) {
+exports.delete = function (req, callback) {
 
     changeItem.findOneAndRemove({
         changeTitle: req.params.changeItem
-    }, function (err, doc) {
-        res.redirect('/project/' + req.params.projectCode);
-    });
+    }).then(callback);
 
 };
 

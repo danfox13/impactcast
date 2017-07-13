@@ -29,15 +29,15 @@ export default class ChangeItemDetails extends Component {
                     <Col sm={4}>
                         <strong>Status:</strong> {this.state.changeItem.status}<br/><br/>
                         <strong>LID:</strong>&nbsp;
-                        {new Date(this.state.changeItem.lid).toLocaleDateString()}
+                        {new Date(this.state.changeItem.lid).toLocaleDateString('en-GB')}
                         <br/><br/>
                     </Col>
                     <Col sm={4}>
                         <strong>Start Date:</strong>&nbsp;
-                        {new Date(this.state.changeItem.startDate).toLocaleDateString()}
+                        {new Date(this.state.changeItem.startDate).toLocaleDateString('en-GB')}
                         <br/><br/>
                         <strong>End Date:</strong>&nbsp;
-                        {new Date(this.state.changeItem.endDate).toLocaleDateString()}
+                        {new Date(this.state.changeItem.endDate).toLocaleDateString('en-GB')}
                         <br/><br/>
                     </Col>
                     <Col sm={4}>

@@ -8,7 +8,8 @@ import AddRequiredResource from '../../components/ChangeItem/AddRequiredResource
 export default class AddRequiredResourcePage extends Component {
     render() {
         return (
-            <AddRequiredResource/>
+            <AddRequiredResource projectCode={this.props.params.projectCode}
+                                 changeItem={this.props.params.changeItem}/>
         )
     }
 }

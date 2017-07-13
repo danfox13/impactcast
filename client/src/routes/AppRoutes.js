@@ -61,13 +61,13 @@ export default class AppRoutes extends Component {
                     <Route path="project/:projectCode/:changeItem/addRequiredResource"
                            component={AddRequiredResourcePage}/>
                     <Route path="project/:projectCode/:changeItem/update" component={UpdateChangeItemPage}/>
-                    <Route path="project/:projectCode/:changeItem/:resourceName"
+                    <Route path="project/:projectCode/:changeItem/:resourceId"
                            component={RequiredResourcePage}/>
-                    <Route path="project/:projectCode/:changeItem/:resourceName/forecastResource"
+                    <Route path="project/:projectCode/:changeItem/:resourceId/forecastResource"
                            component={ForecastResourceSearchPage}/>
-                    <Route path="project/:projectCode/:changeItem/:resourceName/forecastResourceSearchResults"
+                    <Route path="project/:projectCode/:changeItem/:resourceId/forecastResourceSearchResults"
                            component={ForecastResourceSearchResultsPage}/>
-                    <Route path="project/:projectCode/:changeItem/:resourceName/update"
+                    <Route path="project/:projectCode/:changeItem/:resourceId/update"
                            component={UpdateRequiredResourcePage}/>
 
                     <Route path="newTeam" component={NewTeamPage}/>
@@ -80,8 +80,8 @@ export default class AppRoutes extends Component {
                     <Route path="newResource" component={NewResourcePage}/>
                     <Route path="searchResources" component={SearchResourcesPage}/>
                     <Route path="resourceSearchResults" component={ResourceSearchResults}/>
-                    <Route path="resource/:resourceName" component={ResourcePage}/>
-                    <Route path="resource/:resourceName/update" component={UpdateResourcePage}/>
+                    <Route path="resource/:resourceId" component={ResourcePage}/>
+                    <Route path="resource/:resourceId/update" component={UpdateResourcePage}/>
                 </Route>
 
                 <Route path="/login" component={LoginPage}/>

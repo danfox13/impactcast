@@ -21,8 +21,6 @@ export default class ChangeItems extends Component {
                     </thead>
                     <tbody>
                     {this.props.changeItems.map(changeItem => {
-                        let date = new Date(changeItem.lid);
-
                         return (
                             <tr key={changeItem.changeTitle}>
                                 <td>
@@ -31,7 +29,7 @@ export default class ChangeItems extends Component {
                                 </td>
                                 <td>{changeItem.changeTitle}</td>
                                 <td>{changeItem.status}</td>
-                                <td>{date.getDay() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear()}</td>
+                                <td>{new Date(changeItem.lid).toLocaleDateString('en-GB')}</td>
                             </tr>
                         )
                     })}

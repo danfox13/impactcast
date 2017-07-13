@@ -10,91 +10,178 @@ import {
     FormControl,
     FormGroup,
     Glyphicon,
-    Grid,
     InputGroup,
     Panel,
     Row,
     Table
 } from 'react-bootstrap';
+import {browserHistory} from 'react-router';
+
+import DeleteModal from '../Shared/DeleteModal';
 
 export default class Impact extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            requiredResource: '',
+            impacts: [],
+            month: '',
+            year: '',
+            days: ''
+        };
+
+        this.populate = this.populate.bind(this);
+
+        this.createImpact = this.createImpact.bind(this);
+        this.handleInputChange = this.handleInputChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleRefresh = this.handleRefresh.bind(this);
+    }
+
+    handleSubmit(event) {
+        event.preventDefault();
+        this.createImpact();
+    }
+
+    handleRefresh(response) {
+        if(response.result.route) {
+            browserHistory.push(response.result.route)
+        }
+    }
+
+    createImpact() {
+        let url = 'http://localhost:3001/project/' + this.props.projectCode
+                + '/' + this.props.changeItem + '/' + this.state.requiredResource._id + '/addImpact';
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                year: this.state.year,
+                month: this.state.month,
+                days: this.state.days
+            })
+
+        }).then(response => response.json())
+            .then(this.handleRefresh)
+            .catch(err => console.log(err));
+    }
+
+    handleInputChange(event) {
+        const target = event.target;
+        const value = target.value;
+        const name = target.name;
+
+        this.setState({
+            [name]: value
+        });
+    }
+
+    componentWillReceiveProps(nextProps) {
+        this.setState({
+           requiredResource: nextProps.requiredResource
+        });
+
+        this.populate(nextProps.requiredResource);
+    }
+
+    populate(requiredResource) {
+        requiredResource.impact.forEach(impact => {
+            let month = new Date(impact.month).toLocaleDateString('en-GB').slice(3, 10);
+            this.state.impacts.push(
+                <tr key={impact._id}>
+                    <td>
+                        <DeleteModal subjectType="Impact"
+                                     subjectRoute={'/project/' + this.props.projectCode
+                                                 + '/' + this.props.changeItem
+                                                 + '/' + requiredResource._id
+                                                 + '/' + impact._id}
+                                     subjectName={month}/>
+                    </td>
+                    <td>{month}</td>
+                    <td>{impact.days}</td>
+                </tr>
+            )
+        })
+    }
+
     render() {
         return (
             <Panel header="Impact">
-                <Grid>
-                    <Row>
-                        <Col sm={6}>
-                            <form>
-                                <FormGroup controlId="month">
-                                    <ControlLabel>Month:</ControlLabel>
-                                    <InputGroup>
-                                        <InputGroup.Addon><Glyphicon glyph="menu-down"/></InputGroup.Addon>
-                                        <FormControl componentClass="select" required>
-                                            <option value="0">January</option>
-                                            <option value="1">February</option>
-                                            <option value="2">March</option>
-                                            <option value="3">April</option>
-                                            <option value="4">May</option>
-                                            <option value="5">June</option>
-                                            <option value="6">July</option>
-                                            <option value="7">August</option>
-                                            <option value="8">September</option>
-                                            <option value="9">October</option>
-                                            <option value="10">November</option>
-                                            <option value="11">December</option>
-                                        </FormControl>
-                                    </InputGroup>
-                                    <FormControl.Feedback/>
-                                </FormGroup>
-                                <FormGroup controlId="year">
-                                    <ControlLabel>Year:</ControlLabel>
-                                    <InputGroup>
-                                        <InputGroup.Addon><Glyphicon glyph="menu-down"/></InputGroup.Addon>
-                                        <FormControl componentClass="select" required>
-                                            <option value="2017">2017</option>
-                                            <option value="2018">2018</option>
-                                        </FormControl>
-                                    </InputGroup>
-                                    <FormControl.Feedback/>
-                                </FormGroup>
-                                <FormGroup controlId="days">
-                                    <ControlLabel>Number of Days:</ControlLabel>
-                                    <InputGroup>
-                                        <InputGroup.Addon>1</InputGroup.Addon>
-                                        <FormControl pattern="^[0-2]?[0-9]$" maxlength="2" required/>
-                                    </InputGroup>
-                                    <FormControl.Feedback/>
-                                </FormGroup>
+                <Row>
+                    <Col sm={6}>
+                        <form onSubmit={this.handleSubmit}>
+                            <FormGroup controlId="month">
+                                <ControlLabel>Month:</ControlLabel>
+                                <InputGroup>
+                                    <InputGroup.Addon><Glyphicon glyph="calendar"/></InputGroup.Addon>
+                                    <FormControl name="month" componentClass="select" required
+                                                 value={this.state.month}
+                                                 onChange={this.handleInputChange}>
+                                        <option value=""/>
+                                        <option value="0">January</option>
+                                        <option value="1">February</option>
+                                        <option value="2">March</option>
+                                        <option value="3">April</option>
+                                        <option value="4">May</option>
+                                        <option value="5">June</option>
+                                        <option value="6">July</option>
+                                        <option value="7">August</option>
+                                        <option value="8">September</option>
+                                        <option value="9">October</option>
+                                        <option value="10">November</option>
+                                        <option value="11">December</option>
+                                    </FormControl>
+                                </InputGroup>
+                                <FormControl.Feedback/>
+                            </FormGroup>
+                            <FormGroup controlId="year">
+                                <ControlLabel>Year:</ControlLabel>
+                                <InputGroup>
+                                    <InputGroup.Addon><Glyphicon glyph="calendar"/></InputGroup.Addon>
+                                    <FormControl name="year" componentClass="select" required
+                                                 value={this.state.year}
+                                                 onChange={this.handleInputChange}>
+                                        <option value=""/>
+                                        <option value="2017">2017</option>
+                                        <option value="2018">2018</option>
+                                    </FormControl>
+                                </InputGroup>
+                                <FormControl.Feedback/>
+                            </FormGroup>
+                            <FormGroup controlId="days">
+                                <ControlLabel>Number of Days:</ControlLabel>
+                                <InputGroup>
+                                    <InputGroup.Addon>1</InputGroup.Addon>
+                                    <FormControl name="days" pattern="^[0-2]?[0-9]$" maxLength="2" required
+                                                 value={this.state.days}
+                                                 onChange={this.handleInputChange}/>
+                                </InputGroup>
+                                <FormControl.Feedback/>
+                            </FormGroup>
 
-                                <Button bsStyle="success" block>
-                                    <Glyphicon glyph="plus"/> Add to Impact
-                                </Button>
-                            </form>
-                        </Col>
-                        <Col sm={6}>
-                            <Table striped hover responsive>
-                                <thead>
-                                <tr>
-                                    <th>Month</th>
-                                    <th>Days</th>
-                                    <th>Delete</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr>
-                                    <td>MM/YYYY</td>
-                                    <td>DD</td>
-                                    <td>
-                                        <a href="/project/:projectCode/:changeItem/:requiredResource/:impact/delete">
-                                            Delete
-                                        </a>
-                                    </td>
-                                </tr>
-                                </tbody>
-                            </Table>
-                        </Col>
-                    </Row>
-                </Grid>
+                            <Button type="submit" bsStyle="success" block>
+                                <Glyphicon glyph="plus"/> Add to Impact
+                            </Button>
+                        </form>
+                    </Col>
+                    <Col sm={6}>
+                        <Table striped hover responsive>
+                            <thead>
+                            <tr>
+                                <th/>
+                                <th>Month</th>
+                                <th>Days</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {this.state.impacts}
+                            </tbody>
+                        </Table>
+                    </Col>
+                </Row>
             </Panel>
         )
     }

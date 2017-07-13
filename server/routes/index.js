@@ -152,7 +152,7 @@ app.get('/project/:projectCode/delete', (request, response) => {
     })
 });
 
-//Change Item URIs
+// Change Item URIs
 
 app.post('/project/:projectCode/newChangeItem', (request, response) => {
     changeItem.addChangeItem(request, result => {
@@ -194,24 +194,74 @@ app.post('/project/:projectCode/:changeItem/update', (request, response) => {
    })
 });
 
-//app.get('/project/:projectCode/newChangeItem', changeItem.newChangeItem);
-//app.post('/project/:projectCode/newChangeItem', changeItem.addChangeItem);
-//app.get('/project/:projectCode/:changeItem', changeItem.view);
-//app.get('/project/:projectCode/:changeItem/update', changeItem.viewUpdate);
-//app.post('/project/:projectCode/:changeItem/update', changeItem.update);
-app.get('/project/:projectCode/:changeItem/delete', changeItem.delete);
+app.get('/project/:projectCode/:changeItem/delete', (request, response) => {
+    changeItem.delete(request, () => {
+        let responseBody = {};
+        responseBody.result = {
+            route: '/project/' + request.params.projectCode
+        };
+
+        response.setHeader('Content-Type', 'application/json');
+        response.write(JSON.stringify(responseBody));
+        response.end();
+    })
+});
+
+// Required Resource URIs
+
+app.post('/project/:projectCode/:changeItem/addRequiredResource', (request, response) => {
+   requiredResource.addResource(request, result => {
+       let responseBody = {};
+       responseBody.result = {
+           roleName: result
+       };
+
+       response.setHeader('Content-Type', 'application/json');
+       response.write(JSON.stringify(responseBody));
+       response.end();
+   })
+});
+
+app.get('/project/:projectCode/:changeItem/:resourceId', (request, response) => {
+    requiredResource.view(request, result => {
+        let responseBody = {};
+        responseBody.result = {
+            requiredResource: result
+        };
+
+        response.setHeader('Content-Type', 'application/json');
+        response.write(JSON.stringify(responseBody));
+        response.end();
+    })
+});
 
 //Required Resource URIs
-app.get('/project/:projectCode/:changeItem/addRequiredResource', requiredResource.addResourceView);
-app.post('/project/:projectCode/:changeItem/addRequiredResource', requiredResource.addResource);
-app.get('/project/:projectCode/:changeItem/:resourceId', requiredResource.view);
+//app.get('/project/:projectCode/:changeItem/addRequiredResource', requiredResource.addResourceView);
+//app.post('/project/:projectCode/:changeItem/addRequiredResource', requiredResource.addResource);
+//app.get('/project/:projectCode/:changeItem/:resourceId', requiredResource.view);
 app.get('/project/:projectCode/:changeItem/:resourceId/update', requiredResource.editResourceView);
 app.post('/project/:projectCode/:changeItem/:resourceId/update', requiredResource.editResource);
 app.get('/project/:projectCode/:changeItem/:resourceId/delete', requiredResource.delete);
 app.get('/project/:projectCode/:changeItem/:reqResourceId/assign/:resourceId', requiredResource.assign);
 
-//Impact URIs
-app.post('/project/:projectCode/:changeItem/:resourceId/addImpact', impact.add);
+// Impact URIs
+
+app.post('/project/:projectCode/:changeItem/:resourceId/addImpact', (request, response) => {
+    impact.add(request, () => {
+        // let responseBody = {};
+        // responseBody.result = {
+        //     route: '/project/' + request.params.projectCode
+        //          + '/' + request.params.changeItem
+        //          + '/' + request.params.resourceId
+        // };
+
+        //response.setHeader('Content-Type', 'application/json');
+        //response.write(JSON.stringify(responseBody));
+        response.status(200).end();
+    })
+});
+
+//app.post('/project/:projectCode/:changeItem/:resourceId/addImpact', impact.add);
 app.get('/project/:projectCode/:changeItem/:resourceId/:impactId/delete', impact.delete);
 
 //Team URIs

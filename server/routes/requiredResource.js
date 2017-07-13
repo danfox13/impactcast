@@ -28,18 +28,10 @@ var requiredResourceSchema = new Schema({
 var requiredResource = mongoose.model('requiredResource', requiredResourceSchema);
 
 //load the required resource page
-exports.view = function (req, res) {
+exports.view = function (req, callback) {
     requiredResource.findOne({
         _id: req.params.resourceId
-    }).populate('impact').then(function (requiredResource) {
-        res.render('requiredResource/resource', {
-            title: 'ImpactCast - ' + req.params.changeItem,
-            heading: requiredResource.roleName + ' for ' + req.params.changeItem,
-            projectCode: req.params.projectCode,
-            changeItem: req.params.changeItem,
-            requiredResource: requiredResource
-        });
-    });
+    }).populate('impact').then(callback);
 };
 
 
@@ -107,9 +99,9 @@ exports.editResource = function (req, res) {
 };
 
 //add a resource requirement
-exports.addResource = function (req, res) {
+exports.addResource = function (req, callback) {
 
-    var data = new requiredResource({
+    let data = new requiredResource({
         roleName: req.body.roleName,
         pLine: req.body.pLine,
         company: req.body.company,
@@ -125,7 +117,7 @@ exports.addResource = function (req, res) {
 
     data.save();
     changeItem.addRequiredResource(req.params.changeItem, data._id);
-    res.redirect('/project/' + req.params.projectCode + '/' + req.params.changeItem);
+    callback(data.roleName);
 };
 
 

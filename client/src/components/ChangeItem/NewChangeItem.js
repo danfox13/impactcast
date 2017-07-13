@@ -54,8 +54,7 @@ export default class NewChangeItem extends Component {
 
     handleRedirect(response) {
         if (response.result.changeTitle) {
-            browserHistory.push('/project/' + this.props.projectCode +
-                                '/' + response.result.changeTitle);
+            browserHistory.push('/project/' + this.props.projectCode);
         }
     }
 
@@ -68,6 +67,7 @@ export default class NewChangeItem extends Component {
             [name]: value
         });
     }
+
     render() {
         return (
             <Panel header="New Change Item" bsStyle="primary">
@@ -77,14 +77,16 @@ export default class NewChangeItem extends Component {
                         <InputGroup>
                             <InputGroup.Addon>T</InputGroup.Addon>
                             <FormControl name="changeTitle" required
-                                         value={this.state.changeTitle} onChange={this.handleInputChange}/>
+                                         value={this.state.changeTitle}
+                                         onChange={this.handleInputChange}/>
                         </InputGroup>
                         <FormControl.Feedback/>
                     </FormGroup>
                     <FormGroup controlId="status">
                         <ControlLabel>Status:</ControlLabel>
                         <FormControl name="status" componentClass="select" required
-                                     value={this.state.status} onChange={this.handleInputChange}>
+                                     value={this.state.status}
+                                     onChange={this.handleInputChange}>
                             <option selected value="New">New</option>
                             <option value="Impacting">Impacting</option>
                             <option value="Impacted">Impacted</option>

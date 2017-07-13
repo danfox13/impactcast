@@ -13,7 +13,7 @@ var impactSchema = new Schema({
 var impact = mongoose.model('impact', impactSchema);
 
 //add a new impact
-exports.add = function (req, res) {
+exports.add = function (req, callback) {
     var month = req.body.month;
     var year = req.body.year;
     var date = new Date(year, month, 1);
@@ -25,9 +25,7 @@ exports.add = function (req, res) {
 
     data.save();
     requiredResource.addImpact(req.params.resourceId, data._id);
-    setTimeout(function(){
-        res.redirect('/project/' + req.params.projectCode + '/' + req.params.changeItem + '/' + req.params.resourceId);
-    }, 1000);
+    callback();
 };
 
 
