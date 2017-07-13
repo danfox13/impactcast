@@ -4,23 +4,76 @@
 
 import React, {Component} from 'react';
 import {Button, ControlLabel, FormControl, FormGroup, InputGroup, Panel} from 'react-bootstrap';
+import {browserHistory} from 'react-router';
+import {submitDocument, handleInputChange} from '../../api';
 
 export default class UpdateRequiredResource extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            roleName: '',
+            pLine: '',
+            company: '',
+            resourceType: '',
+            grade: '',
+            stage: '',
+            jobCode: '',
+            system: '',
+            component: '',
+            pricingFlag: '',
+            reason: ''
+        };
+
+        this.handleInputChange = handleInputChange.bind(this);
+        this.handleSubmit = event => {
+            event.preventDefault();
+            submitDocument('project/' + this.props.projectCode
+                         + '/' + this.props.changeItem
+                         + '/' + this.props.requiredResource._id + '/update',
+                this.state, () => {
+                    browserHistory.push('/project/' + this.props.projectCode +
+                                        '/' + this.props.changeItem +
+                                        '/' + this.props.requiredResource._id);
+                })
+        }
+    }
+
+    componentWillReceiveProps(nextProps) {
+        this.setState({
+            roleName: nextProps.requiredResource.roleName,
+            pLine: nextProps.requiredResource.pLine,
+            company: nextProps.requiredResource.company,
+            resourceType: nextProps.requiredResource.resourceType,
+            grade: nextProps.requiredResource.grade,
+            stage: nextProps.requiredResource.stage,
+            jobCode: nextProps.requiredResource.jobCode,
+            system: nextProps.requiredResource.system,
+            component: nextProps.requiredResource.component,
+            pricingFlag: nextProps.requiredResource.pricingFlag,
+            reason: nextProps.requiredResource.reason
+        })
+    };
+
     render() {
         return (
-            <Panel header="Update Required Resource" bsStyle="primary">
-                <form>
+            <Panel header={'Update ' + this.props.requiredResource.roleName} bsStyle="primary">
+                <form onSubmit={this.handleSubmit}>
                     <FormGroup controlId="roleName">
                         <ControlLabel>Role Name:</ControlLabel>
                         <InputGroup>
                             <InputGroup.Addon>T</InputGroup.Addon>
-                            <FormControl name="roleName" required/>
+                            <FormControl name="roleName" required
+                                         value={this.state.roleName}
+                                         onChange={this.handleInputChange}/>
+                            <FormControl.Feedback/>
                         </InputGroup>
-                        <FormControl.Feedback/>
                     </FormGroup>
                     <FormGroup controlId="pLine">
                         <ControlLabel>P Line:</ControlLabel>
-                        <FormControl componentClass="select" required>
+                        <FormControl name="pLine" componentClass="select" required
+                                     value={this.state.pLine}
+                                     onChange={this.handleInputChange}>
+                            <option value=""/>
                             <option value="P01.02">P01.02</option>
                             <option value="P01.02.A">P01.02.A</option>
                             <option value="P01.06">P01.06</option>
@@ -97,18 +150,26 @@ export default class UpdateRequiredResource extends Component {
                             <option value="P09.209">P09.209</option>
                             <option value="P09.999">P09.999</option>
                         </FormControl>
+                        <FormControl.Feedback/>
                     </FormGroup>
                     <FormGroup controlId="company">
                         <ControlLabel>Company:</ControlLabel>
-                        <FormControl componentClass="select" required>
+                        <FormControl name="company" componentClass="select" required
+                                     value={this.state.company}
+                                     onChange={this.handleInputChange}>
+                            <option value=""/>
                             <option value="CG Aspire">CG Aspire</option>
                             <option value="CG Others">CG Others</option>
                             <option value="Other Contractors">Other Contractors</option>
                         </FormControl>
+                        <FormControl.Feedback/>
                     </FormGroup>
                     <FormGroup controlId="resourceType">
                         <ControlLabel>Resource Type:</ControlLabel>
-                        <FormControl componentClass="select" required>
+                        <FormControl name="resourceType" componentClass="select"
+                                     value={this.state.resourceType}
+                                     onChange={this.handleInputChange}>
+                            <option value=""/>
                             <option value="Agile Product Owner">Agile Product Owner</option>
                             <option value="Agile Scrum Master">Agile Scrum Master</option>
                             <option value="Applications Analyst">Applications Analyst</option>
@@ -184,7 +245,10 @@ export default class UpdateRequiredResource extends Component {
                     </FormGroup>
                     <FormGroup controlId="grade">
                         <ControlLabel>Grade:</ControlLabel>
-                        <FormControl componentClass="select" required>
+                        <FormControl name="grade" componentClass="select"
+                                     value={this.state.grade}
+                                     onChange={this.handleInputChange}>
+                            <option value=""/>
                             <option value="O1">O1</option>
                             <option value="O2">O2</option>
                             <option value="O3">O3</option>
@@ -209,7 +273,10 @@ export default class UpdateRequiredResource extends Component {
                     </FormGroup>
                     <FormGroup controlId="stage">
                         <ControlLabel>Stage:</ControlLabel>
-                        <FormControl componentClass="select" required>
+                        <FormControl name="stage" componentClass="select"
+                                     value={this.state.stage}
+                                     onChange={this.handleInputChange}>
+                            <option value=""/>
                             <option value="Project and Programme Management">
                                 Project and Programme Management
                             </option>
@@ -226,19 +293,25 @@ export default class UpdateRequiredResource extends Component {
                     </FormGroup>
                     <FormGroup controlId="jobCode">
                         <ControlLabel>Job Code:</ControlLabel>
-                        <FormControl componentClass="select" required>
-                            <option value="" selected/>
+                        <FormControl name="jobCode" componentClass="select"
+                                     value={this.state.jobCode}
+                                     onChange={this.handleInputChange}>
+                            <option value=""/>
                             <option value="National Systems Normal">National Systems Normal</option>
                         </FormControl>
                     </FormGroup>
                     <FormGroup controlId="system">
                         <ControlLabel>System:</ControlLabel>
-                        <FormControl name="system" required/>
+                        <FormControl name="system"
+                                     value={this.state.system}
+                                     onChange={this.handleInputChange}/>
                     </FormGroup>
                     <FormGroup controlId="component">
                         <ControlLabel>Component:</ControlLabel>
-                        <FormControl componentClass="select" required>
-                            <option value="" selected/>
+                        <FormControl name="component" componentClass="select"
+                                     value={this.state.component}
+                                     onChange={this.handleInputChange}>
+                            <option value=""/>
                             <option value="CDF F/W">CDF F/W</option>
                             <option value="Core">Core</option>
                             <option value="D/W Audit">D/W Audit</option>
@@ -254,8 +327,10 @@ export default class UpdateRequiredResource extends Component {
                     </FormGroup>
                     <FormGroup controlId="pricingFlag">
                         <ControlLabel>Pricing Flag:</ControlLabel>
-                        <FormControl componentClass="select" required>
-                            <option value="" selected/>
+                        <FormControl name="pricingFlag" componentClass="select"
+                                     value={this.state.pricingFlag}
+                                     onChange={this.handleInputChange}>
+                            <option value=""/>
                             <option value="Fixed">Fixed</option>
                             <option value="Input Based">Input Based</option>
                             <option value="Productivity Based">Productivity Based</option>
@@ -263,8 +338,10 @@ export default class UpdateRequiredResource extends Component {
                     </FormGroup>
                     <FormGroup controlId="reason">
                         <ControlLabel>Reason:</ControlLabel>
-                        <FormControl componentClass="select" required>
-                            <option value="" selected/>
+                        <FormControl name="reason" componentClass="select"
+                                     value={this.state.reason}
+                                     onChange={this.handleInputChange}>
+                            <option value=""/>
                             <option value="Agile">Agile</option>
                             <option value="D/W Agreement">D/W Agreement</option>
                             <option value="Data Cleansing">Data Cleansing</option>
@@ -298,7 +375,9 @@ export default class UpdateRequiredResource extends Component {
                         </FormControl>
                     </FormGroup>
 
-                    <Button bsStyle="success" bsSize="large" block>Update Required Resource</Button>
+                    <Button type="submit" bsStyle="success" bsSize="large" block>
+                        Update Required Resource
+                    </Button>
                 </form>
             </Panel>
         )

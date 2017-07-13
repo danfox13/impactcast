@@ -135,6 +135,7 @@ h1, h2, h3, h4 {
 
 .table-responsive {
     margin-right: -15px;
+    margin-left: -15px;
 }
 
 .table {
@@ -153,7 +154,11 @@ h1, h2, h3, h4 {
 .table > thead > tr > th {
     vertical-align: middle;
     border: 0;
-    padding: 0 8px 0 0;
+    padding: 0;
+}
+
+.table > tbody > tr > td:first-child {
+    padding-right: 8px;
 }
 
 .table > thead > tr > th {

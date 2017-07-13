@@ -1,15 +1,15 @@
 import React, {Component} from 'react';
 import {Button, Panel, Table} from 'react-bootstrap';
+import {LinkContainer} from 'react-router-bootstrap';
 
 class ResultRow extends Component {
     render() {
         return (
             <tr>
                 <td>
-                    <Button bsStyle="success"
-                            href={'/project/' + this.props.project.projectCode}>
-                        View
-                    </Button>
+                    <LinkContainer to={'/project/' + this.props.project.projectCode}>
+                        <Button bsStyle="success">View</Button>
+                    </LinkContainer>
                 </td>
                 <td>{this.props.project.projectCode}</td>
                 <td>{this.props.project.projectTitle}</td>

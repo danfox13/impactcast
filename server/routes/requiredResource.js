@@ -63,7 +63,7 @@ exports.editResourceView = function (req, res) {
 
 
 //edit resource
-exports.editResource = function (req, res) {
+exports.editResource = function (req, callback) {
 
     var newData = {
         roleName: req.body.roleName,
@@ -82,20 +82,7 @@ exports.editResource = function (req, res) {
     requiredResource.findOneAndUpdate({_id: req.params.resourceId}, newData, {
         upsert: false,
         new: false
-    }, function (err, requiredResource) {
-        if (err) {
-            return res.send(500, {error: err});
-        } else {
-            res.body = {
-                title: 'ImpactCast - ' + requiredResource.changeTitle,
-                heading: changeItem.changeTitle,
-                projectCode: req.params.projectCode,
-                changeItem: req.params.changeItem,
-                requiredResource: requiredResource
-            };
-            res.redirect('/project/' + req.params.projectCode + '/' + req.params.changeItem + '/' + req.params.resourceId);
-        }
-    });
+    }).then(callback);
 };
 
 //add a resource requirement

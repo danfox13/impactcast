@@ -5,6 +5,7 @@
 import React, {Component} from 'react';
 import {Button, ControlLabel, FormControl, FormGroup, Glyphicon, InputGroup, Panel} from 'react-bootstrap';
 import {browserHistory} from 'react-router';
+import {handleInputChange, submitDocument} from '../../api';
 
 export default class NewChangeItem extends Component {
     constructor(props) {
@@ -19,53 +20,16 @@ export default class NewChangeItem extends Component {
             assumptions: ''
         };
 
-        this.createChangeItem = this.createChangeItem.bind(this);
-        this.handleInputChange = this.handleInputChange.bind(this);
-        this.handleRedirect = this.handleRedirect.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
-    }
-
-    handleSubmit(event) {
-        event.preventDefault();
-        this.createChangeItem();
-    }
-
-    createChangeItem() {
-        let url = 'http://localhost:3001/project/' + this.props.projectCode + '/newChangeItem';
-        fetch(url, {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                changeTitle: this.state.changeTitle,
-                status: this.state.status,
-                lid: this.state.lid,
-                startDate: this.state.startDate,
-                endDate: this.state.endDate,
-                risks: this.state.risks,
-                assumptions: this.state.assumptions
-            })
-        }).then(response => response.json())
-            .then(this.handleRedirect)
-            .catch(err => console.log(err));
-    }
-
-    handleRedirect(response) {
-        if (response.result.changeTitle) {
-            browserHistory.push('/project/' + this.props.projectCode);
+        this.handleInputChange = handleInputChange.bind(this);
+        this.handleSubmit = event => {
+            event.preventDefault();
+            submitDocument('project/' + this.props.projectCode + '/newChangeItem',
+                this.state, response => {
+                    if (response.result.changeTitle) {
+                        browserHistory.push('/project/' + this.props.projectCode);
+                    }
+                })
         }
-    }
-
-    handleInputChange(event) {
-        const target = event.target;
-        const value = target.value;
-        const name = target.name;
-
-        this.setState({
-            [name]: value
-        });
     }
 
     render() {
@@ -84,7 +48,7 @@ export default class NewChangeItem extends Component {
                     </FormGroup>
                     <FormGroup controlId="status">
                         <ControlLabel>Status:</ControlLabel>
-                        <FormControl name="status" componentClass="select" required
+                        <FormControl name="status" componentClass="select"
                                      value={this.state.status}
                                      onChange={this.handleInputChange}>
                             <option selected value="New">New</option>
@@ -105,7 +69,7 @@ export default class NewChangeItem extends Component {
                         <ControlLabel>Live Implementation Date (LID):</ControlLabel>
                         <InputGroup>
                             <InputGroup.Addon><Glyphicon glyph="calendar"/></InputGroup.Addon>
-                            <FormControl name="lid" type="date" required
+                            <FormControl name="lid" type="date"
                                          value={this.state.lid} onChange={this.handleInputChange}/>
                         </InputGroup>
                         <FormControl.Feedback/>
@@ -114,7 +78,7 @@ export default class NewChangeItem extends Component {
                         <ControlLabel>Start Date:</ControlLabel>
                         <InputGroup>
                             <InputGroup.Addon><Glyphicon glyph="calendar"/></InputGroup.Addon>
-                            <FormControl name="startDate" type="date" required
+                            <FormControl name="startDate" type="date"
                                          value={this.state.startDate} onChange={this.handleInputChange}/>
                         </InputGroup>
                         <FormControl.Feedback/>
@@ -123,7 +87,7 @@ export default class NewChangeItem extends Component {
                         <ControlLabel>End Date:</ControlLabel>
                         <InputGroup>
                             <InputGroup.Addon><Glyphicon glyph="calendar"/></InputGroup.Addon>
-                            <FormControl name="endDate" type="date" required
+                            <FormControl name="endDate" type="date"
                                          value={this.state.endDate} onChange={this.handleInputChange}/>
                         </InputGroup>
                         <FormControl.Feedback/>

@@ -5,6 +5,7 @@
 import React, {Component} from 'react';
 import {Button, ControlLabel, FormControl, FormGroup, InputGroup, Panel} from 'react-bootstrap';
 import {browserHistory} from 'react-router';
+import {handleInputChange, submitDocument} from '../../api';
 
 export default class UpdateProject extends Component {
     constructor(props) {
@@ -14,10 +15,16 @@ export default class UpdateProject extends Component {
             projectTitle: this.props.projectTitle
         };
 
-        this.updateProject = this.updateProject.bind(this);
-        this.handleInputChange = this.handleInputChange.bind(this);
-        this.handleRedirect = this.handleRedirect.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleInputChange = handleInputChange.bind(this);
+        this.handleSubmit = event => {
+            event.preventDefault();
+            submitDocument('project/' + this.props.projectCode + '/update',
+                this.state, response => {
+                if (response.result.projectCode) {
+                    browserHistory.push('/project/' + response.result.projectCode);
+                }
+            })
+        }
     }
 
     componentWillReceiveProps(nextProps) {
@@ -26,48 +33,9 @@ export default class UpdateProject extends Component {
         });
     }
 
-    handleSubmit(event) {
-        event.preventDefault();
-        this.updateProject();
-    }
-
-    updateProject() {
-        let url = 'http://localhost:3001/project/' + this.props.projectCode + '/update';
-        fetch(url, {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                projectCode: this.state.projectCode,
-                projectTitle: this.state.projectTitle
-            })
-        }).then(response => response.json())
-            .then(this.handleRedirect)
-            .catch(err => console.log(err));
-    }
-
-    handleRedirect(response) {
-        if (response.result.projectCode) {
-            browserHistory.push('/project/' + response.result.projectCode);
-        }
-    }
-
-    handleInputChange(event) {
-        const target = event.target;
-        const value = target.value;
-        const name = target.name;
-
-        this.setState({
-            [name]: value
-        });
-    }
-
     render() {
         return (
-            <Panel>
-                <h1 className="text-center">Update Project</h1>
+            <Panel header={'Update ' + this.props.projectTitle} bsStyle="primary">
                 <form onSubmit={this.handleSubmit}>
                     <FormGroup controlId="projectCode">
                         <ControlLabel>Project Code:</ControlLabel>

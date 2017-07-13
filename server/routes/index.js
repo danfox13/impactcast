@@ -235,12 +235,18 @@ app.get('/project/:projectCode/:changeItem/:resourceId', (request, response) => 
     })
 });
 
+app.post('/project/:projectCode/:changeItem/:resourceId/update', (request, response) => {
+    requiredResource.editResource(request, () => {
+          response.status(200).end();
+    })
+});
+
 //Required Resource URIs
 //app.get('/project/:projectCode/:changeItem/addRequiredResource', requiredResource.addResourceView);
 //app.post('/project/:projectCode/:changeItem/addRequiredResource', requiredResource.addResource);
 //app.get('/project/:projectCode/:changeItem/:resourceId', requiredResource.view);
-app.get('/project/:projectCode/:changeItem/:resourceId/update', requiredResource.editResourceView);
-app.post('/project/:projectCode/:changeItem/:resourceId/update', requiredResource.editResource);
+//app.get('/project/:projectCode/:changeItem/:resourceId/update', requiredResource.editResourceView);
+//app.post('/project/:projectCode/:changeItem/:resourceId/update', requiredResource.editResource);
 app.get('/project/:projectCode/:changeItem/:resourceId/delete', requiredResource.delete);
 app.get('/project/:projectCode/:changeItem/:reqResourceId/assign/:resourceId', requiredResource.assign);
 
@@ -248,16 +254,16 @@ app.get('/project/:projectCode/:changeItem/:reqResourceId/assign/:resourceId', r
 
 app.post('/project/:projectCode/:changeItem/:resourceId/addImpact', (request, response) => {
     impact.add(request, () => {
-        // let responseBody = {};
-        // responseBody.result = {
-        //     route: '/project/' + request.params.projectCode
-        //          + '/' + request.params.changeItem
-        //          + '/' + request.params.resourceId
-        // };
+        let responseBody = {};
+        responseBody.result = {
+            route: '/project/' + request.params.projectCode
+                 + '/' + request.params.changeItem
+                 + '/' + request.params.resourceId
+        };
 
-        //response.setHeader('Content-Type', 'application/json');
-        //response.write(JSON.stringify(responseBody));
-        response.status(200).end();
+        response.setHeader('Content-Type', 'application/json');
+        response.write(JSON.stringify(responseBody));
+        response.end();
     })
 });
 

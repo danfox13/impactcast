@@ -4,6 +4,7 @@
 
 import React, {Component} from 'react';
 import UpdateProject from '../../components/Project/UpdateProject';
+import {loadDocument} from '../../api';
 
 export default class UpdateProjectPage extends Component {
     constructor(props) {
@@ -12,23 +13,11 @@ export default class UpdateProjectPage extends Component {
             projectTitle: ''
         };
 
-        this.loadData = this.loadData.bind(this);
+        this.loadDocument = loadDocument.bind(this);
     }
 
     componentWillMount() {
-        this.loadData()
-    }
-
-    loadData() {
-        let url = 'http://localhost:3001/project/' + this.props.params.projectCode + '/update';
-        fetch(url)
-            .then(response => response.json())
-            .then(data => {
-                this.setState({
-                    projectTitle: data.result.projectTitle
-                });
-            })
-            .catch(err => console.log(err));
+        this.loadDocument('project/' + this.props.params.projectCode + '/update')
     }
 
     render() {

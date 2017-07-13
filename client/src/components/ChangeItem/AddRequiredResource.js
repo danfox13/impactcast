@@ -5,6 +5,7 @@
 import React, {Component} from 'react';
 import {Button, ControlLabel, FormControl, FormGroup, InputGroup, Panel} from 'react-bootstrap';
 import {browserHistory} from 'react-router';
+import {submitDocument, handleInputChange} from '../../api';
 
 export default class AddRequiredResource extends Component {
     constructor(props) {
@@ -23,61 +24,20 @@ export default class AddRequiredResource extends Component {
             reason: ''
         };
 
-        this.createRequiredResource = this.createRequiredResource.bind(this);
-        this.handleInputChange = this.handleInputChange.bind(this);
-        this.handleRedirect = this.handleRedirect.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
-    }
-
-    handleSubmit(event) {
-        event.preventDefault();
-        this.createRequiredResource();
-    }
-
-    createRequiredResource() {
-        let url = 'http://localhost:3001/project/' + this.props.projectCode
-                + '/' + this.props.changeItem + '/addRequiredResource';
-        fetch(url, {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                roleName: this.state.roleName,
-                pLine: this.state.pLine,
-                company: this.state.company,
-                resourceType: this.state.resourceType,
-                grade: this.state.grade,
-                stage: this.state.stage,
-                jobCode: this.state.jobCode,
-                system: this.state.system,
-                component: this.state.component,
-                pricingFlag: this.state.pricingFlag,
-                reason: this.state.reason
+        this.handleInputChange = handleInputChange.bind(this);
+        this.handleSubmit = event => {
+            event.preventDefault();
+            submitDocument('project/' + this.props.projectCode
+                         + '/' + this.props.changeItem + '/addRequiredResource',
+                this.state, response => {
+                if (response.result.roleName) {
+                    browserHistory.push('/project/' + this.props.projectCode +
+                                        '/' + this.props.changeItem);
+                }
             })
-        }).then(response => response.json())
-            .then(this.handleRedirect)
-            .catch(err => console.log(err));
-    }
-
-    handleRedirect(response) {
-        console.log(response);
-        if (response.result.roleName) {
-            browserHistory.push('/project/' + this.props.projectCode +
-                                '/' + this.props.changeItem);
         }
     }
 
-    handleInputChange(event) {
-        const target = event.target;
-        const value = target.value;
-        const name = target.name;
-
-        this.setState({
-            [name]: value
-        });
-    }
     render() {
         return (
             <Panel header="Add Required Resource" bsStyle="primary">
@@ -89,8 +49,8 @@ export default class AddRequiredResource extends Component {
                             <FormControl name="roleName" required
                                          value={this.state.roleName}
                                          onChange={this.handleInputChange}/>
+                            <FormControl.Feedback/>
                         </InputGroup>
-                        <FormControl.Feedback/>
                     </FormGroup>
                     <FormGroup controlId="pLine">
                         <ControlLabel>P Line:</ControlLabel>
@@ -190,7 +150,7 @@ export default class AddRequiredResource extends Component {
                     </FormGroup>
                     <FormGroup controlId="resourceType">
                         <ControlLabel>Resource Type:</ControlLabel>
-                        <FormControl name="resourceType" componentClass="select" required
+                        <FormControl name="resourceType" componentClass="select"
                                      value={this.state.resourceType}
                                      onChange={this.handleInputChange}>
                             <option value=""/>
@@ -266,11 +226,10 @@ export default class AddRequiredResource extends Component {
                             <option value="Websols Tester">Websols Tester</option>
                             <option value="XFERS Application Analyst">XFERS Application Analyst</option>
                         </FormControl>
-                        <FormControl.Feedback/>
                     </FormGroup>
                     <FormGroup controlId="grade">
                         <ControlLabel>Grade:</ControlLabel>
-                        <FormControl name="grade" componentClass="select" required
+                        <FormControl name="grade" componentClass="select"
                                      value={this.state.grade}
                                      onChange={this.handleInputChange}>
                             <option value=""/>
@@ -295,11 +254,10 @@ export default class AddRequiredResource extends Component {
                             <option value="T9">T9</option>
                             <option value="VP">VP</option>
                         </FormControl>
-                        <FormControl.Feedback/>
                     </FormGroup>
                     <FormGroup controlId="stage">
                         <ControlLabel>Stage:</ControlLabel>
-                        <FormControl name="stage" componentClass="select" required
+                        <FormControl name="stage" componentClass="select"
                                      value={this.state.stage}
                                      onChange={this.handleInputChange}>
                             <option value=""/>
@@ -316,11 +274,10 @@ export default class AddRequiredResource extends Component {
                             <option value="Implementation">Implementation</option>
                             <option value="Support">Support</option>
                         </FormControl>
-                        <FormControl.Feedback/>
                     </FormGroup>
                     <FormGroup controlId="jobCode">
                         <ControlLabel>Job Code:</ControlLabel>
-                        <FormControl name="jobCode" componentClass="select" required
+                        <FormControl name="jobCode" componentClass="select"
                                      value={this.state.jobCode}
                                      onChange={this.handleInputChange}>
                             <option value=""/>
@@ -329,14 +286,13 @@ export default class AddRequiredResource extends Component {
                     </FormGroup>
                     <FormGroup controlId="system">
                         <ControlLabel>System:</ControlLabel>
-                        <FormControl name="system" required
+                        <FormControl name="system"
                                      value={this.state.system}
                                      onChange={this.handleInputChange}/>
-                        <FormControl.Feedback/>
                     </FormGroup>
                     <FormGroup controlId="component">
                         <ControlLabel>Component:</ControlLabel>
-                        <FormControl name="component" componentClass="select" required
+                        <FormControl name="component" componentClass="select"
                                      value={this.state.component}
                                      onChange={this.handleInputChange}>
                             <option value=""/>
@@ -355,7 +311,7 @@ export default class AddRequiredResource extends Component {
                     </FormGroup>
                     <FormGroup controlId="pricingFlag">
                         <ControlLabel>Pricing Flag:</ControlLabel>
-                        <FormControl name="pricingFlag" componentClass="select" required
+                        <FormControl name="pricingFlag" componentClass="select"
                                      value={this.state.pricingFlag}
                                      onChange={this.handleInputChange}>
                             <option value=""/>
@@ -366,7 +322,7 @@ export default class AddRequiredResource extends Component {
                     </FormGroup>
                     <FormGroup controlId="reason">
                         <ControlLabel>Reason:</ControlLabel>
-                        <FormControl name="reason" componentClass="select" required
+                        <FormControl name="reason" componentClass="select"
                                      value={this.state.reason}
                                      onChange={this.handleInputChange}>
                             <option value=""/>

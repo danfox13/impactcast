@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
 import {Button, ControlLabel, FormControl, FormGroup, Panel} from 'react-bootstrap';
+import {LinkContainer} from 'react-router-bootstrap';
+import {handleInputChange} from '../../api';
 
 export default class SearchProjectAndChangeItems extends Component {
     constructor() {
@@ -11,17 +13,7 @@ export default class SearchProjectAndChangeItems extends Component {
             changeItemStatus: '',
         };
 
-        this.handleInputChange = this.handleInputChange.bind(this);
-    }
-
-    handleInputChange(event) {
-        const target = event.target;
-        const value = target.value;
-        const name = target.name;
-
-        this.setState({
-            [name]: value
-        });
+        this.handleInputChange = handleInputChange.bind(this);
     }
 
     render() {
@@ -64,13 +56,12 @@ export default class SearchProjectAndChangeItems extends Component {
                     </FormControl>
                 </FormGroup>
 
-                <Button bsStyle="success" bsSize="large" block
-                        href={'/projectSearchResults?projectCode=' + this.state.projectCode
-                        + '&projectTitle=' + this.state.projectTitle
-                        + '&changeItemTitle=' + this.state.changeItemTitle
-                        + '&changeItemStatus=' + this.state.changeItemStatus}>
-                    Search Projects
-                </Button>
+                <LinkContainer to={'/projectSearchResults?projectCode=' + this.state.projectCode
+                                 + '&projectTitle=' + this.state.projectTitle
+                                 + '&changeItemTitle=' + this.state.changeItemTitle
+                                 + '&changeItemStatus=' + this.state.changeItemStatus}>
+                    <Button bsStyle="success" bsSize="large" block>Search Projects</Button>
+                </LinkContainer>
             </Panel>
         )
     }

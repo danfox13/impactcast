@@ -3,19 +3,10 @@
  */
 
 import React, {Component} from 'react';
-import {
-    Button,
-    Col,
-    ControlLabel,
-    FormControl,
-    FormGroup,
-    Glyphicon,
-    InputGroup,
-    Panel,
-    Row,
-    Table
-} from 'react-bootstrap';
+import {Button, Col, ControlLabel, FormControl, FormGroup, Glyphicon, InputGroup, Panel, Row,
+        Table} from 'react-bootstrap';
 import {browserHistory} from 'react-router';
+import {handleInputChange, submitDocument} from '../../api';
 
 import DeleteModal from '../Shared/DeleteModal';
 
@@ -32,51 +23,22 @@ export default class Impact extends Component {
 
         this.populate = this.populate.bind(this);
 
-        this.createImpact = this.createImpact.bind(this);
-        this.handleInputChange = this.handleInputChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
-        this.handleRefresh = this.handleRefresh.bind(this);
-    }
-
-    handleSubmit(event) {
-        event.preventDefault();
-        this.createImpact();
-    }
-
-    handleRefresh(response) {
-        if(response.result.route) {
-            browserHistory.push(response.result.route)
-        }
-    }
-
-    createImpact() {
-        let url = 'http://localhost:3001/project/' + this.props.projectCode
-                + '/' + this.props.changeItem + '/' + this.state.requiredResource._id + '/addImpact';
-        fetch(url, {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                year: this.state.year,
-                month: this.state.month,
-                days: this.state.days
+        this.handleInputChange = handleInputChange.bind(this);
+        this.handleSubmit = event => {
+            event.preventDefault();
+            submitDocument('project/' + this.props.projectCode
+                         + '/' + this.props.changeItem + '/' + this.state.requiredResource._id
+                         + '/addImpact',
+                {
+                    year: this.state.year,
+                    month: this.state.month,
+                    days: this.state.days
+                }, response => {
+                if(response.result.route) {
+                    browserHistory.push(response.result.route)
+                }
             })
-
-        }).then(response => response.json())
-            .then(this.handleRefresh)
-            .catch(err => console.log(err));
-    }
-
-    handleInputChange(event) {
-        const target = event.target;
-        const value = target.value;
-        const name = target.name;
-
-        this.setState({
-            [name]: value
-        });
+        }
     }
 
     componentWillReceiveProps(nextProps) {

@@ -6,6 +6,7 @@ import React, {Component} from 'react';
 import {Button, ControlLabel, FormControl,
         FormGroup, Glyphicon, InputGroup, Panel} from 'react-bootstrap';
 import {browserHistory} from 'react-router';
+import {handleInputChange, submitDocument} from '../../api';
 
 export default class UpdateChangeItem extends Component {
     constructor(props) {
@@ -21,10 +22,26 @@ export default class UpdateChangeItem extends Component {
             assumptions: ''
         };
 
-        this.updateChangeItem = this.updateChangeItem.bind(this);
-        this.handleInputChange = this.handleInputChange.bind(this);
-        this.handleRedirect = this.handleRedirect.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleInputChange = handleInputChange.bind(this);
+        this.handleSubmit = event => {
+            event.preventDefault();
+            submitDocument('project/' + this.props.projectCode
+                         + '/' + this.props.changeItem.changeTitle + '/update',
+                {
+                    changeTitle: this.state.changeTitle,
+                    status: this.state.status,
+                    lid: this.state.lid,
+                    startDate: this.state.startDate,
+                    endDate: this.state.endDate,
+                    risks: this.state.risks,
+                    assumptions: this.state.assumptions
+                }, response => {
+                if (response.result.projectCode) {
+                    browserHistory.push('/project/' + response.result.projectCode +
+                                        '/' + response.result.changeTitle);
+                }
+            })
+        }
     }
 
     componentWillReceiveProps(nextProps) {
@@ -37,51 +54,6 @@ export default class UpdateChangeItem extends Component {
             endDate: String(nextProps.changeItem.endDate).slice(0, 10),
             risks: nextProps.changeItem.risks,
             assumptions: nextProps.changeItem.assumptions
-        });
-    }
-
-    handleSubmit(event) {
-        event.preventDefault();
-        this.updateChangeItem();
-    }
-
-    updateChangeItem() {
-        let url = 'http://localhost:3001/project/' + this.props.projectCode
-                + '/' + this.props.changeItem.changeTitle + '/update';
-        fetch(url, {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                changeTitle: this.state.changeTitle,
-                status: this.state.status,
-                lid: this.state.lid,
-                startDate: this.state.startDate,
-                endDate: this.state.endDate,
-                risks: this.state.risks,
-                assumptions: this.state.assumptions
-            })
-        }).then(response => response.json())
-            .then(this.handleRedirect)
-            .catch(err => console.log(err));
-    }
-
-    handleRedirect(response) {
-        if (response.result.projectCode) {
-            browserHistory.push('/project/' + response.result.projectCode +
-                                '/' + response.result.changeTitle);
-        }
-    }
-
-    handleInputChange(event) {
-        const target = event.target;
-        const value = target.value;
-        const name = target.name;
-
-        this.setState({
-            [name]: value
         });
     }
 
@@ -100,7 +72,7 @@ export default class UpdateChangeItem extends Component {
                     </FormGroup>
                     <FormGroup controlId="status">
                         <ControlLabel>Status:</ControlLabel>
-                        <FormControl name="status" componentClass="select" required
+                        <FormControl name="status" componentClass="select"
                                      value={this.state.status}
                                      onChange={this.handleInputChange}>
                             <option value="New">New</option>
