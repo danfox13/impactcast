@@ -54,13 +54,13 @@ exports.view = function (req, res) {
             var monthPlusFive = [];
             var monthPlusSix = [];
 
-            var currentMonthWorkingDays = moment('01-' + (now.getMonth() + 1) + '-' + now.getFullYear(), 'DD-MM-YYYY').monthBusinessDays().length;
-            var monthPlusOneWorkingDays = moment('01-' + (now.getMonth() + 2) + '-' + now.getFullYear(), 'DD-MM-YYYY').monthBusinessDays().length;
-            var monthPlusTwoWorkingDays = moment('01-' + (now.getMonth() + 3) + '-' + now.getFullYear(), 'DD-MM-YYYY').monthBusinessDays().length;
-            var monthPlusThreeWorkingDays = moment('01-' + (now.getMonth() + 4) + '-' + now.getFullYear(), 'DD-MM-YYYY').monthBusinessDays().length;
-            var monthPlusFourWorkingDays = moment('01-' + (now.getMonth() + 5) + '-' + now.getFullYear(), 'DD-MM-YYYY').monthBusinessDays().length;
-            var monthPlusFiveWorkingDays = moment('01-' + (now.getMonth() + 6) + '-' + now.getFullYear(), 'DD-MM-YYYY').monthBusinessDays().length;
-            var monthPlusSixWorkingDays = moment('01-' + (now.getMonth() + 7) + '-' + now.getFullYear(), 'DD-MM-YYYY').monthBusinessDays().length;
+            var currentMonthWorkingDays = moment('01-' + (now.getMonth()) + '-' + now.getFullYear(), 'DD-MM-YYYY').monthBusinessDays().length;
+            var monthPlusOneWorkingDays = moment('01-' + (now.getMonth() + 1) + '-' + now.getFullYear(), 'DD-MM-YYYY').monthBusinessDays().length;
+            var monthPlusTwoWorkingDays = moment('01-' + (now.getMonth() + 2) + '-' + now.getFullYear(), 'DD-MM-YYYY').monthBusinessDays().length;
+            var monthPlusThreeWorkingDays = moment('01-' + (now.getMonth() + 3) + '-' + now.getFullYear(), 'DD-MM-YYYY').monthBusinessDays().length;
+            var monthPlusFourWorkingDays = moment('01-' + (now.getMonth() + 4) + '-' + now.getFullYear(), 'DD-MM-YYYY').monthBusinessDays().length;
+            var monthPlusFiveWorkingDays = moment('01-' + (now.getMonth() + 5) + '-' + now.getFullYear(), 'DD-MM-YYYY').monthBusinessDays().length;
+            var monthPlusSixWorkingDays = moment('01-' + (now.getMonth() + 6) + '-' + now.getFullYear(), 'DD-MM-YYYY').monthBusinessDays().length;
 
             project.getProjectsByResourceImpactMonth(teamMember._id, new Date(now.getFullYear(), now.getMonth(), 1), new Date(now.getFullYear(), now.getMonth() + 1, 1), function (results) {
                 month = results;

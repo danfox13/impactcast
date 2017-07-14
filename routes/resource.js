@@ -55,13 +55,13 @@ exports.view = function (req, res) {
     var monthPlusFive = [];
     var monthPlusSix = [];
 
-    var currentMonthWorkingDays = moment('01-' + (now.getMonth()+1) + '-' + now.getFullYear(), 'DD-MM-YYYY').monthBusinessDays();
-    var monthPlusOneWorkingDays = moment('01-' + (now.getMonth()+2) + '-' + now.getFullYear(), 'DD-MM-YYYY').monthBusinessDays();
-    var monthPlusTwoWorkingDays = moment('01-' + (now.getMonth()+3) + '-' + now.getFullYear(), 'DD-MM-YYYY').monthBusinessDays();
-    var monthPlusThreeWorkingDays = moment('01-' + (now.getMonth()+4) + '-' + now.getFullYear(), 'DD-MM-YYYY').monthBusinessDays();
-    var monthPlusFourWorkingDays = moment('01-' + (now.getMonth()+5) + '-' + now.getFullYear(), 'DD-MM-YYYY').monthBusinessDays();
-    var monthPlusFiveWorkingDays = moment('01-' + (now.getMonth()+6) + '-' + now.getFullYear(), 'DD-MM-YYYY').monthBusinessDays();
-    var monthPlusSixWorkingDays = moment('01-' + (now.getMonth()+7) + '-' + now.getFullYear(), 'DD-MM-YYYY').monthBusinessDays();
+    var currentMonthWorkingDays = moment('01-' + (now.getMonth()) + '-' + now.getFullYear(), 'DD-MM-YYYY').monthBusinessDays();
+    var monthPlusOneWorkingDays = moment('01-' + (now.getMonth()+1) + '-' + now.getFullYear(), 'DD-MM-YYYY').monthBusinessDays();
+    var monthPlusTwoWorkingDays = moment('01-' + (now.getMonth()+2) + '-' + now.getFullYear(), 'DD-MM-YYYY').monthBusinessDays();
+    var monthPlusThreeWorkingDays = moment('01-' + (now.getMonth()+3) + '-' + now.getFullYear(), 'DD-MM-YYYY').monthBusinessDays();
+    var monthPlusFourWorkingDays = moment('01-' + (now.getMonth()+4) + '-' + now.getFullYear(), 'DD-MM-YYYY').monthBusinessDays();
+    var monthPlusFiveWorkingDays = moment('01-' + (now.getMonth()+5) + '-' + now.getFullYear(), 'DD-MM-YYYY').monthBusinessDays();
+    var monthPlusSixWorkingDays = moment('01-' + (now.getMonth()+6) + '-' + now.getFullYear(), 'DD-MM-YYYY').monthBusinessDays();
 
     resource.findOne({
         _id: req.params.resourceId
