@@ -148,3 +148,11 @@ h1, h2, h3, h4, h5, h6 {
 .table .btn {
     padding: 5px 40px;
 }
+
+.table-striped > tbody > tr:nth-of-type(odd) {
+    background-color: #4db6c8;
+}
+
+.table-striped > tbody > tr:nth-of-type(even) {
+    background-color: #488ea5;
+}
