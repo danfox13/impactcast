@@ -17,7 +17,7 @@ export default class UpdateProjectPage extends Component {
     }
 
     componentWillMount() {
-        this.loadDocument('project/' + this.props.params.projectCode + '/update')
+        this.loadDocument('/project/' + this.props.params.projectCode + '/update')
     }
 
     render() {

@@ -3,7 +3,7 @@
  */
 
 exports.submitDocument = (route, body, redirectHandler) => {
-    let url = 'http://localhost:3001/' + route;
+    let url = 'http://localhost:3001' + route;
     fetch(url, {
         method: 'POST',
         headers: {
@@ -27,7 +27,7 @@ exports.handleInputChange = function(event) {
 };
 
 exports.loadDocument = function(route) {
-    let url = 'http://localhost:3001/' + route;
+    let url = 'http://localhost:3001' + route;
     fetch(url)
         .then(response => response.json())
         .then(data => {

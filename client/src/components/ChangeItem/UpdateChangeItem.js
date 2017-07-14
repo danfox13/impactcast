@@ -25,7 +25,7 @@ export default class UpdateChangeItem extends Component {
         this.handleInputChange = handleInputChange.bind(this);
         this.handleSubmit = event => {
             event.preventDefault();
-            submitDocument('project/' + this.props.projectCode
+            submitDocument('/project/' + this.props.projectCode
                          + '/' + this.props.changeItem.changeTitle + '/update',
                 {
                     changeTitle: this.state.changeTitle,

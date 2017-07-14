@@ -26,7 +26,7 @@ export default class Impact extends Component {
         this.handleInputChange = handleInputChange.bind(this);
         this.handleSubmit = event => {
             event.preventDefault();
-            submitDocument('project/' + this.props.projectCode
+            submitDocument('/project/' + this.props.projectCode
                          + '/' + this.props.changeItem + '/' + this.state.requiredResource._id
                          + '/addImpact',
                 {

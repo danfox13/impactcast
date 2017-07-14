@@ -23,7 +23,7 @@ export default class NewChangeItem extends Component {
         this.handleInputChange = handleInputChange.bind(this);
         this.handleSubmit = event => {
             event.preventDefault();
-            submitDocument('project/' + this.props.projectCode + '/newChangeItem',
+            submitDocument('/project/' + this.props.projectCode + '/newChangeItem',
                 this.state, response => {
                     if (response.result.changeTitle) {
                         browserHistory.push('/project/' + this.props.projectCode);

@@ -237,7 +237,7 @@ app.get('/project/:projectCode/:changeItem/:resourceId', (request, response) => 
 
 app.post('/project/:projectCode/:changeItem/:resourceId/update', (request, response) => {
     requiredResource.editResource(request, () => {
-          response.status(200).end();
+          response.send({});
     })
 });
 

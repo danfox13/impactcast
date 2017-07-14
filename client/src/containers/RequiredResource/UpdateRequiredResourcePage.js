@@ -19,7 +19,7 @@ export default class UpdateRequiredResourcePage extends Component {
     }
 
     componentWillMount() {
-        this.loadDocument('project/' + this.props.params.projectCode
+        this.loadDocument('/project/' + this.props.params.projectCode
                         + '/' + this.props.params.changeItem
                         + '/' + this.props.params.resourceId);
     }

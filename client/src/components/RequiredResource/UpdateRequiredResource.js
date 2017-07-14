@@ -27,7 +27,7 @@ export default class UpdateRequiredResource extends Component {
         this.handleInputChange = handleInputChange.bind(this);
         this.handleSubmit = event => {
             event.preventDefault();
-            submitDocument('project/' + this.props.projectCode
+            submitDocument('/project/' + this.props.projectCode
                          + '/' + this.props.changeItem
                          + '/' + this.props.requiredResource._id + '/update',
                 this.state, () => {

@@ -18,7 +18,7 @@ export default class UpdateProject extends Component {
         this.handleInputChange = handleInputChange.bind(this);
         this.handleSubmit = event => {
             event.preventDefault();
-            submitDocument('project/' + this.props.projectCode + '/update',
+            submitDocument('/project/' + this.props.projectCode + '/update',
                 this.state, response => {
                 if (response.result.projectCode) {
                     browserHistory.push('/project/' + response.result.projectCode);

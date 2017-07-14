@@ -14,7 +14,7 @@ export default class CreateProject extends Component {
         this.handleInputChange = handleInputChange.bind(this);
         this.handleSubmit = event => {
             event.preventDefault();
-            submitDocument('newProject', this.state, response => {
+            submitDocument('/newProject', this.state, response => {
                 if (response.result.projectCode) {
                     browserHistory.push('/project/' + response.result.projectCode);
                 }
