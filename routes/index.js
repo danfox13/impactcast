@@ -45,7 +45,12 @@ app.get('/viewUsers', user.viewUsers);
 
 //changing password URIs
 app.post('/changePassword', user.changePassword);
+
+//changing name URIs
 app.post('/user/:user/changeName', user.changeName);
+
+//changing Slack handle URIs
+app.post('/changeSlack', user.changeSlack);
 
 //deleting user URIs
 app.post('/deleteMe', user.deleteMe);

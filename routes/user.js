@@ -162,6 +162,69 @@ exports.changeName = function (req, res) {
         });
 }
 
+//Change a user's slack handle
+exports.changeSlack = function (req, res) {
+    var email = req.session.email;
+    var newSlack = req.body.newSlack;
+
+    //find the user currently logged in
+    user.findOne({
+        email: email,
+    })
+        .then(function (result) {
+            //check that they entered the correct password for their account
+            var hash = result.password;
+            var password = req.body.password;
+            if (hash && password &&
+                bcrypt.compareSync(password, hash)) {
+
+                if (newSlack.trim() !== "@") {
+
+                    result.slack = newSlack;
+
+                    //save the newly modified user entry in the database
+                    result.save();
+                }
+                else {
+                    slack = null;
+                    newSlack = null;
+                    //save the newly modified user entry in the database
+                    result.save();
+                }
+            }
+            else{
+                res.render('user/userProfile',
+                    {
+                        title: 'User Profile',
+                        email: email,
+                        name: req.session.name,
+                        slack: req.session.slack,
+                        isAdmin: req.session.viewerAdmin,
+                        viewerAdmin: req.session.viewerAdmin,
+                        viewerSelf: true,
+                        id: req.session.id,
+                        wrongPassword: true
+                    });
+            }
+        }).then(function(){
+        res.render('user/userProfile',
+            {
+                title: 'User Profile',
+                email: email,
+                name: req.session.name,
+                slack: newSlack,
+                isAdmin: req.session.viewerAdmin,
+                viewerAdmin: req.session.viewerAdmin,
+                viewerSelf: true,
+                id: req.session.id,
+                wrongPassword: false
+            });
+    })
+        .catch(function (err) {
+            console.log("Error: " + err);
+        });
+}
+
 //Change a user's password and send them an email
 exports.changePassword = function (req, res) {
 
