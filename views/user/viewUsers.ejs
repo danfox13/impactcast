@@ -42,6 +42,7 @@
                         <%}%>
                         </th>
                         <th>Email</th>
+                        <th>Permissions</th>
                         <th>Name</th>
                         <th>Slack Handle</th>
                         <% if(viewer.isAdmin){%>
@@ -54,31 +55,31 @@
                     <tr>
                         <td class="text-center">
                             <% if(viewer.email === user.email){%><!-- If you see yourself, just see a link to 'My Profile'-->
-                            <a href="/myProfile" class="btn btn-success"
+                            <a href="/myProfile" class="label label-info"
                                role="button">My Profile</a>
                             <%} else if(viewer.isAdmin){%><!-- If an admin is viewing, they can add users -->
-                            <a href="/user/<%= user._id %>/viewProfile" class="btn btn-success"
+                            <a href="/user/<%= user._id %>/viewProfile" class="label label-info"
                                role="button">View</a>
-                            <a href="/user/<%= user._id %>/deleteUser" class="btn btn-danger"
+                            <a href="/user/<%= user._id %>/deleteUser" class="label label-danger"
                                role="button">Delete</a>
                             <%} else {%><!-- Everyone else just sees the option to view -->
-                            <a href="/user/<%= user._id %>/viewProfile" class="btn btn-success"
+                            <a href="/user/<%= user._id %>/viewProfile" class="label label-info"
                                role="button">View</a>
                         <%}%>
                         </td>
-                        <td><%= user.email %><!-- Badges for extra information -->
-                            <% if(user.isAdmin){%><span style="padding: 8px; margin-left: 10px;" class="badge"> Admin </span><%}%>
-                            <% if(user.email === email){%><span style="padding: 8px; margin-left: 10px;" class="badge"> Me </span><%}%>
-                        </td>
+                        <td><%= user.email %></td><!-- Badges for extra information -->
+                            <td><% if(user.isAdmin){%><span style="padding: 8px; margin-left: 10px;" class="badge"> Admin </span><%}%>
+                            <% if(user.email === email){%><span style="padding: 8px; margin-left: 10px;" class="badge"> Me </span><%}%></td>
+
                         <td><%= (user.name?user.name:"-") %></td>
                         <td><%= (user.slack?user.slack:"-") %></td>
                         <% if(viewer.isAdmin){%><!-- If an admin is viewing, they can change permissions for other users-->
                         <td>
                             <% if(user.isAdmin){ %>
-                            <a href="/user/<%= user._id %>/revokeAdmin" style="padding: 8px;"
+                            <a href="/user/<%= user._id %>/revokeAdmin"
                                class="label label-danger" role="button">Revoke Admin</a>
                             <%} else{%>
-                            <a href="/user/<%= user._id %>/makeAdmin" style="padding: 8px;"
+                            <a href="/user/<%= user._id %>/makeAdmin"
                                class="label label-warning" role="button">Make Admin</a>
                             <%}%>
                         </td>
