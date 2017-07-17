@@ -84,6 +84,18 @@ h1, h2, h3, h4, h5, h6 {
     white-space: normal;
 }
 
+#userSearch{
+    border-radius: 5px;
+    font-size: medium;
+    color: black;
+    padding:10px;
+}
+
+.glyphicon.glyphicon-search{
+    color:black;
+    font-size: 70%;
+}
+
 .navbar-nav > li > a {
     line-height: 78px;
     color: #465A64;
