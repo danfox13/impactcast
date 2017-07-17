@@ -80,8 +80,15 @@
                     </div>
                 </div>
             <div class="col-sm-4">
-                <h1><%= heading %></h1>
-            </div>
+                <h1><% if(hints){%><span class="glyphicon glyphicon-info-sign" data-toggle="tooltip"
+                                         data-placement="auto"
+                                         title="You can use the field on the left to filter users by any combination
+of email, name or slack handle, using the checkboxes below."></span><%}%> <%= heading %>
+                    <% if(hints && viewer.isAdmin){%><span class="glyphicon glyphicon-info-sign" data-toggle="tooltip"
+                                         data-placement="auto"
+                                         title="You can use the button on the right
+                                     to add a new user to the system."></span><%}%></h1>
+                </div>
             <div class="col-sm-4">
                 <% if(viewer.isAdmin){%><!-- If an admin is viewing, they can add users -->
                 <h1><a href="/addUser" class="btn btn-success"
@@ -155,4 +162,9 @@
     </div>
 </div>
 </body>
+<script>
+    $(document).ready(function(){
+        $('[data-toggle="tooltip"]').tooltip();
+    });
+</script>
 </html>

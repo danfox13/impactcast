@@ -43,7 +43,7 @@ exports.sendResetEmail = function (recipient, token) {
         text: 'Your account has requested a reset link for your password.' +
         '\n\nHere is your password reset link. If you did not request to change your password, ' +
         'please contact us immediately.' +
-        '\n\nReset Link: ' + "http://localhost:3000/reset/" + token +
+        '\n\nReset Link: ' + "http://" + req.host + "/reset/" + token +
         '\n\nThis link will expire in 1 hour.',
     };
 

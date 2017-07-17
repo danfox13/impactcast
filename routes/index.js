@@ -52,6 +52,9 @@ app.post('/user/:user/changeName', user.changeName);
 //changing Slack handle URIs
 app.post('/changeSlack', user.changeSlack);
 
+//hints URIs
+app.get('/toggleHints', user.toggleHints);
+
 //deleting user URIs
 app.post('/deleteMe', user.deleteMe);
 app.get('/user/:user/deleteUser', user.showDeleteUser);

@@ -153,6 +153,10 @@ input[type="checkbox"]{
     font-size: 100%;
 }
 
+.glyphicon.glyphicon-info-sign{
+    font-size: 70%;
+}
+
 .navbar-nav > li > a {
     line-height: 78px;
     color: #465A64;

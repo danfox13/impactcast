@@ -16,6 +16,7 @@ var userSchema = new Schema({
     resetPasswordToken: String,
     resetPasswordExpires: Date,
     isAdmin: Boolean,
+    hints: Boolean
 }, {collection: 'user'});
 
 //how computationally expensive it is to calculate the hash + salt
@@ -203,7 +204,8 @@ exports.changeSlack = function (req, res) {
                         viewerAdmin: req.session.viewerAdmin,
                         viewerSelf: true,
                         id: req.session.id,
-                        wrongPassword: true
+                        wrongPassword: true,
+                        hints: req.session.hints
                     });
             }
         }).then(function(){
@@ -217,7 +219,8 @@ exports.changeSlack = function (req, res) {
                 viewerAdmin: req.session.viewerAdmin,
                 viewerSelf: true,
                 id: req.session.id,
-                wrongPassword: false
+                wrongPassword: false,
+                hints: req.session.hints
             });
     })
         .catch(function (err) {
@@ -267,7 +270,8 @@ exports.changePassword = function (req, res) {
                             viewerAdmin: req.session.viewerAdmin,
                             viewerSelf: true,
                             id: req.session.id,
-                            wrongPassword: true
+                            wrongPassword: true,
+                            hints: req.session.hints,
                         });
                 }
             })
@@ -282,7 +286,8 @@ exports.changePassword = function (req, res) {
                         viewerAdmin: req.session.viewerAdmin,
                         viewerSelf: true,
                         id: req.session.id,
-                        wrongPassword: false
+                        wrongPassword: false,
+                        hints: req.session.hints,
                     });
             })
             .catch(function (err) {
@@ -309,6 +314,7 @@ exports.login = function (req, res) {
 
                 //if they match, log the user in and authenticate the session
                 req.session.email = email;
+                req.session.enableHints = result.hints;
                 req.session.name = result.name;
                 req.session.slack = result.slack;
                 req.session.authenticated = true;
@@ -354,7 +360,8 @@ exports.viewUserProfile = function (req, res) {
                     viewerAdmin: req.session.viewerAdmin,
                     viewerSelf: email === req.session.email,
                     id: result._id,
-                    wrongPassword: false
+                    wrongPassword: false,
+                    hints: req.session.hints,
                 });
         }
     ).catch(
@@ -378,6 +385,7 @@ exports.showDeleteUser = function (req, res) {
             failed: false,
             success: false,
             wrongPassword: false,
+            hints: req.session.hints,
         });
     });
 }
@@ -483,7 +491,8 @@ exports.deleteMe = function (req, res) {
                     email: result.email,
                     name: result.name,
                     slack: result.slack,
-                    wrongPassword: true
+                    wrongPassword: true,
+                    hints: req.session.hints,
                 });
             }
         }
@@ -610,6 +619,7 @@ exports.viewUsers = function (req, res) {
                 users: results,
                 viewer: viewer,
                 email: req.session.email,
+                hints: req.session.hints,
             });
         });
     });
@@ -719,6 +729,41 @@ exports.flipAdmin = function (req, res) {
         function (error) {
             console.log("Error: " + error);
         });
+}
+
+//turn hints on or off
+exports.toggleHints = function(req, res){
+
+    user.findOne({
+        email: req.session.email,
+    }).then(function(result){
+        if(req.session.hints){
+            console.log("HINTS DISABLED");
+            result.hints = false;
+            req.session.hints = false;
+        }
+        else{
+            console.log("HINTS ENABLED");
+            result.hints = true;
+            req.session.hints = true;
+        }
+        result.save();
+    }).then(function(){
+        res.render('user/userProfile', {
+            title: 'User Profile',
+            email: req.session.email,
+            name: req.session.name,
+            slack: req.session.slack,
+            isAdmin: req.session.viewerAdmin,
+            viewerAdmin: req.session.viewerAdmin,
+            viewerSelf: true,
+            id: req.session.id,
+            wrongPassword: false,
+            hints: req.session.hints,
+        });
+    }).catch(function(err){
+        console.log("Error: " + err);
+    });
 }
 
 //Logout
