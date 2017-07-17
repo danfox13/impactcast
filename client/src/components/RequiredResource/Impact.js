@@ -21,7 +21,7 @@ import DeleteModal from '../Shared/DeleteModal';
 
 class ImpactRow extends Component {
     render() {
-        let month = new Date(this.props.impact.month).toLocaleDateString('en-GB').slice(3, 10);
+        const month = new Date(this.props.impact.month).toLocaleDateString('en-GB').slice(3, 10);
 
         return (
             <tr>
@@ -162,18 +162,21 @@ export default class Impact extends Component {
                         </form>
                     </Col>
                     <Col sm={6}>
-                        <Table striped hover responsive>
-                            <thead>
-                            <tr>
-                                <th/>
-                                <th>Month</th>
-                                <th>Days</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {this.state.impactTable}
-                            </tbody>
-                        </Table>
+                        {this.state.impactTable.length ?
+                            <Table striped hover responsive>
+                                <thead>
+                                <tr>
+                                    <th/>
+                                    <th>Month</th>
+                                    <th>Days</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {this.state.impactTable}
+                                </tbody>
+                            </Table>
+                            : <p className="text-center">No impacts</p>
+                        }
                     </Col>
                 </Row>
             </Panel>

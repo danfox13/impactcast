@@ -27,19 +27,15 @@ export default class ResourceSearchResultsPage extends Component {
             + '&role=' + this.props.location.query.role;
         fetch(url)
             .then(response => response.json())
-            .then((result) => {
-                this.setState({
-                    results: result.results.results
-                });
+            .then(result => {
+                this.setState(result);
             })
-            .catch(err => console.log(err));
+            .catch(console.log);
     }
 
     render() {
         return (
-            <div>
-                <ResourceSearchResults searchResults={this.state.results}/>
-            </div>
+            <ResourceSearchResults searchResults={this.state.results}/>
         )
     }
 }

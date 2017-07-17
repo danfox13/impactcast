@@ -168,30 +168,30 @@ app.post('/project/:projectCode/newChangeItem', (request, response) => {
 });
 
 app.get('/project/:projectCode/:changeItem', (request, response) => {
-   changeItem.view(request, result => {
-       let responseBody = {};
-       responseBody.result = {
-           changeItem: result
-       };
+    changeItem.view(request, result => {
+        let responseBody = {};
+        responseBody.result = {
+            changeItem: result
+        };
 
-       response.setHeader('Content-Type', 'application/json');
-       response.write(JSON.stringify(responseBody));
-       response.end();
-   })
+        response.setHeader('Content-Type', 'application/json');
+        response.write(JSON.stringify(responseBody));
+        response.end();
+    })
 });
 
 app.post('/project/:projectCode/:changeItem/update', (request, response) => {
-   changeItem.update(request, result => {
-       let responseBody = {};
-       responseBody.result = {
-           projectCode: result.projectCode,
-           changeTitle: result.changeTitle
-       };
+    changeItem.update(request, result => {
+        let responseBody = {};
+        responseBody.result = {
+            projectCode: result.projectCode,
+            changeTitle: result.changeTitle
+        };
 
-       response.setHeader('Content-Type', 'application/json');
-       response.write(JSON.stringify(responseBody));
-       response.end();
-   })
+        response.setHeader('Content-Type', 'application/json');
+        response.write(JSON.stringify(responseBody));
+        response.end();
+    })
 });
 
 app.get('/project/:projectCode/:changeItem/delete', (request, response) => {
@@ -210,16 +210,16 @@ app.get('/project/:projectCode/:changeItem/delete', (request, response) => {
 // Required Resource URIs
 
 app.post('/project/:projectCode/:changeItem/addRequiredResource', (request, response) => {
-   requiredResource.addResource(request, result => {
-       let responseBody = {};
-       responseBody.result = {
-           roleName: result
-       };
+    requiredResource.addResource(request, result => {
+        let responseBody = {};
+        responseBody.result = {
+            roleName: result
+        };
 
-       response.setHeader('Content-Type', 'application/json');
-       response.write(JSON.stringify(responseBody));
-       response.end();
-   })
+        response.setHeader('Content-Type', 'application/json');
+        response.write(JSON.stringify(responseBody));
+        response.end();
+    })
 });
 
 app.get('/project/:projectCode/:changeItem/:resourceId', (request, response) => {
@@ -243,8 +243,12 @@ app.post('/project/:projectCode/:changeItem/:resourceId/update', (request, respo
 
 app.get('/project/:projectCode/:changeItem/:resourceId/delete', (request, response) => {
     requiredResource.delete(request, () => {
-        response.send({result: {route: '/project/' + request.params.projectCode
-                                     + '/' + request.params.changeItem}});
+        response.send({
+            result: {
+                route: '/project/' + request.params.projectCode
+                + '/' + request.params.changeItem
+            }
+        });
     })
 });
 
@@ -261,8 +265,8 @@ app.post('/project/:projectCode/:changeItem/:resourceId/addImpact', (request, re
         let responseBody = {};
         responseBody.result = {
             route: '/project/' + request.params.projectCode
-                 + '/' + request.params.changeItem
-                 + '/' + request.params.resourceId,
+            + '/' + request.params.changeItem
+            + '/' + request.params.resourceId,
             impact: data
         };
 
@@ -288,15 +292,39 @@ app.get('/team/:teamName/delete', team.delete);
 app.get('/team/:teamName/addToTeam/:resourceId', team.addTeamMember);
 app.get('/team/:teamName/remove/:resourceId', team.removeTeamMember);
 
-//Resource URIs
-app.get('/newResource', resource.viewNewResource);
-app.post('/newResource', resource.newResource);
-app.get('/resource/:resourceId', resource.view);
-app.get('/searchResources', resource.viewSearchResources);
-app.post('/searchResources', resource.searchResources);
-app.get('/resource/:resourceId/delete', resource.delete);
-app.get('/resource/:resourceId/update', resource.viewUpdate);
-app.post('/resource/:resourceId/update', resource.update);
+// Resource URIs
+
+app.post('/newResource', (request, response) => {
+    resource.newResource(request, data => {
+        response.send({result: {resourceId: data}})
+    })
+});
+
+app.get('/resource/:resourceId', (request, response) => {
+    resource.view(request, result => {
+        response.send({
+            result: {
+                resource: result.resource,
+                months: result.months,
+                monthsWorkingDays: result.monthsWorkingDays
+            }
+        })
+    })
+});
+
+app.get('/searchResources', (request, response) => {
+    resource.searchResources(request, results => {
+        response.send({results: results});
+    })
+});
+
+app.get('/resource/:resourceId/delete', (request, response) => {
+    resource.delete(request, response.send({result: {route: '/'}}));
+});
+
+app.post('/resource/:resourceId/update', (request, response) => {
+    resource.update(request, response.send({}));
+});
 app.get('/project/:projectCode/:changeItem/:resourceId/forecastResource', resource.viewFindResource);
 app.post('/project/:projectCode/:changeItem/:resourceId/forecastResource', resource.findResource);
 app.get('/team/:teamName/addTeamMember', resource.viewFindTeamMember);

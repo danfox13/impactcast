@@ -4,35 +4,42 @@
 
 import React, {Component} from 'react';
 import {Button, ControlLabel, FormControl, FormGroup, InputGroup, Panel} from 'react-bootstrap';
+import {browserHistory} from 'react-router';
+import {handleInputChange, submitDocument} from '../../api';
 
 export default class UpdateResource extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            resourceName: this.props.resourceName,
-            employeeId: this.props.employeeId,
-            location: this.props.location,
-            email: this.props.email,
-            role: this.props.role
+            resourceName: '',
+            employeeId: '',
+            location: '',
+            email: '',
+            role: ''
         };
 
-        this.handleInputChange = this.handleInputChange.bind(this);
+        this.handleInputChange = handleInputChange.bind(this);
+        this.handleSubmit = event => {
+            event.preventDefault();
+            submitDocument(`/resource/${this.props.resource._id}/update`, this.state,
+                browserHistory.push(`/resource/${this.props.resource._id}`));
+        }
     }
 
-    handleInputChange(event) {
-        const target = event.target;
-        const value = target.value;
-        const name = target.name;
-
+    componentWillReceiveProps(nextProps) {
         this.setState({
-            [name]: value
-        });
+            resourceName: nextProps.resource.resourceName,
+            employeeId: nextProps.resource.employeeId,
+            location: nextProps.resource.location,
+            email: nextProps.resource.email,
+            role: nextProps.resource.role
+        })
     }
 
     render() {
         return (
             <Panel header="Update Resource" bsStyle="primary">
-                <form>
+                <form onSubmit={this.handleSubmit}>
                     <FormGroup controlId="resourceName">
                         <ControlLabel htmlFor="resourceName">Name:</ControlLabel>
                         <InputGroup>

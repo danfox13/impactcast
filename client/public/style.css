@@ -89,6 +89,40 @@ h1, h2, h3, h4 {
     font-size: 18px;
 }
 
+.nav-tabs {
+    border: 0;
+    margin-bottom: 20px;
+}
+
+.nav-tabs li {
+    margin: 0;
+}
+
+.nav-tabs li a {
+    color: white;
+    background-color: transparent;
+    border: none;
+    border-radius: 0;
+}
+
+.nav-tabs > li > a:focus,
+.nav-tabs > li > a:hover {
+    background-color: inherit;
+    border-bottom: 2px solid white;
+    outline: none;
+}
+
+.nav-tabs > li.active > a,
+.nav-tabs > li.active > a:focus,
+.nav-tabs > li.active > a:hover {
+    color: white;
+    background-color: transparent;
+    font-weight: bold;
+    border: none;
+    border-bottom: 2px solid white;
+    border-radius: 0;
+}
+
 .navbar-default .navbar-nav > li:hover,
 .navbar-default .navbar-nav > li:active,
 .navbar-default .navbar-nav > li:focus {
@@ -133,7 +167,7 @@ h1, h2, h3, h4 {
     color: white;
 }
 
-.table-responsive {
+.panel-body > .table-responsive {
     margin-right: -15px;
     margin-left: -15px;
 }
