@@ -6,6 +6,12 @@ h1, h2, h3, h4, h5, h6 {
     text-transform: uppercase;
 }
 
+.itemNum{
+    font-weight: bold;
+    font-size: large;
+    text-transform: none;
+}
+
 .btn {
     border: 0;
     border-radius: 15px;
@@ -65,6 +71,10 @@ input[type="checkbox"]{
 
 .changeItem{
     background-color: #8bd685;
+}
+
+.changeItem:hover{
+    background-color: #2ec62e !important;
 }
 
 .form-control, .input-group-addon {
