@@ -3,70 +3,102 @@
  */
 
 import React, {Component} from 'react';
-import {Button, Col, ControlLabel, FormControl, FormGroup, Glyphicon, InputGroup, Panel, Row,
-        Table} from 'react-bootstrap';
-import {browserHistory} from 'react-router';
+import {
+    Button,
+    Col,
+    ControlLabel,
+    FormControl,
+    FormGroup,
+    Glyphicon,
+    InputGroup,
+    Panel,
+    Row,
+    Table
+} from 'react-bootstrap';
 import {handleInputChange, submitDocument} from '../../api';
 
 import DeleteModal from '../Shared/DeleteModal';
+
+class ImpactRow extends Component {
+    render() {
+        let month = new Date(this.props.impact.month).toLocaleDateString('en-GB').slice(3, 10);
+
+        return (
+            <tr>
+                <td>
+                    <DeleteModal subjectType="Impact"
+                                 subjectRoute={this.props.route}
+                                 subjectName={month}
+                                 redirectHandler={() =>
+                                     this.context.deleteImpactTableRow(this.props.impact._id)
+                                 }/>
+                </td>
+                <td>{month}</td>
+                <td>{this.props.impact.days}</td>
+            </tr>
+        )
+    }
+}
+
+ImpactRow.contextTypes = {
+    deleteImpactTableRow: React.PropTypes.func
+};
 
 export default class Impact extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            requiredResource: '',
-            impacts: [],
+            impactTable: [],
             month: '',
             year: '',
             days: ''
         };
 
-        this.populate = this.populate.bind(this);
-
         this.handleInputChange = handleInputChange.bind(this);
+        this.deleteImpactTableRow = this.deleteImpactTableRow.bind(this);
         this.handleSubmit = event => {
             event.preventDefault();
-            submitDocument('/project/' + this.props.projectCode
-                         + '/' + this.props.changeItem + '/' + this.state.requiredResource._id
-                         + '/addImpact',
-                {
-                    year: this.state.year,
-                    month: this.state.month,
-                    days: this.state.days
-                }, response => {
-                if(response.result.route) {
-                    browserHistory.push(response.result.route)
-                }
-            })
+            submitDocument('/project/' + this.props.projectCode + '/' + this.props.changeItem + '/'
+                + this.props.requiredResource._id + '/addImpact',
+                {year: this.state.year, month: this.state.month, days: this.state.days},
+                response => {
+                    this.setState({
+                        impactTable: this.state.impactTable.concat([<ImpactRow key={response.result.impact._id}
+                                                                               route={'/project/' + this.props.projectCode
+                                                                               + '/' + this.props.changeItem
+                                                                               + '/' + this.props.requiredResource._id
+                                                                               + '/' + response.result.impact._id}
+                                                                               impact={response.result.impact}/>])
+                    });
+                })
         }
     }
 
-    componentWillReceiveProps(nextProps) {
+    deleteImpactTableRow(id) {
         this.setState({
-           requiredResource: nextProps.requiredResource
-        });
-
-        this.populate(nextProps.requiredResource);
+            impactTable: this.state.impactTable.filter(row => {
+                return row.key !== id
+            })
+        })
     }
 
-    populate(requiredResource) {
-        requiredResource.impact.forEach(impact => {
-            let month = new Date(impact.month).toLocaleDateString('en-GB').slice(3, 10);
-            this.state.impacts.push(
-                <tr key={impact._id}>
-                    <td>
-                        <DeleteModal subjectType="Impact"
-                                     subjectRoute={'/project/' + this.props.projectCode
-                                                 + '/' + this.props.changeItem
-                                                 + '/' + requiredResource._id
-                                                 + '/' + impact._id}
-                                     subjectName={month}/>
-                    </td>
-                    <td>{month}</td>
-                    <td>{impact.days}</td>
-                </tr>
-            )
-        })
+    getChildContext() {
+        return {
+            deleteImpactTableRow: this.deleteImpactTableRow
+        }
+    }
+
+    componentWillUpdate(nextProps) {
+        if (!this.state.impactTable.length)
+            nextProps.requiredResource.impact.forEach(impact => {
+                this.state.impactTable.push(<ImpactRow key={impact._id}
+                                                       impact={impact}
+                                                       route={'/project/' + this.props.projectCode
+                                                       + '/' + this.props.changeItem
+                                                       + '/' + this.props.requiredResource._id
+                                                       + '/' + impact._id}
+                />)
+            })
     }
 
     render() {
@@ -139,7 +171,7 @@ export default class Impact extends Component {
                             </tr>
                             </thead>
                             <tbody>
-                            {this.state.impacts}
+                            {this.state.impactTable}
                             </tbody>
                         </Table>
                     </Col>
@@ -148,3 +180,7 @@ export default class Impact extends Component {
         )
     }
 }
+
+Impact.childContextTypes = {
+    deleteImpactTableRow: React.PropTypes.func
+};

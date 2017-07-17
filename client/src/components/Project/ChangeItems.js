@@ -4,6 +4,7 @@
 
 import React, {Component} from 'react';
 import {Button, Panel, Table} from 'react-bootstrap';
+import {LinkContainer} from 'react-router-bootstrap';
 
 export default class ChangeItems extends Component {
 
@@ -23,10 +24,10 @@ export default class ChangeItems extends Component {
                     {this.props.changeItems.map(changeItem => {
                         return (
                             <tr key={changeItem.changeTitle}>
-                                <td>
-                                    <Button href={'/project/' + this.props.projectCode + '/'
-                                    + changeItem.changeTitle} bsStyle="success">View</Button>
-                                </td>
+                                <LinkContainer to={'/project/' + this.props.projectCode + '/'
+                                + changeItem.changeTitle}>
+                                    <Button bsStyle="success">View</Button>
+                                </LinkContainer>
                                 <td>{changeItem.changeTitle}</td>
                                 <td>{changeItem.status}</td>
                                 <td>{new Date(changeItem.lid).toLocaleDateString('en-GB')}</td>

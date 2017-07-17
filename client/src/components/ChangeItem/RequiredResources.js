@@ -24,23 +24,19 @@ export default class RequiredResources extends Component {
         changeItem.resourcesRequired.forEach(resource => {
             this.state.resourcesRequired.push(
                 <tr key={resource._id}>
-                    <td>
-                        <LinkContainer to={'/project/' + this.props.projectCode
-                        + '/' + changeItem.changeTitle
-                        + '/' + resource._id}>
-                            <Button bsStyle="success">View</Button>
-                        </LinkContainer>
-                    </td>
+                    <LinkContainer to={'/project/' + this.props.projectCode
+                    + '/' + changeItem.changeTitle
+                    + '/' + resource._id}>
+                        <Button bsStyle="success">View</Button>
+                    </LinkContainer>
                     <td>{resource.roleName}</td>
                     <td>{resource.grade}</td>
                     <td>{resource.totalManDays ? 'Impacted' : 'None'}</td>
-                    <td>
-                        <LinkContainer to={'/project/' + this.props.projectCode
-                        + '/' + changeItem.changeTitle
-                        + '/' + resource._i + '/forecastResource'}>
-                            <Button bsStyle="success">Assign</Button>
-                        </LinkContainer>
-                    </td>
+                    <LinkContainer to={'/project/' + this.props.projectCode
+                    + '/' + changeItem.changeTitle
+                    + '/' + resource._i + '/forecastResource'}>
+                        <Button bsStyle="success">Assign</Button>
+                    </LinkContainer>
                 </tr>
             )
         })

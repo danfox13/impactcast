@@ -25,18 +25,14 @@ exports.add = function (req, callback) {
 
     data.save();
     requiredResource.addImpact(req.params.resourceId, data._id);
-    callback();
+    callback(data);
 };
 
 
 //delete an impact
-exports.delete = function (req, res) {
+exports.delete = function (req, callback) {
 
     impact.findOneAndRemove({
         _id: req.params.impactId
-    }, function (err, doc) {
-        setTimeout(function(){
-            res.redirect('/project/' + req.params.projectCode + '/' + req.params.changeItem + '/' + req.params.resourceId);
-        }, 1000);
-    });
+    }).then(callback);
 };

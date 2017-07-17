@@ -237,28 +237,33 @@ app.get('/project/:projectCode/:changeItem/:resourceId', (request, response) => 
 
 app.post('/project/:projectCode/:changeItem/:resourceId/update', (request, response) => {
     requiredResource.editResource(request, () => {
-          response.send({});
+        response.send({});
     })
 });
 
-//Required Resource URIs
-//app.get('/project/:projectCode/:changeItem/addRequiredResource', requiredResource.addResourceView);
-//app.post('/project/:projectCode/:changeItem/addRequiredResource', requiredResource.addResource);
-//app.get('/project/:projectCode/:changeItem/:resourceId', requiredResource.view);
-//app.get('/project/:projectCode/:changeItem/:resourceId/update', requiredResource.editResourceView);
-//app.post('/project/:projectCode/:changeItem/:resourceId/update', requiredResource.editResource);
-app.get('/project/:projectCode/:changeItem/:resourceId/delete', requiredResource.delete);
-app.get('/project/:projectCode/:changeItem/:reqResourceId/assign/:resourceId', requiredResource.assign);
+app.get('/project/:projectCode/:changeItem/:resourceId/delete', (request, response) => {
+    requiredResource.delete(request, () => {
+        response.send({result: {route: '/project/' + request.params.projectCode
+                                     + '/' + request.params.changeItem}});
+    })
+});
+
+app.get('/project/:projectCode/:changeItem/:reqResourceId/assign/:resourceId', (request, response) => {
+    requiredResource.assign(request, () => {
+        response.send({});
+    })
+});
 
 // Impact URIs
 
 app.post('/project/:projectCode/:changeItem/:resourceId/addImpact', (request, response) => {
-    impact.add(request, () => {
+    impact.add(request, data => {
         let responseBody = {};
         responseBody.result = {
             route: '/project/' + request.params.projectCode
                  + '/' + request.params.changeItem
-                 + '/' + request.params.resourceId
+                 + '/' + request.params.resourceId,
+            impact: data
         };
 
         response.setHeader('Content-Type', 'application/json');
@@ -267,8 +272,9 @@ app.post('/project/:projectCode/:changeItem/:resourceId/addImpact', (request, re
     })
 });
 
-//app.post('/project/:projectCode/:changeItem/:resourceId/addImpact', impact.add);
-app.get('/project/:projectCode/:changeItem/:resourceId/:impactId/delete', impact.delete);
+app.get('/project/:projectCode/:changeItem/:resourceId/:impactId/delete', (request, response) => {
+    impact.delete(request, response.send({}))
+});
 
 //Team URIs
 //app.get('/newTeam', team.newTeam);

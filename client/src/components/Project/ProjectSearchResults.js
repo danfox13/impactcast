@@ -6,11 +6,9 @@ class ResultRow extends Component {
     render() {
         return (
             <tr>
-                <td>
-                    <LinkContainer to={'/project/' + this.props.project.projectCode}>
-                        <Button bsStyle="success">View</Button>
-                    </LinkContainer>
-                </td>
+                <LinkContainer to={'/project/' + this.props.project.projectCode}>
+                    <Button bsStyle="success">View</Button>
+                </LinkContainer>
                 <td>{this.props.project.projectCode}</td>
                 <td>{this.props.project.projectTitle}</td>
                 {this.props.project.changeItems.map(changeItem =>

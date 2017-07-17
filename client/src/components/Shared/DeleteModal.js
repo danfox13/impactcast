@@ -7,8 +7,8 @@ import {Button, Col, Glyphicon, Modal, Row} from 'react-bootstrap';
 import {browserHistory} from 'react-router';
 
 export default class DeleteModal extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             modal: false
         };
@@ -25,8 +25,8 @@ export default class DeleteModal extends Component {
     deleteSubject() {
         let url = 'http://localhost:3001' + this.props.subjectRoute + '/delete';
         fetch(url).then(response => response.json())
-            .then(this.handleRedirect)
-            .catch(err => console.log(err));
+            .then(this.props.redirectHandler ? this.props.redirectHandler : this.handleRedirect)
+            .catch(console.log);
     }
 
     handleRedirect(response) {

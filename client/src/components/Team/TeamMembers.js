@@ -3,22 +3,21 @@
  */
 import React, {Component} from 'react';
 import {Button, Col, Panel, Row, Table} from 'react-bootstrap';
+import {LinkContainer} from 'react-router-bootstrap';
 
 class DataRow extends Component {
     render() {
         return (
             <tr>
-                <td>
-                    <Button href={'/resource/' + this.props.teamMember._id} bsStyle="success">View</Button>
-                </td>
+                <LinkContainer to={'/resource/' + this.props.teamMember._id}>
+                    <Button bsStyle="success">View</Button>
+                </LinkContainer>
                 <td>{this.props.teamMember.resourceName}</td>
                 <td>{this.props.teamMember.role}</td>
-                <td>
-                    <Button href={'/team/' + this.props.team.teamName
-                    + '/' + this.props.teamMember._id + '/delete'} bsStyle="danger" block>
-                        Remove
-                    </Button>
-                </td>
+                <LinkContainer to={'/team/' + this.props.team.teamName
+                + '/' + this.props.teamMember._id + '/delete'}>
+                    <Button href bsStyle="danger" block>Remove</Button>
+                </LinkContainer>
             </tr>
         )
     }

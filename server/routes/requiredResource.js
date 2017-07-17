@@ -121,24 +121,20 @@ exports.addImpact = function (resourceID, impactID) {
 
 
 //delete a resource requirement
-exports.delete = function (req, res) {
+exports.delete = function (req, callback) {
 
     requiredResource.findOneAndRemove({
         _id: req.params.resourceId
-    }, function (err, doc) {
-        res.redirect('/project/' + req.params.projectCode + '/' + req.params.changeItem);
-    });
+    }).then(callback);
 };
 
 
 //assign a resource to a resource requirement
-exports.assign = function (req, res) {
+exports.assign = function (req, callback) {
 
     requiredResource.update({_id: req.params.reqResourceId}, {
         forecastedResource: req.params.resourceId
-    }, function(err, affected, resp) {
-        res.redirect('/project/' + req.params.projectCode + '/' + req.params.changeItem);
-    });
+    }).then(callback);
 };
 
 

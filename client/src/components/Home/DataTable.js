@@ -7,11 +7,9 @@ class DataRow extends Component {
     render() {
         return (
             <tr>
-                <td>
-                    <LinkContainer to={'/project/' + this.props.dataItem.projectCode}>
-                        <Button bsStyle="success">View</Button>
-                    </LinkContainer>
-                </td>
+                <LinkContainer to={'/project/' + this.props.dataItem.projectCode}>
+                    <Button bsStyle="success">View</Button>
+                </LinkContainer>
                 <td>{this.props.dataItem.projectCode}</td>
                 <td>{this.props.dataItem.projectTitle}</td>
                 <td>

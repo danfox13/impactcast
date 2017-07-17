@@ -7,11 +7,9 @@ class ResultRow extends Component {
     render() {
         return (
             <tr>
-                <td>
-                    <LinkContainer to={'/team/' + this.props.team.teamName}>
-                        <Button bsStyle="success">View</Button>
-                    </LinkContainer>
-                </td>
+                <LinkContainer to={'/team/' + this.props.team.teamName}>
+                    <Button bsStyle="success">View</Button>
+                </LinkContainer>
                 <td>{this.props.team.teamName}</td>
                 {this.props.team.teamMembers.map(teamMember =>
                     <td key={teamMember._id}>
