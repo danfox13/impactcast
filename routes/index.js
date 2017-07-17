@@ -20,27 +20,23 @@ var user = require('./user');
 //General Site URIs
 app.get('/', site.login);
 app.post('/login', user.login);
+app.get('/reset/:result?', user.loadLogin);
 app.get('/logout', user.logout);
 app.get('/home', site.index);
 
-app.get('/failedLogin', site.failedLogin);
-
 //Password reset URIs
-app.get('/reset/forgotPassword', user.forgotPassword);
+app.get('/reset/forgotPassword/:result?', user.forgotPassword);
 app.post('/reset/forgotPassword', user.resetPassword);
-app.get('/reset/invalidEmail', user.invalidEmail);
 app.get('/reset/:token', user.resetPasswordLink);
 app.post('/reset/changeForgottenPassword/:email', user.changeForgottenPassword);
 
 //adding user URIs
-app.get('/addUser', user.viewAddUser);
+app.get('/addUser/:result?', user.viewAddUser);
 app.post('/addUser', user.addUser);
-app.get('/addedUser', user.addedUser);
-app.get('/failedAddUser', user.failedAddUser);
 
 //user profile URIs
 app.get('/myProfile', user.myProfile);
-app.get('/user/:user/viewProfile', user.viewUserProfile);
+app.get('/user/:user/viewProfile/:forgot?', user.viewUserProfile);
 app.get('/viewUsers', user.viewUsers);
 
 //changing password URIs
@@ -57,7 +53,7 @@ app.get('/toggleHints', user.toggleHints);
 
 //deleting user URIs
 app.post('/deleteMe', user.deleteMe);
-app.get('/user/:user/deleteUser', user.showDeleteUser);
+app.get('/user/:user/deleteUser/:result?', user.showDeleteUser);
 app.post('/user/:user/deleteUser', user.deleteUser);
 
 //permissions URIs

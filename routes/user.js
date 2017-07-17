@@ -69,29 +69,8 @@ exports.viewAddUser = function (req, res) {
         {
             title: "Add User",
             heading: "Add User To System",
-            failed: false,
-            success: false
-        });
-}
-
-//view page for adding users after success
-exports.addedUser = function (req, res) {
-    res.render('user/addUser',
-        {
-            title: "Add User",
-            heading: "Add User To System",
-            failed: false,
-            success: true
-        });
-}
-
-//view page for adding users after failure
-exports.failedAddUser = function (req, res) {
-    res.render('user/addUser',
-        {
-            title: "Add User",
-            heading: "Add User To System",
-            failed: true,
+            success: (req.params.result === "1"),
+            failed: (req.params.result === "2"),
         });
 }
 
@@ -121,11 +100,11 @@ exports.addUser = function (req, res) {
 
             //send the new user an email with their login details
             mailer.sendAddUserEmail(email, password);
-            res.redirect('addedUser');
+            res.redirect('addUser/1');
         })
         .catch(function (err) {
             console.log("Error: " + err);
-            res.redirect('failedAddUser');
+            res.redirect('addUser/2');
         });
 }
 
@@ -194,34 +173,10 @@ exports.changeSlack = function (req, res) {
                 }
             }
             else{
-                res.render('user/userProfile',
-                    {
-                        title: 'User Profile',
-                        email: email,
-                        name: req.session.name,
-                        slack: req.session.slack,
-                        isAdmin: req.session.viewerAdmin,
-                        viewerAdmin: req.session.viewerAdmin,
-                        viewerSelf: true,
-                        id: req.session.id,
-                        wrongPassword: true,
-                        hints: req.session.hints
-                    });
+                res.redirect('/user/' + req.session.userID + '/viewProfile/1');
             }
         }).then(function(){
-        res.render('user/userProfile',
-            {
-                title: 'User Profile',
-                email: email,
-                name: req.session.name,
-                slack: newSlack,
-                isAdmin: req.session.viewerAdmin,
-                viewerAdmin: req.session.viewerAdmin,
-                viewerSelf: true,
-                id: req.session.id,
-                wrongPassword: false,
-                hints: req.session.hints
-            });
+        res.redirect('/user/' + req.session.userID + '/viewProfile');
     })
         .catch(function (err) {
             console.log("Error: " + err);
@@ -260,35 +215,11 @@ exports.changePassword = function (req, res) {
                     mailer.sendPasswordChangedEmail(email);
                 }
                 else {
-                    res.render('user/userProfile',
-                        {
-                            title: 'User Profile',
-                            email: email,
-                            name: req.session.name,
-                            slack: req.session.slack,
-                            isAdmin: req.session.viewerAdmin,
-                            viewerAdmin: req.session.viewerAdmin,
-                            viewerSelf: true,
-                            id: req.session.id,
-                            wrongPassword: true,
-                            hints: req.session.hints,
-                        });
+                    res.redirect('/user/' + req.session.userID + '/viewProfile/1');
                 }
             })
             .then(function () {
-                res.render('user/userProfile',
-                    {
-                        title: 'User Profile',
-                        email: email,
-                        name: req.session.name,
-                        slack: req.session.slack,
-                        isAdmin: req.session.viewerAdmin,
-                        viewerAdmin: req.session.viewerAdmin,
-                        viewerSelf: true,
-                        id: req.session.id,
-                        wrongPassword: false,
-                        hints: req.session.hints,
-                    });
+                res.redirect('/user/' + req.session.userID + '/viewProfile');
             })
             .catch(function (err) {
                 console.log("Error: " + err);
@@ -323,20 +254,28 @@ exports.login = function (req, res) {
                     res.redirect('/home');
             }
             else {
-                res.redirect('/failedLogin');
+                res.redirect('/reset/1');
             }
         }
         else {
-            res.redirect('/failedLogin');
+            res.redirect('/reset/1');
         }
     }).catch(function (err) {
         console.log("Error: " + err);
     });
 };
 
+exports.loadLogin = function(req, res){
+    console.log(req.params.result);
+    res.render('/login', {
+        title: "Login",
+        failedLogin: (req.params.result === "1")
+    });
+}
+
 //redirect user to their own profile page
 exports.myProfile = function (req, res) {
-    res.redirect('/user/' + req.session.userID + '/viewProfile');
+    res.redirect('/user/' + req.session.userID + '/viewProfile/');
 }
 
 //Link to viewUserProfile
@@ -360,7 +299,7 @@ exports.viewUserProfile = function (req, res) {
                     viewerAdmin: req.session.viewerAdmin,
                     viewerSelf: email === req.session.email,
                     id: result._id,
-                    wrongPassword: false,
+                    wrongPassword: (req.params.forgot === "1"),
                     hints: req.session.hints,
                 });
         }
@@ -382,9 +321,9 @@ exports.showDeleteUser = function (req, res) {
             heading: "Delete User",
             user: result._id,
             email: result.email,
-            failed: false,
-            success: false,
-            wrongPassword: false,
+            success: (req.params.resilt === "1"),
+            failed: (req.params.result === "2"),
+            wrongPassword: (req.params.result === "3"),
             hints: req.session.hints,
         });
     });
@@ -418,44 +357,20 @@ exports.deleteUser = function (req, res) {
                         //get the user and delete them
                         account.remove().then(function () {
                             mailer.sendAccountDeletedEmail(account.email);
-                            res.render('user/deleteUser', {
-                                title: "Delete User",
-                                heading: "Delete User",
-                                user: account._id,
-                                email: account.email,
-                                failed: false,
-                                success: true,
-                                wrongPassword: false,
-                            });
+                            res.redirect('/user/' + req.params.user + '/deleteUser/1');
                         });
                     }
                     else {
 
                         //show a wrong password warning if the admin password was incorrect
-                        res.render('user/deleteUser', {
-                            title: "Delete User",
-                            heading: "Delete User",
-                            user: account._id,
-                            email: account.email,
-                            failed: false,
-                            success: false,
-                            wrongPassword: true,
-                        });
+                        res.redirect('/user/' + req.params.user + '/deleteUser/3');
                     }
                 }
             )
         } else {
 
             //display an error message if the action couldn't be performed
-            res.render('user/deleteUser', {
-                title: "Delete User",
-                heading: "Delete User",
-                user: account._id,
-                email: account.email,
-                failed: true,
-                success: false,
-                wrongPassword: false,
-            });
+            res.redirect('/user/' + req.params.user + '/deleteUser/2');
         }
     }).catch(function (err) {
         console.log("Error: " + err);
@@ -486,14 +401,7 @@ exports.deleteMe = function (req, res) {
             else {
 
                 //show a wrong password warning if the password was incorrect
-                res.render('user/userProfile', {
-                    title: 'User Profile',
-                    email: result.email,
-                    name: result.name,
-                    slack: result.slack,
-                    wrongPassword: true,
-                    hints: req.session.hints,
-                });
+                res.redirect('/user/' + req.session.userID + '/viewProfile/1');
             }
         }
     )
@@ -510,7 +418,10 @@ exports.deleteMe = function (req, res) {
 
 //redirect to the forgotten password view
 exports.forgotPassword = function (req, res) {
-    res.render('reset/forgotPassword', {title: "Forgotten Password", sentEmail: false, validEmail: true});
+    res.render('reset/forgotPassword', {
+        title: "Forgotten Password",
+        sentEmail: (req.params.result === "1"),
+        invalidEmail: (req.params.result === "2")});
 }
 
 //generate a reset password link and email it to the user
@@ -531,15 +442,11 @@ exports.resetPassword = function (req, res) {
 
                         //send user the password reset link in an email
                         mailer.sendResetEmail(email, token);
-                        res.render('reset/forgotPassword', {
-                            title: "Forgotten Password",
-                            sentEmail: true,
-                            validEmail: true
-                        });
+                        res.redirect('reset/forgotPassword/1');
                     });
                 }
                 else {
-                    res.redirect('/reset/invalidEmail');
+                    res.redirect('reset/forgotPassword/2');
                 }
             }).catch(function (err) {
         console.log("Error: " + err);
@@ -555,20 +462,23 @@ exports.resetPasswordLink = function (req, res) {
         resetPasswordExpires: {$gt: Date.now()}
     }).then(function (results) {
         if (results) {
-            res.render('reset/resetPassword', {title: "Reset Password", invalidLink: false, email: results.email});
+            res.render('reset/resetPassword', {
+                title: "Reset Password",
+                invalidLink: false,
+                email: results.email
+            });
         }
         else {
-            res.render('reset/resetPassword', {title: "Reset Password", invalidLink: true, email: null});
+            res.render('reset/resetPassword', {
+                title: "Reset Password",
+                invalidLink: true,
+                email: null
+            });
         }
     }).catch(function (err) {
         console.log("Error: " + err);
         res.redirect('/');
     });
-}
-
-//if the user entered an invalid email, redirect them back with an alert
-exports.invalidEmail = function (req, res) {
-    res.render('reset/forgotPassword', {title: "Forgotten Password", sentEmail: false, validEmail: false});
 }
 
 //change a user's password without them having to know the old one (only used through reset link)
@@ -749,18 +659,7 @@ exports.toggleHints = function(req, res){
         }
         result.save();
     }).then(function(){
-        res.render('user/userProfile', {
-            title: 'User Profile',
-            email: req.session.email,
-            name: req.session.name,
-            slack: req.session.slack,
-            isAdmin: req.session.viewerAdmin,
-            viewerAdmin: req.session.viewerAdmin,
-            viewerSelf: true,
-            id: req.session.id,
-            wrongPassword: false,
-            hints: req.session.hints,
-        });
+        res.redirect('/user/' + req.session.userID + '/viewProfile');
     }).catch(function(err){
         console.log("Error: " + err);
     });
