@@ -8,7 +8,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .btn {
     border: 0;
-    border-radius: 0;
+    border-radius: 15px;
 }
 
 .btn-success {
@@ -52,6 +52,21 @@ h1, h2, h3, h4, h5, h6 {
     line-height: 40px;
 }
 
+.inset{
+    background-color: #397C94;
+    border-radius: 5px;
+    padding: 5px;
+    margin: 5px;
+}
+
+input[type="checkbox"]{
+    margin: 5px 5px 5px 20px;
+}
+
+.changeItem{
+    background-color: #8bd685;
+}
+
 .form-control, .input-group-addon {
     border-radius: 0;
 }
@@ -91,9 +106,9 @@ h1, h2, h3, h4, h5, h6 {
     padding:10px;
 }
 
-.glyphicon.glyphicon-search{
+.glyphicon.glyphicon-filter{
     color:black;
-    font-size: 70%;
+    font-size: 100%;
 }
 
 .navbar-nav > li > a {
@@ -143,6 +158,17 @@ h1, h2, h3, h4, h5, h6 {
     text-transform: uppercase;
 }
 
+.panel-default > .panel-heading, .modal-header.checkbox{
+    background-color: rgb(17, 89, 139);
+    border: 0;
+    border-radius: 0;
+    color: white;
+    font-size:100%;
+    font-weight: bold;
+    text-align: center;
+    text-transform: none;
+}
+
 .table, .table a {
     text-transform: none;
     color: white;
@@ -175,4 +201,12 @@ h1, h2, h3, h4, h5, h6 {
 
 .table-striped > tbody > tr:nth-of-type(even) {
     background-color: #488ea5;
+}
+
+h1 > a{
+    width: 100%;
+    font-size: 20px !important;
+    padding: 10px !important;
+    font-weight: bold !important;
+    text-transform: none;
 }
