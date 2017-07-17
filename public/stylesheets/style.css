@@ -1,0 +1,176 @@
+body {
+    background-color: #F0F0F0;
+}
+
+h1, h2, h3, h4 {
+    text-transform: uppercase;
+}
+
+.btn {
+    border: 0;
+    border-radius: 0;
+}
+
+.btn-success {
+    background-color: #11598B;
+}
+
+.btn-success.disabled:hover,
+.btn-success:hover {
+    background-color: #0f507d;
+}
+
+.btn-success:active,
+.btn-success:focus,
+.btn-success:active:focus,
+.btn-success:active:hover {
+    background-color: #286996;
+}
+
+.btn-danger {
+    background-color: #BD6F54;
+}
+
+.close, .close:hover {
+    color: white;
+    opacity: .75;
+}
+
+.close:hover {
+    opacity: 1;
+}
+
+.dropdown-menu {
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+    padding: 0;
+}
+
+.dropdown-menu > li > a {
+    line-height: 40px;
+}
+
+.dropdown-menu > li > a:focus,
+.dropdown-menu > li > a:hover {
+    color: inherit;
+    background-color: #F0F0F0;
+    outline: none;
+}
+
+.dropdown-menu > .active > a,
+.dropdown-menu > .active > a:focus,
+.dropdown-menu > .active > a:hover {
+    background-color: rgb(17, 89, 139);
+}
+
+.form-control, .input-group-addon {
+    border-radius: 0;
+}
+
+.has-error .form-control,
+.has-error .input-group-addon, .has-danger {
+    color: #BD6F54;
+    border-color: #BD6F54;
+}
+
+.navbar {
+    text-transform: uppercase;
+    background-color: white;
+}
+
+.navbar-brand {
+    height: 110px;
+}
+
+.navbar-default .navbar-nav > li > a {
+    line-height: 78px;
+    color: #465A64;
+    font-size: 18px;
+}
+
+.navbar-default .navbar-nav > li:hover,
+.navbar-default .navbar-nav > li:active,
+.navbar-default .navbar-nav > li:focus {
+    border-bottom: 2px solid #465A64;
+}
+
+.navbar-default .navbar-nav > .open > a,
+.navbar-default .navbar-nav > .open > a:focus,
+.navbar-default .navbar-nav > .open > a:hover {
+    color: #465A64;
+    background-color: #F0F0F0;
+}
+
+.panel, .modal-body, .modal-footer, .modal-content {
+    color: white;
+    background-color: #66c6e7;
+    border: 0;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
+}
+
+.panel-heading, .modal-header {
+    background-color: #11598B;
+    color: white;
+    border: 0;
+    border-radius: 0;
+    font-weight: bold;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+.panel-default > .panel-heading {
+    background-color: #407aa2;
+    font-size: 20px;
+    color: white;
+}
+
+.panel-primary > .panel-heading {
+    font-size: 36px;
+    background-color: #11598B;
+    color: white;
+}
+
+.panel-body > .table-responsive {
+    margin-right: -15px;
+    margin-left: -15px;
+}
+
+.table {
+    margin-bottom: 0;
+}
+
+.table a {
+    color: white;
+}
+
+.table .btn {
+    display: table-cell;
+}
+
+.table > tbody > tr > td,
+.table > thead > tr > th {
+    vertical-align: middle;
+    border: 0;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.table > thead > tr > th:nth-child(2),
+.table > tbody > tr > td:nth-child(2) {
+    padding-left: 8px;
+}
+
+.table > thead > tr > th {
+    padding-bottom: 5px;
+}
+
+.table-striped > tbody > tr:nth-of-type(odd) {
+    background-color: #51a0ba;
+}
+
+.table-striped > tbody > tr:nth-of-type(even) {
+    background-color: #488ea5;
+}
