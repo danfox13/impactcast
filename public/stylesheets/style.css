@@ -133,8 +133,9 @@ h1, h2, h3, h4 {
     color: white;
 }
 
-.table-responsive {
+.panel-body > .table-responsive {
     margin-right: -15px;
+    margin-left: -15px;
 }
 
 .table {
@@ -146,14 +147,20 @@ h1, h2, h3, h4 {
 }
 
 .table .btn {
-    width: 100%;
+    display: table-cell;
 }
 
 .table > tbody > tr > td,
 .table > thead > tr > th {
     vertical-align: middle;
     border: 0;
-    padding: 0 8px 0 0;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.table > thead > tr > th:nth-child(2),
+.table > tbody > tr > td:nth-child(2) {
+    padding-left: 8px;
 }
 
 .table > thead > tr > th {
