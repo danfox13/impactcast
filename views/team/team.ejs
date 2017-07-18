@@ -114,8 +114,8 @@
                             <% team.teamMembers.forEach(function(resource){ %>
                             <tr>
                                 <td>
-                                    <a href="/resource/<%= resource._id %>" class="btn btn-success btn-block"
-                                       role="label label-info"
+                                    <a href="/resource/<%= resource._id %>"
+                                       class="label label-info"
                                        role="button">View  <span class="glyphicon glyphicon-new-window"></span></a>
                                 </td>
                                 <td><%= resource.resourceName %></td>
@@ -192,7 +192,7 @@
                                 <td>
 
                                     <% if(teamMember.currentMonth != 0){ %>
-                                    <p class="bg-danger text-center">
+                                    <p class="inset text-center">
                                         <% if(teamMember.currentMonth > 0){ %>
                                         +
                                         <% } %>
@@ -205,7 +205,7 @@
 
                                 <td>
                                     <% if(teamMember.monthPlusOne != 0){ %>
-                                    <p class="bg-danger text-center">
+                                    <p class="inset text-center">
                                         <% if(teamMember.monthPlusOne > 0){ %>
                                         +
                                         <% } %>
@@ -217,7 +217,7 @@
 
                                 <td>
                                     <% if(teamMember.monthPlusTwo != 0){ %>
-                                    <p class="bg-danger text-center">
+                                    <p class="inset text-center">
                                         <% if(teamMember.monthPlusTwo > 0){ %>
                                         +
                                         <% } %>
@@ -229,7 +229,7 @@
 
                                 <td>
                                     <% if(teamMember.monthPlusThree != 0){ %>
-                                    <p class="bg-danger text-center">
+                                    <p class="inset text-center">
                                         <% if(teamMember.monthPlusThree > 0){ %>
                                         +
                                         <% } %>
@@ -241,7 +241,7 @@
 
                                 <td>
                                     <% if(teamMember.monthPlusFour != 0){ %>
-                                    <p class="bg-danger text-center">
+                                    <p class="inset text-center">
                                         <% if(teamMember.monthPlusFour > 0){ %>
                                         +
                                         <% } %>
@@ -253,7 +253,7 @@
 
                                 <td>
                                     <% if(teamMember.monthPlusFive != 0){ %>
-                                    <p class="bg-danger text-center">
+                                    <p class="inset text-center">
                                         <% if(teamMember.monthPlusFive > 0){ %>
                                         +
                                         <% } %>
@@ -265,7 +265,7 @@
 
                                 <td>
                                     <% if(teamMember.monthPlusSix != 0){ %>
-                                    <p class="bg-danger text-center">
+                                    <p class="inset text-center">
                                         <% if(teamMember.monthPlusSix > 0){ %>
                                         +
                                         <% } %>
