@@ -28,7 +28,8 @@
                     <tbody>
                     <% projects.forEach(function(project){ %>
                     <tr>
-                        <td><a href="/project/<%= project.projectCode %>" class="btn btn-success" role="button">View</a>
+                        <td><a href="/project/<%= project.projectCode %>" class="label label-info"
+                               role="button">View  <span class="glyphicon glyphicon-new-window"></span></a>
                         </td>
                         <td><%= project.projectCode %></td>
                         <td><%= project.projectTitle %></td>

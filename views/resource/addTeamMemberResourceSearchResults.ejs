@@ -28,7 +28,8 @@
                     <% resources.forEach(function(resource){ %>
                     <tr>
 
-                        <td><a href="/team/<%= teamName %>/addToTeam/<%=resource._id%>" class="btn btn-success" role="button">Add To Team</a>
+                        <td><a href="/team/<%= teamName %>/addToTeam/<%=resource._id%>" class="label label-info"
+                               role="button">Add to team</a>
                         </td>
                         <td><%= resource.resourceName %></td>
                         <td>

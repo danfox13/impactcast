@@ -118,15 +118,15 @@
                         <td class="text-center">
                             <% if(viewer.email === user.email){%><!-- If you see yourself, just see a link to 'My Profile'-->
                             <a href="/myProfile" class="label label-info"
-                               role="button">My Profile</a>
+                               role="button">My Profile  <span class="glyphicon glyphicon-new-window"></span></a>
                             <%} else if(viewer.isAdmin){%><!-- If an admin is viewing, they can add users -->
                             <a href="/user/<%= user._id %>/viewProfile" class="label label-info"
-                               role="button">View</a>
+                               role="button">View  <span class="glyphicon glyphicon-new-window"></span></a>
                             <a href="/user/<%= user._id %>/deleteUser" class="label label-danger"
                                role="button">Delete</a>
                             <%} else {%><!-- Everyone else just sees the option to view -->
                             <a href="/user/<%= user._id %>/viewProfile" class="label label-info"
-                               role="button">View</a>
+                               role="button">View  <span class="glyphicon glyphicon-new-window"></span></a>
                         <%}%>
                         </td>
                         <td><%= user.email %></td><!-- Badges for extra information -->
