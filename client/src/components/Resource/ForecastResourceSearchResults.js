@@ -1,3 +1,7 @@
+/**
+ * @author: Artur Komoter
+ */
+
 import React, {Component} from 'react';
 import {Button, Panel, Table} from 'react-bootstrap';
 
@@ -6,23 +10,19 @@ class ResultRow extends Component {
         return (
             <tr>
                 <td>
-                    <Button href={'/team/' + this.props.team.teamName} bsStyle="success">View</Button>
+                    <Button href="/project/:projectCode/:changeItem/:requiredResource/assign/:resource"
+                            bsStyle="success">Assign
+                    </Button>
                 </td>
-                <td>{this.props.team.teamName}</td>
-                {this.props.team.teamMembers.map(teamMember =>
-                    <td key={teamMember._id}>
-                        <a href={'/resource/' + teamMember._id}>
-                            {teamMember.resourceName}
-                        </a>
-                        <br/>
-                    </td>
-                )}
+                <td>Placeholder</td>
+                <td>Placeholder</td>
             </tr>
         )
     }
 }
 
-class TeamSearchResults extends Component {
+export default class ForecastResourceSearchResults extends Component {
+
     constructor(props) {
         super(props);
         this.state = {
@@ -37,27 +37,24 @@ class TeamSearchResults extends Component {
     }
 
     render() {
-        let resultRows = this.state.results.map(team => {
-            return <ResultRow key={team._id} team={team}/>
-        });
-
+        // let resultRows = this.state.results.map(function (resource) {
+        // 	return <ResultRow key={resource._id} resource={resource}/>
+        // });
         return (
             <Panel header={<div className="text-center">Search Results</div>}>
                 <Table striped hover responsive>
                     <thead>
                     <tr>
-                        <th>View Team</th>
-                        <th>Team Name</th>
-                        <th>Team Members</th>
+                        <th>View Resource</th>
+                        <th>Name</th>
+                        <th>Job Title</th>
                     </tr>
                     </thead>
                     <tbody>
-                    {resultRows}
+                    <ResultRow/>
                     </tbody>
                 </Table>
             </Panel>
         )
     }
 }
-
-module.exports = TeamSearchResults;

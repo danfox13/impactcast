@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import {Button, ControlLabel, FormControl, FormGroup, Panel} from 'react-bootstrap';
 
 export default class SearchTeams extends Component {
     constructor() {
@@ -23,24 +24,26 @@ export default class SearchTeams extends Component {
 
     render() {
         return (
-            <div className="panel panel-default">
-                <div className="panel-heading text-cente"><h1>Search Teams</h1></div>
-                <div className="panel-body">
-                    <div className="form-group">
-                        <label htmlFor="teamName">Team Name:</label>
-                        <input type="text" className="form-control" id="teamName" name="teamName"
-                               value={this.state.teamName} onChange={this.handleInputChange}/>
-                    </div>
+            <Panel header={<div className="text-center">Search Teams</div>}>
+                <form>
+                    <FormGroup controlId="teamName">
+                        <ControlLabel htmlFor="teamName">Team Name:</ControlLabel>
+                        <FormControl name="teamName" value={this.state.teamName}
+                                     onChange={this.handleInputChange}/>
+                    </FormGroup>
 
-                    <div className="form-group">
-                        <label htmlFor="resourceName">Resource Name:</label>
-                        <input type="text" className="form-control" id="resourceName" name="resourceName"
-                               value={this.state.resourceName} onChange={this.handleInputChange}/>
-                    </div>
-                    <a href={'/teamSearchResults?teamName=' + this.state.teamName + "&resourceName=" + this.state.resourceName}
-                       className="btn btn-success btn-lg btn-block" role="button">Search Teams</a>
-                </div>
-            </div>
+                    <FormGroup controlId="resourceName">
+                        <ControlLabel htmlFor="resourceName">Resource Name:</ControlLabel>
+                        <FormControl name="resourceName" value={this.state.resourceName}
+                                     onChange={this.handleInputChange}/>
+                    </FormGroup>
+                    <Button bsStyle="success" bsSize="large" block
+                            href={'/teamSearchResults?teamName=' + this.state.teamName
+                                + '&resourceName=' + this.state.resourceName}>
+                        Search Teams
+                    </Button>
+                </form>
+            </Panel>
         )
     }
 }

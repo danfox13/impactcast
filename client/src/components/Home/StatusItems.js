@@ -1,10 +1,12 @@
 import React, {Component} from 'react';
+import {Row} from 'react-bootstrap';
+
 import StatusItem from './StatusItem';
 
 export default class StatusItems extends Component {
     render() {
         return (
-            <div className="row">
+            <Row>
                 <StatusItem
                     numberOfItems={this.props.totalNewItems}
                     itemHeading="New Items"
@@ -21,7 +23,7 @@ export default class StatusItems extends Component {
                     numberOfItems={this.props.totalReadyToForecast}
                     itemHeading="Items Ready to Forecast"
                 />
-            </div>
+            </Row>
         )
     }
 }

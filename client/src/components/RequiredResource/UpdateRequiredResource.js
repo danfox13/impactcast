@@ -5,10 +5,10 @@
 import React, {Component} from 'react';
 import {Button, ControlLabel, FormControl, FormGroup, InputGroup, Panel} from 'react-bootstrap';
 
-export default class AddRequiredResource extends Component {
+export default class UpdateRequiredResource extends Component {
     render() {
         return (
-            <Panel header={<div className="text-center">Add Required Resource</div>}>
+            <Panel header={<div className="text-center">Update Required Resource</div>}>
                 <form>
                     <FormGroup controlId="roleName">
                         <ControlLabel>Role Name:</ControlLabel>
@@ -298,7 +298,7 @@ export default class AddRequiredResource extends Component {
                         </FormControl>
                     </FormGroup>
 
-                    <Button bsStyle="success" bsSize="large" block>Add Required Resource</Button>
+                    <Button bsStyle="success" bsSize="large" block>Update Required Resource</Button>
                 </form>
             </Panel>
         )

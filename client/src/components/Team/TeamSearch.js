@@ -5,9 +5,7 @@ import TeamSearchResults from 'TeamSearchResults';
 export default class TeamSearch extends Component {
     constructor() {
         super();
-        this.state = {
-
-        };
+        this.state = {};
     }
 
     render() {

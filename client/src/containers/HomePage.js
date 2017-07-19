@@ -2,6 +2,8 @@
  * @author - Greg Wolverson
  */
 import React, {Component} from 'react';
+import {Row} from 'react-bootstrap';
+
 import Heading from '../components/Home/Heading';
 import StatusItems from '../components/Home/StatusItems';
 import DataTable from '../components/Home/DataTable';
@@ -40,14 +42,14 @@ export default class HomePage extends Component {
     render() {
         return (
             <div>
-                <Heading />
+                <Heading/>
                 <StatusItems
                     totalNewItems={this.state.newItems.length}
                     totalReadyToImpact={this.state.readyToImpact.length}
                     totalRejectedImpacts={this.state.rejectedImpacts.length}
                     totalReadyToForecast={this.state.readyToForecast.length}
                 />
-                <div className="row">
+                <Row>
                     <DataTable
                         tableHeader="New Items"
                         dataItems={this.state.newItems}
@@ -56,8 +58,8 @@ export default class HomePage extends Component {
                         tableHeader="Ready to Impact"
                         dataItems={this.state.readyToImpact}
                     />
-                </div>
-                <div className="row">
+                </Row>
+                <Row>
                     <DataTable
                         tableHeader="Rejected Impacts"
                         dataItems={this.state.rejectedImpacts}
@@ -66,9 +68,8 @@ export default class HomePage extends Component {
                         tableHeader="Ready to Forecast"
                         dataItems={this.state.readyToForecast}
                     />
-                </div>
+                </Row>
             </div>
         )
     }
 }
-

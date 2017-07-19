@@ -1,8 +1,12 @@
+/**
+ * @author: Artur Komoter
+ */
+
 import React, {Component} from 'react';
 
 class ResultRow extends Component {
-	render() {
-		return (
+    render() {
+        return (
             <tr>
                 <td>
                     <a href={'/resource/' + this.props.resource.resourceName}
@@ -12,29 +16,29 @@ class ResultRow extends Component {
                 <td>{this.props.resource.resourceName}</td>
                 <td>{this.props.resourceName.role}</td>
             </tr>
-		)
-	}
+        )
+    }
 }
 
 export default class ResourceSearchResults extends Component {
 
-	constructor(props) {
-		super(props);
-		this.state = {
-			results: this.props.searchResults
-		};
-	}
+    constructor(props) {
+        super(props);
+        this.state = {
+            results: this.props.searchResults
+        };
+    }
 
-	componentWillReceiveProps(nextProps) {
-		this.setState({
-			results: nextProps.searchResults
-		});
-	}
+    componentWillReceiveProps(nextProps) {
+        this.setState({
+            results: nextProps.searchResults
+        });
+    }
 
-	render() {
-		let resultRows = this.state.results.map(function (resource) {
-			return <ResultRow key={resource._id} resource={resource}/>
-		});
+    render() {
+        let resultRows = this.state.results.map(function (resource) {
+            return <ResultRow key={resource._id} resource={resource}/>
+        });
         return (
             <div className="panel panel-default">
                 <div className="panel-heading text-cente"><h1>Search Results</h1></div>

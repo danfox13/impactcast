@@ -1,13 +1,12 @@
 import React, {Component} from 'react';
+import {Panel} from 'react-bootstrap';
 
 export default class Heading extends Component {
     render() {
         return (
-            <div className="panel panel-default">
-                <div className="panel-heading text-center">
-                    <h1>Home</h1>
-                </div>
-            </div>
+            <Panel>
+                <h1 className="text-center">Home</h1>
+            </Panel>
         )
     }
 }

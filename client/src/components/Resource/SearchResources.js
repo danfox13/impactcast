@@ -1,30 +1,34 @@
+/**
+ * @author: Artur Komoter
+ */
+
 import React, {Component} from 'react';
 
 export default class SearchResources extends Component {
 
-	constructor()
-	{
-		super();
-		this.state = {
-			resourceName: '',
-			employeeId: '',
-			location: '',
-			email: '',
+    constructor() {
+        super();
+        this.state = {
+            resourceName: '',
+            employeeId: '',
+            location: '',
+            email: '',
             role: ''
-		};
+        };
 
-		this.handleInputChange = this.handleInputChange.bind(this);
-	}
+        this.handleInputChange = this.handleInputChange.bind(this);
+    }
 
-	handleInputChange(event) {
-		const target = event.target;
-		const value = target.value;
-		const name = target.name;
+    handleInputChange(event) {
+        const target = event.target;
+        const value = target.value;
+        const name = target.name;
 
-		this.setState({
-			[name]: value
-		});
-	}
+        this.setState({
+            [name]: value
+        });
+    }
+
     render() {
         return (
             <div className="panel panel-default">

@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
-import { browserHistory } from 'react-router';
+import {browserHistory} from 'react-router';
+import {Button, ControlLabel, FormControl, FormGroup, InputGroup, Panel} from 'react-bootstrap';
 
 export default class CreateTeam extends Component {
     constructor() {
@@ -36,7 +37,7 @@ export default class CreateTeam extends Component {
     }
 
     handleRedirect(response) {
-        if(response.result.teamName) {
+        if (response.result.teamName) {
             browserHistory.push('team/' + response.result.teamName);
         }
     }
@@ -53,30 +54,22 @@ export default class CreateTeam extends Component {
 
     render() {
         return (
-            <div className="panel panel-default">
-                <div className="panel-heading text-cente">
-                    <h1>Create a New Team</h1>
-                </div>
-                <div className="panel-body">
+            <Panel header={<div className="text-center">Create a Team</div>}>
+                <form onSubmit={this.handleSubmit} data-toggle="validator" role="form">
 
-                    <form onSubmit={this.handleSubmit} data-toggle="validator" role="form">
+                    <FormGroup>
+                        <ControlLabel htmlFor="teamName">Team Name:</ControlLabel>
+                        <InputGroup>
+                            <InputGroup.Addon>T</InputGroup.Addon>
+                            <FormControl name="teamName" required
+                                         value={this.state.teamName} onChange={this.handleInputChange}/>
+                        </InputGroup>
+                        <FormControl.Feedback aria-hidden="true"/>
+                    </FormGroup>
 
-                        <div className="form-group has-feedback">
-                            <label htmlFor="teamName" className="control-label">Team Name:</label>
-
-                            <div className="input-group">
-                                <span className="input-group-addon">T</span>
-                                <input type="text" className="form-control" id="teamName" name="teamName" required
-                                    value={this.state.teamName} onChange={this.handleInputChange}/>
-                            </div>
-                            <span className="glyphicon form-control-feedback" aria-hidden="true"/>
-                            <div className="help-block with-errors"/>
-                        </div>
-
-                        <input type="submit" value="Create Team" className="btn btn-success btn-lg btn-block"/>
-                    </form>
-                </div>
-            </div>
+                    <Button type="submit" bsStyle="success" bsSize="large" block>Create Team</Button>
+                </form>
+            </Panel>
         )
     }
 }
