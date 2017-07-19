@@ -17,17 +17,18 @@ function checkAuth (req, res, next) {
 
     // don't serve /secure to those not logged in
     // you should add to this list, for each and every secure url
-    if ((!(req.url === '/' || req.url === '/login'
+    if ((!(req.url === '/' || req.url === '/login' || req.url === '/abc'
         || req.url.match("/reset/.*"))) && (!req.session || !req.session.authenticated)) {
-      console.log('hit');
+      console.log('caught unverified connection attempt');
         res.render('login', {
             title: 'ImpactCast - Login',
             //TODO returns a 200 not 403
             status: 403,
-            failedLogin: (req.url === '/failedLogin')
+            failedLogin: false,
         });
         return;
     }
+    //console.log('allowed connection through - going to ' + req.url);
     next();
 }
 

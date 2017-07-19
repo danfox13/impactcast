@@ -72,28 +72,26 @@
                        id="userSearch" onkeyup="filterUser()" placeholder="Filter Users">
                         <i class="glyphicon glyphicon-filter form-control-feedback"></i>
                     </div>
-                    <div class="row inset">
-                        Filter:
+                    <div class="row inset"><% if(hints){%><span class="glyphicon glyphicon-info-sign" data-toggle="tooltip"
+                                                                data-placement="auto"
+                                                                title="You can use the field above to filter users by any combination
+of email, name or slack handle, using the checkboxes to the right."></span><%}%> Filter:
                         <input type="checkbox" id="emailBox" checked="checked"><label for="emailBox">Email</label>
                         <input type="checkbox" id="nameBox" checked="checked"><label for="emailBox">Name</label>
                         <input type="checkbox" id="slackBox" checked="checked"><label for="emailBox">Slack</label>
                     </div>
                 </div>
             <div class="col-sm-4">
-                <h1><% if(hints){%><span class="glyphicon glyphicon-info-sign" data-toggle="tooltip"
-                                         data-placement="auto"
-                                         title="You can use the field on the left to filter users by any combination
-of email, name or slack handle, using the checkboxes below."></span><%}%> <%= heading %>
-                    <% if(hints && viewer.isAdmin){%><span class="glyphicon glyphicon-info-sign" data-toggle="tooltip"
-                                         data-placement="auto"
-                                         title="You can use the button on the right
-                                     to add a new user to the system."></span><%}%></h1>
+                <h1><%= heading %></h1>
                 </div>
             <div class="col-sm-4">
                 <% if(viewer.isAdmin){%><!-- If an admin is viewing, they can add users -->
                 <h1><a href="/addUser" class="btn btn-success"
                    role="button">
-                        <span class="glyphicon glyphicon-plus-sign"></span> Add User</a></h1>
+                        <span class="glyphicon glyphicon-plus-sign"></span> Add User <% if(hints){%><span class="glyphicon glyphicon-info-sign" data-toggle="tooltip"
+                                                                                                                            data-placement="auto"
+                                                                                                                            title="You can use this button
+                                     to add a new user to the system."></span><%}%></a></h1>
                 <%}%>
             </div>
             </div>
@@ -125,15 +123,15 @@ of email, name or slack handle, using the checkboxes below."></span><%}%> <%= he
                         <td class="text-center">
                             <% if(viewer.email === user.email){%><!-- If you see yourself, just see a link to 'My Profile'-->
                             <a href="/myProfile" class="label label-info"
-                               role="button">My Profile</a>
+                               role="button">My Profile <span class="glyphicon glyphicon-new-window"></span></a>
                             <%} else if(viewer.isAdmin){%><!-- If an admin is viewing, they can add users -->
                             <a href="/user/<%= user._id %>/viewProfile" class="label label-info"
-                               role="button">View</a>
+                               role="button">View <span class="glyphicon glyphicon-new-window"></span></a>
                             <a href="/user/<%= user._id %>/deleteUser" class="label label-danger"
                                role="button">Delete</a>
                             <%} else {%><!-- Everyone else just sees the option to view -->
                             <a href="/user/<%= user._id %>/viewProfile" class="label label-info"
-                               role="button">View</a>
+                               role="button">View <span class="glyphicon glyphicon-new-window"></span></a>
                         <%}%>
                         </td>
                         <td><%= user.email %></td><!-- Badges for extra information -->
@@ -145,10 +143,10 @@ of email, name or slack handle, using the checkboxes below."></span><%}%> <%= he
                         <% if(viewer.isAdmin){%><!-- If an admin is viewing, they can change permissions for other users-->
                         <td>
                             <% if(user.isAdmin){ %>
-                            <a href="/user/<%= user._id %>/revokeAdmin"
+                            <a href="/user/<%= user._id %>/admin/revoke/"
                                class="label label-danger" role="button">Revoke Admin</a>
                             <%} else{%>
-                            <a href="/user/<%= user._id %>/makeAdmin"
+                            <a href="/user/<%= user._id %>/admin/make/"
                                class="label label-warning" role="button">Make Admin</a>
                             <%}%>
                         </td>

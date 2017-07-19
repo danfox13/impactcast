@@ -100,7 +100,7 @@ exports.addUser = function (req, res) {
 
             //send the new user an email with their login details
             mailer.sendAddUserEmail(email, password);
-            res.redirect('addUser/1');
+                res.redirect('addUser/1');
         })
         .catch(function (err) {
             console.log("Error: " + err);
@@ -254,11 +254,11 @@ exports.login = function (req, res) {
                     res.redirect('/home');
             }
             else {
-                res.redirect('/reset/1');
+                res.redirect('/reset/login/1');
             }
         }
         else {
-            res.redirect('/reset/1');
+            res.redirect('/reset/login/1');
         }
     }).catch(function (err) {
         console.log("Error: " + err);
@@ -266,8 +266,7 @@ exports.login = function (req, res) {
 };
 
 exports.loadLogin = function(req, res){
-    console.log(req.params.result);
-    res.render('/login', {
+    res.render('login', {
         title: "Login",
         failedLogin: (req.params.result === "1")
     });
@@ -300,7 +299,7 @@ exports.viewUserProfile = function (req, res) {
                     viewerSelf: email === req.session.email,
                     id: result._id,
                     wrongPassword: (req.params.forgot === "1"),
-                    hints: req.session.hints,
+                    hints: result.hints,
                 });
         }
     ).catch(
@@ -358,7 +357,8 @@ exports.deleteUser = function (req, res) {
                         account.remove().then(function () {
                             mailer.sendAccountDeletedEmail(account.email);
                             res.redirect('/user/' + req.params.user + '/deleteUser/1');
-                        });
+                        })
+
                     }
                     else {
 
@@ -421,7 +421,8 @@ exports.forgotPassword = function (req, res) {
     res.render('reset/forgotPassword', {
         title: "Forgotten Password",
         sentEmail: (req.params.result === "1"),
-        invalidEmail: (req.params.result === "2")});
+        invalidEmail: (req.params.result === "2")
+    });
 }
 
 //generate a reset password link and email it to the user
@@ -441,12 +442,12 @@ exports.resetPassword = function (req, res) {
                     result.save().then(function () {
 
                         //send user the password reset link in an email
-                        mailer.sendResetEmail(email, token);
-                        res.redirect('reset/forgotPassword/1');
+                        mailer.sendResetEmail(req, email, token);
+                        res.redirect('/reset/forgotPassword/1');
                     });
                 }
                 else {
-                    res.redirect('reset/forgotPassword/2');
+                    res.redirect('/reset/forgotPassword/2');
                 }
             }).catch(function (err) {
         console.log("Error: " + err);
@@ -507,7 +508,7 @@ exports.changeForgottenPassword = function (req, res) {
 
                 //send an email to the user to let them know their password has been changed
                 mailer.sendPasswordChangedEmail(email);
-                res.redirect('/');
+                    res.redirect('/');
             })
             .catch(function (err) {
                 console.log("Error: " + err);
@@ -529,42 +530,31 @@ exports.viewUsers = function (req, res) {
                 users: results,
                 viewer: viewer,
                 email: req.session.email,
-                hints: req.session.hints,
+                hints: viewer.hints,
             });
         });
     });
 }
 
-//show the page for making a user an administrator
-exports.showMakeAdmin = function (req, res) {
-    user.findOne({
-        _id: req.params.user,
-    }).then(function (result) {
-        res.render('user/makeAdmin', {
-            title: 'Make Admin',
-            heading: 'Make Admin',
-            user: result._id,
-            email: result.email,
-            failed: false,
-            success: false,
-            wrongPassword: false,
-        });
-    });
-}
+//view either the page for making a user an admin, or revoking admin rights
+exports.showAdminControl = function(req, res){
+    var type = req.params.type;
+    var alert = req.params.result;
 
-//show the page for revoking administrator permissions
-exports.showRevokeAdmin = function (req, res) {
     user.findOne({
         _id: req.params.user,
     }).then(function (result) {
-        res.render('user/revokeAdmin', {
-            title: 'Revoke Admin',
-            heading: 'Revoke Admin',
+        res.render('user/' + (type === "make"? 'makeAdmin'
+                : (type === "revoke"? 'revokeAdmin' : 'viewUsers')), {
+            title: (type === "make"? 'Make Admin'
+                : (type === "revoke"? 'Revoke Admin' : 'View Users')),
+            heading: (type === "make"? 'Make Admin'
+                : (type === "revoke"? 'Revoke Admin' : 'View Users')),
             user: result._id,
             email: result.email,
-            failed: false,
-            success: false,
-            wrongPassword: false,
+            success: (alert === "1"),
+            failed: (alert === "2"),
+            wrongPassword: (alert === "3"),
         });
     });
 }
@@ -596,44 +586,23 @@ exports.flipAdmin = function (req, res) {
                         //if the user entered the correct password, get the user and delete them
                         account.isAdmin = !(account.isAdmin);
                         account.save().then(function () {
-                            res.render('user/' + (account.isAdmin ? 'makeAdmin' : 'revokeAdmin'), {
-                                title: (account.isAdmin ? 'Make Admin' : 'Revoke Admin'),
-                                heading: (account.isAdmin ? 'Make Admin' : 'Revoke Admin'),
-                                user: account._id,
-                                email: account.email,
-                                failed: false,
-                                success: true,
-                                wrongPassword: false,
-                            });
+                            res.redirect('/user/' + req.params.user + '/admin/' +
+                                (account.isAdmin? 'revoke' : 'make') + '/1');
                         });
                     }
                     else {
 
                         //Show wrong password warning if the admin password didn't match
-                        res.render('user/' + (!account.isAdmin ? 'makeAdmin' : 'revokeAdmin'), {
-                            title: (!account.isAdmin ? 'Make Admin' : 'Revoke Admin'),
-                            heading: (!account.isAdmin ? 'Make Admin' : 'Revoke Admin'),
-                            user: account._id,
-                            email: account.email,
-                            failed: false,
-                            success: false,
-                            wrongPassword: true,
-                        });
+                        res.redirect('/user/' + req.params.user + '/admin/' +
+                            (account.isAdmin? 'revoke' : 'make') + '/3');
                     }
                 }
             )
         } else {
 
             //show an error message if the action couldn't be performed
-            res.render('user/' + (!account.isAdmin ? 'makeAdmin' : 'revokeAdmin'), {
-                title: (!account.isAdmin ? 'Make Admin' : 'Revoke Admin'),
-                heading: (!account.isAdmin ? 'Make Admin' : 'Revoke Admin'),
-                user: account._id,
-                email: account.email,
-                failed: true,
-                success: false,
-                wrongPassword: false,
-            });
+            res.redirect('/user/' + req.params.user + '/admin/' +
+                (account.isAdmin? 'revoke' : 'make') + '/2');
         }
     }).catch(
         function (error) {

@@ -20,11 +20,11 @@ var user = require('./user');
 //General Site URIs
 app.get('/', site.login);
 app.post('/login', user.login);
-app.get('/reset/:result?', user.loadLogin);
 app.get('/logout', user.logout);
 app.get('/home', site.index);
 
 //Password reset URIs
+app.get('/reset/login/:result?', user.loadLogin);
 app.get('/reset/forgotPassword/:result?', user.forgotPassword);
 app.post('/reset/forgotPassword', user.resetPassword);
 app.get('/reset/:token', user.resetPasswordLink);
@@ -57,8 +57,7 @@ app.get('/user/:user/deleteUser/:result?', user.showDeleteUser);
 app.post('/user/:user/deleteUser', user.deleteUser);
 
 //permissions URIs
-app.get('/user/:user/makeAdmin', user.showMakeAdmin);
-app.get('/user/:user/revokeAdmin', user.showRevokeAdmin);
+app.get('/user/:user/admin/:type/:result?', user.showAdminControl);
 app.post('/user/:user/flipAdmin', user.flipAdmin);
 
 //Project URIs
