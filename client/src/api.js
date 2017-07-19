@@ -31,7 +31,7 @@ exports.loadDocument = function(route) {
     fetch(url)
         .then(response => response.json())
         .then(data => {
-            this.setState(data.result);
+            this.setState(data.result ? data.result : data);
         })
         .catch(console.log);
 };

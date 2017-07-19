@@ -94,29 +94,6 @@ exports.view = function (req, callback) {
             monthPlusSix = results;
         });
 
-        // setTimeout(function () {
-        //     res.render('resource/resource', {
-        //         title: 'ImpactCast - ' + resource.resourceName,
-        //         heading: resource.resourceName,
-        //         resource: resource,
-        //         currentMonth: month,
-        //         monthPlusOne: monthPlusOne,
-        //         monthPlusTwo: monthPlusTwo,
-        //         monthPlusThree: monthPlusThree,
-        //         monthPlusFour: monthPlusFour,
-        //         monthPlusFive: monthPlusFive,
-        //         monthPlusSix: monthPlusSix,
-        //         currentMonthWorkingDays: currentMonthWorkingDays.length,
-        //         monthPlusOneWorkingDays: monthPlusOneWorkingDays.length,
-        //         monthPlusTwoWorkingDays: monthPlusTwoWorkingDays.length,
-        //         monthPlusThreeWorkingDays: monthPlusThreeWorkingDays.length,
-        //         monthPlusFourWorkingDays: monthPlusFourWorkingDays.length,
-        //         monthPlusFiveWorkingDays: monthPlusFiveWorkingDays.length,
-        //         monthPlusSixWorkingDays: monthPlusSixWorkingDays.length,
-        //
-        //     });
-        // }, 1000);
-
         callback({
             resource: resource,
             months: [month, monthPlusOne, monthPlusTwo, monthPlusThree, monthPlusFour, monthPlusFive, monthPlusSix],
@@ -140,11 +117,11 @@ exports.viewSearchResources = function (req, res) {
 exports.searchResources = function (req, callback) {
 
     resource.find({
-        resourceName: {$regex: '(?i).*' + req.params.resourceName + '.*'},
-        employeeId: {$regex: '(?i).*' + req.params.employeeId + '.*'},
-        location: {$regex: '(?i).*' + req.params.location + '.*'},
-        email: {$regex: '(?i).*' + req.params.email + '.*'},
-        role: {$regex: '(?i).*' + req.params.role + '.*'}
+        resourceName: {$regex: '(?i).*' + req.query.resourceName + '.*'},
+        employeeId: {$regex: '(?i).*' + req.query.employeeId + '.*'},
+        location: {$regex: '(?i).*' + req.query.location + '.*'},
+        email: {$regex: '(?i).*' + req.query.email + '.*'},
+        role: {$regex: '(?i).*' + req.query.role + '.*'}
     }).then(callback)
 };
 

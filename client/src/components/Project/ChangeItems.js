@@ -3,7 +3,7 @@
  */
 
 import React, {Component} from 'react';
-import {Button, Panel, Table} from 'react-bootstrap';
+import {Button, Glyphicon, Panel, Table} from 'react-bootstrap';
 import {LinkContainer} from 'react-router-bootstrap';
 
 export default class ChangeItems extends Component {
@@ -26,7 +26,7 @@ export default class ChangeItems extends Component {
                             <tr key={changeItem.changeTitle}>
                                 <LinkContainer to={'/project/' + this.props.projectCode + '/'
                                 + changeItem.changeTitle}>
-                                    <Button bsStyle="success">View</Button>
+                                    <Button bsStyle="success"><Glyphicon glyph="eye-open"/></Button>
                                 </LinkContainer>
                                 <td>{changeItem.changeTitle}</td>
                                 <td>{changeItem.status}</td>

@@ -8,7 +8,9 @@ import ForecastResourceSearch from '../../components/Resource/ForecastResourceSe
 export default class ForecastResourceSearchPage extends Component {
     render() {
         return (
-            <ForecastResourceSearch/>
+            <ForecastResourceSearch projectCode={this.props.params.projectCode}
+                                    changeItem={this.props.params.changeItem}
+                                    resourceId={this.props.params.resourceId}/>
         )
     }
 }

@@ -10,7 +10,7 @@ class ResultRow extends Component {
     render() {
         return (
             <tr>
-                <LinkContainer to={'/resource/' + this.props.resource.resourceName}>
+                <LinkContainer to={'/resource/' + this.props.resource._id}>
                     <Button bsStyle="success">View</Button>
                 </LinkContainer>
                 <td>{this.props.resource.resourceName}</td>

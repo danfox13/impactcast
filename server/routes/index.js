@@ -325,8 +325,9 @@ app.get('/resource/:resourceId/delete', (request, response) => {
 app.post('/resource/:resourceId/update', (request, response) => {
     resource.update(request, response.send({}));
 });
-app.get('/project/:projectCode/:changeItem/:resourceId/forecastResource', resource.viewFindResource);
-app.post('/project/:projectCode/:changeItem/:resourceId/forecastResource', resource.findResource);
+
+//app.get('/project/:projectCode/:changeItem/:resourceId/forecastResource', resource.viewFindResource);
+// app.post('/project/:projectCode/:changeItem/:resourceId/forecastResource', resource.findResource);
 app.get('/team/:teamName/addTeamMember', resource.viewFindTeamMember);
 app.post('/team/:teamName/addTeamMember', resource.findTeamMember);
 

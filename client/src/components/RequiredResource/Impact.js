@@ -25,16 +25,15 @@ class ImpactRow extends Component {
 
         return (
             <tr>
-                <td>
-                    <DeleteModal subjectType="Impact"
-                                 subjectRoute={this.props.route}
-                                 subjectName={month}
-                                 redirectHandler={() =>
-                                     this.context.deleteImpactTableRow(this.props.impact._id)
-                                 }/>
-                </td>
                 <td>{month}</td>
                 <td>{this.props.impact.days}</td>
+                <DeleteModal subjectType="Impact"
+                             subjectRoute={this.props.route}
+                             subjectName={month}
+                             redirectHandler={() =>
+                                 this.context.deleteImpactTableRow(this.props.impact._id)
+                             }
+                />
             </tr>
         )
     }
@@ -166,9 +165,9 @@ export default class Impact extends Component {
                             <Table striped hover responsive>
                                 <thead>
                                 <tr>
-                                    <th/>
                                     <th>Month</th>
                                     <th>Days</th>
+                                    <th/>
                                 </tr>
                                 </thead>
                                 <tbody>

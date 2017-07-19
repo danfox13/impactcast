@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Button, Col, Panel, Table} from 'react-bootstrap';
+import {Button, Col, Glyphicon, Panel, Table} from 'react-bootstrap';
 import {LinkContainer} from 'react-router-bootstrap';
 import {Link} from 'react-router';
 
@@ -8,7 +8,7 @@ class DataRow extends Component {
         return (
             <tr>
                 <LinkContainer to={'/project/' + this.props.dataItem.projectCode}>
-                    <Button bsStyle="success">View</Button>
+                    <Button bsStyle="success"><Glyphicon glyph="eye-open"/></Button>
                 </LinkContainer>
                 <td>{this.props.dataItem.projectCode}</td>
                 <td>{this.props.dataItem.projectTitle}</td>
