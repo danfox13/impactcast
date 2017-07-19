@@ -28,7 +28,8 @@
                     <% teams.forEach(function(team){ %>
                     <tr>
 
-                        <td><a href="/team/<%= team.teamName %>" class="btn btn-success" role="button">View</a>
+                        <td><a href="/team/<%= team.teamName %>" class="label label-info"
+                               role="button">View  <span class="glyphicon glyphicon-new-window"></span></a>
                         </td>
                         <td><%= team.teamName %></td>
                         <td>

@@ -1,6 +1,8 @@
 var mongoose = require('mongoose');
 var requiredResource = require('./requiredResource');
 var globals = require('../globals');
+var slack = require('./slack');
+
 var dburl = globals.dburl.toString();
 mongoose.createConnection(dburl);
 
@@ -28,6 +30,8 @@ exports.add = function (req, res) {
     setTimeout(function(){
         res.redirect('/project/' + req.params.projectCode + '/' + req.params.changeItem + '/' + req.params.resourceId);
     }, 1000);
+
+    slack.individualMessage('owen.jenkins@capgemini.com', "Project " + req.params.projectCode + " has been impacted, you can now assign resources.");
 };
 
 

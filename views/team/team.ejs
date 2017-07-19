@@ -114,8 +114,9 @@
                             <% team.teamMembers.forEach(function(resource){ %>
                             <tr>
                                 <td>
-                                    <a href="/resource/<%= resource._id %>" class="btn btn-success btn-block"
-                                       role="button">View</a>
+                                    <a href="/resource/<%= resource._id %>"
+                                       class="label label-info"
+                                       role="button">View  <span class="glyphicon glyphicon-new-window"></span></a>
                                 </td>
                                 <td><%= resource.resourceName %></td>
                                 <td><%= resource.role %></td>
@@ -191,86 +192,94 @@
                                 <td>
 
                                     <% if(teamMember.currentMonth != 0){ %>
-                                    <p class="bg-danger text-center">
+
                                         <% if(teamMember.currentMonth > 0){ %>
-                                        +
-                                        <% } %>
+                                    <p class="inset-warning text-center">+
+                                        <% } else {%>
+                                    <p class="inset-danger text-center">
+                                        <%}%>
                                         <%= teamMember.currentMonth %></p>
                                     <% }else{ %>
-                                    <p class="bg-success text-center"><%= teamMember.currentMonth %></p>
+                                    <p class="inset text-center"><%= teamMember.currentMonth %></p>
                                     <% } %>
 
                                 </td>
 
                                 <td>
                                     <% if(teamMember.monthPlusOne != 0){ %>
-                                    <p class="bg-danger text-center">
                                         <% if(teamMember.monthPlusOne > 0){ %>
-                                        +
-                                        <% } %>
+                                    <p class="inset-warning text-center">+
+                                        <% } else {%>
+                                    <p class="inset-danger text-center">
+                                        <%}%>
                                         <%= teamMember.monthPlusOne %></p>
                                     <% }else{ %>
-                                    <p class="bg-success text-center"><%= teamMember.monthPlusOne %></p>
+                                    <p class="inset text-center"><%= teamMember.monthPlusOne %></p>
                                     <% } %>
                                 </td>
 
                                 <td>
                                     <% if(teamMember.monthPlusTwo != 0){ %>
-                                    <p class="bg-danger text-center">
                                         <% if(teamMember.monthPlusTwo > 0){ %>
-                                        +
-                                        <% } %>
+                                    <p class="inset-warning text-center">+
+                                        <% } else {%>
+                                    <p class="inset-danger text-center">
+                                        <%}%>
                                         <%= teamMember.monthPlusTwo %></p>
                                     <% }else{ %>
-                                    <p class="bg-success text-center"><%= teamMember.monthPlusTwo %></p>
+                                    <p class="inset text-center"><%= teamMember.monthPlusTwo %></p>
                                     <% } %>
                                 </td>
 
                                 <td>
                                     <% if(teamMember.monthPlusThree != 0){ %>
-                                    <p class="bg-danger text-center">
                                         <% if(teamMember.monthPlusThree > 0){ %>
-                                        +
-                                        <% } %>
+                                    <p class="inset-warning text-center">+
+                                        <% } else {%>
+                                    <p class="inset-danger text-center">
+                                        <%}%>
                                         <%= teamMember.monthPlusThree %></p>
                                     <% }else{ %>
-                                    <p class="bg-success text-center"><%= teamMember.monthPlusThree %></p>
+                                    <p class="inset text-center"><%= teamMember.monthPlusThree %></p>
                                     <% } %>
                                 </td>
 
                                 <td>
                                     <% if(teamMember.monthPlusFour != 0){ %>
-                                    <p class="bg-danger text-center">
                                         <% if(teamMember.monthPlusFour > 0){ %>
-                                        +
-                                        <% } %>
+                                    <p class="inset-warning text-center">+
+                                        <% } else {%>
+                                    <p class="inset-danger text-center">
+                                        <%}%>
                                         <%= teamMember.monthPlusFour %></p>
                                     <% }else{ %>
-                                    <p class="bg-success text-center"><%= teamMember.monthPlusFour %></p>
+                                    <p class="inset text-center"><%= teamMember.monthPlusFour %></p>
                                     <% } %>
                                 </td>
 
                                 <td>
                                     <% if(teamMember.monthPlusFive != 0){ %>
-                                    <p class="bg-danger text-center">
                                         <% if(teamMember.monthPlusFive > 0){ %>
-                                        +
-                                        <% } %>
+                                    <p class="inset-warning text-center">+
+                                        <% } else {%>
+                                    <p class="inset-danger text-center">
+                                        <%}%>
                                         <%= teamMember.monthPlusFive %></p>
                                     <% }else{ %>
-                                    <p class="bg-success text-center"><%= teamMember.monthPlusFive %></p>
+                                    <p class="inset text-center"><%= teamMember.monthPlusFive %></p>
                                     <% } %>
                                 </td>
 
                                 <td>
                                     <% if(teamMember.monthPlusSix != 0){ %>
-                                    <p class="bg-danger text-center">
                                         <% if(teamMember.monthPlusSix > 0){ %>
-                                        +
-                                        <% } %>
+                                    <p class="inset-warning text-center">+
+                                        <% } else {%>
+                                    <p class="inset-danger text-center">
+                                        <%}%>
                                         <%= teamMember.monthPlusSix %></p>
                                     <% }else{ %>
-                                    <p class="bg-success text-center"><%= teamMember.monthPlusSix %></p>
+                                    <p class="inset text-center"><%= teamMember.monthPlusSix %></p>
                                     <% } %>
                                 </td>
 
