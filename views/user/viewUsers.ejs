@@ -72,8 +72,10 @@
                        id="userSearch" onkeyup="filterUser()" placeholder="Filter Users">
                         <i class="glyphicon glyphicon-filter form-control-feedback"></i>
                     </div>
-                    <div class="row inset">
-                        Filter:
+                    <div class="row inset"><% if(hints){%><span class="glyphicon glyphicon-info-sign" data-toggle="tooltip"
+                                                                data-placement="auto"
+                                                                title="You can use the field above to filter users by any combination
+of email, name or slack handle, using the checkboxes to the right."></span><%}%> Filter:
                         <input type="checkbox" id="emailBox" checked="checked"><label for="emailBox">Email</label>
                         <input type="checkbox" id="nameBox" checked="checked"><label for="emailBox">Name</label>
                         <input type="checkbox" id="slackBox" checked="checked"><label for="emailBox">Slack</label>
@@ -81,12 +83,15 @@
                 </div>
             <div class="col-sm-4">
                 <h1><%= heading %></h1>
-            </div>
+                </div>
             <div class="col-sm-4">
                 <% if(viewer.isAdmin){%><!-- If an admin is viewing, they can add users -->
                 <h1><a href="/addUser" class="btn btn-success"
                    role="button">
-                        <span class="glyphicon glyphicon-plus-sign"></span> Add User</a></h1>
+                        <span class="glyphicon glyphicon-plus-sign"></span> Add User <% if(hints){%><span class="glyphicon glyphicon-info-sign" data-toggle="tooltip"
+                                                                                                                            data-placement="auto"
+                                                                                                                            title="You can use this button
+                                     to add a new user to the system."></span><%}%></a></h1>
                 <%}%>
             </div>
             </div>
@@ -138,10 +143,10 @@
                         <% if(viewer.isAdmin){%><!-- If an admin is viewing, they can change permissions for other users-->
                         <td>
                             <% if(user.isAdmin){ %>
-                            <a href="/user/<%= user._id %>/revokeAdmin"
+                            <a href="/user/<%= user._id %>/admin/revoke/"
                                class="label label-danger" role="button">Revoke Admin</a>
                             <%} else{%>
-                            <a href="/user/<%= user._id %>/makeAdmin"
+                            <a href="/user/<%= user._id %>/admin/make/"
                                class="label label-warning" role="button">Make Admin</a>
                             <%}%>
                         </td>
@@ -155,4 +160,9 @@
     </div>
 </div>
 </body>
+<script>
+    $(document).ready(function(){
+        $('[data-toggle="tooltip"]').tooltip();
+    });
+</script>
 </html>

@@ -43,7 +43,11 @@
 <div class="container">
     <div class="panel panel-default">
         <div class="panel-heading text-left">
-            <h1><font style="text-transform: none;" color="#FFFFFF">
+            <h1><% if(hints){%><span class="glyphicon glyphicon-info-sign" data-toggle="tooltip"
+                      data-placement="auto"
+                      title="You can set your display name here -
+            other users can see it and use it to search for you."></span><%}%>
+                <font style="text-transform: none;" color="#FFFFFF">
                     <% if(viewerAdmin||viewerSelf){%>
                 <span style="color: #ffffff; border:5px transparent solid; border-radius: 10px;"
                    href="#" id="username" value="name" data-type="text" data-title="Enter Username"
@@ -72,16 +76,32 @@
                                 or delete your account if you want to -->
                         <div class="col-md-6" style="margin-top: 20px;">
                             <div class="panel panel-custom2">
-                                <div class="panel-body"><font color = "#465a64" size="5"><strong>Email Address</strong></font></div>
+                                <div class="panel-body"><font color = "#465a64" size="5"><strong>Email Address</strong>
+                                        <% if(hints){%><span class="glyphicon glyphicon-info-sign" data-toggle="tooltip"
+                                                             data-placement="auto"
+                                                             title="We'll use this address to send you emails about your account."></span><%}%></font></div>
                                 <div class="panel-footer"><font size="4"><%= email %></font></div>
                             </div>
                             <div class="panel panel-custom2" >
                                 <div class="panel-body">
                                     <img src="/image/slackLogo.svg" class="img-circle" style="width:30px; margin: 5px;">
-                                    <font color = "#465a64" size="5"><strong>Slack Handle</strong></font>
+                                    <font color = "#465a64" size="5"><strong>Slack Handle</strong>
+                                        <% if(hints){%><span class="glyphicon glyphicon-info-sign" data-toggle="tooltip"
+                                                             data-placement="auto"
+                                                             title="We'll use this handle to send you slack notifications -
+                                                              you can change it by clicking the 'Slack' tab on the right of your profile"></span><%}%></font>
                                 </div>
                                 <div class="panel-footer"><font size="4"><%= (slack?slack:"-") %></font></div>
                             </div>
+                            <div class="inset">
+                            <a href="/toggleHints" role="button"
+                                    <% if(!hints){ %>
+                               class="label label-success">Enable<% } else {%>
+                                class="label label-danger">Disable<% } %>
+                            </a> Auga Usage Tips <% if(hints){%><span class="glyphicon glyphicon-info-sign" data-toggle="tooltip"
+                                                                      data-placement="auto"
+                                                                      title="Auga Usage Tips are helpful messages letting you know how you can use
+the system, like this!"></span><%}%></div>
                         </div>
                         <div class="col-md-6"  style="margin-top: 20px;">
                             <ul class="nav nav-tabs">
@@ -228,4 +248,9 @@
         })(jQuery);
     </script>
 </body>
+<script>
+    $(document).ready(function(){
+        $('[data-toggle="tooltip"]').tooltip();
+    });
+</script>
 </html>
