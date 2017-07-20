@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Button, Col, Glyphicon, Panel, Table} from 'react-bootstrap';
+import {Alert, Button, Col, Glyphicon, Panel, Table} from 'react-bootstrap';
 import {LinkContainer} from 'react-router-bootstrap';
 import {Link} from 'react-router';
 
@@ -62,7 +62,7 @@ class DataTable extends Component {
                             {dataRows}
                             </tbody>
                         </Table>
-                        : <p className="text-center">No items</p>
+                        : <Alert bsStyle="danger" className="text-center">No items</Alert>
                     }
                 </Panel>
             </Col>

@@ -2,37 +2,22 @@
  * @author - Greg Wolverson
  */
 import React, {Component} from 'react';
+import {loadDocument} from '../../api';
+
 import Team from '../../components/Team/Team';
 import TeamMembers from '../../components/Team/TeamMembers';
 import TeamForecast from '../../components/Team/TeamForecast';
 
 export default class TeamPage extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             team: {},
             teamForecast: []
         };
 
-        this.loadData = this.loadData.bind(this);
-    }
-
-    componentWillMount() {
-        let teamName = this.props.params.teamName;
-        this.loadData(teamName);
-    }
-
-    loadData(teamName) {
-        let url = 'http://localhost:3001/team/' + teamName;
-        fetch(url)
-            .then(response => response.json())
-            .then((results) => {
-                this.setState({
-                    team: results.result.team,
-                    teamForecast: results.result.teamForecast
-                })
-                    .catch(err => console.log(err));
-            });
+        this.loadDocument = loadDocument.bind(this);
+        this.loadDocument('/team/' + this.props.params.teamName);
     }
 
     render() {
@@ -45,6 +30,7 @@ export default class TeamPage extends Component {
                     team={this.state.team}
                 />
                 <TeamForecast
+                    teamName={this.state.team.teamName}
                     teamForecast={this.state.teamForecast}
                 />
             </div>

@@ -26,7 +26,6 @@ export default class ProjectSearchResultsPage extends Component {
         fetch(url)
             .then(response => response.json())
             .then(result => {
-                console.log(result);
                 this.setState({
                     results: result.results.results
                 });

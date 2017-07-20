@@ -19,7 +19,7 @@ var changeItemSchema = new Schema({
 var changeItem = mongoose.model('changeItem', changeItemSchema);
 
 //Add a required resource
-exports.addRequiredResource = function(changeTitle, requiredResourceID){
+exports.addRequiredResource = function (changeTitle, requiredResourceID) {
     changeItem.findOne({
         changeTitle: changeTitle
     }).then(function (changeItem) {
@@ -64,28 +64,32 @@ exports.view = function (req, callback) {
 
     changeItem.findOne({
         changeTitle: req.params.changeItem
-    }).populate('resourcesRequired').populate({
+    }).populate('resourcesRequired')
+        .populate({
         path: 'resourcesRequired',
         model: 'requiredResource',
         populate: [{
-            path: 'resourcesRequired.impact',
+            path: 'impact',
             model: 'impact'
-        }],
-        populate: {
+        },
+        {
             path: 'forecastedResource',
             model: 'resource'
-        }
+        }]
     }).then(function (changeItem) {
+        let totalManDays = [];
 
-        changeItem.resourcesRequired.forEach(function(resource){
+        changeItem.resourcesRequired.forEach(function (resource) {
             let dayCount = 0;
+
             resource.impact.forEach(function (monthlyImpact) {
-                dayCount = parseInt(dayCount) + parseInt(monthlyImpact.days);
+                dayCount += parseInt(monthlyImpact.days);
             });
-            resource.totalManDays = dayCount;
+
+            totalManDays.push(dayCount);
         });
 
-        callback(changeItem)
+        callback({changeItem: changeItem, totalManDays: totalManDays})
     })
 };
 
@@ -98,7 +102,7 @@ exports.viewUpdate = function (req, res) {
     }).populate('resourcesRequired').then(function (changeItem) {
         res.render('changeItem/updateChangeItem', {
             title: 'ImpactCast - ' + changeItem.changeTitle,
-            heading: "Update " + changeItem.changeTitle,
+            heading: 'Update ' + changeItem.changeTitle,
             projectCode: req.params.projectCode,
             changeItem: changeItem
         });

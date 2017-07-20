@@ -11,18 +11,19 @@ export default class RequiredResources extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            resourcesRequired: []
+            resourcesRequired: [],
+            totalManDays: []
         };
 
         this.populate = this.populate.bind(this);
     }
 
     componentWillReceiveProps(nextProps) {
-        this.populate(nextProps.changeItem);
+        this.populate(nextProps.changeItem, nextProps.totalManDays);
     }
 
-    populate(changeItem) {
-        changeItem.resourcesRequired.forEach(resource => {
+    populate(changeItem, totalManDays) {
+        changeItem.resourcesRequired.forEach((resource, index) => {
             this.state.resourcesRequired.push(
                 <tr key={resource._id}>
                     <LinkContainer to={`/project/${this.props.projectCode}/${changeItem.changeTitle}/${resource._id}`}>
@@ -30,7 +31,7 @@ export default class RequiredResources extends Component {
                     </LinkContainer>
                     <td>{resource.roleName}</td>
                     <td>{resource.grade}</td>
-                    <td>{resource.totalManDays ? 'Y' : 'N'}</td>
+                    <td>{totalManDays[index] > 0 ? 'Y' : 'N'}</td>
                     {resource.forecastedResource ?
                         <td>
                             <Link to={`/resource/${resource.forecastedResource._id}`}>

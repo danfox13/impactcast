@@ -21,22 +21,15 @@ export default class Team extends Component {
 
     render() {
         return (
-            <Panel header="Placeholder" bsStyle="primary">
-                <Row>
-                    <Col sm={12}>
-                        <strong>Team Name: </strong>Placeholder
-                        <br/><br/>
-                    </Col>
-                </Row>
-
+            <Panel header={this.state.teamName} bsStyle="primary">
                 <Row>
                     <Col sm={6}>
                         <Button bsStyle="success" block>Edit Team Details</Button>
                     </Col>
                     <Col sm={6}>
                         <DeleteModal subjectType="Team"
-                                     subjectRoute="/team/:teamName"
-                                     subjectName="Placeholder"/>
+                                     subjectRoute={`/team/${this.state.teamName}`}
+                                     subjectName={this.state.teamName}/>
                     </Col>
                 </Row>
             </Panel>

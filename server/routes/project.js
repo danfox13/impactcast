@@ -120,20 +120,6 @@ exports.update = function (req, callback) {
         upsert: false,
         new: false
     }).then(callback)
-
-    //     function (err, project) {
-    //     if (err) {
-    //         return res.send(500, {error: err});
-    //     } else {
-    //
-    //         res.body = {
-    //             title: 'ImpactCast - ' + project.projectCode,
-    //             heading: 'Update ' + project.projectCode,
-    //             project: project
-    //         };
-    //         res.redirect('/project/' + req.body.projectCode);
-    //     }
-    // });
 };
 
 
@@ -234,8 +220,5 @@ exports.getProjectsByResourceImpactMonth = function (resourceId, startDate, endD
                 changeItems: {'$push': '$changeItems'}
             }
         }
-    ]).then(function (results) {
-
-        callback(results);
-    })
+    ]).then(callback)
 };

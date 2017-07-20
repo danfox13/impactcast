@@ -13,61 +13,6 @@ app.get('/homeData', function (request, response) {
     site.index(request, response);
 });
 
-// Team URI's
-app.get('/searchTeams', function (request, response) {
-    let teamName = request.query.teamName;
-    let resourceName = request.query.resourceName;
-
-    team.searchTeams(teamName, resourceName, function (results) {
-        let responseBody = {};
-
-        responseBody.results = {
-            results: results
-        };
-
-        response.setHeader('Content-Type', 'application/json');
-        response.write(JSON.stringify(responseBody));
-        response.end();
-    });
-});
-
-app.post('/newTeam', function (request, response) {
-
-    let teamName = request.body.teamName;
-
-    let responseBody = {};
-
-    team.addNewTeam(teamName, function (results) {
-
-        responseBody.result = {
-            teamName: teamName
-        };
-
-        response.setHeader('Content-Type', 'application/json');
-        response.statusCode = 200;
-        response.write(JSON.stringify(responseBody));
-        response.end();
-    });
-});
-
-app.get('/team/:teamName', function (request, response) {
-
-    let teamName = request.params.teamName;
-
-    team.view(teamName, function (result) {
-        let responseBody = {};
-
-        responseBody.result = {
-            team: result.team,
-            teamForecast: result.forecast
-        };
-
-        response.setHeader('Content-Type', 'application/json');
-        response.write(JSON.stringify(responseBody));
-        response.end();
-    });
-});
-
 // Project URIs
 
 app.post('/newProject', (request, response) => {
@@ -168,11 +113,9 @@ app.post('/project/:projectCode/newChangeItem', (request, response) => {
 });
 
 app.get('/project/:projectCode/:changeItem', (request, response) => {
-    changeItem.view(request, result => {
+    changeItem.view(request, function (result) {
         let responseBody = {};
-        responseBody.result = {
-            changeItem: result
-        };
+        responseBody.result = result;
 
         response.setHeader('Content-Type', 'application/json');
         response.write(JSON.stringify(responseBody));
@@ -277,20 +220,80 @@ app.post('/project/:projectCode/:changeItem/:resourceId/addImpact', (request, re
 });
 
 app.get('/project/:projectCode/:changeItem/:resourceId/:impactId/delete', (request, response) => {
-    impact.delete(request, response.send({}))
+    impact.delete(request, () => response.send({}))
 });
 
-//Team URIs
-//app.get('/newTeam', team.newTeam);
-app.post('/newTeam', team.addNewTeam);
-//app.get('/searchTeams', team.viewSearchTeams);
-//app.post('/searchTeams', team.searchTeams);
-//app.get('/team/:teamName', team.view);
-//app.get('/team/:teamName/update', team.viewUpdate);
-app.post('/team/:teamName/update', team.update);
-app.get('/team/:teamName/delete', team.delete);
-app.get('/team/:teamName/addToTeam/:resourceId', team.addTeamMember);
-app.get('/team/:teamName/remove/:resourceId', team.removeTeamMember);
+// Team URIs
+
+app.get('/searchTeams', function (request, response) {
+    let teamName = request.query.teamName;
+    let resourceName = request.query.resourceName;
+
+    team.searchTeams(teamName, resourceName, function (results) {
+        let responseBody = {};
+
+        responseBody.results = {
+            results: results
+        };
+
+        response.setHeader('Content-Type', 'application/json');
+        response.write(JSON.stringify(responseBody));
+        response.end();
+    });
+});
+
+app.post('/newTeam', function (request, response) {
+
+    let teamName = request.body.teamName;
+
+    let responseBody = {};
+
+    team.addNewTeam(teamName, function (results) {
+
+        responseBody.result = {
+            teamName: teamName
+        };
+
+        response.setHeader('Content-Type', 'application/json');
+        response.statusCode = 200;
+        response.write(JSON.stringify(responseBody));
+        response.end();
+    });
+});
+
+app.get('/team/:teamName', function (request, response) {
+
+    let teamName = request.params.teamName;
+
+    team.view(teamName, function (result) {
+        let responseBody = {};
+
+        responseBody.result = {
+            team: result.team,
+            teamForecast: result.forecast
+        };
+
+        response.setHeader('Content-Type', 'application/json');
+        response.write(JSON.stringify(responseBody));
+        response.end();
+    });
+});
+
+app.post('/team/:teamName/update', (request, response) => {
+    team.update(request, () => {
+        response.send({result: {route: '/team/' + request.body.teamName}})
+    })
+});
+app.get('/team/:teamName/delete', (request, response) => {
+    team.delete(request, () => response.send({result: {route: '/'}}))
+});
+
+app.get('/team/:teamName/addToTeam/:resourceId', (request, response) => {
+    team.addTeamMember(request, () => response.send({}))
+});
+app.get('/team/:teamName/remove/:resourceId', (request, response) => {
+    team.removeTeamMember(request, () => response.send({}))
+});
 
 // Resource URIs
 
@@ -301,15 +304,7 @@ app.post('/newResource', (request, response) => {
 });
 
 app.get('/resource/:resourceId', (request, response) => {
-    resource.view(request, result => {
-        response.send({
-            result: {
-                resource: result.resource,
-                months: result.months,
-                monthsWorkingDays: result.monthsWorkingDays
-            }
-        })
-    })
+    resource.view(request, response)
 });
 
 app.get('/searchResources', (request, response) => {
@@ -325,10 +320,5 @@ app.get('/resource/:resourceId/delete', (request, response) => {
 app.post('/resource/:resourceId/update', (request, response) => {
     resource.update(request, response.send({}));
 });
-
-//app.get('/project/:projectCode/:changeItem/:resourceId/forecastResource', resource.viewFindResource);
-// app.post('/project/:projectCode/:changeItem/:resourceId/forecastResource', resource.findResource);
-app.get('/team/:teamName/addTeamMember', resource.viewFindTeamMember);
-app.post('/team/:teamName/addTeamMember', resource.findTeamMember);
 
 module.exports = app;

@@ -27,9 +27,7 @@ export default class ChangeItem extends Component {
         fetch(url)
             .then(response => response.json())
             .then(data => {
-                this.setState({
-                    changeItem: data.result.changeItem
-                });
+                this.setState(data.result);
             })
             .catch(err => console.log(err));
     }
@@ -40,6 +38,7 @@ export default class ChangeItem extends Component {
                 <ChangeItemDetails changeItem={this.state.changeItem}
                                    projectCode={this.props.params.projectCode}/>
                 <RequiredResources changeItem={this.state.changeItem}
+                                   totalManDays={this.state.totalManDays}
                                    projectCode={this.props.params.projectCode}/>
             </div>
         )

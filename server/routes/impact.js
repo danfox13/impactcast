@@ -34,5 +34,8 @@ exports.delete = function (req, callback) {
 
     impact.findOneAndRemove({
         _id: req.params.impactId
-    }).then(callback);
+    }).then(() => {
+        requiredResource.removeImpact(req.params.resourceId, req.params.impactId);
+        callback();
+    })
 };

@@ -3,20 +3,29 @@
  */
 
 import React, {Component} from 'react';
-import {Button, Panel, Table} from 'react-bootstrap';
+import {Button, Glyphicon, Panel, Table} from 'react-bootstrap';
+import {LinkContainer} from 'react-router-bootstrap';
 
 class ResultRow extends Component {
+    constructor(props) {
+        super(props);
+
+        this.assignResource = this.assignResource.bind(this);
+    }
+
+    assignResource() {
+        let url = `http://localhost:3001/team/${this.props.teamName}/addToTeam/${this.props.resource._id}`;
+        fetch(url);
+    }
+
     render() {
         return (
             <tr>
-                <td>
-                    <Button bsStyle="success"
-                            href="/team/:teamName/addToTeam/:resource">
-                        Add to Team
-                    </Button>
-                </td>
-                <td>Placeholder</td>
-                <td>Placeholder</td>
+                <LinkContainer to={`/team/${this.props.teamName}`} onClick={this.assignResource}>
+                    <Button bsStyle="success"><Glyphicon glyph="plus"/></Button>
+                </LinkContainer>
+                <td>{this.props.resource.resourceName}</td>
+                <td>{this.props.resource.role}</td>
             </tr>
         )
     }
@@ -38,9 +47,10 @@ export default class AddTeamResourceSearchResults extends Component {
     }
 
     render() {
-        // let resultRows = this.state.results.map(function (resource) {
-        // 	return <ResultRow key={resource._id} resource={resource}/>
-        // });
+        let resultRows = this.state.results.map(resource => {
+            return <ResultRow key={resource._id} resource={resource} teamName={this.props.teamName}/>
+        });
+
         return (
             <Panel header="Search Results" bsStyle="primary">
                 <Table striped hover responsive>
@@ -52,7 +62,7 @@ export default class AddTeamResourceSearchResults extends Component {
                     </tr>
                     </thead>
                     <tbody>
-                    <ResultRow/>
+                    {resultRows}
                     </tbody>
                 </Table>
             </Panel>

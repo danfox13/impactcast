@@ -4,6 +4,7 @@
 
 import React, {Component} from 'react';
 import {
+    Alert,
     Button,
     Col,
     ControlLabel,
@@ -16,6 +17,7 @@ import {
     Table
 } from 'react-bootstrap';
 import {handleInputChange, submitDocument} from '../../api';
+import PropTypes from 'prop-types';
 
 import DeleteModal from '../Shared/DeleteModal';
 
@@ -40,7 +42,7 @@ class ImpactRow extends Component {
 }
 
 ImpactRow.contextTypes = {
-    deleteImpactTableRow: React.PropTypes.func
+    deleteImpactTableRow: PropTypes.func
 };
 
 export default class Impact extends Component {
@@ -55,22 +57,6 @@ export default class Impact extends Component {
 
         this.handleInputChange = handleInputChange.bind(this);
         this.deleteImpactTableRow = this.deleteImpactTableRow.bind(this);
-        this.handleSubmit = event => {
-            event.preventDefault();
-            submitDocument('/project/' + this.props.projectCode + '/' + this.props.changeItem + '/'
-                + this.props.requiredResource._id + '/addImpact',
-                {year: this.state.year, month: this.state.month, days: this.state.days},
-                response => {
-                    this.setState({
-                        impactTable: this.state.impactTable.concat([<ImpactRow key={response.result.impact._id}
-                                                                               route={'/project/' + this.props.projectCode
-                                                                               + '/' + this.props.changeItem
-                                                                               + '/' + this.props.requiredResource._id
-                                                                               + '/' + response.result.impact._id}
-                                                                               impact={response.result.impact}/>])
-                    });
-                })
-        }
     }
 
     deleteImpactTableRow(id) {
@@ -94,10 +80,27 @@ export default class Impact extends Component {
                                                        impact={impact}
                                                        route={'/project/' + this.props.projectCode
                                                        + '/' + this.props.changeItem
-                                                       + '/' + this.props.requiredResource._id
+                                                       + '/' + nextProps.requiredResource._id
                                                        + '/' + impact._id}
                 />)
-            })
+            });
+
+        this.handleSubmit = event => {
+            event.preventDefault();
+            submitDocument('/project/' + this.props.projectCode + '/' + this.props.changeItem + '/'
+                + nextProps.requiredResource._id + '/addImpact',
+                {year: this.state.year, month: this.state.month, days: this.state.days},
+                response => {
+                    this.setState({
+                        impactTable: this.state.impactTable.concat([<ImpactRow key={response.result.impact._id}
+                                                                               route={'/project/' + this.props.projectCode
+                                                                               + '/' + this.props.changeItem
+                                                                               + '/' + nextProps.requiredResource._id
+                                                                               + '/' + response.result.impact._id}
+                                                                               impact={response.result.impact}/>])
+                    });
+                })
+        }
     }
 
     render() {
@@ -174,7 +177,7 @@ export default class Impact extends Component {
                                 {this.state.impactTable}
                                 </tbody>
                             </Table>
-                            : <p className="text-center">No impacts</p>
+                            : <Alert bsStyle="danger" className="text-center">No impacts</Alert>
                         }
                     </Col>
                 </Row>
@@ -184,5 +187,5 @@ export default class Impact extends Component {
 }
 
 Impact.childContextTypes = {
-    deleteImpactTableRow: React.PropTypes.func
+    deleteImpactTableRow: PropTypes.func
 };

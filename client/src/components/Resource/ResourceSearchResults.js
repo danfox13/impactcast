@@ -3,7 +3,7 @@
  */
 
 import React, {Component} from 'react';
-import {Button, Panel, Table} from 'react-bootstrap';
+import {Alert, Button, Panel, Table} from 'react-bootstrap';
 import {LinkContainer} from 'react-router-bootstrap';
 
 class ResultRow extends Component {
@@ -55,7 +55,7 @@ export default class ResourceSearchResults extends Component {
                         {resultRows}
                         </tbody>
                     </Table>
-                    : <p className="text-center">Nothing found!</p>
+                    : <Alert bsStyle="danger" className="text-center">Nothing found</Alert>
                 }
             </Panel>
         )

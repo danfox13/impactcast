@@ -119,6 +119,15 @@ exports.addImpact = function (resourceID, impactID) {
     });
 };
 
+exports.removeImpact = (resourceID, impactID) => {
+    requiredResource.findOne({
+        _id: resourceID
+    }).then(function (requiredResource) {
+        requiredResource.impact = requiredResource.impact.filter(impact => {return !impact.equals(impactID)});
+        requiredResource.save();
+    });
+};
+
 
 //delete a resource requirement
 exports.delete = function (req, callback) {

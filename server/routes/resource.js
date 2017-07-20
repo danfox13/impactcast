@@ -42,7 +42,7 @@ exports.newResource = function (req, callback) {
 
 
 //Load the project info page
-exports.view = function (req, callback) {
+exports.view = function (req, res) {
 
     var now = new Date();
 
@@ -94,14 +94,15 @@ exports.view = function (req, callback) {
             monthPlusSix = results;
         });
 
-        callback({
-            resource: resource,
-            months: [month, monthPlusOne, monthPlusTwo, monthPlusThree, monthPlusFour, monthPlusFive, monthPlusSix],
-            monthsWorkingDays: [currentMonthWorkingDays.length, monthPlusOneWorkingDays.length,
-                monthPlusTwoWorkingDays.length, monthPlusThreeWorkingDays.length, monthPlusFourWorkingDays.length,
-                monthPlusFiveWorkingDays.length, monthPlusSixWorkingDays.length]
+        res.send({
+            result: {
+                resource: resource,
+                months: [month, monthPlusOne, monthPlusTwo, monthPlusThree, monthPlusFour, monthPlusFive, monthPlusSix],
+                monthsWorkingDays: [currentMonthWorkingDays.length, monthPlusOneWorkingDays.length,
+                    monthPlusTwoWorkingDays.length, monthPlusThreeWorkingDays.length, monthPlusFourWorkingDays.length,
+                    monthPlusFiveWorkingDays.length, monthPlusSixWorkingDays.length]
+            }
         })
-
     });
 
 };

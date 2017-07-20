@@ -32,7 +32,7 @@ export default class AddTeamResourceSearch extends Component {
 
     render() {
         return (
-            <Panel header="Add a Team Member" bsStyle="primary">
+            <Panel header={`Add a Resource to ${this.props.teamName}`} bsStyle="primary">
                 <FormGroup controlId="resourceName">
                     <ControlLabel>Name:</ControlLabel>
                     <FormControl name="resourceName" value={this.state.resourceName}
