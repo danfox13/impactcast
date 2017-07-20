@@ -5,6 +5,7 @@
 import React, {Component} from 'react';
 import {Button, ControlLabel, FormControl, FormGroup, Panel} from 'react-bootstrap';
 import {handleInputChange} from '../../api';
+import {LinkContainer} from 'react-router-bootstrap';
 
 export default class ForecastResourceSearch extends Component {
 
@@ -50,16 +51,15 @@ export default class ForecastResourceSearch extends Component {
                                  onChange={this.handleInputChange}/>
                 </FormGroup>
 
-                {/*using href until it's known why routing is not being resolved with LinkContainer*/}
-                <Button bsStyle="success" bsSize="large" block
-                        href={'forecastResourceSearchResults?resourceName=' + this.state.resourceName
-                            + '&employeeId=' + this.state.employeeId
-                            + '&location=' + this.state.location
-                            + '&email=' + this.state.email
-                            + '&role=' + this.state.role}
+                <LinkContainer to={this.props.route + '/forecastResourceSearchResults?'
+                + 'resourceName=' + this.state.resourceName
+                + '&employeeId=' + this.state.employeeId
+                + '&location=' + this.state.location
+                + '&email=' + this.state.email
+                + '&role=' + this.state.role}
                 >
-                    Search Resources
-                </Button>
+                    <Button bsStyle="success" bsSize="large" block>Search Resources</Button>
+                </LinkContainer>
             </Panel>
         )
     }
