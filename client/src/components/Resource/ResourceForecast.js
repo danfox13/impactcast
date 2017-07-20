@@ -2,9 +2,40 @@ import React, {Component} from 'react';
 import {Alert, Panel, Tab, Table, Tabs} from 'react-bootstrap';
 import {Link} from 'react-router';
 
+class ChangeItemRow extends Component {
+    render() {
+        return (
+            <tr>
+                <td><Link to={'/project/' + this.props.project.projectCode}>{this.props.project.projectTitle}</Link>
+                </td>
+                <td>
+                    <Link to={'/project/' + this.props.project.projectCode + '/' + this.props.changeItem.changeTitle}>
+                        {this.props.changeItem.changeTitle}
+                    </Link>
+                </td>
+                <td>
+                    <Link to={'/project/' + this.props.project.projectCode
+                    + '/' + this.props.changeItem.changeTitle
+                    + '/' + this.props.changeItem.resourcesRequired._id}
+                    >
+                        {this.props.changeItem.resourcesRequired.roleName}
+                    </Link>
+                </td>
+                <td>{this.props.changeItem.resourcesRequired.impact.days}</td>
+            </tr>
+        )
+    }
+}
+
 class Forecast extends Component {
     render() {
-        let totalDays = 0;
+        let totalDays = 0,
+            dataRows = this.props.month.forEach(project => {
+                project.changeItems.forEach(changeItem => {
+                    totalDays += changeItem.resourcesRequired.impact.days;
+                    return <ChangeItemRow key={changeItem._id} project={project} changeItem={changeItem}/>
+                })
+            });
 
         return (
             <div>
@@ -18,42 +49,21 @@ class Forecast extends Component {
                     </tr>
                     </thead>
                     <tbody>
-                    {this.props.projects.forEach(project => {
-                        project.changeItems.forEach(changeItem => {
-                            totalDays += changeItem.resourcesRequired.impact.days;
-                            return (
-                                <tr key={changeItem._id}>
-                                    <td><Link to={'/project/' + project.projectCode}>{project.projectTitle}</Link></td>
-                                    <td>
-                                        <Link to={'/project/' + project.projectCode + '/' + changeItem.changeTitle}>
-                                            {changeItem.changeTitle}
-                                        </Link>
-                                    </td>
-                                    <td>
-                                        <Link to={'/project/' + project.projectCode
-                                        + '/' + changeItem.changeTitle
-                                        + '/' + changeItem.resourcesRequired._id}>
-                                            {changeItem.resourcesRequired.roleName}
-                                        </Link>
-                                    </td>
-                                    <td>{changeItem.resourcesRequired.impact.days}</td>
-                                </tr>
-                            )
-                        })
-                    })}
+                    {dataRows}
                     </tbody>
                 </Table>
-                { totalDays < this.props.workingDays &&
+                <br/>
+                {totalDays < this.props.monthWorkingDays &&
                 <Alert bsStyle="danger">
-                    <strong>Under-forecasted by {this.props.workingDays - totalDays} days!</strong>
+                    <strong>Under-forecasted by {this.props.monthWorkingDays - totalDays} days!</strong>
                 </Alert>
                 }
-                { totalDays > this.props.workingDays &&
+                {totalDays > this.props.monthWorkingDays &&
                 <Alert bsStyle="danger">
-                    <strong>Over-forecasted by {this.props.workingDays - totalDays} days!</strong>
+                    <strong>Over-forecasted by {this.props.monthWorkingDays - totalDays} days!</strong>
                 </Alert>
                 }
-                { totalDays === this.props.workingDays &&
+                {totalDays === this.props.monthWorkingDays &&
                 <Alert bsStyle="success">
                     <strong>Fully forecasted</strong>
                 </Alert>
@@ -71,11 +81,6 @@ export default class ResourceForecast extends Component {
         };
 
         this.getMonthFromNow = this.getMonthFromNow.bind(this);
-        this.getCurrentMonth = this.getCurrentMonth.bind(this);
-    }
-
-    getCurrentMonth() {
-        return ResourceForecast.getFormattedMonth(this.state.today.getMonth());
     }
 
     getMonthFromNow(monthFromNow) {
@@ -101,31 +106,22 @@ export default class ResourceForecast extends Component {
     }
 
     render() {
+        let tabs = this.props.months.map((month, index) => {
+            return (
+                <Tab key={index} eventKey={index + 1} title={this.getMonthFromNow(index)}>
+                    { month.length ?
+                        <Forecast month={month} monthWorkingDays={this.props.monthsWorkingDays[index]}/>
+                        : <Alert bsStyle="danger">No forecast available</Alert>
+                    }
+                </Tab>
+            )
+        });
+
         return (
             <Panel header="Six Month Forecast">
-                { this.props.projects &&
+                {this.props.months &&
                 <Tabs id="forecast" defaultActiveKey={1}>
-                    <Tab eventKey={1} title={this.getCurrentMonth()}>
-                        <Forecast projects={this.props.projects[0]} workingDays={this.props.workingDays[0]}/>
-                    </Tab>
-                    <Tab eventKey={2} title={this.getMonthFromNow(1)}>
-                        <Forecast projects={this.props.projects[1]} workingDays={this.props.workingDays[1]}/>
-                    </Tab>
-                    <Tab eventKey={3} title={this.getMonthFromNow(2)}>
-                        <Forecast projects={this.props.projects[2]} workingDays={this.props.workingDays[2]}/>
-                    </Tab>
-                    <Tab eventKey={4} title={this.getMonthFromNow(3)}>
-                        <Forecast projects={this.props.projects[3]} workingDays={this.props.workingDays[3]}/>
-                    </Tab>
-                    <Tab eventKey={5} title={this.getMonthFromNow(4)}>
-                        <Forecast projects={this.props.projects[4]} workingDays={this.props.workingDays[4]}/>
-                    </Tab>
-                    <Tab eventKey={6} title={this.getMonthFromNow(5)}>
-                        <Forecast projects={this.props.projects[5]} workingDays={this.props.workingDays[5]}/>
-                    </Tab>
-                    <Tab eventKey={7} title={this.getMonthFromNow(6)}>
-                        <Forecast projects={this.props.projects[6]} workingDays={this.props.workingDays[6]}/>
-                    </Tab>
+                    {tabs}
                 </Tabs>
                 }
             </Panel>

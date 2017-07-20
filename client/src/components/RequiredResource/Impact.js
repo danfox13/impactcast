@@ -92,12 +92,12 @@ export default class Impact extends Component {
                 {year: this.state.year, month: this.state.month, days: this.state.days},
                 response => {
                     this.setState({
-                        impactTable: this.state.impactTable.concat([<ImpactRow key={response.result.impact._id}
-                                                                               route={'/project/' + this.props.projectCode
-                                                                               + '/' + this.props.changeItem
-                                                                               + '/' + nextProps.requiredResource._id
-                                                                               + '/' + response.result.impact._id}
-                                                                               impact={response.result.impact}/>])
+                        impactTable: this.state.impactTable.push(<ImpactRow key={response.result.impact._id}
+                                                                            route={'/project/' + this.props.projectCode
+                                                                            + '/' + this.props.changeItem
+                                                                            + '/' + nextProps.requiredResource._id
+                                                                            + '/' + response.result.impact._id}
+                                                                            impact={response.result.impact}/>)
                     });
                 })
         }
@@ -177,7 +177,7 @@ export default class Impact extends Component {
                                 {this.state.impactTable}
                                 </tbody>
                             </Table>
-                            : <Alert bsStyle="danger" className="text-center">No impacts</Alert>
+                            : <Alert bsStyle="danger">No impacts</Alert>
                         }
                     </Col>
                 </Row>

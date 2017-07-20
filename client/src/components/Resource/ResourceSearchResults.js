@@ -55,7 +55,7 @@ export default class ResourceSearchResults extends Component {
                         {resultRows}
                         </tbody>
                     </Table>
-                    : <Alert bsStyle="danger" className="text-center">Nothing found</Alert>
+                    : <Alert bsStyle="danger">Nothing found</Alert>
                 }
             </Panel>
         )

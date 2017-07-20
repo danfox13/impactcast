@@ -92,7 +92,7 @@ export default class TeamForecast extends Component {
                         {dataRows}
                         </tbody>
                     </Table>
-                    : <Alert bsStyle="danger" className="text-center">No forecast available</Alert>
+                    : <Alert bsStyle="danger">No forecast available</Alert>
                 }
             </Panel>
         )

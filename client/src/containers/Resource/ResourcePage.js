@@ -10,7 +10,9 @@ export default class ResourcePage extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            resource: ''
+            resource: {},
+            months: [],
+            monthsWorkingDays: []
         };
 
         this.loadDocument = loadDocument.bind(this);
@@ -21,8 +23,7 @@ export default class ResourcePage extends Component {
         return (
             <div>
                 <ResourceDetails resource={this.state.resource}/>
-                <ResourceForecast resource={this.state.resource} projects={this.state.months}
-                                  workingDays={this.state.monthsWorkingDays}/>
+                <ResourceForecast {...this.state}/>
             </div>
         )
     }

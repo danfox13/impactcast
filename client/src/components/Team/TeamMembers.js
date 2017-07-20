@@ -80,7 +80,7 @@ export default class TeamMembers extends Component {
                         {dataRows}
                         </tbody>
                     </Table>
-                    : <Alert bsStyle="danger" className="text-center">No team members</Alert>
+                    : <Alert bsStyle="danger">No team members</Alert>
                 }
                 <br/>
                 <Row>
