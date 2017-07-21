@@ -3,7 +3,7 @@
  */
 
 import React, {Component} from 'react';
-import {Button, Panel, Table} from 'react-bootstrap';
+import {Alert, Button, Panel, Table} from 'react-bootstrap';
 import {LinkContainer} from 'react-router-bootstrap';
 import {Link} from 'react-router';
 
@@ -53,20 +53,23 @@ export default class RequiredResources extends Component {
     render() {
         return (
             <Panel header="Required Resources">
-                <Table striped hover responsive>
-                    <thead>
-                    <tr>
-                        <th/>
-                        <th>Role Name</th>
-                        <th>Grade</th>
-                        <th>Impacted?</th>
-                        <th>Forecasted Resource</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {this.state.resourcesRequired}
-                    </tbody>
-                </Table>
+                { this.state.resourcesRequired.length ?
+                    <Table striped hover responsive>
+                        <thead>
+                        <tr>
+                            <th/>
+                            <th>Role Name</th>
+                            <th>Grade</th>
+                            <th>Impacted?</th>
+                            <th>Forecasted Resource</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {this.state.resourcesRequired}
+                        </tbody>
+                    </Table>
+                    : <Alert bsStyle="danger">No required resources</Alert>
+                }
             </Panel>
         )
     }
