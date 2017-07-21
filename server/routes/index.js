@@ -262,20 +262,15 @@ app.post('/newTeam', function (request, response) {
 });
 
 app.get('/team/:teamName', function (request, response) {
-
-    let teamName = request.params.teamName;
-
-    team.view(teamName, function (result) {
+    team.view(request.params.teamName, function (result) {
         let responseBody = {};
 
         responseBody.result = {
             team: result.team,
-            teamForecast: result.forecast
+            teamForecast: result.teamForecast
         };
 
-        response.setHeader('Content-Type', 'application/json');
-        response.write(JSON.stringify(responseBody));
-        response.end();
+        response.send(responseBody);
     });
 });
 

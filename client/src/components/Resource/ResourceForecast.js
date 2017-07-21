@@ -30,12 +30,12 @@ class ChangeItemRow extends Component {
 class Forecast extends Component {
     render() {
         let totalDays = 0,
-            dataRows = this.props.month.forEach(project => {
-                project.changeItems.forEach(changeItem => {
+            dataRows = this.props.month.map(project =>
+                project.changeItems.map(changeItem => {
                     totalDays += changeItem.resourcesRequired.impact.days;
                     return <ChangeItemRow key={changeItem._id} project={project} changeItem={changeItem}/>
                 })
-            });
+            );
 
         return (
             <div>
@@ -53,20 +53,14 @@ class Forecast extends Component {
                     </tbody>
                 </Table>
                 <br/>
-                {totalDays < this.props.monthWorkingDays &&
-                <Alert bsStyle="danger">
-                    <strong>Under-forecasted by {this.props.monthWorkingDays - totalDays} days!</strong>
-                </Alert>
+                {totalDays < this.props.workingDays &&
+                <Alert bsStyle="danger">Under-forecasted by {this.props.workingDays - totalDays} days!</Alert>
                 }
-                {totalDays > this.props.monthWorkingDays &&
-                <Alert bsStyle="danger">
-                    <strong>Over-forecasted by {this.props.monthWorkingDays - totalDays} days!</strong>
-                </Alert>
+                {totalDays > this.props.workingDays &&
+                <Alert bsStyle="danger">Over-forecasted by {this.props.workingDays - totalDays} days!</Alert>
                 }
-                {totalDays === this.props.monthWorkingDays &&
-                <Alert bsStyle="success">
-                    <strong>Fully forecasted</strong>
-                </Alert>
+                {totalDays === this.props.workingDays &&
+                <Alert bsStyle="success">Fully forecasted</Alert>
                 }
             </div>
         )
@@ -110,7 +104,7 @@ export default class ResourceForecast extends Component {
             return (
                 <Tab key={index} eventKey={index + 1} title={this.getMonthFromNow(index)}>
                     { month.length ?
-                        <Forecast month={month} monthWorkingDays={this.props.monthsWorkingDays[index]}/>
+                        <Forecast month={month} workingDays={this.props.workingDays[index]}/>
                         : <Alert bsStyle="danger">No forecast available</Alert>
                     }
                 </Tab>

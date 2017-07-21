@@ -43,67 +43,33 @@ exports.newResource = function (req, callback) {
 
 //Load the project info page
 exports.view = function (req, res) {
-
-    var now = new Date();
-
-    var month = [];
-    var monthPlusOne = [];
-    var monthPlusTwo = [];
-    var monthPlusThree = [];
-    var monthPlusFour = [];
-    var monthPlusFive = [];
-    var monthPlusSix = [];
-
-    var currentMonthWorkingDays = moment('01-' + (now.getMonth()) + '-' + now.getFullYear(), 'DD-MM-YYYY').monthBusinessDays();
-    var monthPlusOneWorkingDays = moment('01-' + (now.getMonth() + 1) + '-' + now.getFullYear(), 'DD-MM-YYYY').monthBusinessDays();
-    var monthPlusTwoWorkingDays = moment('01-' + (now.getMonth() + 2) + '-' + now.getFullYear(), 'DD-MM-YYYY').monthBusinessDays();
-    var monthPlusThreeWorkingDays = moment('01-' + (now.getMonth() + 3) + '-' + now.getFullYear(), 'DD-MM-YYYY').monthBusinessDays();
-    var monthPlusFourWorkingDays = moment('01-' + (now.getMonth() + 4) + '-' + now.getFullYear(), 'DD-MM-YYYY').monthBusinessDays();
-    var monthPlusFiveWorkingDays = moment('01-' + (now.getMonth() + 5) + '-' + now.getFullYear(), 'DD-MM-YYYY').monthBusinessDays();
-    var monthPlusSixWorkingDays = moment('01-' + (now.getMonth() + 6) + '-' + now.getFullYear(), 'DD-MM-YYYY').monthBusinessDays();
-
     resource.findOne({
         _id: req.params.resourceId
-    }).then(function (resource) {
+    }).then(resource => {
+            let today = new Date(),
+                months = [],
+                workingDays = [];
 
-        project.getProjectsByResourceImpactMonth(req.params.resourceId, new Date(now.getFullYear(), now.getMonth(), 1), new Date(now.getFullYear(), now.getMonth() + 1, 1), function (results) {
-            month = results;
-        });
-
-        project.getProjectsByResourceImpactMonth(req.params.resourceId, new Date(now.getFullYear(), now.getMonth() + 1, 1), new Date(now.getFullYear(), now.getMonth() + 2, 1), function (results) {
-            monthPlusOne = results;
-        });
-
-        project.getProjectsByResourceImpactMonth(req.params.resourceId, new Date(now.getFullYear(), now.getMonth() + 2, 1), new Date(now.getFullYear(), now.getMonth() + 3, 1), function (results) {
-            monthPlusTwo = results;
-        });
-
-        project.getProjectsByResourceImpactMonth(req.params.resourceId, new Date(now.getFullYear(), now.getMonth() + 3, 1), new Date(now.getFullYear(), now.getMonth() + 4, 1), function (results) {
-            monthPlusThree = results;
-        });
-
-        project.getProjectsByResourceImpactMonth(req.params.resourceId, new Date(now.getFullYear(), now.getMonth() + 4, 1), new Date(now.getFullYear(), now.getMonth() + 5, 1), function (results) {
-            monthPlusFour = results;
-        });
-
-        project.getProjectsByResourceImpactMonth(req.params.resourceId, new Date(now.getFullYear(), now.getMonth() + 5, 1), new Date(now.getFullYear(), now.getMonth() + 6, 1), function (results) {
-            monthPlusFive = results;
-        });
-
-        project.getProjectsByResourceImpactMonth(req.params.resourceId, new Date(now.getFullYear(), now.getMonth() + 6, 1), new Date(now.getFullYear(), now.getMonth() + 7, 1), function (results) {
-            monthPlusSix = results;
-        });
-
-        res.send({
-            result: {
-                resource: resource,
-                months: [month, monthPlusOne, monthPlusTwo, monthPlusThree, monthPlusFour, monthPlusFive, monthPlusSix],
-                monthsWorkingDays: [currentMonthWorkingDays.length, monthPlusOneWorkingDays.length,
-                    monthPlusTwoWorkingDays.length, monthPlusThreeWorkingDays.length, monthPlusFourWorkingDays.length,
-                    monthPlusFiveWorkingDays.length, monthPlusSixWorkingDays.length]
+            for (let index = 0; index < 7; index++) {
+                workingDays.push(moment('01-' + (today.getMonth() + index) + '-' + today.getFullYear(), 'DD-MM-YYYY').monthBusinessDays().length);
+                months.push(new Promise(resolve => {
+                    project.getProjectsByResourceImpactMonth(req.params.resourceId,
+                        new Date(today.getFullYear(), today.getMonth() + index, 1),
+                        new Date(today.getFullYear(), today.getMonth() + index + 1, 1), resolve)
+                }));
             }
-        })
-    });
+
+            Promise.all(months).then(results =>
+                res.send({
+                    result: {
+                        resource: resource,
+                        months: results,
+                        workingDays: workingDays
+                    }
+                })
+            );
+        }
+    );
 
 };
 

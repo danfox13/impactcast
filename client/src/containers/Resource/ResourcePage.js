@@ -12,7 +12,7 @@ export default class ResourcePage extends Component {
         this.state = {
             resource: {},
             months: [],
-            monthsWorkingDays: []
+            workingDays: []
         };
 
         this.loadDocument = loadDocument.bind(this);

@@ -19,6 +19,12 @@ h1, h2, h3, h4 {
     border-color: #ca8b76;
 }
 
+.alert-success,
+.bg-success {
+    background-color: #11598B;
+    border-color: #407aa2;
+}
+
 .alert-warning,
 .bg-warning {
     background-color: #b2cf5b;
