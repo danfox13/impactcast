@@ -10,7 +10,7 @@ export default class NewChangeItemPage extends Component {
     render() {
         return (
             <div>
-                <NewChangeItem/>
+                <NewChangeItem projectCode={this.props.params.projectCode}/>
             </div>
         )
     }

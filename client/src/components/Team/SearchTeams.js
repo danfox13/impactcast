@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {Button, ControlLabel, FormControl, FormGroup, Panel} from 'react-bootstrap';
+import {LinkContainer} from 'react-router-bootstrap';
 
 export default class SearchTeams extends Component {
     constructor() {
@@ -24,7 +25,7 @@ export default class SearchTeams extends Component {
 
     render() {
         return (
-            <Panel header={<div className="text-center">Search Teams</div>}>
+            <Panel header="Search Teams" bsStyle="primary">
                 <form>
                     <FormGroup controlId="teamName">
                         <ControlLabel htmlFor="teamName">Team Name:</ControlLabel>
@@ -37,11 +38,10 @@ export default class SearchTeams extends Component {
                         <FormControl name="resourceName" value={this.state.resourceName}
                                      onChange={this.handleInputChange}/>
                     </FormGroup>
-                    <Button bsStyle="success" bsSize="large" block
-                            href={'/teamSearchResults?teamName=' + this.state.teamName
-                                + '&resourceName=' + this.state.resourceName}>
-                        Search Teams
-                    </Button>
+                    <LinkContainer to={'/teamSearchResults?teamName=' + this.state.teamName
+                                     + '&resourceName=' + this.state.resourceName}>
+                        <Button bsStyle="success" bsSize="large" block>Search Teams</Button>
+                    </LinkContainer>
                 </form>
             </Panel>
         )

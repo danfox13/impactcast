@@ -28,18 +28,10 @@ var requiredResourceSchema = new Schema({
 var requiredResource = mongoose.model('requiredResource', requiredResourceSchema);
 
 //load the required resource page
-exports.view = function (req, res) {
+exports.view = function (req, callback) {
     requiredResource.findOne({
         _id: req.params.resourceId
-    }).populate('impact').then(function (requiredResource) {
-        res.render('requiredResource/resource', {
-            title: 'ImpactCast - ' + req.params.changeItem,
-            heading: requiredResource.roleName + ' for ' + req.params.changeItem,
-            projectCode: req.params.projectCode,
-            changeItem: req.params.changeItem,
-            requiredResource: requiredResource
-        });
-    });
+    }).populate('impact').then(callback);
 };
 
 
@@ -71,7 +63,7 @@ exports.editResourceView = function (req, res) {
 
 
 //edit resource
-exports.editResource = function (req, res) {
+exports.editResource = function (req, callback) {
 
     var newData = {
         roleName: req.body.roleName,
@@ -90,26 +82,13 @@ exports.editResource = function (req, res) {
     requiredResource.findOneAndUpdate({_id: req.params.resourceId}, newData, {
         upsert: false,
         new: false
-    }, function (err, requiredResource) {
-        if (err) {
-            return res.send(500, {error: err});
-        } else {
-            res.body = {
-                title: 'ImpactCast - ' + requiredResource.changeTitle,
-                heading: changeItem.changeTitle,
-                projectCode: req.params.projectCode,
-                changeItem: req.params.changeItem,
-                requiredResource: requiredResource
-            };
-            res.redirect('/project/' + req.params.projectCode + '/' + req.params.changeItem + '/' + req.params.resourceId);
-        }
-    });
+    }).then(callback);
 };
 
 //add a resource requirement
-exports.addResource = function (req, res) {
+exports.addResource = function (req, callback) {
 
-    var data = new requiredResource({
+    let data = new requiredResource({
         roleName: req.body.roleName,
         pLine: req.body.pLine,
         company: req.body.company,
@@ -125,7 +104,7 @@ exports.addResource = function (req, res) {
 
     data.save();
     changeItem.addRequiredResource(req.params.changeItem, data._id);
-    res.redirect('/project/' + req.params.projectCode + '/' + req.params.changeItem);
+    callback(data.roleName);
 };
 
 
@@ -140,26 +119,31 @@ exports.addImpact = function (resourceID, impactID) {
     });
 };
 
-
-//delete a resource requirement
-exports.delete = function (req, res) {
-
-    requiredResource.findOneAndRemove({
-        _id: req.params.resourceId
-    }, function (err, doc) {
-        res.redirect('/project/' + req.params.projectCode + '/' + req.params.changeItem);
+exports.removeImpact = (resourceID, impactID) => {
+    requiredResource.findOne({
+        _id: resourceID
+    }).then(function (requiredResource) {
+        requiredResource.impact = requiredResource.impact.filter(impact => {return !impact.equals(impactID)});
+        requiredResource.save();
     });
 };
 
 
+//delete a resource requirement
+exports.delete = function (req, callback) {
+
+    requiredResource.findOneAndRemove({
+        _id: req.params.resourceId
+    }).then(callback);
+};
+
+
 //assign a resource to a resource requirement
-exports.assign = function (req, res) {
+exports.assign = function (req, callback) {
 
     requiredResource.update({_id: req.params.reqResourceId}, {
         forecastedResource: req.params.resourceId
-    }, function(err, affected, resp) {
-        res.redirect('/project/' + req.params.projectCode + '/' + req.params.changeItem);
-    });
+    }).then(callback);
 };
 
 

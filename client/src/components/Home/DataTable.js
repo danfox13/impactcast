@@ -1,25 +1,26 @@
 import React, {Component} from 'react';
-import {Button, Col, Panel, Table} from 'react-bootstrap';
+import {Alert, Button, Col, Panel, Table} from 'react-bootstrap';
+import {LinkContainer} from 'react-router-bootstrap';
+import {Link} from 'react-router';
 
 class DataRow extends Component {
     render() {
         return (
             <tr>
-                <td>
-                    <Button bsStyle="success"
-                            href={'/project/' + this.props.dataItem.projectCode}>
-                        View
-                    </Button>
-                </td>
+                <LinkContainer to={'/project/' + this.props.dataItem.projectCode}>
+                    <Button bsStyle="success">View</Button>
+                </LinkContainer>
                 <td>{this.props.dataItem.projectCode}</td>
                 <td>{this.props.dataItem.projectTitle}</td>
-                {this.props.dataItem.changeItems.map(changeItem =>
-                    <td key={changeItem.changeTitle}>
-                        <a href={'/project/' + this.props.dataItem.projectCode + '/' + changeItem.changeTitle}>
-                            {changeItem.changeTitle}
-                        </a><br/>
-                    </td>
-                )}
+                <td>
+                    {this.props.dataItem.changeItems.map(changeItem =>
+                        <div key={changeItem.changeTitle}>
+                            <Link to={'/project/' + this.props.dataItem.projectCode + '/' + changeItem.changeTitle}>
+                                {changeItem.changeTitle}
+                            </Link>
+                        </div>
+                    )}
+                </td>
             </tr>
         )
     }
@@ -46,20 +47,23 @@ class DataTable extends Component {
 
         return (
             <Col sm={6}>
-                <Panel header={<div className="text-center">{this.props.tableHeader}</div>}>
-                    <Table striped hover responsive>
-                        <thead>
-                        <tr>
-                            <th>View Project</th>
-                            <th>Project Code</th>
-                            <th>Project Title</th>
-                            <th>Change Items</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {dataRows}
-                        </tbody>
-                    </Table>
+                <Panel header={this.props.tableHeader}>
+                    {dataRows.length ?
+                        <Table striped hover responsive>
+                            <thead>
+                            <tr>
+                                <th/>
+                                <th>Project Code</th>
+                                <th>Project Title</th>
+                                <th>Change Items</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {dataRows}
+                            </tbody>
+                        </Table>
+                        : <Alert bsStyle="danger">No items</Alert>
+                    }
                 </Panel>
             </Col>
         )

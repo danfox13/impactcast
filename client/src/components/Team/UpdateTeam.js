@@ -1,21 +1,24 @@
+/**
+ * @author: Artur Komoter
+ */
 import React, {Component} from 'react';
 import {browserHistory} from 'react-router';
 import {Button, ControlLabel, FormControl, FormGroup, InputGroup, Panel} from 'react-bootstrap';
 import {handleInputChange, submitDocument} from '../../api';
 
-export default class CreateTeam extends Component {
-    constructor() {
-        super();
+export default class UpdateTeam extends Component {
+    constructor(props) {
+        super(props);
         this.state = {
-            teamName: ''
+            teamName: props.teamName
         };
 
         this.handleInputChange = handleInputChange.bind(this);
         this.handleSubmit = event => {
             event.preventDefault();
-            submitDocument('/newTeam', this.state, response => {
-                if (response.result.teamName) {
-                    browserHistory.push(`/team/${response.result.teamName}`);
+            submitDocument(`/team/${props.teamName}/update`, this.state, response => {
+                if (response.result.route) {
+                    browserHistory.push(response.result.route);
                 }
             })
         }
@@ -23,9 +26,8 @@ export default class CreateTeam extends Component {
 
     render() {
         return (
-            <Panel header="Create a Team" bsStyle="primary">
+            <Panel header={`Update ${this.props.teamName}`} bsStyle="primary">
                 <form onSubmit={this.handleSubmit} data-toggle="validator" role="form">
-
                     <FormGroup>
                         <ControlLabel htmlFor="teamName">Team Name:</ControlLabel>
                         <InputGroup>
@@ -36,7 +38,7 @@ export default class CreateTeam extends Component {
                         <FormControl.Feedback aria-hidden="true"/>
                     </FormGroup>
 
-                    <Button type="submit" bsStyle="success" bsSize="large" block>Create Team</Button>
+                    <Button type="submit" bsStyle="success" bsSize="large" block>Update Team</Button>
                 </form>
             </Panel>
         )

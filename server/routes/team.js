@@ -55,13 +55,13 @@ exports.view = function (teamName, callback) {
                 var monthPlusFive = [];
                 var monthPlusSix = [];
 
-                var currentMonthWorkingDays = moment('01-' + (now.getMonth() + 1) + '-' + now.getFullYear(), 'DD-MM-YYYY').monthBusinessDays().length;
-                var monthPlusOneWorkingDays = moment('01-' + (now.getMonth() + 2) + '-' + now.getFullYear(), 'DD-MM-YYYY').monthBusinessDays().length;
-                var monthPlusTwoWorkingDays = moment('01-' + (now.getMonth() + 3) + '-' + now.getFullYear(), 'DD-MM-YYYY').monthBusinessDays().length;
-                var monthPlusThreeWorkingDays = moment('01-' + (now.getMonth() + 4) + '-' + now.getFullYear(), 'DD-MM-YYYY').monthBusinessDays().length;
-                var monthPlusFourWorkingDays = moment('01-' + (now.getMonth() + 5) + '-' + now.getFullYear(), 'DD-MM-YYYY').monthBusinessDays().length;
-                var monthPlusFiveWorkingDays = moment('01-' + (now.getMonth() + 6) + '-' + now.getFullYear(), 'DD-MM-YYYY').monthBusinessDays().length;
-                var monthPlusSixWorkingDays = moment('01-' + (now.getMonth() + 7) + '-' + now.getFullYear(), 'DD-MM-YYYY').monthBusinessDays().length;
+                var currentMonthWorkingDays = moment('01-' + (now.getMonth()) + '-' + now.getFullYear(), 'DD-MM-YYYY').monthBusinessDays();
+                var monthPlusOneWorkingDays = moment('01-' + (now.getMonth() + 1) + '-' + now.getFullYear(), 'DD-MM-YYYY').monthBusinessDays();
+                var monthPlusTwoWorkingDays = moment('01-' + (now.getMonth() + 2) + '-' + now.getFullYear(), 'DD-MM-YYYY').monthBusinessDays();
+                var monthPlusThreeWorkingDays = moment('01-' + (now.getMonth() + 3) + '-' + now.getFullYear(), 'DD-MM-YYYY').monthBusinessDays();
+                var monthPlusFourWorkingDays = moment('01-' + (now.getMonth() + 4) + '-' + now.getFullYear(), 'DD-MM-YYYY').monthBusinessDays();
+                var monthPlusFiveWorkingDays = moment('01-' + (now.getMonth() + 5) + '-' + now.getFullYear(), 'DD-MM-YYYY').monthBusinessDays();
+                var monthPlusSixWorkingDays = moment('01-' + (now.getMonth() + 6) + '-' + now.getFullYear(), 'DD-MM-YYYY').monthBusinessDays();
 
                 project.getProjectsByResourceImpactMonth(teamMember._id, new Date(now.getFullYear(), now.getMonth(), 1), new Date(now.getFullYear(), now.getMonth() + 1, 1), function (results) {
                     month = results;
@@ -168,8 +168,8 @@ exports.view = function (teamName, callback) {
             });
         })
         .then(() => {
-            console.log("Team forecast: " + teamForecast);
-            console.log("Team: " + newTeam);
+            // console.log("Team forecast: " + teamForecast);
+            // console.log("Team: " + newTeam);
 
             let result = {
                 team: newTeam,
@@ -188,40 +188,31 @@ exports.viewUpdate = function (req, res) {
     }).then(function (team) {
         res.render('team/editTeam', {
             title: 'ImpactCast - ' + team.teamName,
-            heading: "Update " + team.teamName,
+            heading: 'Update ' + team.teamName,
             team: team
         });
     })
 };
 
 //Run update query
-exports.update = function (req, res) {
+exports.update = function (req, callback) {
 
-    var newData = {
+    let newData = {
         teamName: req.body.teamName
     };
 
     team.findOneAndUpdate({teamName: req.params.teamName}, newData, {
         upsert: false,
         new: false
-    }, function (err, team) {
-        if (err) {
-            return res.send(500, {error: err});
-        } else {
-
-            res.redirect('/team/' + req.body.teamName);
-        }
-    });
+    }).then(callback);
 };
 
 //delete the project
-exports.delete = function (req, res) {
+exports.delete = function (req, callback) {
 
     team.findOneAndRemove({
         teamName: req.params.teamName
-    }, function (err, doc) {
-        res.redirect('/');
-    });
+    }).then(callback);
 
 };
 
@@ -234,27 +225,27 @@ exports.viewSearchTeams = function (req, res) {
 //Load the search results page
 exports.searchTeams = function (teamName, resourceName, callback) {
     team.aggregate([
-        {$unwind: "$teamMembers"},
+        {$unwind: '$teamMembers'},
         {
             $lookup: {
-                from: "resource",
-                localField: "teamMembers",
-                foreignField: "_id",
-                as: "teamMembers"
+                from: 'resource',
+                localField: 'teamMembers',
+                foreignField: '_id',
+                as: 'teamMembers'
             }
         },
-        {$unwind: "$teamMembers"},
+        {$unwind: '$teamMembers'},
         {
             $match: {
-                "teamMembers.resourceName": {$regex: "(?i).*" + resourceName + ".*"},
-                teamName: {$regex: "(?i).*" + teamName + ".*"}
+                'teamMembers.resourceName': {$regex: '(?i).*' + resourceName + '.*'},
+                teamName: {$regex: '(?i).*' + teamName + '.*'}
             }
         },
         {
             $group: {
-                _id: "$_id",
-                teamName: {"$first": "$teamName"},
-                teamMembers: {"$push": "$teamMembers"}
+                _id: '$_id',
+                teamName: {'$first': '$teamName'},
+                teamMembers: {'$push': '$teamMembers'}
             }
         }
 
@@ -265,25 +256,22 @@ exports.searchTeams = function (teamName, resourceName, callback) {
 
 
 //add a resource to the team
-exports.addTeamMember = function (req, res) {
+exports.addTeamMember = function (req, callback) {
     team.findOne({
         teamName: req.params.teamName
     }).then(function (team) {
         team.teamMembers.push(req.params.resourceId);
         team.save();
-        res.redirect('/team/' + req.params.teamName);
+
+        callback();
     })
 };
 
 
 //remove a resource
-exports.removeTeamMember = function (req, res) {
-    team.update({teamName: req.params.teamName}, {$pull: {'teamMembers': mongoose.mongo.ObjectID(req.params.resourceId)}}
-    ).then(function (team) {
-        res.redirect('/team/' + req.params.teamName);
-    }, function (err) {
-        if (err) {
-            res.json(500, {message: "Could not remove user from team list"});
-        }
-    })
+exports.removeTeamMember = function (req, callback) {
+    team.update(
+        {teamName: req.params.teamName},
+        {$pull: {'teamMembers': mongoose.mongo.ObjectID(req.params.resourceId)}})
+        .then(callback)
 };

@@ -8,7 +8,7 @@ import AddTeamResourceSearch from '../../components/Resource/AddTeamResourceSear
 export default class AddTeamResourceSearchPage extends Component {
     render() {
         return (
-            <AddTeamResourceSearch/>
+            <AddTeamResourceSearch teamName={this.props.params.teamName}/>
         )
     }
 }

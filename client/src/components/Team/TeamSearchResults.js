@@ -1,19 +1,21 @@
 import React, {Component} from 'react';
 import {Button, Panel, Table} from 'react-bootstrap';
+import {Link} from 'react-router';
+import {LinkContainer} from 'react-router-bootstrap';
 
 class ResultRow extends Component {
     render() {
         return (
             <tr>
-                <td>
-                    <Button href={'/team/' + this.props.team.teamName} bsStyle="success">View</Button>
-                </td>
+                <LinkContainer to={'/team/' + this.props.team.teamName}>
+                    <Button bsStyle="success">View</Button>
+                </LinkContainer>
                 <td>{this.props.team.teamName}</td>
                 {this.props.team.teamMembers.map(teamMember =>
                     <td key={teamMember._id}>
-                        <a href={'/resource/' + teamMember._id}>
+                        <Link to={'/resource/' + teamMember._id}>
                             {teamMember.resourceName}
-                        </a>
+                        </Link>
                         <br/>
                     </td>
                 )}
@@ -42,11 +44,11 @@ class TeamSearchResults extends Component {
         });
 
         return (
-            <Panel header={<div className="text-center">Search Results</div>}>
+            <Panel header="Search Results" bsStyle="primary">
                 <Table striped hover responsive>
                     <thead>
                     <tr>
-                        <th>View Team</th>
+                        <th/>
                         <th>Team Name</th>
                         <th>Team Members</th>
                     </tr>

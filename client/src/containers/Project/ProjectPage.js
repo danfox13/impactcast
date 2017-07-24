@@ -5,33 +5,18 @@
 import React, {Component} from 'react';
 import ProjectDetails from '../../components/Project/ProjectDetails';
 import ChangeItems from '../../components/Project/ChangeItems';
+import {loadDocument} from '../../api';
 
 export default class Project extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             projectTitle: '',
             changeItems: []
         };
 
-        this.loadData = this.loadData.bind(this);
-    }
-
-    componentWillMount() {
-        this.loadData()
-    }
-
-    loadData() {
-        let url = 'http://localhost:3001/project/' + this.props.params.projectCode;
-        fetch(url)
-            .then(response => response.json())
-            .then((data) => {
-                this.setState({
-                    projectTitle: data.results.projectTitle,
-                    changeItems: data.results.changeItems
-                });
-            })
-            .catch(err => console.log(err));
+        this.loadDocument = loadDocument.bind(this);
+        this.loadDocument(`/project/${this.props.params.projectCode}`);
     }
 
     render() {

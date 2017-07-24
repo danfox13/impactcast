@@ -4,33 +4,39 @@
 
 import React, {Component} from 'react';
 import {Button, ControlLabel, FormControl, FormGroup, InputGroup, Panel} from 'react-bootstrap';
+import {browserHistory} from 'react-router';
+import {handleInputChange, submitDocument} from '../../api';
 
 export default class UpdateProject extends Component {
     constructor(props) {
         super(props);
         this.state = {
             projectCode: this.props.projectCode,
-            projectName: this.props.projectName
+            projectTitle: this.props.projectTitle
         };
 
-        this.handleInputChange = this.handleInputChange.bind(this);
+        this.handleInputChange = handleInputChange.bind(this);
+        this.handleSubmit = event => {
+            event.preventDefault();
+            submitDocument('/project/' + this.props.projectCode + '/update',
+                this.state, response => {
+                if (response.result.projectCode) {
+                    browserHistory.push('/project/' + response.result.projectCode);
+                }
+            })
+        }
     }
 
-    handleInputChange(event) {
-        const target = event.target;
-        const value = target.value;
-        const name = target.name;
-
+    componentWillReceiveProps(nextProps) {
         this.setState({
-            [name]: value
+            projectTitle: nextProps.projectTitle
         });
     }
 
     render() {
         return (
-            <Panel>
-                <h1 className="text-center">Update Project</h1>
-                <form>
+            <Panel header={'Update ' + this.props.projectTitle} bsStyle="primary">
+                <form onSubmit={this.handleSubmit}>
                     <FormGroup controlId="projectCode">
                         <ControlLabel>Project Code:</ControlLabel>
                         <InputGroup>
@@ -40,11 +46,11 @@ export default class UpdateProject extends Component {
                         </InputGroup>
                         <FormControl.Feedback/>
                     </FormGroup>
-                    <FormGroup controlId="projectName">
-                        <ControlLabel>Project Name:</ControlLabel>
+                    <FormGroup controlId="projectTitle">
+                        <ControlLabel>Project Title:</ControlLabel>
                         <InputGroup>
                             <InputGroup.Addon>T</InputGroup.Addon>
-                            <FormControl name="projectName" value={this.state.projectName}
+                            <FormControl name="projectTitle" value={this.state.projectTitle}
                                          onChange={this.handleInputChange} required/>
                         </InputGroup>
                         <FormControl.Feedback/>

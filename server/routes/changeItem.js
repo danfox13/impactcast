@@ -19,7 +19,7 @@ var changeItemSchema = new Schema({
 var changeItem = mongoose.model('changeItem', changeItemSchema);
 
 //Add a required resource
-exports.addRequiredResource = function(changeTitle, requiredResourceID){
+exports.addRequiredResource = function (changeTitle, requiredResourceID) {
     changeItem.findOne({
         changeTitle: changeTitle
     }).then(function (changeItem) {
@@ -40,7 +40,7 @@ exports.newChangeItem = function (req, res) {
 
 
 //Submit the new project form
-exports.addChangeItem = function (req, res) {
+exports.addChangeItem = function (req, callback) {
 
     var data = new changeItem({
         changeTitle: req.body.changeTitle,
@@ -55,42 +55,41 @@ exports.addChangeItem = function (req, res) {
     data.save();
     project.addChangeItem(req.params.projectCode, data._id);
 
-    res.redirect('/project/' + req.params.projectCode + '/' + req.body.changeTitle);
+    callback(req.body.changeTitle);
 };
 
 
 //Load the changeitem info page
-exports.view = function (req, res) {
+exports.view = function (req, callback) {
 
     changeItem.findOne({
         changeTitle: req.params.changeItem
-    }).populate('resourcesRequired').populate({
+    }).populate('resourcesRequired')
+        .populate({
         path: 'resourcesRequired',
         model: 'requiredResource',
         populate: [{
-            path: 'resourcesRequired.impact',
+            path: 'impact',
             model: 'impact'
-        }],
-        populate: {
+        },
+        {
             path: 'forecastedResource',
             model: 'resource'
-        }
+        }]
     }).then(function (changeItem) {
+        let totalManDays = [];
 
-        changeItem.resourcesRequired.forEach(function(resource){
-            var dayCount = 0;
+        changeItem.resourcesRequired.forEach(function (resource) {
+            let dayCount = 0;
+
             resource.impact.forEach(function (monthlyImpact) {
-                dayCount = parseInt(dayCount) + parseInt(monthlyImpact.days);
+                dayCount += parseInt(monthlyImpact.days);
             });
-            resource.totalManDays = dayCount;
+
+            totalManDays.push(dayCount);
         });
 
-        res.render('changeItem/changeItem', {
-            title: 'ImpactCast - ' + changeItem.changeTitle,
-            heading: changeItem.changeTitle,
-            projectCode: req.params.projectCode,
-            changeItem: changeItem
-        });
+        callback({changeItem: changeItem, totalManDays: totalManDays})
     })
 };
 
@@ -103,7 +102,7 @@ exports.viewUpdate = function (req, res) {
     }).populate('resourcesRequired').then(function (changeItem) {
         res.render('changeItem/updateChangeItem', {
             title: 'ImpactCast - ' + changeItem.changeTitle,
-            heading: "Update " + changeItem.changeTitle,
+            heading: 'Update ' + changeItem.changeTitle,
             projectCode: req.params.projectCode,
             changeItem: changeItem
         });
@@ -112,9 +111,9 @@ exports.viewUpdate = function (req, res) {
 
 
 //Run update query
-exports.update = function (req, res) {
+exports.update = function (req, callback) {
 
-    var newData = {
+    let newData = {
         changeTitle: req.body.changeTitle,
         status: req.body.status,
         lid: req.body.lid,
@@ -127,30 +126,22 @@ exports.update = function (req, res) {
     changeItem.findOneAndUpdate({changeTitle: req.params.changeItem}, newData, {
         upsert: false,
         new: false
-    }, function (err, changeItem) {
-        if (err) {
-            return res.send(500, {error: err});
-        } else {
-            res.body = {
-                title: 'ImpactCast - ' + changeItem.changeTitle,
-                heading: changeItem.changeTitle,
-                projectCode: req.params.projectCode,
-                changeItem: changeItem
-            };
-            res.redirect('/project/' + req.params.projectCode + '/' + req.body.changeTitle);
-        }
-    });
+    }).then(() => {
+        let result = {
+            projectCode: req.params.projectCode,
+            changeTitle: req.body.changeTitle
+        };
 
+        callback(result)
+    })
 };
 
 //delete the changeItem
-exports.delete = function (req, res) {
+exports.delete = function (req, callback) {
 
     changeItem.findOneAndRemove({
         changeTitle: req.params.changeItem
-    }, function (err, doc) {
-        res.redirect('/project/' + req.params.projectCode);
-    });
+    }).then(callback);
 
 };
 

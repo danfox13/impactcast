@@ -25,7 +25,7 @@ export default class ProjectSearchResultsPage extends Component {
             + '&changeItemStatus=' + this.props.location.query.changeItemStatus;
         fetch(url)
             .then(response => response.json())
-            .then((result) => {
+            .then(result => {
                 this.setState({
                     results: result.results.results
                 });

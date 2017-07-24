@@ -1,16 +1,14 @@
 import React, {Component} from 'react';
 import {Button, Panel, Table} from 'react-bootstrap';
+import {LinkContainer} from 'react-router-bootstrap';
 
 class ResultRow extends Component {
     render() {
         return (
             <tr>
-                <td>
-                    <Button bsStyle="success"
-                            href={'/project/' + this.props.project.projectCode}>
-                        View
-                    </Button>
-                </td>
+                <LinkContainer to={'/project/' + this.props.project.projectCode}>
+                    <Button bsStyle="success">View</Button>
+                </LinkContainer>
                 <td>{this.props.project.projectCode}</td>
                 <td>{this.props.project.projectTitle}</td>
                 {this.props.project.changeItems.map(changeItem =>
@@ -44,11 +42,11 @@ export default class ProjectSearchResults extends Component {
         });
 
         return (
-            <Panel header={<div className="text-center">Search Results</div>}>
+            <Panel header="Search Results" bsStyle="primary">
                 <Table striped hover responsive>
                     <thead>
                     <tr>
-                        <th>View Project</th>
+                        <th/>
                         <th>Project Code</th>
                         <th>Project Title</th>
                         <th>Change Items</th>
