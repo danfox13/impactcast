@@ -5,17 +5,20 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {Alert, Button, Col, Glyphicon, Panel, Row, Table} from 'react-bootstrap';
 import {LinkContainer} from 'react-router-bootstrap';
+import TableButton from '../Shared/TableButton';
 
 class DataRow extends Component {
     render() {
         return (
             <tr>
-                <LinkContainer to={'/resource/' + this.props.teamMember._id}>
-                    <Button bsStyle="success">View</Button>
-                </LinkContainer>
+                <TableButton bsStyle="success" to={`/resource/${this.props.teamMember._id}`}>
+                    View
+                </TableButton>
                 <td>{this.props.teamMember.resourceName}</td>
                 <td>{this.props.teamMember.role}</td>
-                <a className="btn btn-danger" onClick={(event) => this.context.removeResource(this.props.teamMember._id)}>Remove</a>
+                <TableButton bsStyle="danger" action={() => this.context.removeResource(this.props.teamMember._id)}>
+                    Remove
+                </TableButton>
             </tr>
         )
     }

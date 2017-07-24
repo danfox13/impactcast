@@ -3,16 +3,16 @@
  */
 
 import React, {Component} from 'react';
-import {Alert, Button, Panel, Table} from 'react-bootstrap';
-import {LinkContainer} from 'react-router-bootstrap';
+import {Alert, Panel, Table} from 'react-bootstrap';
+import TableButton from '../Shared/TableButton';
 
 class ChangeItemRow extends Component {
     render() {
         return (
             <tr>
-                <LinkContainer to={`/project/${this.props.projectCode}/${this.props.changeItem.changeTitle}`}>
-                    <Button bsStyle="success">View</Button>
-                </LinkContainer>
+                <TableButton bsStyle="success" to={`/project/${this.props.projectCode}/${this.props.changeItem.changeTitle}`}>
+                    View
+                </TableButton>
                 <td>{this.props.changeItem.changeTitle}</td>
                 <td>{this.props.changeItem.status}</td>
                 <td>{new Date(this.props.changeItem.lid).toLocaleDateString('en-GB')}</td>

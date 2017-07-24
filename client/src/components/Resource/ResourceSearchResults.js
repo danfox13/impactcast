@@ -3,16 +3,16 @@
  */
 
 import React, {Component} from 'react';
-import {Alert, Button, Panel, Table} from 'react-bootstrap';
-import {LinkContainer} from 'react-router-bootstrap';
+import {Alert, Panel, Table} from 'react-bootstrap';
+import TableButton from '../Shared/TableButton';
 
 class ResultRow extends Component {
     render() {
         return (
             <tr>
-                <LinkContainer to={'/resource/' + this.props.resource._id}>
-                    <Button bsStyle="success">View</Button>
-                </LinkContainer>
+                <TableButton bsStyle="success" to={`/resource/${this.props.resource._id}`}>
+                    View
+                </TableButton>
                 <td>{this.props.resource.resourceName}</td>
                 <td>{this.props.resource.role}</td>
             </tr>

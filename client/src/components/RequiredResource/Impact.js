@@ -18,8 +18,7 @@ import {
 } from 'react-bootstrap';
 import {handleInputChange, submitDocument} from '../../api';
 import PropTypes from 'prop-types';
-
-import DeleteModal from '../Shared/DeleteModal';
+import TableButton from '../Shared/TableButton';
 
 class ImpactRow extends Component {
     render() {
@@ -29,13 +28,9 @@ class ImpactRow extends Component {
             <tr>
                 <td>{month}</td>
                 <td>{this.props.impact.days}</td>
-                <DeleteModal subjectType="Impact"
-                             subjectRoute={this.props.route}
-                             subjectName={month}
-                             redirectHandler={() =>
-                                 this.context.deleteImpactTableRow(this.props.impact._id)
-                             }
-                />
+                <TableButton bsStyle="danger" action={() => this.context.deleteImpactTableRow(this.props.impact._id)}>
+                    Delete
+                </TableButton>
             </tr>
         )
     }
@@ -60,11 +55,13 @@ export default class Impact extends Component {
     }
 
     deleteImpactTableRow(id) {
-        this.setState({
-            impactTable: this.state.impactTable.filter(row => {
-                return row.key !== id
-            })
-        })
+        let url = `http://localhost:3001${this.props.location}/${id}/delete`;
+        fetch(url).then(() =>
+            this.setState({
+                impactTable: this.state.impactTable.filter(row => {
+                    return row.key !== id
+                })
+            }))
     }
 
     getChildContext() {
@@ -78,26 +75,19 @@ export default class Impact extends Component {
             nextProps.requiredResource.impact.forEach(impact => {
                 this.state.impactTable.push(<ImpactRow key={impact._id}
                                                        impact={impact}
-                                                       route={'/project/' + this.props.projectCode
-                                                       + '/' + this.props.changeItem
-                                                       + '/' + nextProps.requiredResource._id
-                                                       + '/' + impact._id}
+                                                       location={this.props.location}
                 />)
             });
 
         this.handleSubmit = event => {
             event.preventDefault();
-            submitDocument('/project/' + this.props.projectCode + '/' + this.props.changeItem + '/'
-                + nextProps.requiredResource._id + '/addImpact',
+            submitDocument(this.props.location + '/addImpact',
                 {year: this.state.year, month: this.state.month, days: this.state.days},
                 response => {
                     this.setState({
                         impactTable: this.state.impactTable.concat([<ImpactRow key={response.result.impact._id}
-                                                                            route={'/project/' + this.props.projectCode
-                                                                            + '/' + this.props.changeItem
-                                                                            + '/' + nextProps.requiredResource._id
-                                                                            + '/' + response.result.impact._id}
-                                                                            impact={response.result.impact}/>])
+                                                                               location={this.props.location}
+                                                                               impact={response.result.impact}/>])
                     });
                 })
         }
@@ -165,7 +155,7 @@ export default class Impact extends Component {
                     </Col>
                     <Col sm={6}>
                         {this.state.impactTable.length ?
-                            <Table striped hover responsive>
+                            <Table striped responsive>
                                 <thead>
                                 <tr>
                                     <th>Month</th>

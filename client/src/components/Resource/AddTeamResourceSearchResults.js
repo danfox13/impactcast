@@ -3,8 +3,8 @@
  */
 
 import React, {Component} from 'react';
-import {Button, Glyphicon, Panel, Table} from 'react-bootstrap';
-import {LinkContainer} from 'react-router-bootstrap';
+import {Glyphicon, Panel, Table} from 'react-bootstrap';
+import TableButton from '../Shared/TableButton';
 
 class ResultRow extends Component {
     constructor(props) {
@@ -21,9 +21,9 @@ class ResultRow extends Component {
     render() {
         return (
             <tr>
-                <LinkContainer to={`/team/${this.props.teamName}`} onClick={this.assignResource}>
-                    <Button bsStyle="success"><Glyphicon glyph="plus"/></Button>
-                </LinkContainer>
+                <TableButton bsStyle="success" to={`/team/${this.props.teamName}`} action={this.assignResource}>
+                    <Glyphicon glyph="plus"/>
+                </TableButton>
                 <td>{this.props.resource.resourceName}</td>
                 <td>{this.props.resource.role}</td>
             </tr>

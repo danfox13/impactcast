@@ -1,19 +1,20 @@
 import React, {Component} from 'react';
-import {Button, Panel, Table} from 'react-bootstrap';
-import {LinkContainer} from 'react-router-bootstrap';
+import {Panel, Table} from 'react-bootstrap';
+import TableButton from '../Shared/TableButton';
+import {Link} from 'react-router';
 
 class ResultRow extends Component {
     render() {
         return (
             <tr>
-                <LinkContainer to={'/project/' + this.props.project.projectCode}>
-                    <Button bsStyle="success">View</Button>
-                </LinkContainer>
+                <TableButton bsStyle="success" to={`/project/${this.props.project.projectCode}`}>
+                    View
+                </TableButton>
                 <td>{this.props.project.projectCode}</td>
                 <td>{this.props.project.projectTitle}</td>
                 {this.props.project.changeItems.map(changeItem =>
                     <td key={changeItem._id}>
-                        <a href={'/changeItem/' + changeItem._id}>{changeItem.changeItemTitle}</a>
+                        <Link to={'/changeItem/' + changeItem._id}>{changeItem.changeItemTitle}</Link>
                         <br/>
                     </td>
                 )}

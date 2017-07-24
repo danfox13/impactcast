@@ -1,21 +1,21 @@
 import React, {Component} from 'react';
-import {Alert, Button, Col, Panel, Table} from 'react-bootstrap';
-import {LinkContainer} from 'react-router-bootstrap';
+import {Alert, Col, Panel, Table} from 'react-bootstrap';
 import {Link} from 'react-router';
+import TableButton from '../Shared/TableButton';
 
 class DataRow extends Component {
     render() {
         return (
             <tr>
-                <LinkContainer to={'/project/' + this.props.dataItem.projectCode}>
-                    <Button bsStyle="success">View</Button>
-                </LinkContainer>
+                <TableButton bsStyle="success" to={`/project/${this.props.dataItem.projectCode}`}>
+                    View
+                </TableButton>
                 <td>{this.props.dataItem.projectCode}</td>
                 <td>{this.props.dataItem.projectTitle}</td>
                 <td>
                     {this.props.dataItem.changeItems.map(changeItem =>
                         <div key={changeItem.changeTitle}>
-                            <Link to={'/project/' + this.props.dataItem.projectCode + '/' + changeItem.changeTitle}>
+                            <Link to={`/project/${this.props.dataItem.projectCode}/${changeItem.changeTitle}`}>
                                 {changeItem.changeTitle}
                             </Link>
                         </div>

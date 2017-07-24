@@ -57,7 +57,7 @@ class Forecast extends Component {
                 <Alert bsStyle="danger">Under-forecasted by {this.props.workingDays - totalDays} days!</Alert>
                 }
                 {totalDays > this.props.workingDays &&
-                <Alert bsStyle="danger">Over-forecasted by {this.props.workingDays - totalDays} days!</Alert>
+                <Alert bsStyle="warning">Over-forecasted by {totalDays - this.props.workingDays} days!</Alert>
                 }
                 {totalDays === this.props.workingDays &&
                 <Alert bsStyle="success">Fully forecasted</Alert>

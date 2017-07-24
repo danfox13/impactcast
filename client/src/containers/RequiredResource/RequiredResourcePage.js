@@ -12,13 +12,11 @@ export default class RequiredResourcePage extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            requiredResource: ''
+            requiredResource: {}
         };
 
         this.loadDocument = loadDocument.bind(this);
-        this.loadDocument('/project/' + this.props.params.projectCode
-                        + '/' + this.props.params.changeItem
-                        + '/' + this.props.params.resourceId);
+        this.loadDocument(props.location.pathname);
     }
 
     render() {
@@ -28,8 +26,7 @@ export default class RequiredResourcePage extends Component {
                                          projectCode={this.props.params.projectCode}
                                          changeItem={this.props.params.changeItem}/>
                 <Impact requiredResource={this.state.requiredResource}
-                        projectCode={this.props.params.projectCode}
-                        changeItem={this.props.params.changeItem}/>
+                        location={this.props.location.pathname}/>
             </div>
         )
     }
