@@ -37,6 +37,9 @@ import UpdateResourcePage from '../containers/Resource/UpdateResourcePage';
 import ForecastResourceSearchPage from '../containers/Resource/ForecastResourceSearchPage';
 import ForecastResourceSearchResultsPage from '../containers/Resource/ForecastResourceSearchResultsPage';
 
+// Profile Components
+import ProfilePage from '../containers/Profile/ProfilePage';
+
 // Required Resource Route Components
 import RequiredResourcePage from '../containers/RequiredResource/RequiredResourcePage';
 import UpdateRequiredResourcePage from '../containers/RequiredResource/UpdateRequiredResourcePage';
@@ -84,6 +87,8 @@ export default class AppRoutes extends Component {
                     <Route path="resourceSearchResults" component={ResourceSearchResults}/>
                     <Route path="resource/:resourceId" component={ResourcePage}/>
                     <Route path="resource/:resourceId/update" component={UpdateResourcePage}/>
+		    
+                    <Route path="profile" component={ProfilePage}/>
                 </Route>
 
                 <Route path="/login" component={LoginPage}/>
