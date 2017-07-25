@@ -52,6 +52,11 @@ export default class Header extends Component {
                             <NavItem eventKey={1}><Glyphicon glyph="log-in"/> Logout</NavItem>
                         </LinkContainer>
                     </Nav>
+		    <Nav pullRight>
+                        <LinkContainer to="/profile">
+                            <NavItem eventKey={1}><Glyphicon glyph="user"/> My Profile</NavItem>
+                        </LinkContainer>
+		    </Nav>
                 </Navbar.Collapse>
             </Navbar>
         )
