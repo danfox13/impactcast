@@ -12,12 +12,15 @@ class ResultRow extends Component {
                 </TableButton>
                 <td>{this.props.project.projectCode}</td>
                 <td>{this.props.project.projectTitle}</td>
-                {this.props.project.changeItems.map(changeItem =>
-                    <td key={changeItem._id}>
-                        <Link to={'/changeItem/' + changeItem._id}>{changeItem.changeItemTitle}</Link>
-                        <br/>
-                    </td>
-                )}
+                {this.props.project.changeItems.length ?
+                    this.props.project.changeItems.map(changeItem =>
+                        <td key={changeItem._id}>
+                            <Link to={'/changeItem/' + changeItem._id}>{changeItem.changeTitle}</Link>
+                            <br/>
+                        </td>
+                    )
+                    : <td>None</td>
+                }
             </tr>
         )
     }

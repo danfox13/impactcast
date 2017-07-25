@@ -133,34 +133,20 @@ exports.viewSearchTeams = function (req, res) {
 
 //Load the search results page
 exports.searchTeams = function (teamName, resourceName, callback) {
-    team.aggregate([
-        {$unwind: '$teamMembers'},
-        {
-            $lookup: {
-                from: 'resource',
-                localField: 'teamMembers',
-                foreignField: '_id',
-                as: 'teamMembers'
-            }
-        },
-        {$unwind: '$teamMembers'},
-        {
-            $match: {
-                'teamMembers.resourceName': {$regex: '(?i).*' + resourceName + '.*'},
-                teamName: {$regex: '(?i).*' + teamName + '.*'}
-            }
-        },
-        {
-            $group: {
-                _id: '$_id',
-                teamName: {'$first': '$teamName'},
-                teamMembers: {'$push': '$teamMembers'}
-            }
-        }
 
-    ]).then(function (results) {
+    team.find({
+        teamName: {$regex: `(?i).*${teamName}.*`}
+    }).populate({
+        path: 'teamMembers',
+        model: 'resource',
+        select: 'resourceName'
+    }).then(teams => {
+        const resourceNamePattern = new RegExp(`.*${resourceName}.*`, 'i');
+        let results = resourceName.length ? teams.filter(team => team.teamMembers.some(resource =>
+            resourceNamePattern.test(resource.resourceName))) : teams;
+
         callback(results);
-    })
+    }).catch(console.log)
 };
 
 

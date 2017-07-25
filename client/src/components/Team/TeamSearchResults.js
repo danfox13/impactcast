@@ -11,20 +11,23 @@ class ResultRow extends Component {
                     View
                 </TableButton>
                 <td>{this.props.team.teamName}</td>
-                {this.props.team.teamMembers.map(teamMember =>
-                    <td key={teamMember._id}>
-                        <Link to={`/resource/${teamMember._id}`}>
-                            {teamMember.resourceName}
-                        </Link>
-                        <br/>
-                    </td>
-                )}
+                {this.props.team.teamMembers.length ?
+                    this.props.team.teamMembers.map(teamMember =>
+                        <td key={teamMember._id}>
+                            <Link to={`/resource/${teamMember._id}`}>
+                                {teamMember.resourceName}
+                            </Link>
+                            <br/>
+                        </td>
+                    )
+                    : <td>None</td>
+                }
             </tr>
         )
     }
 }
 
-class TeamSearchResults extends Component {
+export default class TeamSearchResults extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -61,5 +64,3 @@ class TeamSearchResults extends Component {
         )
     }
 }
-
-module.exports = TeamSearchResults;

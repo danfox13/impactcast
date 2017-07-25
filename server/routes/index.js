@@ -30,17 +30,9 @@ app.post('/newProject', (request, response) => {
 });
 
 app.get('/searchProjects', (request, response) => {
-    project.runSearchProjects(request.query, results => {
-        let responseBody = {};
-
-        responseBody.results = {
-            results: results
-        };
-
-        response.setHeader('Content-Type', 'application/json');
-        response.write(JSON.stringify(responseBody));
-        response.end();
-    });
+    project.runSearchProjects(request.query, results =>
+        response.send({results: results})
+    );
 });
 
 app.get('/project/:projectCode', (request, response) => {
@@ -230,15 +222,7 @@ app.get('/searchTeams', function (request, response) {
     let resourceName = request.query.resourceName;
 
     team.searchTeams(teamName, resourceName, function (results) {
-        let responseBody = {};
-
-        responseBody.results = {
-            results: results
-        };
-
-        response.setHeader('Content-Type', 'application/json');
-        response.write(JSON.stringify(responseBody));
-        response.end();
+        response.send({results: results})
     });
 });
 

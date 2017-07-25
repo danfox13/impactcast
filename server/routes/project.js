@@ -26,7 +26,10 @@ exports.addChangeItem = function (projectCode, changeItemID) {
 
 //Load the new project form
 exports.newProject = function (req, res) {
-    res.render('project/newProject', {title: 'ImpactCast - New Project', heading: 'Create a new project'});
+    res.render('project/newProject', {
+        title: 'ImpactCast - New Project',
+        heading: 'Create a new project'
+    });
 };
 
 
@@ -60,43 +63,27 @@ exports.view = function (req, callback) {
 };
 
 
-//Load the search form
-exports.searchProjects = function (req, res) {
-    res.render('project/searchProjects', {title: 'ImpactCast - Search Projects', heading: 'Search Projects'});
-};
-
-
 //Load the search results page
 exports.runSearchProjects = function (req, callback) {
-    project.aggregate([
-        {$unwind: "$changeItems"},
-        {
-            $lookup: {
-                from: "changeItem",
-                localField: "changeItems",
-                foreignField: "_id",
-                as: "changeItems"
-            }
-        },
-        {$unwind: "$changeItems"},
-        {
-            $match: {
-                "changeItems.changeTitle": {$regex: "(?i).*" + req.changeItemTitle + ".*"},
-                "changeItems.status": {$regex: "(?i).*" + req.changeItemStatus + ".*"},
-                projectCode: {$regex: "(?i).*" + req.projectCode + ".*"},
-                projectTitle: {$regex: "(?i).*" + req.projectTitle + ".*"}
-            }
-        },
-        {
-            $group: {
-                _id: "$_id",
-                projectCode: {"$first": "$projectCode"},
-                projectTitle: {"$first": "$projectTitle"},
-                changeItems: {"$push": "$changeItems"}
-            }
-        }
 
-    ]).then(results => callback(results));
+    project.find({
+        projectCode: {$regex: `(?i).*${req.projectCode}.*`},
+        projectTitle: {$regex: `(?i).*${req.projectTitle}.*`}
+    }).populate({
+        path: 'changeItems',
+        model: 'changeItem',
+        select: 'changeTitle status'
+    }).then(projects => {
+        const changeTitlePattern = new RegExp(`.*${req.changeItemTitle}.*`, 'i');
+        let results = req.changeItemTitle.length || req.changeItemStatus ?
+            projects.filter(project => project.changeItems.some(changeItem =>
+                (req.changeItemTitle.length ? changeTitlePattern.test(changeItem.changeTitle) : true)
+                &&
+                (req.changeItemStatus.length ? changeItem.status === req.changeItemStatus : true)
+            )) : projects;
+
+        callback(results)
+    })
 };
 
 
@@ -105,13 +92,13 @@ exports.viewUpdate = function (req, callback) {
 
     project.findOne({
         projectCode: req
-    }).then(result => callback(result))
+    }).then(callback)
 };
 
 //update project info
 exports.update = function (req, callback) {
 
-    var newData = {
+    const newData = {
         projectCode: req.body.projectCode,
         projectTitle: req.body.projectTitle
     };
