@@ -15,16 +15,7 @@ var resourceSchema = new Schema({
     role: String
 }, {collection: 'resource'});
 
-var resource = mongoose.model('resource', resourceSchema);
-
-
-//Load the new project form
-exports.viewNewResource = function (req, res) {
-    res.render('resource/newResource', {
-        title: 'ImpactCast - New Resource',
-        heading: 'Create a new resource'
-    });
-};
+const resource = mongoose.model('resource', resourceSchema);
 
 
 //Submit the new team form

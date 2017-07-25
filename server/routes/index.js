@@ -1,13 +1,13 @@
-var express = require('express');
-var app = express.Router();
+const express = require('express');
+const app = express.Router();
 
-var site = require('./site');
-var project = require('./project');
-var changeItem = require('./changeItem');
-var requiredResource = require('./requiredResource');
-var impact = require('./impact');
-var team = require('./team');
-var resource = require('./resource');
+const site = require('./site');
+const project = require('./project');
+const changeItem = require('./changeItem');
+const requiredResource = require('./requiredResource');
+const impact = require('./impact');
+const team = require('./team');
+const resource = require('./resource');
 
 app.get('/homeData', function (request, response) {
     site.index(request, response);

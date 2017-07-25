@@ -35,33 +35,6 @@ exports.view = function (req, callback) {
 };
 
 
-//load the add required resource form
-exports.addResourceView = function (req, res) {
-    res.render('changeItem/addResource', {
-        title: 'ImpactCast - ' + req.params.changeItem,
-        heading: 'Add Required resource to ' + req.params.changeItem,
-        projectCode: req.params.projectCode,
-        changeItem: req.params.changeItem
-    });
-};
-
-
-//load the edit resource view
-exports.editResourceView = function (req, res) {
-    requiredResource.findOne({
-        _id: req.params.resourceId
-    }).populate('impact').then(function (requiredResource) {
-        res.render('requiredResource/editResource', {
-            title: 'ImpactCast - ' + req.params.changeItem,
-            heading: 'Edit Required resource for ' + req.params.changeItem,
-            projectCode: req.params.projectCode,
-            changeItem: req.params.changeItem,
-            requiredResource: requiredResource
-        });
-    });
-};
-
-
 //edit resource
 exports.editResource = function (req, callback) {
 

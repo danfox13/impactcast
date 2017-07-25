@@ -4,6 +4,7 @@
 
 import React, {Component} from 'react';
 import {Button, ControlLabel, FormControl, FormGroup, Panel} from 'react-bootstrap';
+import {handleInputChange} from '../../api';
 
 export default class AddTeamResourceSearch extends Component {
 
@@ -17,17 +18,7 @@ export default class AddTeamResourceSearch extends Component {
             role: ''
         };
 
-        this.handleInputChange = this.handleInputChange.bind(this);
-    }
-
-    handleInputChange(event) {
-        const target = event.target;
-        const value = target.value;
-        const name = target.name;
-
-        this.setState({
-            [name]: value
-        });
+        this.handleInputChange = handleInputChange.bind(this);
     }
 
     render() {

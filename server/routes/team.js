@@ -17,11 +17,6 @@ var team = mongoose.model('team', teamSchema);
 
 mongoose.Promise = Promise;
 
-//Load the new project form
-exports.newTeam = function (req, res) {
-    res.render('team/newTeam', {title: 'ImpactCast - New TeamPage', heading: 'Create a new team'});
-};
-
 
 //Submit the new team form
 exports.addNewTeam = function (teamName, callback) {
@@ -89,20 +84,6 @@ exports.view = function (teamName, callback) {
         });
 };
 
-//Update project Info
-exports.viewUpdate = function (req, res) {
-
-    team.findOne({
-        teamName: req.params.teamName
-    }).then(function (team) {
-        res.render('team/editTeam', {
-            title: 'ImpactCast - ' + team.teamName,
-            heading: 'Update ' + team.teamName,
-            team: team
-        });
-    })
-};
-
 //Run update query
 exports.update = function (req, callback) {
 
@@ -123,12 +104,6 @@ exports.delete = function (req, callback) {
         teamName: req.params.teamName
     }).then(callback);
 
-};
-
-
-//Load the search form
-exports.viewSearchTeams = function (req, res) {
-    res.render('team/searchTeams', {title: 'ImpactCast - Search TeamPage', heading: 'Search Teams'});
 };
 
 //Load the search results page

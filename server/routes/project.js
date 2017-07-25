@@ -24,15 +24,6 @@ exports.addChangeItem = function (projectCode, changeItemID) {
     })
 };
 
-//Load the new project form
-exports.newProject = function (req, res) {
-    res.render('project/newProject', {
-        title: 'ImpactCast - New Project',
-        heading: 'Create a new project'
-    });
-};
-
-
 //Submit the new project form
 exports.addNewProject = function (req, callback) {
 
