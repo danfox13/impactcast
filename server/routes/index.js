@@ -1,13 +1,13 @@
-var express = require('express');
-var app = express.Router();
+const express = require('express');
+const app = express.Router();
 
-var site = require('./site');
-var project = require('./project');
-var changeItem = require('./changeItem');
-var requiredResource = require('./requiredResource');
-var impact = require('./impact');
-var team = require('./team');
-var resource = require('./resource');
+const site = require('./site');
+const project = require('./project');
+const changeItem = require('./changeItem');
+const requiredResource = require('./requiredResource');
+const impact = require('./impact');
+const team = require('./team');
+const resource = require('./resource');
 
 app.get('/homeData', function (request, response) {
     site.index(request, response);
@@ -30,17 +30,9 @@ app.post('/newProject', (request, response) => {
 });
 
 app.get('/searchProjects', (request, response) => {
-    project.runSearchProjects(request.query, results => {
-        let responseBody = {};
-
-        responseBody.results = {
-            results: results
-        };
-
-        response.setHeader('Content-Type', 'application/json');
-        response.write(JSON.stringify(responseBody));
-        response.end();
-    });
+    project.runSearchProjects(request.query, results =>
+        response.send({results: results})
+    );
 });
 
 app.get('/project/:projectCode', (request, response) => {
@@ -230,15 +222,7 @@ app.get('/searchTeams', function (request, response) {
     let resourceName = request.query.resourceName;
 
     team.searchTeams(teamName, resourceName, function (results) {
-        let responseBody = {};
-
-        responseBody.results = {
-            results: results
-        };
-
-        response.setHeader('Content-Type', 'application/json');
-        response.write(JSON.stringify(responseBody));
-        response.end();
+        response.send({results: results})
     });
 });
 
@@ -262,20 +246,15 @@ app.post('/newTeam', function (request, response) {
 });
 
 app.get('/team/:teamName', function (request, response) {
-
-    let teamName = request.params.teamName;
-
-    team.view(teamName, function (result) {
+    team.view(request.params.teamName, function (result) {
         let responseBody = {};
 
         responseBody.result = {
             team: result.team,
-            teamForecast: result.forecast
+            teamForecast: result.teamForecast
         };
 
-        response.setHeader('Content-Type', 'application/json');
-        response.write(JSON.stringify(responseBody));
-        response.end();
+        response.send(responseBody);
     });
 });
 

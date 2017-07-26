@@ -8,13 +8,15 @@ import {Link} from 'react-router';
 class Forecast extends Component {
     render() {
         return (
-            <tr>
+            <tr className="text-center">
                 <td>
                     <Link to={`/resource/${this.props.forecast.resourceId}`}>{this.props.forecast.name}</Link>
                 </td>
-                <td>
-
-                </td>
+                {this.props.forecast.monthDeltas.map((delta, index) =>
+                    <td key={index} className={delta > 0 ? 'bg-warning' : delta === 0 ? 'bg-success' : 'bg-danger'}>
+                        {delta}
+                    </td>
+                )}
             </tr>
         )
     }

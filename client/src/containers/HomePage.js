@@ -8,6 +8,8 @@ import Heading from '../components/Home/Heading';
 import StatusItems from '../components/Home/StatusItems';
 import DataTable from '../components/Home/DataTable';
 
+import {loadDocument} from '../api';
+
 export default class HomePage extends Component {
     constructor() {
         super();
@@ -17,26 +19,9 @@ export default class HomePage extends Component {
             rejectedImpacts: [],
             readyToForecast: []
         };
-        this.loadData = this.loadData.bind(this);
-    }
 
-    componentWillMount() {
-        this.loadData()
-    }
-
-    loadData() {
-        let url = 'http://localhost:3001/homeData';
-        fetch(url)
-            .then(response => response.json())
-            .then((data) => {
-                this.setState({
-                    newItems: data.results.newItems,
-                    readyToImpact: data.results.readyToImpact,
-                    rejectedImpacts: data.results.rejectedImpacts,
-                    readyToForecast: data.results.readyToForecast
-                });
-            })
-            .catch(err => console.log(err));
+        this.loadDocument = loadDocument.bind(this);
+        this.loadDocument('/homeData');
     }
 
     render() {

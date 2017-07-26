@@ -5,33 +5,20 @@
 import React, {Component} from 'react';
 
 import UpdateChangeItem from '../../components/ChangeItem/UpdateChangeItem';
+import {loadDocument} from '../../api';
 
 export default class UpdateChangeItemPage extends Component {
     constructor(props) {
         super(props);
-
         this.state = {
-            changeItem: ''
+            changeItem: {}
         };
-        this.loadData = this.loadData.bind(this);
+
+        this.loadDocument = loadDocument.bind(this);
+        this.loadDocument('/project/' + this.props.params.projectCode
+            + '/' + this.props.params.changeItem);
     }
 
-    componentWillMount() {
-        this.loadData()
-    }
-
-    loadData() {
-        let url = 'http://localhost:3001/project/' + this.props.params.projectCode
-            + '/' + this.props.params.changeItem;
-        fetch(url)
-            .then(response => response.json())
-            .then(data => {
-                this.setState({
-                    changeItem: data.result.changeItem
-                });
-            })
-            .catch(err => console.log(err));
-    }
     render() {
         return (
             <UpdateChangeItem changeItem={this.state.changeItem}

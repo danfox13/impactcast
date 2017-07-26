@@ -4,6 +4,7 @@
 
 import React, {Component} from 'react';
 import {Button, ControlLabel, FormControl, FormGroup, InputGroup, Panel} from 'react-bootstrap';
+import {handleInputChange} from '../../api';
 
 export default class EditResource extends Component {
     constructor(props) {
@@ -16,17 +17,7 @@ export default class EditResource extends Component {
             role: this.props.role
         };
 
-        this.handleInputChange = this.handleInputChange.bind(this);
-    }
-
-    handleInputChange(event) {
-        const target = event.target;
-        const value = target.value;
-        const name = target.name;
-
-        this.setState({
-            [name]: value
-        });
+        this.handleInputChange = handleInputChange.bind(this);
     }
 
     render() {

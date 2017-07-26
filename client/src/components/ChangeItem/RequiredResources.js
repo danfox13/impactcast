@@ -3,9 +3,9 @@
  */
 
 import React, {Component} from 'react';
-import {Alert, Button, Panel, Table} from 'react-bootstrap';
-import {LinkContainer} from 'react-router-bootstrap';
+import {Alert, Panel, Table} from 'react-bootstrap';
 import {Link} from 'react-router';
+import TableButton from '../Shared/TableButton';
 
 export default class RequiredResources extends Component {
     constructor(props) {
@@ -26,9 +26,9 @@ export default class RequiredResources extends Component {
         changeItem.resourcesRequired.forEach((resource, index) => {
             this.state.resourcesRequired.push(
                 <tr key={resource._id}>
-                    <LinkContainer to={`/project/${this.props.projectCode}/${changeItem.changeTitle}/${resource._id}`}>
-                        <Button bsStyle="success">View</Button>
-                    </LinkContainer>
+                    <TableButton bsStyle="success" to={`/project/${this.props.projectCode}/${changeItem.changeTitle}/${resource._id}`}>
+                        View
+                    </TableButton>
                     <td>{resource.roleName}</td>
                     <td>{resource.grade}</td>
                     <td>{totalManDays[index] > 0 ? 'Y' : 'N'}</td>
@@ -39,10 +39,11 @@ export default class RequiredResources extends Component {
                             </Link>
                         </td>
                         :
-                        <LinkContainer
+                        <TableButton
+                            bsStyle="success"
                             to={`/project/${this.props.projectCode}/${changeItem.changeTitle}/${resource._id}/forecastResource`}>
-                            <Button bsStyle="success">Assign</Button>
-                        </LinkContainer>
+                            Assign
+                        </TableButton>
                     }
                 </tr>
             )

@@ -28,17 +28,6 @@ exports.addRequiredResource = function (changeTitle, requiredResourceID) {
     })
 };
 
-
-//Load the new changeItem form
-exports.newChangeItem = function (req, res) {
-    res.render('changeItem/newChangeItem', {
-        title: 'ImpactCast - New Change Item',
-        heading: 'Add a new Change Item to ' + req.params.projectCode,
-        projectCode: req.params.projectCode
-    });
-};
-
-
 //Submit the new project form
 exports.addChangeItem = function (req, callback) {
 
@@ -90,22 +79,6 @@ exports.view = function (req, callback) {
         });
 
         callback({changeItem: changeItem, totalManDays: totalManDays})
-    })
-};
-
-
-//Update project Info
-exports.viewUpdate = function (req, res) {
-
-    changeItem.findOne({
-        changeTitle: req.params.changeItem
-    }).populate('resourcesRequired').then(function (changeItem) {
-        res.render('changeItem/updateChangeItem', {
-            title: 'ImpactCast - ' + changeItem.changeTitle,
-            heading: 'Update ' + changeItem.changeTitle,
-            projectCode: req.params.projectCode,
-            changeItem: changeItem
-        });
     })
 };
 

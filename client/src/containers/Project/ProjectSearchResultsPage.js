@@ -3,34 +3,20 @@
  */
 import React, {Component} from 'react';
 import ProjectSearchResults from '../../components/Project/ProjectSearchResults';
+import {loadDocument} from '../../api';
 
 export default class ProjectSearchResultsPage extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             results: []
         };
 
-        this.performSearch = this.performSearch.bind(this);
-    }
-
-    componentWillMount() {
-        this.performSearch();
-    }
-
-    performSearch() {
-        let url = 'http://localhost:3001/searchProjects?projectCode=' + this.props.location.query.projectCode
-            + '&projectTitle=' + this.props.location.query.projectTitle
-            + '&changeItemTitle=' + this.props.location.query.changeItemTitle
-            + '&changeItemStatus=' + this.props.location.query.changeItemStatus;
-        fetch(url)
-            .then(response => response.json())
-            .then(result => {
-                this.setState({
-                    results: result.results.results
-                });
-            })
-            .catch(err => console.log(err));
+        this.loadDocument = loadDocument.bind(this);
+        this.loadDocument('/searchProjects?projectCode=' + props.location.query.projectCode
+            + '&projectTitle=' + props.location.query.projectTitle
+            + '&changeItemTitle=' + props.location.query.changeItemTitle
+            + '&changeItemStatus=' + props.location.query.changeItemStatus);
     }
 
     render() {

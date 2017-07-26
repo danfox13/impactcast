@@ -3,8 +3,8 @@
  */
 
 import React, {Component} from 'react';
-import {Button, Panel, Table} from 'react-bootstrap';
-import {LinkContainer} from 'react-router-bootstrap';
+import {Panel, Table} from 'react-bootstrap';
+import TableButton from '../Shared/TableButton';
 
 class ResultRow extends Component {
     constructor(props) {
@@ -23,9 +23,10 @@ class ResultRow extends Component {
             <tr>
                 <td>{this.props.resource.resourceName}</td>
                 <td>{this.props.resource.role}</td>
-                <LinkContainer to={`/project/${this.props.projectCode}/${this.props.changeItem}`} onClick={this.assignResource}>
-                    <Button bsStyle="success">Assign</Button>
-                </LinkContainer>
+                <TableButton bsStyle="success" to={`/project/${this.props.projectCode}/${this.props.changeItem}`}
+                             onClick={this.assignResource}>
+                    Assign
+                </TableButton>
             </tr>
         )
     }
