@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {HelpBlock, InputGroup, FormControl, Form, FormGroup, Media, Row, Col, Panel, Tabs, Tab} from 'react-bootstrap';
+import './profile.css';
 
 export default class ProfileTabs extends Component {
        constructor(props) {
@@ -18,14 +19,12 @@ export default class ProfileTabs extends Component {
 		<Media.Body>
 		    <Row>
 			<Col md={6}>
-			    <Panel className="panel-custom2">
+			    <Panel className="panel-custom2" footer="Panel footer">
                                 <font color="#465a64" size="5"><strong>Email Address</strong></font>
-                                <Panel className="panel-footer"><font size="4"></font></Panel>
 			    </Panel>
-			    <Panel className="panel-custom2">
-                                    <img width={20} alt="" src="/img/slackLogo.svg" className="img-circle" />
+			    <Panel className="panel-custom2" footer="Panel footer">
+                                    <img width={26} alt="" src="/img/slackLogo.svg" className="img-circle" />
                                     <font color="#465a64" size="5"><strong>Slack Handle</strong></font>
-			            <Panel className="panel-footer"><font size="4"></font></Panel>
 			    </Panel>
 			</Col>
 			<Col md={6}>

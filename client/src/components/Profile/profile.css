@@ -1,0 +1,19 @@
+.profile-icon {
+     border: solid 10px rgb(17, 89, 139);
+     margin: 20px;
+}
+
+.panel-custom2 .panel-body {
+    background-color: white;
+    margin-top: 10px;
+}
+
+.panel-custom2 .panel-footer {
+    background-color: rgb(17, 89, 139);
+    color: #F0F0F0;
+}
+
+.img-circle {
+    margin-right: 10px;
+    margin-bottom: 5px;
+}
