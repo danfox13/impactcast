@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Panel} from 'react-bootstrap';
+import {Panel, Media} from 'react-bootstrap';
 
 import ProfileIcon from '../../components/Profile/ProfileIcon';
 import ProfileTabs from '../../components/Profile/ProfileTabs';
@@ -10,10 +10,10 @@ export default class ProfilePage extends Component {
 		   
 		   <div>
 		       <Panel header="UserName" bsStyle="primary">
-		   	   <div className="media">
+		   	   <Media>
 				   <ProfileIcon />
 				   <ProfileTabs />
-		           </div>
+		           </Media>
 		       </Panel>
 		   </div>
            )
